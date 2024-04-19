@@ -1,42 +1,30 @@
 import 'package:appuniparthenope/main.dart';
+import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BottomNavBarComponent extends StatelessWidget {
-  final int currentIndex;
-  final Function(int) onTap;
-
-  const BottomNavBarComponent({
-    super.key,
-    required this.currentIndex,
-    required this.onTap,
-  });
-
-  // Funzione per gestire il tocco sui bottoni della barra di navigazione
-  void _onNavBarItemTapped(BuildContext context, int index) {
-    switch (index) {
-      case 0:
-        // Torna alla pagina precedente
-        Navigator.of(context).pushNamed('/homeStudent');
-        break;
-      case 1:
-        // Naviga alla pagina '/myCarrer'
-        Navigator.of(context).pushNamed('/myCareer');
-        break;
-       case 2:
-        //Apre il menu in overlay
-        break;
-    }
-  }
+  const BottomNavBarComponent({Key? key});
 
   @override
   Widget build(BuildContext context) {
+    final navigationProvider = Provider.of<BottomNavBarProvider>(context);
+
     return BottomNavigationBar(
-      currentIndex: currentIndex,
+      currentIndex: navigationProvider.currentIndex,
       onTap: (index) {
-        // Chiamata alla funzione di gestione del tocco
-        _onNavBarItemTapped(context, index);
-        // Inoltre, chiamare la funzione passata come parametro onTap se necessario
-        onTap(index);
+        navigationProvider.updateIndex(index);
+        switch (index) {
+          case 0:
+            Navigator.of(context).pushNamed('/homeStudent');
+            break;
+          case 1:
+            Navigator.of(context).pushNamed('/myCareer');
+            break;
+          case 2:
+            // Implementa la logica per il terzo elemento della barra di navigazione
+            break;
+        }
       },
       backgroundColor: AppColors.primaryColor,
       selectedItemColor: Colors.white,

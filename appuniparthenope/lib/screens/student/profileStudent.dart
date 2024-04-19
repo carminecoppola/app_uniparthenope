@@ -1,12 +1,16 @@
+import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class UserProfilePage extends StatelessWidget {
-  const UserProfilePage({Key? key}) : super(key: key);
+class StudentProfilePage extends StatelessWidget {
+  const StudentProfilePage({Key? key});
 
   @override
   Widget build(BuildContext context) {
+    final bottomNavBarProvider = Provider.of<BottomNavBarProvider>(context);
+
     return Scaffold(
       appBar: const NavbarComponent(),
       body: Container(
@@ -55,28 +59,7 @@ class UserProfilePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavBarComponent(
-        currentIndex: -1, // Nessun bottone selezionato
-        onTap: (index) => _onNavBarItemTapped(context, index),
-      ),
+      bottomNavigationBar: const BottomNavBarComponent()
     );
-  }
-
-  // Funzione per gestire il tocco sui bottoni della barra di navigazione
-  void _onNavBarItemTapped(BuildContext context, int index) {
-    switch (index) {
-      case 0:
-        // Torna alla pagina precedente
-        Navigator.of(context).pushNamed('/homeStudent');
-        break;
-      case 1:
-        // Naviga alla pagina '/myCareer'
-        Navigator.of(context).pushNamed('/myCareer');
-        break;
-      case 2:
-        //Apre il menu in overlay
-        // Implementa il codice per aprire il menu
-        break;
-    }
   }
 }

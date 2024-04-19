@@ -1,9 +1,20 @@
+import 'package:appuniparthenope/provider/auth_provider.dart';
+import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:appuniparthenope/screens/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/app_routes.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => BottomNavBarProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

@@ -1,8 +1,11 @@
+// Aggiorna il LoginForm
 import 'package:flutter/material.dart';
-import 'package:appuniparthenope/controller/auth_controller.dart'; // Importa il controller di autenticazione
+import 'package:appuniparthenope/controller/auth_controller.dart';
+import 'package:appuniparthenope/provider/auth_provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+  const LoginForm({Key? key}) : super(key: key);
 
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -12,7 +15,6 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  // Creazione di un'istanza del controller di autenticazione
   final AuthController _authController = AuthController();
 
   @override
@@ -27,7 +29,6 @@ class _LoginFormState extends State<LoginForm> {
             decoration: const InputDecoration(
               labelText: 'Username',
             ),
-            // Qui puoi gestire l'input dell'utente per lo username
           ),
           TextFormField(
             controller: _passwordController,
@@ -35,12 +36,10 @@ class _LoginFormState extends State<LoginForm> {
               labelText: 'Password',
             ),
             obscureText: true,
-            // Qui puoi gestire l'input dell'utente per la password
           ),
           ElevatedButton(
             onPressed: () {
-              // Chiamata al metodo di autenticazione quando l'utente preme il pulsante
-              _authUser();
+              _authUser(context); // Passa il contesto al metodo _authUser
             },
             child: const Text('Accedi'),
           ),
@@ -49,12 +48,20 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  // Metodo per gestire l'autenticazione
-  void _authUser() {
+  void _authUser(BuildContext context) async {
     String username = _usernameController.text;
     String password = _passwordController.text;
 
-    // Chiamata al metodo di autenticazione del controller di autenticazione
-    _authController.authUser(context, username, password);
+    try {
+      final authenticatedUser =
+          await _authController.authUser(context, username, password);
+
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+      authProvider.setAuthenticatedUser(
+          authenticatedUser, authenticatedUser.authToken);
+    } catch (e) {
+      print('Error during authentication: $e');
+    }
   }
 }
