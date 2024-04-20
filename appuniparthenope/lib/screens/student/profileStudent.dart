@@ -11,6 +11,11 @@ class StudentProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final bottomNavBarProvider = Provider.of<BottomNavBarProvider>(context);
 
+
+    //Chiamata al metodo getUserDetails nel auth_controller, 
+    //che mi deve stampare i dati presi dall'API.
+    
+
     return Scaffold(
       appBar: const NavbarComponent(),
       body: Container(

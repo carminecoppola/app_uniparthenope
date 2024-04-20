@@ -23,11 +23,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Uniparthenope'),
-        ),
-        body: const LoginForm(),
+      home: const Scaffold(
+        body: LoginForm(),
       ),
       routes: AppRoutes.routes,
       initialRoute: '/',

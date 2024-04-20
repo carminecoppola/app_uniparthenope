@@ -1,7 +1,9 @@
 // Aggiorna il LoginForm
+import 'package:appuniparthenope/main.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/controller/auth_controller.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
@@ -20,28 +22,105 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(3.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          TextFormField(
-            controller: _usernameController,
-            decoration: const InputDecoration(
-              labelText: 'Username',
+          const SizedBox(
+            height: 50.0, // Spazio tra il bordo superiore e l'immagine
+          ),
+          Transform(
+            transform: Matrix4.skewY(-0.1)..rotateX(0.0),
+            alignment: Alignment.center,
+            child: Image.asset(
+              'assets/university/uni_monte.jpg',
+              height: 250,
+              width: double.infinity,
+              fit: BoxFit.cover,
             ),
           ),
-          TextFormField(
-            controller: _passwordController,
-            decoration: const InputDecoration(
-              labelText: 'Password',
+          CircleAvatar(
+            backgroundColor: AppColors.primaryColor,
+            radius: 40,
+            child: Image.asset(
+              'assets/logo.png',
+              height: 60,
+              width: 60,
+              fit: BoxFit.cover,
             ),
-            obscureText: true,
+          ),
+          const SizedBox(
+            height: 20.0, // Ridotto lo spazio tra il cerchio e i campi di testo
+          ),
+          SizedBox(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: _usernameController,
+                    decoration: const InputDecoration(labelText: 'Username'),
+                  ),
+                  const SizedBox(height: 15.0),
+                  TextFormField(
+                    controller: _passwordController,
+                    decoration: const InputDecoration(
+                      labelText: 'Password',
+                    ),
+                    obscureText: true,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 30.0, // Ridotto lo spazio tra il cerchio e i campi di testo
           ),
           ElevatedButton(
             onPressed: () {
               _authUser(context); // Passa il contesto al metodo _authUser
             },
-            child: const Text('Accedi'),
+            style: ElevatedButton.styleFrom(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 50.0, vertical: 15.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              backgroundColor: AppColors.primaryColor,
+              elevation: 10, // Aumenta l'elevazione del bottone
+              shadowColor: Colors.white, // Imposta il colore dell'ombra
+            ),
+            child: const Text(
+              'Accedi',
+              style: TextStyle(
+                color: Colors.white, // Imposta il colore del testo su bianco
+                fontWeight: FontWeight.bold, // Imposta il testo in grassetto
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              // Azione per gestire il click su "PasswordDimenticata?"
+            },
+            child: const Text(
+              'PasswordDimenticata?',
+              style: TextStyle(
+                color: Colors.grey, // Imposta il colore del testo su grigio
+                fontWeight: FontWeight.bold, // Imposta il testo in grassetto
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/homeGuest');
+            },
+            child: const Text(
+              'Accedi come ospite',
+              style: TextStyle(
+                color: Colors.grey, // Imposta il colore del testo su grigio
+                fontWeight: FontWeight.bold,
+                 // Imposta il testo in grassetto
+              ),
+            ),
           ),
         ],
       ),

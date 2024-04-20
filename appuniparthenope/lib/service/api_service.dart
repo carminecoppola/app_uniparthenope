@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:appuniparthenope/model/user_data_login.dart';
+import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -21,54 +22,30 @@ class ApiService {
     }
   }
 
-  // Aggiungi questa funzione nella classe ApiService per gestire il logout
-  Future<void> logout(String authToken) async {
-    try {
-      final url = Uri.parse('$baseUrl/UniparthenopeApp/v1/logout');
-      final response = await http.get(url, headers: {
-        'Authorization': 'Basic ${base64Encode(utf8.encode("$authToken:"))}',
-      });
-
-      print('-1)API-Logout-authToken: $authToken');
-
-      if (response.statusCode == 200) {
-        print('Logout effettuato con successo');
-        print('-2)API-Logout-authToken: $authToken');
-      } else {
-        print('Errore durante il logout: ${response.body}');
-      }
-    } catch (e) {
-      print('Errore durante il logout: $e');
-    }
-  }
-
-  //Funzione per ottenere l'anagrafica
-  Future<Map<String, dynamic>> getUserDetails(User user) async {
-    print('-API-PersId:${user.persId}');
-    print('-API-Token:${user.authToken}');
-
-    final String id =
-        user.persId.toString(); //Converto l'id in stringa xx passarlo all'url
-
+  Future<Map<String, dynamic>> studentAnagrafe(User student) async {
+    final String persId = student.persId
+        .toString(); //Poiche nell'url deve essere una stringa faccio il cast
     final url =
-        Uri.parse('$baseUrl/UniparthenopeApp/v1/general/anagrafica/$id');
+        Uri.parse('$baseUrl/UniparthenopeApp/v1/general/anagrafica/$persId');
 
-    print('\nAPI-url: $url');
+    print('\n-API-url: $url');
+    print('\n-API-authToken: ${student.authToken}');
+    
 
     final response = await http.get(url, headers: {
-      'Authorization':
-          'Basic ${base64Encode(utf8.encode("${user.authToken}:"))}',
+      'Authorization': 'Bearer ${student.authToken}',
     });
 
-    print('\n-API-Status: ${response.statusCode}');
-    print('\n\n-API-response:${response.body}');
+    print('\nAPI-Response:$response');
+    print('Status:${response.statusCode}');
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
+      print('\n\n-API-Data: $data');
       return data;
     } else {
-      print('Errore durante la richiesta: ${response.body}');
-      throw Exception('Errore durante il recupero dei dettagli dell\'utente');
+      throw Exception('Errore durante l\'anagrafica');
     }
   }
+
 }

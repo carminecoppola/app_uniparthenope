@@ -1,4 +1,4 @@
-class UserDetails {
+class UserAnagrafe {
   final String nome;
   final String cognome;
   final String codFis;
@@ -9,7 +9,7 @@ class UserDetails {
   final String sesso;
   final String telRes;
 
-  UserDetails({
+  UserAnagrafe({
     required this.nome,
     required this.cognome,
     required this.codFis,
@@ -21,17 +21,17 @@ class UserDetails {
     required this.telRes,
   });
 
-  factory UserDetails.fromJson(Map<String, dynamic> userDetailsJson) {
-    return UserDetails(
-      nome: userDetailsJson['nome'],
-      cognome: userDetailsJson['cognome'],
-      codFis: userDetailsJson['codFis'],
-      dataNascita: userDetailsJson['dataNascita'],
-      desCittadinanza: userDetailsJson['desCittadinanza'],
-      email: userDetailsJson['email'],
-      emailAte: userDetailsJson['emailAte'],
-      sesso: userDetailsJson['sesso'],
-      telRes: userDetailsJson['telRes'],
+  factory UserAnagrafe.fromJson(Map<String, dynamic> UserAnagrafeJson) {
+    return UserAnagrafe(
+      nome: UserAnagrafeJson['nome'],
+      cognome: UserAnagrafeJson['cognome'],
+      codFis: UserAnagrafeJson['codFis'],
+      dataNascita: UserAnagrafeJson['dataNascita'],
+      desCittadinanza: UserAnagrafeJson['desCittadinanza'],
+      email: UserAnagrafeJson['email'],
+      emailAte: UserAnagrafeJson['emailAte'],
+      sesso: UserAnagrafeJson['sesso'],
+      telRes: UserAnagrafeJson['telRes'],
     );
   }
 }
