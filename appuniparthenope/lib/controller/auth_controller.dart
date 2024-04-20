@@ -1,9 +1,7 @@
 import 'package:appuniparthenope/model/user_data_anagrafic.dart';
-import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/service/api_service.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
-import 'package:provider/provider.dart';
 
 class AuthController {
   final ApiService apiService = ApiService(); //Richiamo il servizio

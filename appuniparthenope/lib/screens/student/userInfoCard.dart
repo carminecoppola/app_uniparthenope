@@ -6,7 +6,7 @@ class UserInfoCard extends StatelessWidget {
   final String id;
   final String userImage;
 
-  const UserInfoCard({
+  const UserInfoCard({super.key, 
     required this.name,
     required this.surname,
     required this.id,

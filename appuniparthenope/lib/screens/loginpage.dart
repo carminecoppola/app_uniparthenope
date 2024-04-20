@@ -3,11 +3,10 @@ import 'package:appuniparthenope/main.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/controller/auth_controller.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({Key? key}) : super(key: key);
+  const LoginForm({super.key});
 
   @override
   _LoginFormState createState() => _LoginFormState();

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:appuniparthenope/model/user_data_login.dart';
-import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
