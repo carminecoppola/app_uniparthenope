@@ -1,38 +1,3 @@
-// class User {
-//   final int id;
-//   final String name;
-//   final String surname;
-//   final String username;
-//   final String password;
-//   final String role;
-//   final int persId;
-//   final String authToken;
-
-//   User({
-//     required this.id,
-//     required this.name,
-//     required this.surname,
-//     required this.username,
-//     required this.password,
-//     required this.role,
-//     required this.persId,
-//     required this.authToken,
-//   });
-
-//   factory User.fromJson(Map<String, dynamic> userJson) {
-//     return User(
-//       id: userJson['id'],
-//       name: userJson['name'],
-//       surname: userJson['surname'],
-//       username: userJson['username'],
-//       password: userJson['password'],
-//       role: userJson['role'],
-//       persId: userJson['persId'],
-//       authToken: userJson['authToken'],
-//     );
-//   }
-// }
-
 class User {
   final String authToken;
   final int id;
@@ -66,7 +31,7 @@ class User {
       name: userJson['user']['firstName'],
       surname: userJson['user']['lastName'],
       username: userJson['user']['userId'],
-      password: '',
+      password: userJson['password'],
       role: userJson['user']['grpDes'],
       persId: userJson['user']['persId'],
       authToken: userJson['authToken'],
@@ -76,6 +41,8 @@ class User {
           .map((tratto) => TrattoCarriera.fromJson(tratto))),
     );
   }
+
+  set profileImage(profileImage) {}
 
   @override
   String toString() {

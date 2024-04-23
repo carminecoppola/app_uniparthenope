@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:http/http.dart' as http;
 
@@ -22,20 +23,26 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>> studentAnagrafe(User student) async {
-    final String persId = student.persId
-        .toString(); //Poiche nell'url deve essere una stringa faccio il cast
+    final String persId = student.persId.toString();
     final url =
         Uri.parse('$baseUrl/UniparthenopeApp/v1/general/anagrafica/$persId');
 
-    print('\n-API-url: $url');
-    print('\n-API-authToken: ${student.authToken}');
-    
+    // print('\n-API-url: $url');
+    // print('\n-API-authToken: ${student.authToken}');
+
+    //final String basicAuth = base64Encode(utf8.encode("${student.username}:$password"));
+
+    // const String username = 'carmine.coppola';
+    // const String password = 'CppCmn01_';
+    // String username = student.username;
+    // String password = student.password;
+    // print('\nUser: ${student.username}, $password');
 
     final response = await http.get(url, headers: {
-      'Authorization': 'Bearer ${student.authToken}',
+      'Authorization':
+          'Basic ${base64Encode(utf8.encode("${student.username}:${student.password}"))}',
     });
 
-    print('\nAPI-Response:$response');
     print('Status:${response.statusCode}');
 
     if (response.statusCode == 200) {
@@ -47,4 +54,24 @@ class ApiService {
     }
   }
 
+  Future<Uint8List> getUserProfileImage(User student) async {
+    final String persId = student.persId.toString();
+
+    final url = Uri.parse('$baseUrl/UniparthenopeApp/v1/general/image/$persId');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer ${student.authToken}',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // Converti il corpo della risposta in Uint8List (formato immagine)
+      Uint8List bytes = response.bodyBytes;
+      return bytes;
+    } else {
+      throw Exception('Errore durante il recupero dell\'immagine');
+    }
+  }
 }

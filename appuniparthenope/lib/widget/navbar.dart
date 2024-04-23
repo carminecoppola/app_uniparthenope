@@ -1,8 +1,9 @@
+import 'package:appuniparthenope/screens/student/homeStudent.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 
 class NavbarComponent extends StatelessWidget implements PreferredSizeWidget {
-  const NavbarComponent({super.key});
+  const NavbarComponent({Key? key});
 
   final String title = 'Università degli studi di Napoli Parthenope';
 
@@ -33,7 +34,26 @@ class NavbarComponent extends StatelessWidget implements PreferredSizeWidget {
         color: Colors.white,
         icon: const Icon(Icons.arrow_back),
         onPressed: () {
-          Navigator.pushNamed(context, '/');
+          Navigator.pushReplacement(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (context, animation1, animation2) =>
+                  const HomeStudentPage(),
+              transitionsBuilder: (context, animation1, animation2, child) {
+                const begin = Offset(-1.0, 0.0);
+                const end = Offset.zero;
+                const curve = Curves.easeInOut;
+                final tween = Tween(begin: begin, end: end)
+                    .chain(CurveTween(curve: curve));
+                final offsetAnimation = animation1.drive(tween);
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: child,
+                );
+              },
+              transitionDuration: const Duration(milliseconds: 500),
+            ),
+          );
         },
       ),
     );

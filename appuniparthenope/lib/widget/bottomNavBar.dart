@@ -19,10 +19,9 @@ class BottomNavBarComponent extends StatelessWidget {
             Navigator.of(context).pushNamed('/homeStudent');
             break;
           case 1:
-            Navigator.of(context).pushNamed('/myCareer');
+            Navigator.of(context).pushNamed('/carrerStudent');
             break;
           case 2:
-            // Implementa la logica per il terzo elemento della barra di navigazione
             break;
         }
       },

@@ -2,6 +2,8 @@ import 'package:appuniparthenope/model/user_data_anagrafic.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/service/api_service.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
+import 'package:http/http.dart';
+import 'package:http/src/response.dart';
 
 class AuthController {
   final ApiService apiService = ApiService(); //Richiamo il servizio
@@ -77,14 +79,17 @@ class AuthController {
         telRes: responseData['telRes'],
       );
 
-      print('\n-anagrafeUser: $anagrafeUser\n\n');
-
-      Navigator.pushReplacementNamed(context, '/profileStudent');
+      Navigator.pushReplacementNamed(context, '/profileStudent',
+          arguments: anagrafeUser);
 
       return anagrafeUser;
     } catch (e) {
-      // Gestisce gli errori durante la fase di acquisizione dei dati anagrafici
+      print('Error during setAnagrafe: $e');
       throw Exception('Errore nella fase di acquisizione dei dati anagrafici');
     }
   }
+
+  getUserProfileImage(User user) {}
+
+  //Nuova funzione che salva l'immagine
 }
