@@ -1,17 +1,14 @@
 import 'package:appuniparthenope/main.dart';
-import 'package:appuniparthenope/model/user_data_anagrafic.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
 import 'package:appuniparthenope/widget/infoStudentTemplate.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class StudentProfilePage extends StatelessWidget {
-  const StudentProfilePage({Key? key});
+  const StudentProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {

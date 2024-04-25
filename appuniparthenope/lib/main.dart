@@ -36,6 +36,7 @@ class AppColors {
   static const Color primaryColor = Color.fromRGBO(54, 126, 168, 1);
   static const Color accentColor = Colors.orange;
   static const Color detailsColor = Color.fromRGBO(237, 204, 27, 1);
+  static const Color successColor = Color.fromRGBO(48, 186, 23, 1);
   static const Color textColor = Colors.black;
   static const Color lightGray = Colors.grey;
   static const Color backgroundColor = Colors.white;

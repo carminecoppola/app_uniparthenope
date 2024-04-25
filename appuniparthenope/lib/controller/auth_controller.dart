@@ -2,8 +2,6 @@ import 'package:appuniparthenope/model/user_data_anagrafic.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/service/api_service.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
-import 'package:http/http.dart';
-import 'package:http/src/response.dart';
 
 class AuthController {
   final ApiService apiService = ApiService(); //Richiamo il servizio
@@ -22,8 +20,8 @@ class AuthController {
       // Costruisce un oggetto User con i dati ottenuti
       final User authenticatedUser = User(
         id: userData['id'],
-        name: userData['firstName'],
-        surname: userData['lastName'],
+        firstName: userData['firstName'],
+        lastName: userData['lastName'],
         username: userData['userId'],
         password: password,
         role: userData['grpDes'],
@@ -40,12 +38,17 @@ class AuthController {
       return authenticatedUser;
     } catch (e) {
       // Gestisce gli errori durante l'autenticazione
-      throw Exception('Credenziali non valide');
+      if (e is Exception && e.toString() == 'Errore durante il login') {
+        throw Exception('Credenziali non valide');
+      } else {
+        rethrow;
+      }
     }
   }
 
   Future<void> navigateByRole(BuildContext context, String role) async {
     switch (role) {
+      //else if(_result.user.grpDes === "Registrati" || _result.user.grpDes === "Dottorandi" || _result.user.grpDes === "Ipot. Immatricolati" || _result.user.grpDes === "Preiscritti" || _result.user.grpDes=== "Iscritti"){
       case 'Docenti':
         Navigator.pushReplacementNamed(context, '/homeTeacher');
         break;

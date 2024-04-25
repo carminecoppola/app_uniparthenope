@@ -2,14 +2,14 @@ import "package:appuniparthenope/widget/bottomNavBar.dart";
 import "package:appuniparthenope/widget/navbar.dart";
 import "package:flutter/material.dart";
 
-class StudentCarrerPage extends StatefulWidget {
-  const StudentCarrerPage({super.key});
+class CourseStudentPage extends StatefulWidget {
+  const CourseStudentPage({super.key});
 
   @override
-  State<StudentCarrerPage> createState() => _CarrerStudentState();
+  State<CourseStudentPage> createState() => _CourseStudentState();
 }
 
-class _CarrerStudentState extends State<StudentCarrerPage> {
+class _CourseStudentState extends State<CourseStudentPage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -19,13 +19,13 @@ class _CarrerStudentState extends State<StudentCarrerPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Benvenuto nella pagina della carriera dello studente!',
+              'Benvenuto nella pagina dei corsi dello studente!',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 24),
             ),
             SizedBox(height: 20),
             Text(
-              'Qui potresti visualizzare informazioni riguardo alla tua carriera accademica, come voti, crediti acquisiti, ecc.',
+              'Qui potresti visualizzare informazioni riguardo ai corsi dello studente',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 18),
             ),

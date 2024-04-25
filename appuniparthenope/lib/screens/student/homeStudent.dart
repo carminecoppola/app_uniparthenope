@@ -1,10 +1,11 @@
-// Aggiorna la HomePage
 import 'package:appuniparthenope/controller/auth_controller.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
-import 'package:appuniparthenope/widget/navbar.dart';
+import 'package:appuniparthenope/widget/calendarCard.dart';
+import 'package:appuniparthenope/widget/pesonalCardUser.dart';
+import 'package:appuniparthenope/widget/serviceStudentGroup.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,15 +17,7 @@ class HomeStudentPage extends StatefulWidget {
 }
 
 class _HomeStudentPageState extends State<HomeStudentPage> {
-  int _currentIndex = 0;
-
   final AuthController _anagrafeController = AuthController();
-
-  void _onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,74 +26,63 @@ class _HomeStudentPageState extends State<HomeStudentPage> {
         Provider.of<AuthProvider>(context).authenticatedUser;
 
     return Scaffold(
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 70, // Spazio sopra la card
-          ),
-          GestureDetector(
-            onTap: () {
-              _anagrafeStudent(authenticatedUser!);
-            },
-            child: Container(
-              width: 350, //Dimensioni card
-              height: 120,
-              //Card Studente
-              padding: const EdgeInsets.all(20), // Padding interno
-              decoration: BoxDecoration(
-                color: AppColors.primaryColor,
-                borderRadius: BorderRadius.circular(30), // Bordi arrotondati
-              ),
-              child: Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${authenticatedUser?.name ?? ''} ${authenticatedUser?.surname ?? ''}',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        // Mostra l'id dell'utente
-                        '\t\t\t- Id: ${authenticatedUser?.id ?? ''}',
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 70,
+            ),
+            //Widget dati personali utente
+            PersonalCardUser(
+              onTap: () {
+                _anagrafeStudent(authenticatedUser!);
+              },
+              firstName: authenticatedUser?.firstName ?? '',
+              lastName: authenticatedUser?.lastName ?? '',
+              id: authenticatedUser?.id.toString(),
+            ),
+            const SizedBox(height: 20),
+            //Calendario
+            const Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Calendario',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                    color: AppColors.primaryColor,
                   ),
-                  const Spacer(),
-                  const CircleAvatar(
-                    radius: 30,
-                    backgroundImage: AssetImage(
-                        'assets/user_profile.jpg'), //Immagine presa dalla richiesta
-                  ),
-                ],
+                  textAlign: TextAlign.left,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Expanded(
-            child: Container(
-              color: Colors.red,
-              padding: const EdgeInsets.all(20.0),
+            Container(
+              padding: const EdgeInsets.all(15),
+              child: const CalendarCard(),
             ),
-          ),
-          const SizedBox(height: 20),
-          Expanded(
-            child: Container(
-              color: Colors.green,
-              padding: const EdgeInsets.all(20.0),
+            const SizedBox(height: 20),
+            //Service
+            const Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Service',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                    color: AppColors.primaryColor,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-        ],
+            const ServiceGroupStudentCard(),
+            const SizedBox(height: 10),
+          ],
+        ),
       ),
       bottomNavigationBar: const BottomNavBarComponent(),
     );

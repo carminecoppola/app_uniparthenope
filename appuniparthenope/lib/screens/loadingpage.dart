@@ -3,7 +3,7 @@ import 'package:appuniparthenope/screens/loginpage.dart';
 import 'package:flutter/material.dart';
 
 class LoadingFristPage extends StatelessWidget {
-  const LoadingFristPage({Key? key});
+  const LoadingFristPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class LoadingFristPage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const LoginForm()),
                 ); // Naviga alla pagina LoginForm quando il bottone viene premuto
               },
-              child: Text(
+              child: const Text(
                 'Entra con le credenziali di Ateneo',
               ),
             ),

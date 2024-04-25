@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 
 class NavbarComponent extends StatelessWidget implements PreferredSizeWidget {
-  const NavbarComponent({Key? key});
+  const NavbarComponent({super.key});
 
   final String title = 'Università degli studi di Napoli Parthenope';
 

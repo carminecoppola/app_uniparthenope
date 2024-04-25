@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:appuniparthenope/model/user_data_anagrafic.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';

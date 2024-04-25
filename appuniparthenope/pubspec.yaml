@@ -66,6 +66,12 @@ flutter:
     - assets/user_profile.jpg
     - assets/university/uni_monte.jpg
 
+    # Icon Service Image:
+    - assets/icon/student.png
+    - assets/icon/tax.png
+    - assets/icon/courses.png
+    - assets/icon/weather.png
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

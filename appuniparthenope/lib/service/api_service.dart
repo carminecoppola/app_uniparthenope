@@ -12,11 +12,19 @@ class ApiService {
       'Authorization':
           'Basic ${base64Encode(utf8.encode("$username:$password"))}',
     });
+    print('Stato: ${response.statusCode}');
+    print('Response API:${response.body}');
 
     if (response.statusCode == 200) {
       // Conversione della risposta JSON in una mappa di stringhe dynamiche
       final Map<String, dynamic> data = json.decode(response.body);
       return data;
+    }else if(response.statusCode == 401){
+      throw Exception('Errore Credenziali Invalide');
+      //Mostra una modale
+    } 
+    else if (response.statusCode == 500) {
+      throw Exception('Errore del server durante il login');
     } else {
       throw Exception('Errore durante il login');
     }
@@ -26,17 +34,6 @@ class ApiService {
     final String persId = student.persId.toString();
     final url =
         Uri.parse('$baseUrl/UniparthenopeApp/v1/general/anagrafica/$persId');
-
-    // print('\n-API-url: $url');
-    // print('\n-API-authToken: ${student.authToken}');
-
-    //final String basicAuth = base64Encode(utf8.encode("${student.username}:$password"));
-
-    // const String username = 'carmine.coppola';
-    // const String password = 'CppCmn01_';
-    // String username = student.username;
-    // String password = student.password;
-    // print('\nUser: ${student.username}, $password');
 
     final response = await http.get(url, headers: {
       'Authorization':
@@ -49,6 +46,9 @@ class ApiService {
       final Map<String, dynamic> data = json.decode(response.body);
       print('\n\n-API-Data: $data');
       return data;
+    } else if (response.statusCode == 500) {
+      throw Exception(
+          'Errore del server durante il caricamento dei dati anagrafici');
     } else {
       throw Exception('Errore durante l\'anagrafica');
     }
