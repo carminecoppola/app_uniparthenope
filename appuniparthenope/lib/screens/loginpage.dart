@@ -1,4 +1,5 @@
 // Aggiorna il LoginForm
+import 'package:appuniparthenope/controller/exam_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/controller/auth_controller.dart';
@@ -17,6 +18,7 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController _passwordController = TextEditingController();
 
   final AuthController _authController = AuthController();
+  final ExamController _examTotController = ExamController();
 
   @override
   Widget build(BuildContext context) {
@@ -138,8 +140,12 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _authUser(BuildContext context) async {
-    String username = _usernameController.text;
-    String password = _passwordController.text;
+    //Questi sono per il form, adesso per testare mi scoccio di inserirli sempre
+    // String username = _usernameController.text;
+    // String password = _passwordController.text;
+
+    String username = "carmine.coppola";
+    String password = "CppCmn01_";
 
     try {
       final authenticatedUser =

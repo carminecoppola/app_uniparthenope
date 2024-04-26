@@ -2,7 +2,7 @@ import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
-import 'package:appuniparthenope/widget/infoStudentTemplate.dart';
+import 'package:appuniparthenope/widget/ServicesWidget/infoStudentTemplate.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +12,7 @@ class StudentProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bottomNavBarProvider = Provider.of<BottomNavBarProvider>(context);
+    Provider.of<BottomNavBarProvider>(context);
 
     final userAnagrafe = Provider.of<AuthProvider>(context).anagrafeUser;
 

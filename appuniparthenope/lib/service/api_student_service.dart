@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
 import 'package:appuniparthenope/model/user_data_login.dart';
 
@@ -14,7 +15,8 @@ class ApiStudentService {
           classe User che posso recuperare dall'_authenticatedUser
   */
 
-  Future<Map<String, dynamic>> studentTotalExams(User student) async {
+  Future<Map<String, dynamic>> studentTotalExams(
+      User student, BuildContext context) async {
     //Quando sarà giusto il modello utente
     //final String matId = student.trattiCarriera['matId'];
 
@@ -28,13 +30,13 @@ class ApiStudentService {
           'Basic ${base64Encode(utf8.encode("${student.username}:${student.password}"))}',
     });
 
-    print('\nSono nell API, URL: ${url}');
+    //print('\nSono nell API, URL: ${url}');
 
-    print('- API: studentTotalExams Status:${response.statusCode}');
+    //print('- API: studentTotalExams Status:${response.statusCode}');
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
-      print('\n\n-API-Data: $data');
+      //print('\n\n-API-Data: $data');
       return data;
     } else if (response.statusCode == 500) {
       throw Exception(

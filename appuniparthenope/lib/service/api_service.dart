@@ -19,11 +19,10 @@ class ApiService {
       // Conversione della risposta JSON in una mappa di stringhe dynamiche
       final Map<String, dynamic> data = json.decode(response.body);
       return data;
-    }else if(response.statusCode == 401){
+    } else if (response.statusCode == 401) {
       throw Exception('Errore Credenziali Invalide');
       //Mostra una modale
-    } 
-    else if (response.statusCode == 500) {
+    } else if (response.statusCode == 500) {
       throw Exception('Errore del server durante il login');
     } else {
       throw Exception('Errore durante il login');

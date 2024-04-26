@@ -3,8 +3,8 @@ import 'dart:convert';
 class TotalExamStudent {
   int totAdSuperate;
   int numAdSuperate;
-  int cfuPar;
-  int cfuTot;
+  double cfuPar;
+  double cfuTot;
 
   TotalExamStudent({
     required this.totAdSuperate,

@@ -1,11 +1,13 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:appuniparthenope/controller/auth_controller.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
-import 'package:appuniparthenope/widget/calendarCard.dart';
-import 'package:appuniparthenope/widget/pesonalCardUser.dart';
-import 'package:appuniparthenope/widget/serviceStudentGroup.dart';
+import 'package:appuniparthenope/widget/ServicesWidget/calendarCard.dart';
+import 'package:appuniparthenope/widget/ServicesWidget/pesonalCardUser.dart';
+import 'package:appuniparthenope/widget/ServicesWidget/serviceStudentGroup.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -79,7 +81,10 @@ class _HomeStudentPageState extends State<HomeStudentPage> {
                 ),
               ),
             ),
-            const ServiceGroupStudentCard(),
+            ServiceGroupStudentCard(
+              authenticatedUser: authenticatedUser!,
+            ),
+
             const SizedBox(height: 10),
           ],
         ),

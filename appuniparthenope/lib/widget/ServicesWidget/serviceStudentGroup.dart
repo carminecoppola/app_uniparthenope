@@ -1,25 +1,29 @@
+import 'package:appuniparthenope/controller/exam_controller.dart';
+import 'package:appuniparthenope/model/user_data_login.dart';
+import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ServiceCard extends StatelessWidget {
   final String imagePath;
   final String title;
   final String description;
-  final String root;
+  //final String root;
 
   const ServiceCard({
     super.key,
     required this.imagePath,
     required this.title,
     required this.description,
-    required this.root,
+    //required this.root,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, root);
-      },
+      // onTap: () {
+      //   Navigator.pushNamed(context, root);
+      // },
       child: SizedBox(
         width: 200,
         child: Column(
@@ -67,7 +71,10 @@ class ServiceCard extends StatelessWidget {
 
 //Gruppo Card Studenti
 class ServiceGroupStudentCard extends StatelessWidget {
-  const ServiceGroupStudentCard({super.key});
+  ServiceGroupStudentCard({required this.authenticatedUser, super.key});
+
+  final ExamController _totalExamController = ExamController();
+  final User authenticatedUser;
 
   @override
   Widget build(BuildContext context) {
@@ -82,12 +89,15 @@ class ServiceGroupStudentCard extends StatelessWidget {
               child: Row(
                 children: [
                   GestureDetector(
+                    onTap: () {
+                      _totalExamInfo(context, authenticatedUser);
+                      Navigator.pushNamed(context, '/carrerStudent');
+                    },
                     child: const ServiceCard(
                       imagePath: 'assets/icon/student.png',
                       title: 'Carriera',
                       description:
                           'Qui puoi visualizzare i dettagli relativi agli esami che hai superato.',
-                      root: '/carrerStudent',
                     ),
                   ),
                   const SizedBox(width: 5), // Spazio tra le card
@@ -96,7 +106,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
                     title: 'Corsi',
                     description:
                         'Puoi visualizzare per ogni anno accademico i corsi da seguire.',
-                    root: '/courseStudent',
+                    //root: '/courseStudent',
                   ),
                   const SizedBox(width: 5), // Spazio tra le card
                   const ServiceCard(
@@ -104,7 +114,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
                     title: 'Tasse Universitarie',
                     description:
                         'Puoi tenere sotto controllo la situazione delle tasse universitarie qui.',
-                    root: '/feesStudent',
+                    //root: '/feesStudent',
                   ),
                   const SizedBox(width: 5), // Spazio tra le card
                   const ServiceCard(
@@ -112,7 +122,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
                     title: 'Meteo Uniparthenope',
                     description:
                         'Qui puoi utilizzare il nostro servizio meteorologico dell\'Università Parthenope.',
-                    root: '/watherStudent',
+                    //root: '/watherStudent',
                   ),
                   const SizedBox(width: 5), // Spazio finale per l'estetica
                 ],
@@ -122,5 +132,19 @@ class ServiceGroupStudentCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _totalExamInfo(BuildContext context, User? authenticatedUser) async {
+    try {
+      final totalExamStudent = await _totalExamController.totalExamStudent(
+          authenticatedUser!, context);
+
+      // Utilizza il provider per impostare l'anagrafica dell'utente
+      final examDataProvider =
+          Provider.of<ExamDataProvider>(context, listen: false);
+      examDataProvider.setTotalExamStudent(totalExamStudent);
+    } catch (e) {
+      print('Errore during setTotalExamInfo');
+    }
   }
 }
