@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 
 class TotalExamStudentCard extends StatelessWidget {
   final String cfuPar, cfuTot;
+  final int examSuperati, examTotali;
   final String mediaTrentesimi = "25", mediaCentesimi = "92";
 
   const TotalExamStudentCard({
     super.key,
     required this.cfuPar,
     required this.cfuTot,
+    required this.examSuperati,
+    required this.examTotali,
   });
 
   @override
@@ -89,9 +92,9 @@ class TotalExamStudentCard extends StatelessWidget {
 
             const Spacer(),
             // Widget Spacer per spaziare il testo dal cerchio
-            const ProgressCircleCounter(
-              totalCount: 100,
-              duration: Duration(seconds: 5),
+            ProgressCircleCounter(
+              totalCount: examTotali,
+              completedExams: examSuperati,
             ),
             const Spacer(),
             Padding(

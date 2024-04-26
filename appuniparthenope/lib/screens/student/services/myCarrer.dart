@@ -1,6 +1,6 @@
-import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/TotalExamStudentCard.dart';
+import 'package:appuniparthenope/widget/ServicesWidget/singleExamCard.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,6 @@ class StudentCarrerPage extends StatefulWidget {
 class _StudentCarrerPageState extends State<StudentCarrerPage> {
   @override
   Widget build(BuildContext context) {
-    Provider.of<BottomNavBarProvider>(context);
     final totalExamInfo =
         Provider.of<ExamDataProvider>(context).totalExamStudent;
 
@@ -29,8 +28,10 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
           if (totalExamInfo != null)
             Center(
               child: TotalExamStudentCard(
-                cfuPar: '${totalExamInfo.cfuPar}',
-                cfuTot: '${totalExamInfo.cfuTot}',
+                cfuPar: '${totalExamInfo!.cfuPar}',
+                cfuTot: '${totalExamInfo!.cfuTot}',
+                examSuperati: totalExamInfo.numAdSuperate,
+                examTotali: totalExamInfo.totAdSuperate,
               ),
             )
           else
@@ -39,6 +40,23 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
               child:
                   CircularProgressIndicator(), // Puoi sostituire questo con qualsiasi indicatore di caricamento desiderato
             ),
+          const SizedBox(height: 10),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 22, // Numero di card da generare
+              itemExtent: 110, // Altezza aggiuntiva tra le card
+              itemBuilder: (context, index) {
+                // Genera la card SingleExamCard con l'indice corrente
+                return SingleExamCard(
+                  index: index + 1,
+                  cfuExam: '9',
+                  titleExam:
+                      'Titolo dell\'esame e laboratorio per testare lunghezza titolo',
+                  voteExam: '27',
+                );
+              },
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: const BottomNavBarComponent(),

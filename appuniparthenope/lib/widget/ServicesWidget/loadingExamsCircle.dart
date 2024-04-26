@@ -1,73 +1,62 @@
 import 'package:appuniparthenope/main.dart'; // Importa il file main.dart che contiene le costanti dei colori dell'app
 import 'package:flutter/material.dart';
 
-class ProgressCircleCounter extends StatefulWidget {
-  final int totalCount; // Numero totale di conteggio
-  final Duration duration; // Durata totale dell'animazione
+class ProgressCircleCounter extends StatelessWidget {
+  final int totalCount; // Numero totale di esami
+  final int completedExams; // Numero di esami superati
 
   const ProgressCircleCounter({
-    Key? key,
+    super.key,
     required this.totalCount,
-    required this.duration,
-  }) : super(key: key);
-
-  @override
-  _ProgressCircleCounterState createState() => _ProgressCircleCounterState();
-}
-
-class _ProgressCircleCounterState extends State<ProgressCircleCounter>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController; // Controller dell'animazione
-  late Animation<double> _animation; // Animazione di riempimento del cerchio
-
-  @override
-  void initState() {
-    super.initState();
-    // Inizializza l'AnimationController con la durata fornita
-    _animationController = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
-    // Crea un'animazione che va da 0 a 1
-    _animation = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(_animationController);
-    // Avvia l'animazione
-    _animationController.forward();
-  }
-
-  @override
-  void dispose() {
-    // Disponi del controller dell'animazione
-    _animationController.dispose();
-    super.dispose();
-  }
+    required this.completedExams,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animation,
-      builder: (context, child) {
-        // Costruisci un cerchio di caricamento con un valore dinamico
-        return Container(
+    // Calcola la percentuale di completamento
+    double completionPercentage = completedExams / totalCount;
+
+    // Determina il colore del cerchio in base alla percentuale
+    Color circleColor;
+    if (completionPercentage == 1.0) {
+      circleColor = AppColors.successColor; // Verde se completato
+    } else {
+      circleColor = AppColors.detailsColor; // Grigio se meno della metà
+    }
+
+    return Stack(alignment: Alignment.center, children: [
+      // Cerchio di caricamento
+      SizedBox(
           width: 100,
           height: 100,
           child: CircularProgressIndicator(
-            value: _animation.value, // Valore di riempimento del cerchio
+            value: completionPercentage, // Valore di completamento (da 0 a 1)
             backgroundColor: Colors.transparent, // Colore di sfondo del cerchio
             valueColor: AlwaysStoppedAnimation<Color>(
-              // Colore dinamico del cerchio in base al valore di riempimento
-              _animation.value == 1
-                  ? AppColors
-                      .successColor // Colore verde se il caricamento è completo
-                  : AppColors
-                      .detailsColor, // Altrimenti usa il colore predefinito dell'app
+                circleColor), // Colore del cerchio
+            strokeWidth: 10, // Spessore del cerchio
+          )),
+
+      Row(
+        children: [
+          Text(
+            completedExams.toString(),
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w800,
+              color: AppColors.detailsColor,
             ),
-            strokeWidth: 8, // Spessore del cerchio
           ),
-        );
-      },
-    );
+          Text(
+            '/${totalCount.toString()}',
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
+            ),
+          ),
+        ],
+      ),
+    ]);
   }
 }
