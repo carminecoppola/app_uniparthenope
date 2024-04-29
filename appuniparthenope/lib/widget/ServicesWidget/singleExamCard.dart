@@ -41,7 +41,7 @@ class SingleExamCard extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  '${voteExam}', // Testo cerchio sinistro
+                  voteExam, // Testo cerchio sinistro
                   style: const TextStyle(
                     color: AppColors.detailsColor,
                     fontSize: 20,
@@ -54,10 +54,10 @@ class SingleExamCard extends StatelessWidget {
             // Testo centrale
             Expanded(
               child: Text(
-                '${titleExam} $index ', // Testo centrale
+                '$titleExam $index ', // Testo centrale
                 style: const TextStyle(
                   color: AppColors.backgroundColor,
-                  fontSize: 15,
+                  fontSize: 12,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -87,7 +87,7 @@ class SingleExamCard extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  '${cfuExam}\nCFU', // Testo cerchio destro
+                  '$cfuExam\nCFU', // Testo cerchio destro
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontFamily: 'Poppins',

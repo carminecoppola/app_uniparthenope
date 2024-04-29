@@ -119,7 +119,7 @@ class TotalExamStudentCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '$cfuTot',
+                        cfuTot,
                         style: const TextStyle(
                           fontSize: 16,
                           color: AppColors.textColor,

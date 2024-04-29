@@ -16,8 +16,9 @@ class StudentCarrerPage extends StatefulWidget {
 class _StudentCarrerPageState extends State<StudentCarrerPage> {
   @override
   Widget build(BuildContext context) {
-    final totalExamInfo =
+    final totalExamStats =
         Provider.of<ExamDataProvider>(context).totalExamStudent;
+    final allExamInfo = Provider.of<ExamDataProvider>(context).allExamStudent;
 
     return Scaffold(
       appBar: const NavbarComponent(),
@@ -25,38 +26,43 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const SizedBox(height: 10),
-          if (totalExamInfo != null)
+          if (totalExamStats != null)
             Center(
               child: TotalExamStudentCard(
-                cfuPar: '${totalExamInfo!.cfuPar}',
-                cfuTot: '${totalExamInfo!.cfuTot}',
-                examSuperati: totalExamInfo.numAdSuperate,
-                examTotali: totalExamInfo.totAdSuperate,
+                cfuPar: '${totalExamStats.cfuPar}',
+                cfuTot: '${totalExamStats.cfuTot}',
+                examSuperati: totalExamStats.numAdSuperate,
+                examTotali: totalExamStats.totAdSuperate,
               ),
             )
           else
-            // Gestione del caso in cui totalExamInfo è null
+            // Gestione del caso in cui totalExamStats è null
             const Center(
               child:
                   CircularProgressIndicator(), // Puoi sostituire questo con qualsiasi indicatore di caricamento desiderato
             ),
           const SizedBox(height: 10),
-          Expanded(
-            child: ListView.builder(
-              itemCount: 22, // Numero di card da generare
-              itemExtent: 110, // Altezza aggiuntiva tra le card
-              itemBuilder: (context, index) {
-                // Genera la card SingleExamCard con l'indice corrente
-                return SingleExamCard(
-                  index: index + 1,
-                  cfuExam: '9',
-                  titleExam:
-                      'Titolo dell\'esame e laboratorio per testare lunghezza titolo',
-                  voteExam: '27',
-                );
-              },
+          if (allExamInfo != null)
+            Expanded(
+              child: ListView.builder(
+                itemCount: allExamInfo.length,
+                itemBuilder: (context, index) {
+                  final singleExam = allExamInfo[index];
+                  return SingleExamCard(
+                    index: index + 1,
+                    cfuExam: singleExam.adId.toString(),
+                    titleExam: singleExam.nome.toString(),
+                    voteExam: singleExam.codice.toString(),
+                  );
+                },
+              ),
+            )
+          else
+            // Gestione del caso in cui totalExamStats è null
+            const Center(
+              child:
+                  CircularProgressIndicator(), // Puoi sostituire questo con qualsiasi indicatore di caricamento desiderato
             ),
-          ),
         ],
       ),
       bottomNavigationBar: const BottomNavBarComponent(),

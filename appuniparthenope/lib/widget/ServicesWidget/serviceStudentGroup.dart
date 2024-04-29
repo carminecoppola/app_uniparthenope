@@ -90,7 +90,8 @@ class ServiceGroupStudentCard extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      _totalExamInfo(context, authenticatedUser);
+                      _totalExamStats(context, authenticatedUser);
+                      _allExamStudent(context, authenticatedUser);
                       Navigator.pushNamed(context, '/carrerStudent');
                     },
                     child: const ServiceCard(
@@ -134,17 +135,30 @@ class ServiceGroupStudentCard extends StatelessWidget {
     );
   }
 
-  void _totalExamInfo(BuildContext context, User? authenticatedUser) async {
+  void _totalExamStats(BuildContext context, User? authenticatedUser) async {
     try {
-      final totalExamStudent = await _totalExamController.totalExamStudent(
+      final totalExamStudent = await _totalExamController.totalExamStatsStudent(
           authenticatedUser!, context);
 
       // Utilizza il provider per impostare l'anagrafica dell'utente
       final examDataProvider =
           Provider.of<ExamDataProvider>(context, listen: false);
-      examDataProvider.setTotalExamStudent(totalExamStudent);
+      examDataProvider.setTotalStatsExamStudent(totalExamStudent);
     } catch (e) {
-      print('Errore during setTotalExamInfo');
+      print('Errore during _totalExamStats() $e');
+    }
+  }
+
+  void _allExamStudent(BuildContext context, User? authenticatedUser) async {
+    try {
+      final allExamStudent = await _totalExamController.fetchAllExamStudent(
+          authenticatedUser!, context);
+
+      final examDataProvider =
+          Provider.of<ExamDataProvider>(context, listen: false);
+      examDataProvider.setAllExamStudent(allExamStudent);
+    } catch (e) {
+      print('Errore during _allExamStudent() $e');
     }
   }
 }
