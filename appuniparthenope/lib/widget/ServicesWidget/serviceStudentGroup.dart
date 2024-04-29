@@ -101,13 +101,18 @@ class ServiceGroupStudentCard extends StatelessWidget {
                           'Qui puoi visualizzare i dettagli relativi agli esami che hai superato.',
                     ),
                   ),
-                  const SizedBox(width: 5), // Spazio tra le card
-                  const ServiceCard(
-                    imagePath: 'assets/icon/courses.png',
-                    title: 'Corsi',
-                    description:
-                        'Puoi visualizzare per ogni anno accademico i corsi da seguire.',
-                    //root: '/courseStudent',
+                  const SizedBox(width: 5),
+                  GestureDetector(
+                    onTap: () {
+                      _allCourseStudent(context, authenticatedUser);
+                      Navigator.pushNamed(context, '/courseStudent');
+                    },
+                    child: const ServiceCard(
+                      imagePath: 'assets/icon/courses.png',
+                      title: 'Corsi',
+                      description:
+                          'Puoi visualizzare per ogni anno accademico i corsi da seguire.',
+                    ),
                   ),
                   const SizedBox(width: 5), // Spazio tra le card
                   const ServiceCard(
@@ -159,6 +164,19 @@ class ServiceGroupStudentCard extends StatelessWidget {
       examDataProvider.setAllExamStudent(allExamStudent);
     } catch (e) {
       print('Errore during _allExamStudent() $e');
+    }
+  }
+
+  void _allCourseStudent(BuildContext context, User? authenticatedUser) async {
+    try {
+      final allCourseStudent = await _totalExamController.fetchAllCourseStudent(
+          authenticatedUser!, context);
+
+      final examDataProvider =
+          Provider.of<ExamDataProvider>(context, listen: false);
+      examDataProvider.setAllCoursesStudent(allCourseStudent);
+    } catch (e) {
+      print('Errore during _allCourseStudent() $e');
     }
   }
 }

@@ -9,7 +9,7 @@ class User {
   final int persId;
   final String aliasName;
   final String codFis;
-  final List<TrattoCarriera> trattiCarriera;
+  final List<TrattoCarriera> trattiCarriera;//Da vedere
 
   User({
     required this.id,
@@ -45,7 +45,7 @@ class User {
 
   @override
   String toString() {
-    return 'User{id: $id, firstName: $firstName, lastName: $lastName, username: $username, password: $password, role: $role, persId: $persId, authToken: $authToken, aliasName: $aliasName, codFis: $codFis, trattiCarriera: $trattiCarriera}';
+    return 'User{id: $id, firstName: $firstName, lastName: $lastName, username: $username, password: $password, role: $role, persId: $persId, authToken: $authToken, aliasName: $aliasName, codFis: $codFis, trattiCarriera: $trattiCarriera},';
   }
 }
 
@@ -345,8 +345,7 @@ class User {
 
   String aliasName;
   String codFis;
-  //dynamic docenteId;
-  String firstName;
+  ng firstName;
   String grpDes;
   int grpId;
   int id;

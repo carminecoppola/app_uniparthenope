@@ -1,9 +1,12 @@
-import "package:appuniparthenope/widget/bottomNavBar.dart";
-import "package:appuniparthenope/widget/navbar.dart";
-import "package:flutter/material.dart";
+import 'package:appuniparthenope/provider/exam_provider.dart';
+import 'package:appuniparthenope/widget/ServicesWidget/singleCourseCard.dart';
+import 'package:appuniparthenope/widget/bottomNavBar.dart';
+import 'package:appuniparthenope/widget/navbar.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CourseStudentPage extends StatefulWidget {
-  const CourseStudentPage({super.key});
+  const CourseStudentPage({Key? key});
 
   @override
   State<CourseStudentPage> createState() => _CourseStudentState();
@@ -12,27 +15,30 @@ class CourseStudentPage extends StatefulWidget {
 class _CourseStudentState extends State<CourseStudentPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: NavbarComponent(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Benvenuto nella pagina dei corsi dello studente!',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 24),
+    final allCourseInfo =
+        Provider.of<ExamDataProvider>(context).allCourseStudent;
+
+    return Scaffold(
+      appBar: const NavbarComponent(),
+      body: allCourseInfo != null
+          ? ListView.builder(
+              itemCount: allCourseInfo.length,
+              itemBuilder: (context, index) {
+                final course = allCourseInfo[index];
+                final cfuExam = course.cfu.toInt().toString(); //Converto in int 12.0
+                return SingleCourseCard(
+                  index: index,
+                  cfuExam: cfuExam,
+                  titleExam: course.nome.toString(),
+                  status: course.adId.toString(),
+                );
+              },
+            )
+          : const Center(
+              child:
+                  CircularProgressIndicator(), // Visualizza un indicatore di caricamento se i dati non sono ancora disponibili
             ),
-            SizedBox(height: 20),
-            Text(
-              'Qui potresti visualizzare informazioni riguardo ai corsi dello studente',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomNavBarComponent(),
+      bottomNavigationBar: const BottomNavBarComponent(),
     );
   }
 }

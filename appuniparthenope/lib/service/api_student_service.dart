@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:appuniparthenope/model/course_data.dart';
 import 'package:appuniparthenope/model/exam_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -66,6 +67,69 @@ class ApiStudentService {
           'Errore del SERVER durante il caricamento degli esami dello studente');
     } else {
       throw Exception('\nErrore durante caricamento esami dello studente');
+    }
+  }
+
+  //Mi serve per altre chiamate API come quella per ottenere tutti corsi
+  Future<Map<String, dynamic>> getPianoId(
+      User student, BuildContext context) async {
+    //Il mio codice stuId per test va importato dal modello utente una volta completato
+    // const String stuId = student[tratticarriera].stuId; // Sarà tipo cosi
+    const String stuId = "152452";
+
+    final url =
+        Uri.parse('$baseUrl/UniparthenopeApp/v1/students/pianoId/$stuId');
+
+    final response = await http.get(url, headers: {
+      'Authorization':
+          'Basic ${base64Encode(utf8.encode("${student.username}:${student.password}"))}',
+    });
+
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      final pianoId = jsonDecode(response.body);
+      print('\n pianoId: $pianoId');
+      return pianoId;
+    } else if (response.statusCode == 500) {
+      throw Exception('Errore del SERVER durante il caricamento di pianoId');
+    } else {
+      throw Exception('\nErrore durante caricamento del pianoId');
+    }
+  }
+
+  Future<List<CourseInfo>> getAllCourse(
+      User student, BuildContext context) async {
+    //Il mio codice stuId per test va importato dal modello utente una volta completato
+    // const String stuId = student[tratticarriera].stuId; // Sarà tipo cosi
+    const String stuId = "152452";
+
+    final pianoIdMap = await getPianoId(
+        student, context); // Attendi il completamento del Future
+    final pianoId = pianoIdMap['pianoId']
+        .toString(); // Ottieni il pianoId dalla mappa restituita
+
+    print('pianoId: $pianoId');
+
+    final url = Uri.parse(
+        '$baseUrl/UniparthenopeApp/v1/students/exams/$stuId/$pianoId');
+
+    final response = await http.get(url, headers: {
+      'Authorization':
+          'Basic ${base64Encode(utf8.encode("${student.username}:${student.password}"))}',
+    });
+
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body) as List<dynamic>;
+      print('\n allCourse:\n $jsonData');
+      return jsonData.map((data) => CourseInfo.fromJson(data)).toList();
+    } else if (response.statusCode == 500) {
+      throw Exception(
+          'Errore del SERVER durante il caricamento dei corsi dello studente');
+    } else {
+      throw Exception('\nErrore durante caricamento dei corsi dello studente');
     }
   }
 }

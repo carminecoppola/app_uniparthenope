@@ -39,7 +39,7 @@ class TotalExamStudentCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -57,6 +57,7 @@ class TotalExamStudentCard extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 16,
                           color: AppColors.detailsColor,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
                       const Text(
@@ -64,6 +65,7 @@ class TotalExamStudentCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.black,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
                     ],
@@ -74,6 +76,7 @@ class TotalExamStudentCard extends StatelessWidget {
                         mediaCentesimi,
                         style: const TextStyle(
                           fontSize: 16,
+                          fontWeight: FontWeight.w800,
                           color: AppColors.detailsColor,
                         ),
                       ),
@@ -81,6 +84,7 @@ class TotalExamStudentCard extends StatelessWidget {
                         '/110',
                         style: TextStyle(
                           fontSize: 16,
+                          fontWeight: FontWeight.w800,
                           color: Colors.black,
                         ),
                       ),
@@ -98,12 +102,12 @@ class TotalExamStudentCard extends StatelessWidget {
             ),
             const Spacer(),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(10.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Tot. CFU',
+                    'CFU',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -115,6 +119,7 @@ class TotalExamStudentCard extends StatelessWidget {
                         '$cfuPar/',
                         style: const TextStyle(
                           fontSize: 16,
+                          fontWeight: FontWeight.w800,
                           color: AppColors.detailsColor,
                         ),
                       ),
@@ -123,6 +128,7 @@ class TotalExamStudentCard extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 16,
                           color: AppColors.textColor,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
                     ],

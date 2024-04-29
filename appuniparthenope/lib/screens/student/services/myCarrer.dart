@@ -29,8 +29,8 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
           if (totalExamStats != null)
             Center(
               child: TotalExamStudentCard(
-                cfuPar: '${totalExamStats.cfuPar}',
-                cfuTot: '${totalExamStats.cfuTot}',
+                cfuPar: '${totalExamStats.cfuPar.toInt()}',
+                cfuTot: '${totalExamStats.cfuTot.toInt()}',
                 examSuperati: totalExamStats.numAdSuperate,
                 examTotali: totalExamStats.totAdSuperate,
               ),
@@ -50,9 +50,11 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
                   final singleExam = allExamInfo[index];
                   return SingleExamCard(
                     index: index + 1,
-                    cfuExam: singleExam.adId.toString(),
+                    cfuExam: singleExam.cfu!.toInt().toString(),
                     titleExam: singleExam.nome.toString(),
-                    voteExam: singleExam.codice.toString(),
+                    voteExam: singleExam.status.voto != null
+                        ? singleExam.status.voto!.toInt().toString()
+                        : "OK",
                   );
                 },
               ),

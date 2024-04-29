@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/model/course_data.dart';
 import 'package:appuniparthenope/model/exam_data.dart';
 import 'package:appuniparthenope/model/student_carrer_data.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
@@ -33,18 +34,30 @@ class ExamController {
       final List<ExamData> responseData =
           await apiService.getStudentExams(student, context);
 
+      if (responseData.isEmpty) {
+        print('\nErrore la lista degli esami è vuota.');
+      }
+      return responseData;
+    } catch (e) {
+      throw Exception('Errore Caricamento Esami $e');
+    }
+  }
+
+  Future<List<CourseInfo>> fetchAllCourseStudent(
+      User student, BuildContext context) async {
+    try {
+      final List<CourseInfo> responseData =
+          await apiService.getAllCourse(student, context);
+
       print('Lunghezza lista${responseData.length}');
 
-      if (responseData.isNotEmpty) {
-        print('\n\nPrimo elemento della lista:');
-        print(responseData.first);
-      } else {
-        print('\n\nLa lista è vuota.');
+      if (responseData.isEmpty) {
+        print('\nErrore la lista dei corsi è vuota.');
       }
 
       return responseData;
     } catch (e) {
-      throw Exception('Errore Caricamento Esami');
+      throw Exception('Errore Caricamento Corsi $e');
     }
   }
 }
