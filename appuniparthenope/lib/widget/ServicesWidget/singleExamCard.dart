@@ -54,7 +54,7 @@ class SingleExamCard extends StatelessWidget {
             // Testo centrale
             Expanded(
               child: Text(
-                '$titleExam $index ', // Testo centrale
+                titleExam, // Testo centrale
                 style: const TextStyle(
                   color: AppColors.backgroundColor,
                   fontSize: 12,
