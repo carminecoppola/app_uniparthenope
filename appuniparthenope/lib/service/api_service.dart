@@ -73,4 +73,29 @@ class ApiService {
       throw Exception('Errore durante il recupero dell\'immagine');
     }
   }
+
+  Future<Map<String, dynamic>> getTaxes(User student) async {
+    final String persId = student.persId.toString();
+
+    final url =
+        Uri.parse('$baseUrl/UniparthenopeApp/v1/students/taxes/$persId');
+
+    final response = await http.get(url, headers: {
+      'Authorization':
+          'Basic ${base64Encode(utf8.encode("${student.username}:${student.password}"))}',
+    });
+
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      final allTaxes = jsonDecode(response.body);
+      print('\n allTaxes:\n $allTaxes');
+      return allTaxes;
+    } else if (response.statusCode == 500) {
+      throw Exception(
+          'Errore del SERVER durante il caricamento delle tasse dello studente');
+    } else {
+      throw Exception('\nErrore durante caricamento delle tasse studente');
+    }
+  }
 }

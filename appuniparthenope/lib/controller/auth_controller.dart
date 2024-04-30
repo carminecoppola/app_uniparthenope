@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/model/taxes_data.dart';
 import 'package:appuniparthenope/model/user_data_anagrafic.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/service/api_service.dart';
@@ -29,7 +30,7 @@ class AuthController {
         authToken: authToken,
         aliasName: userData['aliasName'],
         codFis: userData['codFis'],
-        trattiCarriera: [],
+        //trattiCarriera: [],
       );
 
       // Naviga alla schermata corretta in base al ruolo dell'utente
@@ -38,8 +39,8 @@ class AuthController {
       return authenticatedUser;
     } catch (e) {
       // Gestisce gli errori durante l'autenticazione
-      if (e is Exception && e.toString() == 'Errore durante il login') {
-        throw Exception('Credenziali non valide');
+      if (e is Exception && e.toString() == 'Errore durante il login $e') {
+        throw Exception('Credenziali non valide $e');
       } else {
         rethrow;
       }
@@ -94,5 +95,33 @@ class AuthController {
 
   getUserProfileImage(User user) {}
 
-  //Nuova funzione che salva l'immagine
+  Future<TaxesInfo> setTaxes(BuildContext context, User student) async {
+    try {
+      // Chiamata all'API per ottenere le tasse dello studente
+      final Map<String, dynamic> taxesData = await apiService.getTaxes(student);
+
+      // Estrai i dati necessari dalle tasse ricevute
+      final String semaforo = taxesData['semaforo'];
+      final List<Payed> payed = List<Payed>.from(
+        taxesData['payed'].map((x) => Payed.fromJson(x)),
+      );
+      final List<ToPay> toPay = List<ToPay>.from(
+        taxesData['to_pay'].map((x) => ToPay.fromJson(x)),
+      );
+
+      // Costruisci un oggetto TaxesInfo con i dati ottenuti
+      final TaxesInfo taxesInfo = TaxesInfo(
+        semaforo: semaforo,
+        payed: payed,
+        toPay: toPay,
+      );
+
+      // Ritorna l'oggetto TaxesInfo
+      return taxesInfo;
+    } catch (e) {
+      print('Error during setTaxes: $e');
+      throw Exception(
+          'Errore durante il recupero delle informazioni sulle tasse');
+    }
+  }
 }

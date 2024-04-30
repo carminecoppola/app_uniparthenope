@@ -118,7 +118,8 @@ class StudentProfilePage extends StatelessWidget {
                         GridTile(
                           child: InfoStudentTemplate(
                             idText: '\u2022 Data Nascita',
-                            contentText: '\t\t\t\t${userAnagrafe.dataNascita}',
+                            contentText:
+                                '\t\t\t\t${userAnagrafe.dataNascita.split(" ")[0]}',
                           ),
                         ),
                         GridTile(

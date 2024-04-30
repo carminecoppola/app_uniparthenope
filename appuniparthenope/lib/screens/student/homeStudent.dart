@@ -4,6 +4,7 @@ import 'package:appuniparthenope/controller/auth_controller.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
+import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/calendarCard.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/pesonalCardUser.dart';
@@ -105,7 +106,8 @@ class _HomeStudentPageState extends State<HomeStudentPage> {
       print(anagrafeUser);
       // Penso di settare in un altro provider i dati dell'utente in maniera globale
     } catch (e) {
-      print('Error during setAnagrafe: $e');
+      print('Error during _setAnagrafe: $e');
     }
   }
+
 }

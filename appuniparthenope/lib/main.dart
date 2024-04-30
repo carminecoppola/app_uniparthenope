@@ -1,6 +1,7 @@
 import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
+import 'package:appuniparthenope/provider/taxes_provider.dart';
 import 'package:appuniparthenope/screens/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/app_routes.dart';
@@ -12,6 +13,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => ExamDataProvider()),
+        ChangeNotifierProvider(create: (context) => TaxesDataProvider()),
         ChangeNotifierProvider(create: (context) => BottomNavBarProvider()),
       ],
       child: const MyApp(),

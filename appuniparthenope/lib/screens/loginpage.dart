@@ -115,7 +115,7 @@ class _LoginFormState extends State<LoginForm> {
             // Azione per gestire il click su "PasswordDimenticata?"
           },
           child: const Text(
-            'PasswordDimenticata?',
+            'Password Dimenticata?',
             style: TextStyle(
               color: Colors.grey, // Imposta il colore del testo su grigio
               fontWeight: FontWeight.bold, // Imposta il testo in grassetto

@@ -132,4 +132,33 @@ class ApiStudentService {
       throw Exception('\nErrore durante caricamento dei corsi dello studente');
     }
   }
+
+  //Mi serve per gestire lo stato dei corsi
+  Future<StatusCourse> getStatusExam(
+      User student, CourseInfo course, BuildContext context) async {
+    const String matId = "253073"; //Il mio codice matId per test
+    final String adsceId = course.adsceId.toString();
+
+    final url = Uri.parse(
+        '$baseUrl/UniparthenopeApp/v1/students/checkExams/$matId/$adsceId');
+
+    final response = await http.get(url, headers: {
+      'Authorization':
+          'Basic ${base64Encode(utf8.encode("${student.username}:${student.password}"))}',
+    });
+
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      final statusExamData = jsonDecode(response.body);
+      final statusCourse = StatusCourse.fromJson(statusExamData);
+      print('\n statusExam: $statusCourse');
+      return statusCourse;
+    } else if (response.statusCode == 500) {
+      throw Exception(
+          'Errore del SERVER durante il caricamento dello status dell\'esame');
+    } else {
+      throw Exception('\nErrore durante caricamento del status esame');
+    }
+  }
 }

@@ -1,6 +1,9 @@
+import 'package:appuniparthenope/controller/auth_controller.dart';
 import 'package:appuniparthenope/controller/exam_controller.dart';
+import 'package:appuniparthenope/model/course_data.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
+import 'package:appuniparthenope/provider/taxes_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -71,9 +74,13 @@ class ServiceCard extends StatelessWidget {
 
 //Gruppo Card Studenti
 class ServiceGroupStudentCard extends StatelessWidget {
-  ServiceGroupStudentCard({required this.authenticatedUser, super.key});
+  ServiceGroupStudentCard({
+    super.key,
+    required this.authenticatedUser,
+  });
 
   final ExamController _totalExamController = ExamController();
+  final AuthController _authController = AuthController();
   final User authenticatedUser;
 
   @override
@@ -105,6 +112,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       _allCourseStudent(context, authenticatedUser);
+                      //_allStatusCourse(context, authenticatedUser);
                       Navigator.pushNamed(context, '/courseStudent');
                     },
                     child: const ServiceCard(
@@ -115,12 +123,18 @@ class ServiceGroupStudentCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 5), // Spazio tra le card
-                  const ServiceCard(
-                    imagePath: 'assets/icon/tax.png',
-                    title: 'Tasse Universitarie',
-                    description:
-                        'Puoi tenere sotto controllo la situazione delle tasse universitarie qui.',
-                    //root: '/feesStudent',
+                  GestureDetector(
+                    onTap: () {
+                      _taxesStudent(context, authenticatedUser);
+                      Navigator.pushNamed(context, '/feesStudent');
+                    },
+                    child: const ServiceCard(
+                      imagePath: 'assets/icon/tax.png',
+                      title: 'Tasse Universitarie',
+                      description:
+                          'Puoi tenere sotto controllo la situazione delle tasse universitarie qui.',
+                      //root: '/feesStudent',
+                    ),
                   ),
                   const SizedBox(width: 5), // Spazio tra le card
                   const ServiceCard(
@@ -177,6 +191,35 @@ class ServiceGroupStudentCard extends StatelessWidget {
       examDataProvider.setAllCoursesStudent(allCourseStudent);
     } catch (e) {
       print('Errore during _allCourseStudent() $e');
+    }
+  }
+
+  //Da rivedere completamente la logica
+  void _allStatusCourse(
+      BuildContext context, User? authenticatedUser, CourseInfo course) async {
+    try {
+      final allCourseStudent = await _totalExamController.fetchAllCourseStatus(
+          authenticatedUser!, course, context);
+
+      final examDataProvider =
+          Provider.of<ExamDataProvider>(context, listen: false);
+      examDataProvider.setAllStatusCourses(allCourseStudent);
+    } catch (e) {
+      print('Errore during _allStatusCourse() $e');
+    }
+  }
+
+  void _taxesStudent(BuildContext context, User authenticatedUser) async {
+    try {
+      final allTaxesStudent =
+          await _authController.setTaxes(context, authenticatedUser);
+
+      final taxesDataProvider =
+          Provider.of<TaxesDataProvider>(context, listen: false);
+      taxesDataProvider.setTaxesInfo(
+          allTaxesStudent); // Imposta le informazioni sulle tasse nel provider
+    } catch (e) {
+      print('Error during _taxesStudent: $e');
     }
   }
 }

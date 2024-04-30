@@ -4,8 +4,7 @@ class CourseInfo {
   final String nome;
   final String codice;
   final int adId;
-  final double
-      cfu; //In realtà è un int quindi va tolto lo zero perche la richiesta restitisce tipo CFU 9.0
+  final double cfu;
   final int annoId;
   final int adsceId;
 
@@ -39,5 +38,48 @@ class CourseInfo {
         "CFU": cfu,
         "annoId": annoId,
         "adsceId": adsceId,
+      };
+}
+
+//Status Class Model
+
+class StatusCourse {
+  final String stato;
+  final String tipo;
+  final String data;
+  final int lode;
+  final int voto;
+  final int anno;
+
+  StatusCourse({
+    required this.stato,
+    required this.tipo,
+    required this.data,
+    required this.lode,
+    required this.voto,
+    required this.anno,
+  });
+
+  factory StatusCourse.fromRawJson(String str) =>
+      StatusCourse.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory StatusCourse.fromJson(Map<String, dynamic> json) => StatusCourse(
+        stato: json["stato"],
+        tipo: json["tipo"],
+        data: json["data"],
+        lode: json["lode"],
+        voto: json["voto"],
+        anno: json["anno"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "stato": stato,
+        "tipo": tipo,
+        "data": data,
+        "lode": lode,
+        "voto": voto,
+        "anno": anno,
       };
 }

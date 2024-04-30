@@ -21,6 +21,7 @@ class SingleCourseCard extends StatelessWidget {
 
     return Card(
       color: AppColors.primaryColor,
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       elevation: 4, // Altezza della card
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10), // Bordo arrotondato

@@ -27,6 +27,7 @@ class AuthProvider with ChangeNotifier {
 
   // Metodo per ottenere il token di autenticazione
   String? get authToken => _authToken;
+  
 
 
 

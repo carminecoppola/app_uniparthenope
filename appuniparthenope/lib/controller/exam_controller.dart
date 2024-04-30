@@ -55,9 +55,37 @@ class ExamController {
         print('\nErrore la lista dei corsi è vuota.');
       }
 
+
       return responseData;
     } catch (e) {
       throw Exception('Errore Caricamento Corsi $e');
+    }
+  }
+
+  // List<int> getAllAdsceId(List<CourseInfo> courses) {
+  //   List<int> allExam = [];
+
+  //   for (var exam in courses) {
+  //     allExam.add(exam.adsceId);
+  //   }
+
+  //   print('Tutta la lista interi :$allExam');
+
+  //   return allExam;
+  // }
+
+  //Da rivedere completamente la logica
+  Future<StatusCourse> fetchAllCourseStatus(
+      User student, CourseInfo course, BuildContext context) async {
+    try {
+      final StatusCourse responseData =
+          await apiService.getStatusExam(student, course, context);
+
+      print('Prova stato${responseData.stato}');
+
+      return responseData;
+    } catch (e) {
+      throw Exception('Errore Caricamento Status dei corsi $e');
     }
   }
 }
