@@ -1,13 +1,12 @@
 import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/singleCourseCard.dart';
-import 'package:appuniparthenope/widget/ServicesWidget/tabBarCard.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CourseStudentPage extends StatefulWidget {
-  const CourseStudentPage({Key? key});
+  const CourseStudentPage({super.key});
 
   @override
   State<CourseStudentPage> createState() => _CourseStudentState();

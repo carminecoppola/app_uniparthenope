@@ -44,7 +44,7 @@ class PersonalCardUser extends StatelessWidget {
                 const SizedBox(height: 10),
                 Text(
                   // Mostra l'id dell'utente
-                  '\t\t\t- Id: ${id ?? ''}',
+                  '\t- Matricola: ${id ?? ''}',
                   style: const TextStyle(
                     fontSize: 14,
                     color: Colors.white,

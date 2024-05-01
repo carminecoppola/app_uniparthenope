@@ -92,8 +92,8 @@ class SingleExamCard extends StatelessWidget {
                   style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.w900,
-                    fontSize: 15,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 13,
                     color: AppColors.lightGray,
                   ),
                 ),

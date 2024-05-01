@@ -81,7 +81,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
 
   final ExamController _totalExamController = ExamController();
   final AuthController _authController = AuthController();
-  final User authenticatedUser;
+  final UserInfo authenticatedUser;
 
   @override
   Widget build(BuildContext context) {
@@ -97,8 +97,8 @@ class ServiceGroupStudentCard extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      _totalExamStats(context, authenticatedUser);
-                      _allExamStudent(context, authenticatedUser);
+                      _totalExamStats(context, authenticatedUser.user);
+                      _allExamStudent(context, authenticatedUser.user);
                       Navigator.pushNamed(context, '/carrerStudent');
                     },
                     child: const ServiceCard(
@@ -111,8 +111,8 @@ class ServiceGroupStudentCard extends StatelessWidget {
                   const SizedBox(width: 5),
                   GestureDetector(
                     onTap: () {
-                      _allCourseStudent(context, authenticatedUser);
-                      //_allStatusCourse(context, authenticatedUser);
+                      _allCourseStudent(context, authenticatedUser.user);
+                      //_allStatusCourse(context, authenticatedUser.user);
                       Navigator.pushNamed(context, '/courseStudent');
                     },
                     child: const ServiceCard(
@@ -125,7 +125,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
                   const SizedBox(width: 5), // Spazio tra le card
                   GestureDetector(
                     onTap: () {
-                      _taxesStudent(context, authenticatedUser);
+                      _taxesStudent(context, authenticatedUser.user);
                       Navigator.pushNamed(context, '/feesStudent');
                     },
                     child: const ServiceCard(

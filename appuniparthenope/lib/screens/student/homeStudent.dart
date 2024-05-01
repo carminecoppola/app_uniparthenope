@@ -1,14 +1,11 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:appuniparthenope/controller/auth_controller.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
-import 'package:appuniparthenope/provider/exam_provider.dart';
+import 'package:appuniparthenope/widget/ServicesWidget/serviceStudentGroup.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/calendarCard.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/pesonalCardUser.dart';
-import 'package:appuniparthenope/widget/ServicesWidget/serviceStudentGroup.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,9 +37,10 @@ class _HomeStudentPageState extends State<HomeStudentPage> {
               onTap: () {
                 _anagrafeStudent(authenticatedUser!);
               },
-              firstName: authenticatedUser?.firstName ?? '',
-              lastName: authenticatedUser?.lastName ?? '',
-              id: authenticatedUser?.id.toString(),
+              firstName: authenticatedUser?.user.firstName ?? '',
+              lastName: authenticatedUser?.user.lastName ?? '',
+              id: authenticatedUser?.user.trattiCarriera[0].matricola
+                  .toString(),
             ),
             const SizedBox(height: 20),
             //Calendario
@@ -85,7 +83,6 @@ class _HomeStudentPageState extends State<HomeStudentPage> {
             ServiceGroupStudentCard(
               authenticatedUser: authenticatedUser!,
             ),
-
             const SizedBox(height: 10),
           ],
         ),
@@ -94,10 +91,10 @@ class _HomeStudentPageState extends State<HomeStudentPage> {
     );
   }
 
-  void _anagrafeStudent(User authenticatedUser) async {
+  void _anagrafeStudent(UserInfo authenticatedUser) async {
     try {
-      final anagrafeUser =
-          await _anagrafeController.setAnagrafe(context, authenticatedUser);
+      final anagrafeUser = await _anagrafeController.setAnagrafe(
+          context, authenticatedUser.user);
 
       // Utilizza il provider per impostare l'anagrafica dell'utente
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
@@ -109,5 +106,4 @@ class _HomeStudentPageState extends State<HomeStudentPage> {
       print('Error during _setAnagrafe: $e');
     }
   }
-
 }
