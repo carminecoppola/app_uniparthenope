@@ -7,34 +7,25 @@ import 'package:appuniparthenope/model/user_data_login.dart';
 class AuthController {
   final ApiService apiService = ApiService(); //Richiamo il servizio
 
-  Future<User> authUser(
+  Future<UserInfo> authUser(
       BuildContext context, String username, String password) async {
     try {
       // Effettua il login chiamando il servizio API
       final Map<String, dynamic> responseData =
-          await apiService.login(username, password);
+          await apiService.login(username, password, context);
 
       // Estrae il token e i dati dell'utente dalla risposta
       final String authToken = responseData['authToken'];
       final Map<String, dynamic> userData = responseData['user'];
 
       // Costruisce un oggetto User con i dati ottenuti
-      final User authenticatedUser = User(
-        id: userData['id'],
-        firstName: userData['firstName'],
-        lastName: userData['lastName'],
-        username: userData['userId'],
-        password: password,
-        role: userData['grpDes'],
-        persId: userData['persId'],
+      final UserInfo authenticatedUser = UserInfo(
         authToken: authToken,
-        aliasName: userData['aliasName'],
-        codFis: userData['codFis'],
-        //trattiCarriera: [],
+        user: User.fromJson(userData),
       );
 
       // Naviga alla schermata corretta in base al ruolo dell'utente
-      await navigateByRole(context, authenticatedUser.role);
+      await navigateByRole(context, authenticatedUser.user.grpDes);
 
       return authenticatedUser;
     } catch (e) {
@@ -69,7 +60,7 @@ class AuthController {
   Future<UserAnagrafe> setAnagrafe(BuildContext context, User student) async {
     try {
       final Map<String, dynamic> responseData =
-          await apiService.studentAnagrafe(student);
+          await apiService.studentAnagrafe(student, context);
 
       final UserAnagrafe anagrafeUser = UserAnagrafe(
         nome: responseData['nome'],
@@ -98,7 +89,8 @@ class AuthController {
   Future<TaxesInfo> setTaxes(BuildContext context, User student) async {
     try {
       // Chiamata all'API per ottenere le tasse dello studente
-      final Map<String, dynamic> taxesData = await apiService.getTaxes(student);
+      final Map<String, dynamic> taxesData =
+          await apiService.getTaxes(student, context);
 
       // Estrai i dati necessari dalle tasse ricevute
       final String semaforo = taxesData['semaforo'];

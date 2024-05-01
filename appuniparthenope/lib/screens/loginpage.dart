@@ -90,7 +90,8 @@ class _LoginFormState extends State<LoginForm> {
         ),
         ElevatedButton(
           onPressed: () {
-            _authUser(context); // Passa il contesto al metodo _authUser
+            _authUser(
+                context, _usernameController.text, _passwordController.text);
           },
           style: ElevatedButton.styleFrom(
             padding:
@@ -139,24 +140,56 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  void _authUser(BuildContext context) async {
-    //Questi sono per il form, adesso per testare mi scoccio di inserirli sempre
-    // String username = _usernameController.text;
-    // String password = _passwordController.text;
+  // void _authUser(BuildContext context) async {
+  //   //Questi sono per il form, adesso per testare mi scoccio di inserirli sempre
+  //   // String username = _usernameController.text;
+  //   // String password = _passwordController.text;
 
-    String username = "carmine.coppola";
-    String password = "CppCmn01_";
+  //   String username = "carmine.coppola";
+  //   String password = "CppCmn01_";
+
+  //   try {
+  //     final authenticatedUser =
+  //         await _authController.authUser(context, username, password);
+
+  //     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+  //     authProvider.setAuthenticatedUser(authenticatedUser, password);
+  //   } catch (e) {
+  //     print('Error during authentication: $e');
+  //   }
+  // }
+
+  void _authUser(BuildContext context, String username, String password) async {
+    username = "carmine.coppola";
+    password = "CppCmn01_";
 
     try {
       final authenticatedUser =
           await _authController.authUser(context, username, password);
-
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
-
-      authProvider.setAuthenticatedUser(
-          authenticatedUser, authenticatedUser.authToken);
+      authProvider.setAuthenticatedUser(authenticatedUser, password);
     } catch (e) {
       print('Error during authentication: $e');
     }
   }
+  // void _provaUser(BuildContext context) async {
+  //   //Questi sono per il form, adesso per testare mi scoccio di inserirli sempre
+  //   // String username = _usernameController.text;
+  //   // String password = _passwordController.text;
+
+  //   String username = "carmine.coppola";
+  //   String password = "CppCmn01_";
+
+  //   try {
+  //     final authenticatedUser =
+  //         await _provaController.authUser(context, username, password);
+
+  //     final provaProvider = Provider.of<ProvaProvider>(context, listen: false);
+
+  //     provaProvider.setNuovoUser(authenticatedUser);
+  //   } catch (e) {
+  //     print('Error during authentication: $e');
+  //   }
+  // }
 }

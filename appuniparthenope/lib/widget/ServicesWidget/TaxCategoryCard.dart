@@ -9,12 +9,12 @@ class TaxCategoryCard extends StatelessWidget {
   final List<Widget> children;
 
   const TaxCategoryCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.iconColor,
     required this.backgroundColor,
     required this.children,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

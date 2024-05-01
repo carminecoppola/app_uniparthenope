@@ -1,12 +1,16 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:appuniparthenope/model/user_data_login.dart';
+import 'package:appuniparthenope/provider/auth_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class ApiService {
   final String baseUrl = "https://api.uniparthenope.it";
 
-  Future<Map<String, dynamic>> login(String username, String password) async {
+  Future<Map<String, dynamic>> login(
+      String username, String password, BuildContext context) async {
     final url = Uri.parse('$baseUrl/UniparthenopeApp/v1/login');
     final response = await http.get(url, headers: {
       'Authorization':
@@ -29,14 +33,18 @@ class ApiService {
     }
   }
 
-  Future<Map<String, dynamic>> studentAnagrafe(User student) async {
+  Future<Map<String, dynamic>> studentAnagrafe(
+      User student, BuildContext context) async {
     final String persId = student.persId.toString();
+    final String password =
+        Provider.of<AuthProvider>(context, listen: false).password!;
+
     final url =
         Uri.parse('$baseUrl/UniparthenopeApp/v1/general/anagrafica/$persId');
 
     final response = await http.get(url, headers: {
       'Authorization':
-          'Basic ${base64Encode(utf8.encode("${student.username}:${student.password}"))}',
+          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
     });
 
     print('Status:${response.statusCode}');
@@ -53,7 +61,8 @@ class ApiService {
     }
   }
 
-  Future<Uint8List> getUserProfileImage(User student) async {
+  Future<Uint8List> getUserProfileImage(
+      User student, BuildContext context) async {
     final String persId = student.persId.toString();
 
     final url = Uri.parse('$baseUrl/UniparthenopeApp/v1/general/image/$persId');
@@ -61,7 +70,8 @@ class ApiService {
     final response = await http.get(
       url,
       headers: {
-        'Authorization': 'Bearer ${student.authToken}',
+        'Authorization':
+            'Bearer ${Provider.of<AuthProvider>(context, listen: false).authToken}',
       },
     );
 
@@ -74,15 +84,19 @@ class ApiService {
     }
   }
 
-  Future<Map<String, dynamic>> getTaxes(User student) async {
+  Future<Map<String, dynamic>> getTaxes(
+      User student, BuildContext context) async {
     final String persId = student.persId.toString();
+
+     final String password =
+        Provider.of<AuthProvider>(context, listen: false).password!;
 
     final url =
         Uri.parse('$baseUrl/UniparthenopeApp/v1/students/taxes/$persId');
 
     final response = await http.get(url, headers: {
       'Authorization':
-          'Basic ${base64Encode(utf8.encode("${student.username}:${student.password}"))}',
+          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
     });
 
     print(response.statusCode);

@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:appuniparthenope/model/course_data.dart';
 import 'package:appuniparthenope/model/exam_data.dart';
+import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:appuniparthenope/model/user_data_login.dart';
+import 'package:provider/provider.dart';
 
 class ApiStudentService {
   final String baseUrl = "https://api.uniparthenope.it";
@@ -19,17 +21,17 @@ class ApiStudentService {
 
   Future<Map<String, dynamic>> studentTotalExamsStats(
       User student, BuildContext context) async {
-    //Quando sarà giusto il modello utente
-    //final String matId = student.trattiCarriera['matId'];
+    String matId = student.trattiCarriera[0].matId.toString();
 
-    const String matId = "253073"; //Il mio codice matId per test
+    final String password =
+        Provider.of<AuthProvider>(context, listen: false).password!;
 
     final url =
         Uri.parse('$baseUrl/UniparthenopeApp/v1/students/totalExams/$matId');
 
     final response = await http.get(url, headers: {
       'Authorization':
-          'Basic ${base64Encode(utf8.encode("${student.username}:${student.password}"))}',
+          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
     });
 
     if (response.statusCode == 200) {
@@ -46,14 +48,17 @@ class ApiStudentService {
 
   Future<List<ExamData>> getStudentExams(
       User student, BuildContext context) async {
-    const String matId = "253073"; //Il mio codice matId per test
+    String matId = student.trattiCarriera[0].matId.toString();
+
+    final String password =
+        Provider.of<AuthProvider>(context, listen: false).password!;
 
     final url =
         Uri.parse('$baseUrl/UniparthenopeApp/v2/students/myExams/$matId');
 
     final response = await http.get(url, headers: {
       'Authorization':
-          'Basic ${base64Encode(utf8.encode("${student.username}:${student.password}"))}',
+          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
     });
 
     print(response.statusCode);
@@ -73,16 +78,17 @@ class ApiStudentService {
   //Mi serve per altre chiamate API come quella per ottenere tutti corsi
   Future<Map<String, dynamic>> getPianoId(
       User student, BuildContext context) async {
-    //Il mio codice stuId per test va importato dal modello utente una volta completato
-    // const String stuId = student[tratticarriera].stuId; // Sarà tipo cosi
-    const String stuId = "152452";
+    String stuId = student.trattiCarriera[0].stuId.toString();
+
+    final String password =
+        Provider.of<AuthProvider>(context, listen: false).password!;
 
     final url =
         Uri.parse('$baseUrl/UniparthenopeApp/v1/students/pianoId/$stuId');
 
     final response = await http.get(url, headers: {
       'Authorization':
-          'Basic ${base64Encode(utf8.encode("${student.username}:${student.password}"))}',
+          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
     });
 
     print(response.statusCode);
@@ -100,9 +106,10 @@ class ApiStudentService {
 
   Future<List<CourseInfo>> getAllCourse(
       User student, BuildContext context) async {
-    //Il mio codice stuId per test va importato dal modello utente una volta completato
-    // const String stuId = student[tratticarriera].stuId; // Sarà tipo cosi
-    const String stuId = "152452";
+    String stuId = student.trattiCarriera[0].stuId.toString();
+
+    final String password =
+        Provider.of<AuthProvider>(context, listen: false).password!;
 
     final pianoIdMap = await getPianoId(
         student, context); // Attendi il completamento del Future
@@ -116,7 +123,7 @@ class ApiStudentService {
 
     final response = await http.get(url, headers: {
       'Authorization':
-          'Basic ${base64Encode(utf8.encode("${student.username}:${student.password}"))}',
+          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
     });
 
     print(response.statusCode);
@@ -136,15 +143,18 @@ class ApiStudentService {
   //Mi serve per gestire lo stato dei corsi
   Future<StatusCourse> getStatusExam(
       User student, CourseInfo course, BuildContext context) async {
-    const String matId = "253073"; //Il mio codice matId per test
+    String matId = student.trattiCarriera[0].matId.toString();
     final String adsceId = course.adsceId.toString();
+
+    final String password =
+        Provider.of<AuthProvider>(context, listen: false).password!;
 
     final url = Uri.parse(
         '$baseUrl/UniparthenopeApp/v1/students/checkExams/$matId/$adsceId');
 
     final response = await http.get(url, headers: {
       'Authorization':
-          'Basic ${base64Encode(utf8.encode("${student.username}:${student.password}"))}',
+          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
     });
 
     print(response.statusCode);
