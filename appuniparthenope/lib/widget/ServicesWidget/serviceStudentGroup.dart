@@ -4,8 +4,11 @@ import 'package:appuniparthenope/model/course_data.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/provider/taxes_provider.dart';
+import 'package:appuniparthenope/service/api_weather_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../provider/bottomNavBar_provider.dart';
 
 class ServiceCard extends StatelessWidget {
   final String imagePath;
@@ -98,7 +101,12 @@ class ServiceGroupStudentCard extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       _totalExamStats(context, authenticatedUser.user);
+                      _averageStats(context, authenticatedUser.user);
                       _allExamStudent(context, authenticatedUser.user);
+                      final bottomNavBarProvider =
+                          Provider.of<BottomNavBarProvider>(context,
+                              listen: false);
+                      bottomNavBarProvider.updateIndex(1);
                       Navigator.pushNamed(context, '/carrerStudent');
                     },
                     child: const ServiceCard(
@@ -132,17 +140,22 @@ class ServiceGroupStudentCard extends StatelessWidget {
                       imagePath: 'assets/icon/tax.png',
                       title: 'Tasse Universitarie',
                       description:
-                          'Puoi tenere sotto controllo la situazione delle tasse universitarie qui.',
+                          'Puoi tenere sotto controllo la situazione delle tasse universitarie.',
                       //root: '/feesStudent',
                     ),
                   ),
                   const SizedBox(width: 5), // Spazio tra le card
-                  const ServiceCard(
-                    imagePath: 'assets/icon/weather.png',
-                    title: 'Meteo Uniparthenope',
-                    description:
-                        'Qui puoi utilizzare il nostro servizio meteorologico dell\'Università Parthenope.',
-                    //root: '/watherStudent',
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/watherStudent');
+                    },
+                    child: const ServiceCard(
+                      imagePath: 'assets/icon/weather.png',
+                      title: 'Meteo Uniparthenope',
+                      description:
+                          'Puoi utilizzare il meteoro dell\'Università Parthenope.',
+                      //root: '/watherStudent',
+                    ),
                   ),
                   const SizedBox(width: 5), // Spazio finale per l'estetica
                 ],
@@ -168,6 +181,24 @@ class ServiceGroupStudentCard extends StatelessWidget {
     }
   }
 
+  void _averageStats(BuildContext context, User? authenticatedUser) async {
+    try {
+      final aritmeticAverageStudent = await _totalExamController
+          .aritmeticAverageStudent(authenticatedUser!, context);
+
+      final weightedAverageStudent = await _totalExamController
+          .weightedAverageStudent(authenticatedUser, context);
+
+      // Utilizza il provider per impostare la media dello studente
+      final examDataProvider =
+          Provider.of<ExamDataProvider>(context, listen: false);
+      examDataProvider.setTotalAverageExamStudent(
+          aritmeticAverageStudent, weightedAverageStudent);
+    } catch (e) {
+      print('Errore during _averageStats() $e');
+    }
+  }
+
   void _allExamStudent(BuildContext context, User? authenticatedUser) async {
     try {
       final allExamStudent = await _totalExamController.fetchAllExamStudent(
@@ -189,23 +220,36 @@ class ServiceGroupStudentCard extends StatelessWidget {
       final examDataProvider =
           Provider.of<ExamDataProvider>(context, listen: false);
       examDataProvider.setAllCoursesStudent(allCourseStudent);
+
+      // Per ogni corso ottenuto, ottenere lo stato del corso
+      // for (final course in allCourseStudent) {
+      //   _allStatusCourse(context, authenticatedUser, course);
+      // }
+      _allStatusCourse(context, authenticatedUser, allCourseStudent);
     } catch (e) {
       print('Errore during _allCourseStudent() $e');
     }
   }
 
-  //Da rivedere completamente la logica
-  void _allStatusCourse(
-      BuildContext context, User? authenticatedUser, CourseInfo course) async {
+  void _allStatusCourse(BuildContext context, User authenticatedUser,
+      List<CourseInfo> allCourses) async {
     try {
-      final allCourseStudent = await _totalExamController.fetchAllCourseStatus(
-          authenticatedUser!, course, context);
-
       final examDataProvider =
           Provider.of<ExamDataProvider>(context, listen: false);
-      examDataProvider.setAllStatusCourses(allCourseStudent);
+
+      for (CourseInfo course in allCourses) {
+        List<StatusCourse> statusCourses = await _totalExamController
+            .fetchAllCourseStatus(authenticatedUser, [course], context);
+
+        // Assicurati che lo stato del corso sia disponibile
+        if (statusCourses.isNotEmpty) {
+          // Aggiungi lo stato del corso all'elenco in ExamDataProvider
+          examDataProvider.setAllStatusCourses(
+              [...examDataProvider.allStatusCourses ?? [], ...statusCourses]);
+        }
+      }
     } catch (e) {
-      print('Errore during _allStatusCourse() $e');
+      print('Errore durante _allStatusCourse() $e');
     }
   }
 

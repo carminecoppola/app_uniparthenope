@@ -5,18 +5,30 @@ import 'package:flutter/material.dart';
 
 class ExamDataProvider extends ChangeNotifier {
   TotalExamStudent? _totalExamStatsStudent;
+  AverageInfo? _aritmeticAverageStatsStudent;
+  AverageInfo? _weightedAverageStatsStudent;
   List<ExamData>? _allExamStudent;
   List<CourseInfo>? _allCourseStudent;
-  StatusCourse? _courseStatus;
+  List<StatusCourse>? _allStatusCourses;
 
   TotalExamStudent? get totalExamStudent => _totalExamStatsStudent;
+  AverageInfo? get aritmeticAverageStatsStudent =>
+      _aritmeticAverageStatsStudent;
+  AverageInfo? get weightedAverageStatsStudent => _weightedAverageStatsStudent;
   List<ExamData>? get allExamStudent => _allExamStudent;
   List<CourseInfo>? get allCourseStudent => _allCourseStudent;
-  StatusCourse? get allCourseStatus => _courseStatus;
+  List<StatusCourse>? get allStatusCourses => _allStatusCourses;
 
   // Metodo per impostare l'anagrafica dell'utente
   void setTotalStatsExamStudent(TotalExamStudent totalExamStudent) {
     _totalExamStatsStudent = totalExamStudent;
+    notifyListeners();
+  }
+
+  void setTotalAverageExamStudent(AverageInfo aritmeticAverageStatsStudent,
+      AverageInfo weightedAverageStatsStudent) {
+    _aritmeticAverageStatsStudent = aritmeticAverageStatsStudent;
+    _weightedAverageStatsStudent = weightedAverageStatsStudent;
     notifyListeners();
   }
 
@@ -32,9 +44,9 @@ class ExamDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Metodo per impostare i lo stato dei corsi dell'utente
-  void setAllStatusCourses(StatusCourse allCourseStatusStudent) {
-    _courseStatus = allCourseStatusStudent;
+  // Metodo per impostare lo stato dei corsi dell'utente
+  void setAllStatusCourses(List<StatusCourse> allStatusCourses) {
+    _allStatusCourses = allStatusCourses;
     notifyListeners();
   }
 }

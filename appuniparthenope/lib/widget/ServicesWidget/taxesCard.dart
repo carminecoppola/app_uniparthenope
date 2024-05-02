@@ -20,11 +20,11 @@ class TaxStudentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 330, // Imposta la larghezza fissa della card
-      height: 150, // Imposta l'altezza fissa della card
+      width: 320, // Imposta la larghezza fissa della card
+      height: 170, // Imposta l'altezza fissa della card
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(17.0),
+          borderRadius: BorderRadius.circular(14.0),
         ),
         margin: const EdgeInsets.all(10.0),
         elevation: 6,

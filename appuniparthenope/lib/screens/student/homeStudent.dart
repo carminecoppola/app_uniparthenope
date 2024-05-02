@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:appuniparthenope/controller/auth_controller.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
@@ -34,14 +36,17 @@ class _HomeStudentPageState extends State<HomeStudentPage> {
             ),
             //Widget dati personali utente
             PersonalCardUser(
-              onTap: () {
-                _anagrafeStudent(authenticatedUser!);
+              onTap: () async {
+                // final profileImage = await _anagrafeController
+                //     .getUserProfileImage(authenticatedUser!.user, context);
+                _anagrafeStudent(authenticatedUser!.user);
               },
               firstName: authenticatedUser?.user.firstName ?? '',
               lastName: authenticatedUser?.user.lastName ?? '',
               id: authenticatedUser?.user.trattiCarriera[0].matricola
                   .toString(),
             ),
+
             const SizedBox(height: 20),
             //Calendario
             const Padding(
@@ -87,14 +92,14 @@ class _HomeStudentPageState extends State<HomeStudentPage> {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNavBarComponent(),
+      bottomNavigationBar: BottomNavBarComponent(),
     );
   }
 
-  void _anagrafeStudent(UserInfo authenticatedUser) async {
+  void _anagrafeStudent(User authenticatedUser) async {
     try {
-      final anagrafeUser = await _anagrafeController.setAnagrafe(
-          context, authenticatedUser.user);
+      final anagrafeUser =
+          await _anagrafeController.setAnagrafe(context, authenticatedUser);
 
       // Utilizza il provider per impostare l'anagrafica dell'utente
       final authProvider = Provider.of<AuthProvider>(context, listen: false);

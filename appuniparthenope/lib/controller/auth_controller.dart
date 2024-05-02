@@ -1,7 +1,9 @@
+import 'dart:io';
+
 import 'package:appuniparthenope/model/taxes_data.dart';
 import 'package:appuniparthenope/model/user_data_anagrafic.dart';
 import 'package:flutter/material.dart';
-import 'package:appuniparthenope/service/api_service.dart';
+import 'package:appuniparthenope/service/api_login_service.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 
 class AuthController {
@@ -84,7 +86,19 @@ class AuthController {
     }
   }
 
-  getUserProfileImage(User user) {}
+  Future<File> getUserProfileImage(User student, BuildContext context) async {
+    try {
+      // Chiamata all'API per ottenere l'immagine di profilo dello studente
+      final File profileImage =
+          await apiService.userProfileImage(student, context);
+
+      // Ritorna l'immagine di profilo
+      return profileImage;
+    } catch (e) {
+      print('Error during getUserProfileImage: $e');
+      throw Exception('Errore durante il recupero dell\'immagine di profilo');
+    }
+  }
 
   Future<TaxesInfo> setTaxes(BuildContext context, User student) async {
     try {

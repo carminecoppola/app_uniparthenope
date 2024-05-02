@@ -52,7 +52,7 @@ class StudentProfilePage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const BottomNavBarComponent(),
+      bottomNavigationBar: BottomNavBarComponent(),
     );
   }
 }

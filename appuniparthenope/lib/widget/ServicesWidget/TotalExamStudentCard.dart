@@ -5,14 +5,19 @@ import 'package:flutter/material.dart';
 class TotalExamStudentCard extends StatelessWidget {
   final String cfuPar, cfuTot;
   final int examSuperati, examTotali;
-  final String mediaTrentesimi = "25", mediaCentesimi = "92";
+  final String mediaTrentesimi, mediaCentesimi;
+  final String totTrentesimi, totCentesimi;
 
   const TotalExamStudentCard({
     super.key,
+    required this.mediaTrentesimi,
+    required this.mediaCentesimi,
     required this.cfuPar,
     required this.cfuTot,
     required this.examSuperati,
     required this.examTotali,
+    required this.totTrentesimi,
+    required this.totCentesimi,
   });
 
   @override
@@ -39,12 +44,12 @@ class TotalExamStudentCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(7.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Media',
+                    'Media P.',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -55,15 +60,15 @@ class TotalExamStudentCard extends StatelessWidget {
                       Text(
                         mediaTrentesimi,
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           color: AppColors.detailsColor,
                           fontWeight: FontWeight.w800,
                         ),
                       ),
-                      const Text(
-                        '/30',
-                        style: TextStyle(
-                          fontSize: 16,
+                      Text(
+                        '/$totTrentesimi',
+                        style: const TextStyle(
+                          fontSize: 14,
                           color: Colors.black,
                           fontWeight: FontWeight.w800,
                         ),
@@ -75,15 +80,15 @@ class TotalExamStudentCard extends StatelessWidget {
                       Text(
                         mediaCentesimi,
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.w800,
                           color: AppColors.detailsColor,
                         ),
                       ),
-                      const Text(
-                        '/110',
-                        style: TextStyle(
-                          fontSize: 16,
+                      Text(
+                        '/$totCentesimi',
+                        style: const TextStyle(
+                          fontSize: 14,
                           fontWeight: FontWeight.w800,
                           color: Colors.black,
                         ),
@@ -93,7 +98,6 @@ class TotalExamStudentCard extends StatelessWidget {
                 ],
               ),
             ),
-
             const Spacer(),
             // Widget Spacer per spaziare il testo dal cerchio
             ProgressCircleCounter(

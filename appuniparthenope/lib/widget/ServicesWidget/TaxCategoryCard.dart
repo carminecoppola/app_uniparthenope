@@ -38,7 +38,7 @@ class TaxCategoryCard extends StatelessWidget {
         children: children.isEmpty // Verifica se non ci sono tasse da pagare
             ? [
                 const Padding(
-                  padding: EdgeInsets.all(16.0), // Aggiunta del margine
+                  padding: EdgeInsets.all(16.0),
                   child: Text(
                     'Non ci sono tasse da pagare',
                     style: TextStyle(

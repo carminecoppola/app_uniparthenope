@@ -27,6 +27,44 @@ class ExamController {
     }
   }
 
+  Future<AverageInfo> aritmeticAverageStudent(
+      User student, BuildContext context) async {
+    try {
+      final Map<String, dynamic> responseData =
+          await apiService.studentAritmeticAverage(student, context);
+
+      final AverageInfo averageStats = AverageInfo(
+          trenta: responseData['trenta'],
+          baseTrenta: responseData['base_trenta'],
+          baseCentodieci: responseData['base_centodieci'],
+          centodieci: responseData['centodieci']);
+
+      print('Sisi $averageStats');
+
+      return averageStats;
+    } catch (e) {
+      throw Exception('Errore Caricamento della media degli esami');
+    }
+  }
+
+  Future<AverageInfo> weightedAverageStudent(
+      User student, BuildContext context) async {
+    try {
+      final Map<String, dynamic> responseData =
+          await apiService.studentWeightedAverage(student, context);
+
+      final AverageInfo averageStats = AverageInfo(
+          trenta: responseData['trenta'],
+          baseTrenta: responseData['base_trenta'],
+          baseCentodieci: responseData['base_centodieci'],
+          centodieci: responseData['centodieci']);
+
+      return averageStats;
+    } catch (e) {
+      throw Exception('Errore Caricamento della media degli esami');
+    }
+  }
+
   Future<List<ExamData>> fetchAllExamStudent(
       User student, BuildContext context) async {
     try {
@@ -55,35 +93,27 @@ class ExamController {
         print('\nErrore la lista dei corsi è vuota.');
       }
 
-
       return responseData;
     } catch (e) {
       throw Exception('Errore Caricamento Corsi $e');
     }
   }
 
-  // List<int> getAllAdsceId(List<CourseInfo> courses) {
-  //   List<int> allExam = [];
-
-  //   for (var exam in courses) {
-  //     allExam.add(exam.adsceId);
-  //   }
-
-  //   print('Tutta la lista interi :$allExam');
-
-  //   return allExam;
-  // }
-
-  //Da rivedere completamente la logica
-  Future<StatusCourse> fetchAllCourseStatus(
-      User student, CourseInfo course, BuildContext context) async {
+  Future<List<StatusCourse>> fetchAllCourseStatus(
+      User student, List<CourseInfo> courses, BuildContext context) async {
     try {
-      final StatusCourse responseData =
-          await apiService.getStatusExam(student, course, context);
+      List<StatusCourse> allStatusCourses = [];
 
-      print('Prova stato${responseData.stato}');
+      // Itera su tutti i corsi e recupera lo stato di ciascun corso
+      for (CourseInfo course in courses) {
+        final StatusCourse statusCourse =
+            await apiService.getStatusExam(student, course, context);
+        allStatusCourses.add(statusCourse);
+      }
 
-      return responseData;
+      //print('\nfetchAllCourseStatus(), Stati: $allStatusCourses');
+
+      return allStatusCourses;
     } catch (e) {
       throw Exception('Errore Caricamento Status dei corsi $e');
     }

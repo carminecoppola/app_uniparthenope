@@ -12,9 +12,9 @@ class WatherUniPage extends StatefulWidget {
 class _WatherUniState extends State<WatherUniPage> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: NavbarComponent(),
-      body: Center(
+    return Scaffold(
+      appBar: const NavbarComponent(),
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

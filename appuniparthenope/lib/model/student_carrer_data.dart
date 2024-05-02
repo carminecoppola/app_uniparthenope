@@ -33,3 +33,37 @@ class TotalExamStudent {
         "cfuTot": cfuTot,
       };
 }
+
+//Average Model
+class AverageInfo {
+  final double trenta;
+  final int baseTrenta;
+  final int baseCentodieci;
+  final double centodieci;
+
+  AverageInfo({
+    required this.trenta,
+    required this.baseTrenta,
+    required this.baseCentodieci,
+    required this.centodieci,
+  });
+
+  factory AverageInfo.fromRawJson(String str) =>
+      AverageInfo.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory AverageInfo.fromJson(Map<String, dynamic> json) => AverageInfo(
+        trenta: json["trenta"]?.toDouble(),
+        baseTrenta: json["base_trenta"],
+        baseCentodieci: json["base_centodieci"],
+        centodieci: json["centodieci"]?.toDouble(),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "trenta": trenta,
+        "base_trenta": baseTrenta,
+        "base_centodieci": baseCentodieci,
+        "centodieci": centodieci,
+      };
+}

@@ -48,7 +48,7 @@ class StatusCourse {
   final String tipo;
   final String data;
   final int lode;
-  final int voto;
+  final double? voto;
   final int anno;
 
   StatusCourse({

@@ -5,6 +5,7 @@ import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'dart:io';
 
 class ApiService {
   final String baseUrl = "https://api.uniparthenope.it";
@@ -61,34 +62,58 @@ class ApiService {
     }
   }
 
-  Future<Uint8List> getUserProfileImage(
-      User student, BuildContext context) async {
-    final String persId = student.persId.toString();
+  //Da rivedere
+  Future<File> userProfileImage(User student, BuildContext context) async {
+    try {
+      final String persId = student.persId.toString();
+      final String password =
+          Provider.of<AuthProvider>(context, listen: false).password!;
+      final url =
+          Uri.parse('$baseUrl/UniparthenopeApp/v1/general/image/$persId');
 
-    final url = Uri.parse('$baseUrl/UniparthenopeApp/v1/general/image/$persId');
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization':
+              'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
+          'Accept': 'image/jpeg',
+        },
+      );
 
-    final response = await http.get(
-      url,
-      headers: {
-        'Authorization':
-            'Bearer ${Provider.of<AuthProvider>(context, listen: false).authToken}',
-      },
-    );
+      print('body: ${response.body}');
+      print('bodyBytes: ${response.bodyBytes}');
 
-    if (response.statusCode == 200) {
-      // Converti il corpo della risposta in Uint8List (formato immagine)
-      Uint8List bytes = response.bodyBytes;
-      return bytes;
-    } else {
-      throw Exception('Errore durante il recupero dell\'immagine');
+      print('Status: ${response.statusCode}');
+
+      if (response.statusCode == 200) {
+        Uint8List imageData = response.bodyBytes;
+        File imageFile = await saveProfileImageLocally(student, imageData);
+        print(imageFile);
+        return imageFile;
+      } else {
+        throw Exception('Errore durante il recupero dell\'immagine di profilo');
+      }
+    } catch (e) {
+      print('Error during getUserProfileImage: $e');
+      // Se c'è un errore, restituisci un'immagine di profilo di fallback
+      return File('assets/default_profile_img.jpg');
     }
+  }
+
+  //Da rivedere
+  Future<File> saveProfileImageLocally(
+      User student, Uint8List imageData) async {
+    String imagePath = 'assets/profile_img.jpg';
+    File imageFile = File(imagePath);
+    await imageFile.writeAsBytes(imageData);
+    return imageFile;
   }
 
   Future<Map<String, dynamic>> getTaxes(
       User student, BuildContext context) async {
     final String persId = student.persId.toString();
 
-     final String password =
+    final String password =
         Provider.of<AuthProvider>(context, listen: false).password!;
 
     final url =

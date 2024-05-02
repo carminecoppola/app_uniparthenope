@@ -7,13 +7,15 @@ class SingleExamCard extends StatelessWidget {
   final String cfuExam;
   final String titleExam;
   final String voteExam;
+  final String dateExam;
 
   const SingleExamCard(
       {super.key,
       required this.index,
       required this.cfuExam,
       required this.titleExam,
-      required this.voteExam});
+      required this.voteExam,
+      required this.dateExam});
 
   @override
   Widget build(BuildContext context) {
@@ -53,15 +55,31 @@ class SingleExamCard extends StatelessWidget {
             const SizedBox(width: 10), // Spazio tra i cerchi e il testo
             // Testo centrale
             Expanded(
-              child: Text(
-                titleExam, // Testo centrale
-                style: const TextStyle(
-                  color: AppColors.backgroundColor,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    titleExam,
+                    style: const TextStyle(
+                      color: AppColors.backgroundColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    dateExam,
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
               ),
             ),
+
+            //const SizedBox(height: 5),
+
             const SizedBox(
                 width: 10), // Spazio tra il testo e il cerchio destro
             // Cerchio destro

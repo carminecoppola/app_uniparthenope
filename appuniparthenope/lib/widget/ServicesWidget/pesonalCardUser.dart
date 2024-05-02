@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 
@@ -6,12 +7,14 @@ class PersonalCardUser extends StatelessWidget {
   final String firstName;
   final String lastName;
   final String? id;
+  final File? profileImage;
 
   const PersonalCardUser({
     required this.onTap,
     required this.firstName,
     required this.lastName,
     this.id,
+    this.profileImage,
     super.key,
   });
 
@@ -53,10 +56,13 @@ class PersonalCardUser extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            const CircleAvatar(
+            CircleAvatar(
               radius: 30,
-              backgroundImage: AssetImage(
-                  'assets/user_profile.jpg'), //Immagine presa dalla richiesta
+              backgroundImage: profileImage != null
+                  ? FileImage(profileImage!)
+                  : Image.asset(
+                      'assets/user_profile.jpg',
+                    ).image,
             ),
           ],
         ),

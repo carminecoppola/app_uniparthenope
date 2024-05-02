@@ -1,9 +1,12 @@
-import 'package:appuniparthenope/screens/student/homeStudent.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:appuniparthenope/main.dart';
 
+import '../screens/student/homeStudent.dart';
+
 class NavbarComponent extends StatelessWidget implements PreferredSizeWidget {
-  const NavbarComponent({super.key});
+  const NavbarComponent({Key? key}) : super(key: key);
 
   final String title = 'Università degli studi di Napoli Parthenope';
 
@@ -34,6 +37,9 @@ class NavbarComponent extends StatelessWidget implements PreferredSizeWidget {
         color: Colors.white,
         icon: const Icon(Icons.arrow_back),
         onPressed: () {
+          final bottomNavBarProvider =
+              Provider.of<BottomNavBarProvider>(context, listen: false);
+          bottomNavBarProvider.updateIndex(0);
           Navigator.pushReplacement(
             context,
             PageRouteBuilder(
@@ -51,7 +57,6 @@ class NavbarComponent extends StatelessWidget implements PreferredSizeWidget {
                   child: child,
                 );
               },
-              transitionDuration: const Duration(milliseconds: 500),
             ),
           );
         },

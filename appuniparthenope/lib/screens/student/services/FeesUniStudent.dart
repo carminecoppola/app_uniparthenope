@@ -115,7 +115,7 @@ class _FeesUniStudentState extends State<FeesUniStudentPage> {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNavBarComponent(),
+      bottomNavigationBar: BottomNavBarComponent(),
     );
   }
 

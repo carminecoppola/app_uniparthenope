@@ -46,6 +46,60 @@ class ApiStudentService {
     }
   }
 
+  Future<Map<String, dynamic>> studentAritmeticAverage(
+      User student, BuildContext context) async {
+    String matId = student.trattiCarriera[0].matId.toString();
+
+    final String password =
+        Provider.of<AuthProvider>(context, listen: false).password!;
+
+    final url =
+        Uri.parse('$baseUrl/UniparthenopeApp/v1/students/average/$matId/A');
+
+    final response = await http.get(url, headers: {
+      'Authorization':
+          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
+    });
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      print('\n\n-API-Data Average A: $data');
+      return data;
+    } else if (response.statusCode == 500) {
+      throw Exception(
+          'Errore del server durante il caricamento della media aritemetica dello studente');
+    } else {
+      throw Exception('\nErrore durante caricamento della media studente');
+    }
+  }
+
+  Future<Map<String, dynamic>> studentWeightedAverage(
+      User student, BuildContext context) async {
+    String matId = student.trattiCarriera[0].matId.toString();
+
+    final String password =
+        Provider.of<AuthProvider>(context, listen: false).password!;
+
+    final url =
+        Uri.parse('$baseUrl/UniparthenopeApp/v1/students/average/$matId/P');
+
+    final response = await http.get(url, headers: {
+      'Authorization':
+          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
+    });
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      print('\n\n-API-Data Average P: $data');
+      return data;
+    } else if (response.statusCode == 500) {
+      throw Exception(
+          'Errore del server durante il caricamento della media ponderata dello studente');
+    } else {
+      throw Exception('\nErrore durante caricamento della media studente');
+    }
+  }
+
   Future<List<ExamData>> getStudentExams(
       User student, BuildContext context) async {
     String matId = student.trattiCarriera[0].matId.toString();
@@ -60,8 +114,6 @@ class ApiStudentService {
       'Authorization':
           'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
     });
-
-    print(response.statusCode);
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body) as List<dynamic>;
@@ -91,11 +143,8 @@ class ApiStudentService {
           'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
     });
 
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       final pianoId = jsonDecode(response.body);
-      print('\n pianoId: $pianoId');
       return pianoId;
     } else if (response.statusCode == 500) {
       throw Exception('Errore del SERVER durante il caricamento di pianoId');
@@ -115,8 +164,6 @@ class ApiStudentService {
         student, context); // Attendi il completamento del Future
     final pianoId = pianoIdMap['pianoId']
         .toString(); // Ottieni il pianoId dalla mappa restituita
-
-    print('pianoId: $pianoId');
 
     final url = Uri.parse(
         '$baseUrl/UniparthenopeApp/v1/students/exams/$stuId/$pianoId');
@@ -157,12 +204,10 @@ class ApiStudentService {
           'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
     });
 
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       final statusExamData = jsonDecode(response.body);
       final statusCourse = StatusCourse.fromJson(statusExamData);
-      print('\n statusExam: $statusCourse');
+
       return statusCourse;
     } else if (response.statusCode == 500) {
       throw Exception(

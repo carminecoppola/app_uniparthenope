@@ -9,4 +9,5 @@ class BottomNavBarProvider with ChangeNotifier {
     _currentIndex = newIndex;
     notifyListeners();
   }
+
 }
