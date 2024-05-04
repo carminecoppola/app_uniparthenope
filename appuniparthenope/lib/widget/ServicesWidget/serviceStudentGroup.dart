@@ -1,6 +1,6 @@
 import 'package:appuniparthenope/controller/auth_controller.dart';
 import 'package:appuniparthenope/controller/exam_controller.dart';
-import 'package:appuniparthenope/model/course_data.dart';
+import 'package:appuniparthenope/model/studentService/course_data.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/provider/taxes_provider.dart';
@@ -138,7 +138,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
                     },
                     child: const ServiceCard(
                       imagePath: 'assets/icon/tax.png',
-                      title: 'Tasse Universitarie',
+                      title: 'Tasse',
                       description:
                           'Puoi tenere sotto controllo la situazione delle tasse universitarie.',
                       //root: '/feesStudent',
@@ -151,9 +151,9 @@ class ServiceGroupStudentCard extends StatelessWidget {
                     },
                     child: const ServiceCard(
                       imagePath: 'assets/icon/weather.png',
-                      title: 'Meteo Uniparthenope',
+                      title: 'Meteo',
                       description:
-                          'Puoi utilizzare il meteoro dell\'Università Parthenope.',
+                          'Puoi utilizzare il servizio meteo dell\'Università Parthenope.',
                       //root: '/watherStudent',
                     ),
                   ),
@@ -183,11 +183,11 @@ class ServiceGroupStudentCard extends StatelessWidget {
 
   void _averageStats(BuildContext context, User? authenticatedUser) async {
     try {
-      final aritmeticAverageStudent = await _totalExamController
-          .aritmeticAverageStudent(authenticatedUser!, context);
+      final aritmeticAverageStudent = await _totalExamController.averageStudent(
+          context, authenticatedUser!, "A");
 
-      final weightedAverageStudent = await _totalExamController
-          .weightedAverageStudent(authenticatedUser, context);
+      final weightedAverageStudent = await _totalExamController.averageStudent(
+          context, authenticatedUser, "P");
 
       // Utilizza il provider per impostare la media dello studente
       final examDataProvider =

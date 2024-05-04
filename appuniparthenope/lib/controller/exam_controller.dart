@@ -1,6 +1,7 @@
-import 'package:appuniparthenope/model/course_data.dart';
-import 'package:appuniparthenope/model/exam_data.dart';
-import 'package:appuniparthenope/model/student_carrer_data.dart';
+import 'package:appuniparthenope/model/studentService/calendar_data.dart';
+import 'package:appuniparthenope/model/studentService/course_data.dart';
+import 'package:appuniparthenope/model/studentService/exam_data.dart';
+import 'package:appuniparthenope/model/studentService/student_carrer_data.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:appuniparthenope/service/api_student_service.dart';
 import 'package:flutter/material.dart';
@@ -27,31 +28,11 @@ class ExamController {
     }
   }
 
-  Future<AverageInfo> aritmeticAverageStudent(
-      User student, BuildContext context) async {
+  Future<AverageInfo> averageStudent(
+      BuildContext context, User student, String averageType) async {
     try {
       final Map<String, dynamic> responseData =
-          await apiService.studentAritmeticAverage(student, context);
-
-      final AverageInfo averageStats = AverageInfo(
-          trenta: responseData['trenta'],
-          baseTrenta: responseData['base_trenta'],
-          baseCentodieci: responseData['base_centodieci'],
-          centodieci: responseData['centodieci']);
-
-      print('Sisi $averageStats');
-
-      return averageStats;
-    } catch (e) {
-      throw Exception('Errore Caricamento della media degli esami');
-    }
-  }
-
-  Future<AverageInfo> weightedAverageStudent(
-      User student, BuildContext context) async {
-    try {
-      final Map<String, dynamic> responseData =
-          await apiService.studentWeightedAverage(student, context);
+          await apiService.studentAverage(context, student, averageType);
 
       final AverageInfo averageStats = AverageInfo(
           trenta: responseData['trenta'],
@@ -116,6 +97,35 @@ class ExamController {
       return allStatusCourses;
     } catch (e) {
       throw Exception('Errore Caricamento Status dei corsi $e');
+    }
+  }
+
+  //Per trovare i corsi
+  Future<List<LecturesInfo>> fetchLectures(
+      BuildContext context, User student) async {
+    try {
+      final List<LecturesInfo> responseData =
+          await apiService.getLectures(student, context);
+
+      if (responseData.isEmpty) {
+        print('\nErrore la lista degli esami è vuota.');
+      }
+
+      return responseData;
+    } catch (e) {
+      throw Exception('Errore Caricamento delle lezioni dello studente');
+    }
+  }
+
+  //Per ottenere gli eventi
+  Future<List<EventsInfo>> getAllEvents(
+      List<EventsInfo> events, BuildContext context) async {
+    try {
+      List<EventsInfo> allEvents = await apiService.getEvents(context);
+      events.addAll(allEvents);
+      return events;
+    } catch (e) {
+      throw Exception('Errore Caricamento Eventi $e');
     }
   }
 }

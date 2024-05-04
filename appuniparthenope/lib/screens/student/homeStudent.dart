@@ -31,9 +31,7 @@ class _HomeStudentPageState extends State<HomeStudentPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(
-              height: 70,
-            ),
+            const SizedBox(height: 70),
             //Widget dati personali utente
             PersonalCardUser(
               onTap: () async {

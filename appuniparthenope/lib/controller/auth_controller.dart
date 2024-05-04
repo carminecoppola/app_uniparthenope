@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:appuniparthenope/model/taxes_data.dart';
+import 'package:appuniparthenope/model/studentService/taxes_data.dart';
 import 'package:appuniparthenope/model/user_data_anagrafic.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/service/api_login_service.dart';

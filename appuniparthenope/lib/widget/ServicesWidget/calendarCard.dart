@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/widget/ServicesWidget/calendarWidget.dart';
 import 'package:flutter/material.dart';
 
 class CalendarCard extends StatelessWidget {
@@ -8,13 +9,9 @@ class CalendarCard extends StatelessWidget {
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(30),
       ),
-      child: Container(
-        width: 380,
-        height: 180,
-        alignment: Alignment.center,
-      ),
+      child: const CalendarWidget(),
     );
   }
 }

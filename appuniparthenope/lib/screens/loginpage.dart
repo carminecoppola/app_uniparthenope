@@ -1,4 +1,7 @@
 // Aggiorna il LoginForm
+import 'package:appuniparthenope/controller/exam_controller.dart';
+import 'package:appuniparthenope/model/studentService/calendar_data.dart';
+import 'package:appuniparthenope/provider/events_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/controller/auth_controller.dart';
@@ -17,6 +20,8 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController _passwordController = TextEditingController();
 
   final AuthController _authController = AuthController();
+
+  List<EventsInfo>? events;
 
   @override
   Widget build(BuildContext context) {
@@ -137,6 +142,7 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _authUser(BuildContext context, String username, String password) async {
+    //Credenziali HardCore
     username = "carmine.coppola";
     password = "CppCmn01_";
 

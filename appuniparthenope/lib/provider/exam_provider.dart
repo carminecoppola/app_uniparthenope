@@ -1,6 +1,6 @@
-import 'package:appuniparthenope/model/course_data.dart';
-import 'package:appuniparthenope/model/exam_data.dart';
-import 'package:appuniparthenope/model/student_carrer_data.dart';
+import 'package:appuniparthenope/model/studentService/course_data.dart';
+import 'package:appuniparthenope/model/studentService/exam_data.dart';
+import 'package:appuniparthenope/model/studentService/student_carrer_data.dart';
 import 'package:flutter/material.dart';
 
 class ExamDataProvider extends ChangeNotifier {

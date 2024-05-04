@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'package:appuniparthenope/model/course_data.dart';
-import 'package:appuniparthenope/model/exam_data.dart';
+import 'package:appuniparthenope/model/studentService/calendar_data.dart';
+import 'package:appuniparthenope/model/studentService/course_data.dart';
+import 'package:appuniparthenope/model/studentService/exam_data.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -46,15 +47,15 @@ class ApiStudentService {
     }
   }
 
-  Future<Map<String, dynamic>> studentAritmeticAverage(
-      User student, BuildContext context) async {
+  Future<Map<String, dynamic>> studentAverage(
+      BuildContext context, User student, String averageType) async {
     String matId = student.trattiCarriera[0].matId.toString();
 
     final String password =
         Provider.of<AuthProvider>(context, listen: false).password!;
 
-    final url =
-        Uri.parse('$baseUrl/UniparthenopeApp/v1/students/average/$matId/A');
+    final url = Uri.parse(
+        '$baseUrl/UniparthenopeApp/v1/students/average/$matId/$averageType');
 
     final response = await http.get(url, headers: {
       'Authorization':
@@ -63,38 +64,11 @@ class ApiStudentService {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
-      print('\n\n-API-Data Average A: $data');
+      print('\n\n-API-Data Average $averageType: $data');
       return data;
     } else if (response.statusCode == 500) {
       throw Exception(
-          'Errore del server durante il caricamento della media aritemetica dello studente');
-    } else {
-      throw Exception('\nErrore durante caricamento della media studente');
-    }
-  }
-
-  Future<Map<String, dynamic>> studentWeightedAverage(
-      User student, BuildContext context) async {
-    String matId = student.trattiCarriera[0].matId.toString();
-
-    final String password =
-        Provider.of<AuthProvider>(context, listen: false).password!;
-
-    final url =
-        Uri.parse('$baseUrl/UniparthenopeApp/v1/students/average/$matId/P');
-
-    final response = await http.get(url, headers: {
-      'Authorization':
-          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
-    });
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = json.decode(response.body);
-      print('\n\n-API-Data Average P: $data');
-      return data;
-    } else if (response.statusCode == 500) {
-      throw Exception(
-          'Errore del server durante il caricamento della media ponderata dello studente');
+          'Errore del server durante il caricamento della media $averageType dello studente');
     } else {
       throw Exception('\nErrore durante caricamento della media studente');
     }
@@ -214,6 +188,51 @@ class ApiStudentService {
           'Errore del SERVER durante il caricamento dello status dell\'esame');
     } else {
       throw Exception('\nErrore durante caricamento del status esame');
+    }
+  }
+
+  //Per recuperare le lezioni
+  Future<List<LecturesInfo>> getLectures(
+      User student, BuildContext context) async {
+    String matId = student.trattiCarriera[0].matId.toString();
+
+    final String password =
+        Provider.of<AuthProvider>(context, listen: false).password!;
+
+    final url = Uri.parse('$baseUrl/GAUniparthenope/v1/getLectures/$matId');
+
+    final response = await http.get(url, headers: {
+      'Authorization':
+          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
+    });
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      //print('\n\n-API-Data: $data');
+      final lectures = LecturesInfo.fromJson(data);
+      return data;
+    } else if (response.statusCode == 500) {
+      throw Exception(
+          'Errore del SERVER durante il caricamento delle lezioni dello studente');
+    } else {
+      throw Exception('\nErrore durante caricamento delle lezioni');
+    }
+  }
+
+  Future<List<EventsInfo>> getEvents(BuildContext context) async {
+    final url = Uri.parse('$baseUrl/GAUniparthenope/v1/getEvents');
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonData = json.decode(response.body);
+      final List<EventsInfo> eventsList =
+          jsonData.map((data) => EventsInfo.fromJson(data)).toList();
+      return eventsList;
+    } else if (response.statusCode == 500) {
+      throw Exception('Errore del SERVER durante il caricamento degli eventi');
+    } else {
+      throw Exception('\nErrore durante caricamento degli eventi');
     }
   }
 }
