@@ -1,10 +1,5 @@
-import 'package:appuniparthenope/controller/auth_controller.dart';
-import 'package:appuniparthenope/controller/exam_controller.dart';
 import 'package:appuniparthenope/controller/utilsFunction.dart';
-import 'package:appuniparthenope/model/studentService/course_data.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
-import 'package:appuniparthenope/provider/exam_provider.dart';
-import 'package:appuniparthenope/provider/taxes_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

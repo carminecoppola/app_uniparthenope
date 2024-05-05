@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/TotalExamStudentCard.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/singleExamCard.dart';

@@ -1,4 +1,3 @@
-import 'package:appuniparthenope/controller/auth_controller.dart';
 import 'package:appuniparthenope/controller/utilsFunction.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
