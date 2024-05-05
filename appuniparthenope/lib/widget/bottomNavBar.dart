@@ -1,19 +1,12 @@
-import 'package:appuniparthenope/controller/auth_controller.dart';
+import 'package:appuniparthenope/controller/utilsFunction.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../controller/exam_controller.dart';
-import '../model/user_data_login.dart';
 import '../provider/auth_provider.dart';
-import '../provider/exam_provider.dart';
 
 class BottomNavBarComponent extends StatelessWidget {
-  BottomNavBarComponent({super.key});
-
-  final ExamController _totalExamController = ExamController();
-  final AuthController _anagrafeController = AuthController();
+  const BottomNavBarComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +23,9 @@ class BottomNavBarComponent extends StatelessWidget {
             Navigator.pushNamed(context, '/homeStudent');
             break;
           case 1:
-            _totalExamStats(context, authenticatedUser!.user);
-            _averageStats(context, authenticatedUser.user);
-            _allExamStudent(context, authenticatedUser.user);
+            ExamUtils.totalExamStats(context, authenticatedUser!.user);
+            ExamUtils.averageStats(context, authenticatedUser.user);
+            ExamUtils.allExamStudent(context, authenticatedUser.user);
             final bottomNavBarProvider =
                 Provider.of<BottomNavBarProvider>(context, listen: false);
             bottomNavBarProvider.updateIndex(1);
@@ -53,23 +46,58 @@ class BottomNavBarComponent extends StatelessWidget {
               Offset.zero & overlay.size,
             );
             showMenu(
+              elevation: 10,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0)),
+              shadowColor: AppColors.lightGray,
               context: context,
               position: position,
               items: [
-                PopupMenuItem(
-                  child: const Text('Student Card'),
+                PopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
-                    _anagrafeStudent(context, authenticatedUser!.user);
+                    ExamUtils.anagrafeStudent(context, authenticatedUser!.user);
                   },
+                  icon: Icons.person,
+                  text: 'Student Card',
                 ),
-                PopupMenuItem(
-                  child: const Text('Carriera'),
+                PopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
-                    _totalExamStats(context, authenticatedUser!.user);
-                    _averageStats(context, authenticatedUser.user);
-                    _allExamStudent(context, authenticatedUser.user);
+                    ExamUtils.fetchDataAndUpdateStats(
+                        context, authenticatedUser!.user);
                     Navigator.pushNamed(context, '/carrerStudent');
                   },
+                  icon: Icons.school,
+                  text: 'Carriera',
+                ),
+                PopupMenuItemBuilder.buildMenuItem(
+                  onTap: () {
+                    ExamUtils.allCourseStudent(
+                        context, authenticatedUser!.user);
+                    Navigator.pushNamed(context, '/courseStudent');
+                  },
+                  icon: Icons.book,
+                  text: 'Corsi',
+                ),
+                PopupMenuItemBuilder.buildMenuItem(
+                  onTap: () {
+                    ExamUtils.taxesStudent(context, authenticatedUser!.user);
+                    Navigator.pushNamed(context, '/feesStudent');
+                  },
+                  icon: Icons.attach_money_outlined,
+                  text: 'Tasse Universitarie',
+                ),
+                PopupMenuItemBuilder.buildMenuItem(
+                  onTap: () {
+                    //ExamUtils
+                    Navigator.pushNamed(context, '/watherStudent');
+                  },
+                  icon: Icons.wb_cloudy,
+                  text: 'Meteo UniParthenope',
+                ),
+                PopupMenuItemBuilder.buildMenuItem(
+                  onTap: () {},
+                  icon: Icons.logout,
+                  text: 'Logout',
                 ),
               ],
             );
@@ -96,65 +124,35 @@ class BottomNavBarComponent extends StatelessWidget {
       ],
     );
   }
+}
 
-  void _anagrafeStudent(BuildContext context, User authenticatedUser) async {
-    try {
-      final anagrafeUser =
-          await _anagrafeController.setAnagrafe(context, authenticatedUser);
-
-      // Utilizza il provider per impostare l'anagrafica dell'utente
-      final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      authProvider.setAnagrafeUser(anagrafeUser);
-
-      print(anagrafeUser);
-      // Penso di settare in un altro provider i dati dell'utente in maniera globale
-    } catch (e) {
-      print('Error during _setAnagrafe: $e');
-    }
-  }
-
-  void _totalExamStats(BuildContext context, User? authenticatedUser) async {
-    try {
-      final totalExamStudent = await _totalExamController.totalExamStatsStudent(
-          authenticatedUser!, context);
-
-      // Utilizza il provider per impostare l'anagrafica dell'utente
-      final examDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
-      examDataProvider.setTotalStatsExamStudent(totalExamStudent);
-    } catch (e) {
-      print('Errore during _totalExamStats() $e');
-    }
-  }
-
-  void _averageStats(BuildContext context, User? authenticatedUser) async {
-    try {
-      final aritmeticAverageStudent = await _totalExamController.averageStudent(
-          context, authenticatedUser!, "A");
-
-      final weightedAverageStudent = await _totalExamController.averageStudent(
-          context, authenticatedUser, "P");
-
-      // Utilizza il provider per impostare la media dello studente
-      final examDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
-      examDataProvider.setTotalAverageExamStudent(
-          aritmeticAverageStudent, weightedAverageStudent);
-    } catch (e) {
-      print('Errore during _averageStats() $e');
-    }
-  }
-
-  void _allExamStudent(BuildContext context, User? authenticatedUser) async {
-    try {
-      final allExamStudent = await _totalExamController.fetchAllExamStudent(
-          authenticatedUser!, context);
-
-      final examDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
-      examDataProvider.setAllExamStudent(allExamStudent);
-    } catch (e) {
-      print('Errore during _allExamStudent() $e');
-    }
+class PopupMenuItemBuilder {
+  static PopupMenuItem buildMenuItem({
+    required IconData icon,
+    required String text,
+    required VoidCallback onTap,
+    Color? textColor,
+    double? fontSize,
+    FontWeight? fontWeight,
+    String? fontFamily,
+  }) {
+    return PopupMenuItem(
+      onTap: onTap,
+      child: Row(
+        children: [
+          Icon(icon), // Icona
+          const SizedBox(width: 15), // Spazio tra l'icona e il testo
+          Text(
+            text,
+            style: TextStyle(
+              color: textColor ?? AppColors.primaryColor, // Colore del testo
+              fontSize: fontSize ?? 16, // Dimensione del testo
+              fontWeight: fontWeight ?? FontWeight.bold, // Grassetto del testo
+              fontFamily: fontFamily ?? 'Roboto', // Font del testo
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

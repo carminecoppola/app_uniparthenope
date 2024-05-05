@@ -5,6 +5,7 @@ import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
 class ApiService {
@@ -62,7 +63,7 @@ class ApiService {
     }
   }
 
-  //Da rivedere
+  // Ottieni l'immagine del profilo dell'utente dal server
   Future<File> userProfileImage(User student, BuildContext context) async {
     try {
       final String persId = student.persId.toString();
@@ -80,15 +81,19 @@ class ApiService {
         },
       );
 
-      print('body: ${response.body}');
-      print('bodyBytes: ${response.bodyBytes}');
-
       print('Status: ${response.statusCode}');
 
       if (response.statusCode == 200) {
         Uint8List imageData = response.bodyBytes;
-        File imageFile = await saveProfileImageLocally(student, imageData);
-        print(imageFile);
+        print('imageData: $imageData');
+
+        // Ottieni la directory di salvataggio dell'applicazione
+        Directory appDocDir = await getApplicationDocumentsDirectory();
+        // Crea un nuovo file nell'applicazione directory
+        File imageFile = File('${appDocDir.path}/profile_image.jpg');
+        // Scrivi i byte dell'immagine nel file
+        await imageFile.writeAsBytes(imageData);
+
         return imageFile;
       } else {
         throw Exception('Errore durante il recupero dell\'immagine di profilo');
@@ -96,17 +101,8 @@ class ApiService {
     } catch (e) {
       print('Error during getUserProfileImage: $e');
       // Se c'è un errore, restituisci un'immagine di profilo di fallback
-      return File('assets/default_profile_img.jpg');
+      return File('assets/logo.png');
     }
-  }
-
-  //Da rivedere
-  Future<File> saveProfileImageLocally(
-      User student, Uint8List imageData) async {
-    String imagePath = 'assets/profile_img.jpg';
-    File imageFile = File(imagePath);
-    await imageFile.writeAsBytes(imageData);
-    return imageFile;
   }
 
   Future<Map<String, dynamic>> getTaxes(

@@ -14,6 +14,36 @@ class CourseStudentPage extends StatefulWidget {
 }
 
 class _CourseStudentState extends State<CourseStudentPage> {
+  void _showLegendDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Legenda degli stati'),
+          content: const SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Inserisci qui la legenda degli stati
+                Text('Stato 1: Descrizione dello stato 1'),
+                Text('Stato 2: Descrizione dello stato 2'),
+                // Aggiungi altri stati se necessario
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Chiudi'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final allCourseInfo =
@@ -26,6 +56,23 @@ class _CourseStudentState extends State<CourseStudentPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          GestureDetector(
+            onTap: () {
+              _showLegendDialog(context);
+            },
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              child: const Text(
+                'Leggenda',
+                style: TextStyle(
+                  color: AppColors.detailsColor,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
+                  decorationColor: AppColors.detailsColor,
+                ),
+              ),
+            ),
+          ),
           const SizedBox(height: 20),
           if (allCourseInfo != null && allStatusCourses != null)
             Expanded(
@@ -61,7 +108,7 @@ class _CourseStudentState extends State<CourseStudentPage> {
             ),
         ],
       ),
-      bottomNavigationBar: BottomNavBarComponent(),
+      bottomNavigationBar: const BottomNavBarComponent(),
     );
   }
 }

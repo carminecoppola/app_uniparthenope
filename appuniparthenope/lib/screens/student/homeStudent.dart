@@ -1,8 +1,6 @@
-import 'dart:io';
-
 import 'package:appuniparthenope/controller/auth_controller.dart';
+import 'package:appuniparthenope/controller/utilsFunction.dart';
 import 'package:appuniparthenope/main.dart';
-import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/serviceStudentGroup.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
@@ -19,13 +17,12 @@ class HomeStudentPage extends StatefulWidget {
 }
 
 class _HomeStudentPageState extends State<HomeStudentPage> {
-  final AuthController _anagrafeController = AuthController();
-
   @override
   Widget build(BuildContext context) {
     // Ottieni l'utente autenticato dal provider AuthProvider
     final authenticatedUser =
         Provider.of<AuthProvider>(context).authenticatedUser;
+    final profileImage = Provider.of<AuthProvider>(context).profileImage;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -35,14 +32,15 @@ class _HomeStudentPageState extends State<HomeStudentPage> {
             //Widget dati personali utente
             PersonalCardUser(
               onTap: () async {
-                // final profileImage = await _anagrafeController
-                //     .getUserProfileImage(authenticatedUser!.user, context);
-                _anagrafeStudent(authenticatedUser!.user);
+                //_anagrafeStudent(authenticatedUser!.user);
+                ExamUtils.anagrafeStudent(context, authenticatedUser!.user);
+                //_userImg(context);
               },
               firstName: authenticatedUser?.user.firstName ?? '',
               lastName: authenticatedUser?.user.lastName ?? '',
               id: authenticatedUser?.user.trattiCarriera[0].matricola
                   .toString(),
+              profileImage: profileImage,
             ),
 
             const SizedBox(height: 20),
@@ -90,23 +88,7 @@ class _HomeStudentPageState extends State<HomeStudentPage> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavBarComponent(),
+      bottomNavigationBar: const BottomNavBarComponent(),
     );
-  }
-
-  void _anagrafeStudent(User authenticatedUser) async {
-    try {
-      final anagrafeUser =
-          await _anagrafeController.setAnagrafe(context, authenticatedUser);
-
-      // Utilizza il provider per impostare l'anagrafica dell'utente
-      final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      authProvider.setAnagrafeUser(anagrafeUser);
-
-      print(anagrafeUser);
-      // Penso di settare in un altro provider i dati dell'utente in maniera globale
-    } catch (e) {
-      print('Error during _setAnagrafe: $e');
-    }
   }
 }

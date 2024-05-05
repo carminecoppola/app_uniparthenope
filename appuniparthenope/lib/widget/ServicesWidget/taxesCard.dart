@@ -24,12 +24,12 @@ class TaxStudentCard extends StatelessWidget {
       height: 170, // Imposta l'altezza fissa della card
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14.0),
+          borderRadius: BorderRadius.circular(15.0),
         ),
         margin: const EdgeInsets.all(10.0),
         elevation: 6,
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(8.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -49,7 +49,7 @@ class TaxStudentCard extends StatelessWidget {
                     Text(
                       '\u2022 Cod. Invoice: $codInvoice',
                       style: const TextStyle(
-                        fontSize: 12,
+                        fontSize: 10,
                         color: AppColors.primaryColor,
                       ),
                     ),
@@ -57,7 +57,7 @@ class TaxStudentCard extends StatelessWidget {
                     Text(
                       '\u2022 IUR: $codIUR',
                       style: const TextStyle(
-                        fontSize: 12,
+                        fontSize: 10,
                         color: AppColors.primaryColor,
                       ),
                     ),
@@ -70,13 +70,13 @@ class TaxStudentCard extends StatelessWidget {
                   Text(
                     date,
                     style: const TextStyle(
-                      fontSize: 14,
+                      fontSize: 13,
                       color: AppColors.primaryColor,
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 55),
+                  const SizedBox(height: 70),
                   Text(
                     amount,
                     style: const TextStyle(

@@ -1,10 +1,10 @@
 import 'package:appuniparthenope/controller/auth_controller.dart';
 import 'package:appuniparthenope/controller/exam_controller.dart';
+import 'package:appuniparthenope/controller/utilsFunction.dart';
 import 'package:appuniparthenope/model/studentService/course_data.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/provider/taxes_provider.dart';
-import 'package:appuniparthenope/service/api_weather_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -77,13 +77,11 @@ class ServiceCard extends StatelessWidget {
 
 //Gruppo Card Studenti
 class ServiceGroupStudentCard extends StatelessWidget {
-  ServiceGroupStudentCard({
+  const ServiceGroupStudentCard({
     super.key,
     required this.authenticatedUser,
   });
 
-  final ExamController _totalExamController = ExamController();
-  final AuthController _authController = AuthController();
   final UserInfo authenticatedUser;
 
   @override
@@ -100,9 +98,9 @@ class ServiceGroupStudentCard extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      _totalExamStats(context, authenticatedUser.user);
-                      _averageStats(context, authenticatedUser.user);
-                      _allExamStudent(context, authenticatedUser.user);
+                      ExamUtils.fetchDataAndUpdateStats(
+                          context, authenticatedUser.user);
+
                       final bottomNavBarProvider =
                           Provider.of<BottomNavBarProvider>(context,
                               listen: false);
@@ -118,9 +116,10 @@ class ServiceGroupStudentCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 5),
                   GestureDetector(
-                    onTap: () {
-                      _allCourseStudent(context, authenticatedUser.user);
-                      //_allStatusCourse(context, authenticatedUser.user);
+                    onTap: () async {
+                      ExamUtils.allCourseStudent(
+                          context, authenticatedUser.user);
+
                       Navigator.pushNamed(context, '/courseStudent');
                     },
                     child: const ServiceCard(
@@ -133,7 +132,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
                   const SizedBox(width: 5), // Spazio tra le card
                   GestureDetector(
                     onTap: () {
-                      _taxesStudent(context, authenticatedUser.user);
+                      ExamUtils.taxesStudent(context, authenticatedUser.user);
                       Navigator.pushNamed(context, '/feesStudent');
                     },
                     child: const ServiceCard(
@@ -141,7 +140,6 @@ class ServiceGroupStudentCard extends StatelessWidget {
                       title: 'Tasse',
                       description:
                           'Puoi tenere sotto controllo la situazione delle tasse universitarie.',
-                      //root: '/feesStudent',
                     ),
                   ),
                   const SizedBox(width: 5), // Spazio tra le card
@@ -154,10 +152,9 @@ class ServiceGroupStudentCard extends StatelessWidget {
                       title: 'Meteo',
                       description:
                           'Puoi utilizzare il servizio meteo dell\'Università Parthenope.',
-                      //root: '/watherStudent',
                     ),
                   ),
-                  const SizedBox(width: 5), // Spazio finale per l'estetica
+                  const SizedBox(width: 5),
                 ],
               ),
             )
@@ -165,105 +162,5 @@ class ServiceGroupStudentCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _totalExamStats(BuildContext context, User? authenticatedUser) async {
-    try {
-      final totalExamStudent = await _totalExamController.totalExamStatsStudent(
-          authenticatedUser!, context);
-
-      // Utilizza il provider per impostare l'anagrafica dell'utente
-      final examDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
-      examDataProvider.setTotalStatsExamStudent(totalExamStudent);
-    } catch (e) {
-      print('Errore during _totalExamStats() $e');
-    }
-  }
-
-  void _averageStats(BuildContext context, User? authenticatedUser) async {
-    try {
-      final aritmeticAverageStudent = await _totalExamController.averageStudent(
-          context, authenticatedUser!, "A");
-
-      final weightedAverageStudent = await _totalExamController.averageStudent(
-          context, authenticatedUser, "P");
-
-      // Utilizza il provider per impostare la media dello studente
-      final examDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
-      examDataProvider.setTotalAverageExamStudent(
-          aritmeticAverageStudent, weightedAverageStudent);
-    } catch (e) {
-      print('Errore during _averageStats() $e');
-    }
-  }
-
-  void _allExamStudent(BuildContext context, User? authenticatedUser) async {
-    try {
-      final allExamStudent = await _totalExamController.fetchAllExamStudent(
-          authenticatedUser!, context);
-
-      final examDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
-      examDataProvider.setAllExamStudent(allExamStudent);
-    } catch (e) {
-      print('Errore during _allExamStudent() $e');
-    }
-  }
-
-  void _allCourseStudent(BuildContext context, User? authenticatedUser) async {
-    try {
-      final allCourseStudent = await _totalExamController.fetchAllCourseStudent(
-          authenticatedUser!, context);
-
-      final examDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
-      examDataProvider.setAllCoursesStudent(allCourseStudent);
-
-      // Per ogni corso ottenuto, ottenere lo stato del corso
-      // for (final course in allCourseStudent) {
-      //   _allStatusCourse(context, authenticatedUser, course);
-      // }
-      _allStatusCourse(context, authenticatedUser, allCourseStudent);
-    } catch (e) {
-      print('Errore during _allCourseStudent() $e');
-    }
-  }
-
-  void _allStatusCourse(BuildContext context, User authenticatedUser,
-      List<CourseInfo> allCourses) async {
-    try {
-      final examDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
-
-      for (CourseInfo course in allCourses) {
-        List<StatusCourse> statusCourses = await _totalExamController
-            .fetchAllCourseStatus(authenticatedUser, [course], context);
-
-        // Assicurati che lo stato del corso sia disponibile
-        if (statusCourses.isNotEmpty) {
-          // Aggiungi lo stato del corso all'elenco in ExamDataProvider
-          examDataProvider.setAllStatusCourses(
-              [...examDataProvider.allStatusCourses ?? [], ...statusCourses]);
-        }
-      }
-    } catch (e) {
-      print('Errore durante _allStatusCourse() $e');
-    }
-  }
-
-  void _taxesStudent(BuildContext context, User authenticatedUser) async {
-    try {
-      final allTaxesStudent =
-          await _authController.setTaxes(context, authenticatedUser);
-
-      final taxesDataProvider =
-          Provider.of<TaxesDataProvider>(context, listen: false);
-      taxesDataProvider.setTaxesInfo(
-          allTaxesStudent); // Imposta le informazioni sulle tasse nel provider
-    } catch (e) {
-      print('Error during _taxesStudent: $e');
-    }
   }
 }

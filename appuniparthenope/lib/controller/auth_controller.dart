@@ -92,6 +92,8 @@ class AuthController {
       final File profileImage =
           await apiService.userProfileImage(student, context);
 
+      print('Stampa: $profileImage');
+
       // Ritorna l'immagine di profilo
       return profileImage;
     } catch (e) {

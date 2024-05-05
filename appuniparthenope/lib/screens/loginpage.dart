@@ -1,4 +1,6 @@
 // Aggiorna il LoginForm
+import 'dart:io';
+
 import 'package:appuniparthenope/controller/exam_controller.dart';
 import 'package:appuniparthenope/model/studentService/calendar_data.dart';
 import 'package:appuniparthenope/provider/events_provider.dart';
@@ -93,6 +95,7 @@ class _LoginFormState extends State<LoginForm> {
             onPressed: () {
               _authUser(
                   context, _usernameController.text, _passwordController.text);
+              //_userImg(context);
             },
             style: ElevatedButton.styleFrom(
               padding:
@@ -153,6 +156,25 @@ class _LoginFormState extends State<LoginForm> {
       authProvider.setAuthenticatedUser(authenticatedUser, password);
     } catch (e) {
       print('Error during authentication: $e');
+    }
+  }
+
+  void _userImg(BuildContext context) async {
+    try {
+      final authenticatedUser =
+          Provider.of<AuthProvider>(context, listen: false).authenticatedUser;
+      if (authenticatedUser != null) {
+        final profileImage = await _authController.getUserProfileImage(
+            authenticatedUser.user, context);
+
+        // Utilizza il provider per impostare l'immagine di profilo
+        final authProvider = Provider.of<AuthProvider>(context, listen: false);
+        authProvider.setProfileImage(profileImage);
+      } else {
+        print('Authenticated user is null');
+      }
+    } catch (e) {
+      print('Error during _userImg(): $e');
     }
   }
 }

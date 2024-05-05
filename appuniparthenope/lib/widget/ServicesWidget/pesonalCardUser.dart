@@ -15,8 +15,8 @@ class PersonalCardUser extends StatelessWidget {
     required this.lastName,
     this.id,
     this.profileImage,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

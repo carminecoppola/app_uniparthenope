@@ -23,7 +23,7 @@ class TaxCategoryCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       color: AppColors.lightGray,
-      elevation: 4,
+      elevation: 8,
       child: ExpansionTile(
         title: Text(
           title,
@@ -43,7 +43,7 @@ class TaxCategoryCard extends StatelessWidget {
                     'Non ci sono tasse da pagare',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 15,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                       fontStyle: FontStyle.italic,
                     ),

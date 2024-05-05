@@ -1,7 +1,9 @@
 import 'package:appuniparthenope/main.dart';
+import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/model/user_data_anagrafic.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/infoStudentTemplate.dart';
+import 'package:provider/provider.dart';
 
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({super.key});
@@ -26,6 +28,8 @@ class AvatarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profileImage = Provider.of<AuthProvider>(context).profileImage;
+
     return Center(
       child: Container(
         decoration: BoxDecoration(
@@ -38,15 +42,10 @@ class AvatarWidget extends StatelessWidget {
         child: CircleAvatar(
           radius: 50,
           backgroundColor: Colors.transparent,
-          backgroundImage: const AssetImage('assets/user_profile.jpg'),
-          child: ClipOval(
-            child: Image.asset(
-              'assets/user_profile.jpg',
-              width: 100,
-              height: 100,
-              fit: BoxFit.cover,
-            ),
-          ),
+          backgroundImage: profileImage != null
+              ? FileImage(profileImage)
+                  as ImageProvider<Object>? // Cast esplicito del tipo
+              : const AssetImage('assets/user_profile.jpg'),
         ),
       ),
     );

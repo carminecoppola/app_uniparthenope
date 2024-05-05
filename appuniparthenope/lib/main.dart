@@ -30,6 +30,8 @@ class MyApp extends StatelessWidget {
       home: const Scaffold(
         body: LoginForm(),
       ),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
       routes: AppRoutes.routes,
       initialRoute: '/',
     );

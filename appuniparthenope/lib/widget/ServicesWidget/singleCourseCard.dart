@@ -9,13 +9,13 @@ class SingleCourseCard extends StatelessWidget {
   final String codiceCorso;
 
   const SingleCourseCard({
-    Key? key,
+    super.key,
     required this.index,
     required this.cfuExam,
     required this.titleExam,
     required this.status,
     required this.codiceCorso,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
