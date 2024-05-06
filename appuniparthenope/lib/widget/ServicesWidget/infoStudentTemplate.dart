@@ -26,11 +26,16 @@ class InfoStudentTemplate extends StatelessWidget {
               fontSize: 16.0,
             ),
           ),
-          Text(
-            contentText,
-            style: const TextStyle(
-              color: AppColors.detailsColor,
-              fontSize: 16.0,
+
+          // Usa Flexible per consentire lo scrolling
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(
+              contentText,
+              style: const TextStyle(
+                color: AppColors.detailsColor,
+                fontSize: 16.0,
+              ),
             ),
           ),
         ],

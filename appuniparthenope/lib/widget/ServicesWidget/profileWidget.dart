@@ -12,7 +12,7 @@ class HeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Center(
       child: Text(
-        'Student Card',
+        'Personal Card',
         style: TextStyle(
           fontSize: 20.0,
           fontWeight: FontWeight.bold,
@@ -91,9 +91,12 @@ class UserInfoWidget extends StatelessWidget {
 
 class InfoGridView extends StatelessWidget {
   final String? matricola;
+  final String? username;
+  final String? role;
   final UserAnagrafe userAnagrafe;
 
-  const InfoGridView(this.userAnagrafe, {super.key, this.matricola});
+  const InfoGridView(this.userAnagrafe,
+      {super.key, this.matricola, this.role, this.username});
 
   @override
   Widget build(BuildContext context) {
@@ -112,10 +115,10 @@ class InfoGridView extends StatelessWidget {
               contentText: '\t\t\t $matricola',
             ),
           ),
-          const GridTile(
+          GridTile(
             child: InfoStudentTemplate(
               idText: '\u2022 Ruolo',
-              contentText: '\t\t\t\tSTUDENT',
+              contentText: '\t\t\t\t $role',
             ),
           ),
           GridTile(
@@ -133,7 +136,7 @@ class InfoGridView extends StatelessWidget {
           GridTile(
             child: InfoStudentTemplate(
               idText: '\u2022 Username',
-              contentText: '\t\t\t\t${userAnagrafe.nome}',
+              contentText: '\t\t\t\t$username',
             ),
           ),
           GridTile(

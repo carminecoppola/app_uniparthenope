@@ -7,12 +7,18 @@ import 'package:appuniparthenope/screens/student/services/FeesUniStudent.dart';
 import 'package:appuniparthenope/screens/student/services/WatherStudent.dart';
 import 'package:appuniparthenope/screens/student/homeStudent.dart';
 import 'package:appuniparthenope/screens/student/services/myCarrer.dart';
-import 'package:appuniparthenope/screens/student/services/profileStudent.dart';
+import 'package:appuniparthenope/screens/personalProfile.dart';
 import 'package:appuniparthenope/screens/teacher/homeTeacher.dart';
 import 'package:flutter/material.dart';
 
+import 'screens/loginpage.dart';
+import 'screens/teacher/services/ClassroomTeachers.dart';
+import 'screens/teacher/services/CourseTeachers.dart';
+import 'screens/teacher/services/EventsTeachers.dart';
+
 class AppRoutes {
   static const String loadingPage = '/loadingFirstPage';
+  static const String loginPage = '/loginPage';
   //Role
   static const String homeStudent = '/homeStudent';
   static const String homeTeacher = '/homeTeacher';
@@ -25,10 +31,16 @@ class AppRoutes {
   static const String carrerStudent = '/carrerStudent';
   static const String courseStudent = '/courseStudent';
   static const String feesStudent = '/feesStudent';
-  static const String watherStudent = '/watherStudent';
+  static const String watherStudent = '/watherPage';
+
+  //Teachers roots
+  static const String classroomTeachers = '/classroomTeachers';
+  static const String eventsTeachers = '/eventsTeachers';
+  static const String courseTeachers = '/courseTeachers';
 
   static final Map<String, WidgetBuilder> routes = {
     loadingPage: (context) => const LoadingFristPage(),
+    loginPage: (context) => const LoginForm(),
 
     //Role
     homeStudent: (context) => const HomeStudentPage(),
@@ -43,5 +55,10 @@ class AppRoutes {
     courseStudent: (context) => const CourseStudentPage(),
     feesStudent: (context) => const FeesUniStudentPage(),
     watherStudent: (context) => const WatherUniPage(),
+
+    //Teachers roots
+    classroomTeachers: (context) => const ClassroomTeacherPage(),
+    eventsTeachers: (context) => const EventsTeachersPage(),
+    courseTeachers: (context) => const CoursesTeachersPage(),
   };
 }

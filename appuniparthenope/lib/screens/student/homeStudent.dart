@@ -1,4 +1,4 @@
-import 'package:appuniparthenope/controller/utilsFunction.dart';
+import 'package:appuniparthenope/controller/studentUtilsFunction.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/serviceStudentGroup.dart';
@@ -32,7 +32,7 @@ class _HomeStudentPageState extends State<HomeStudentPage> {
             PersonalCardUser(
               onTap: () async {
                 //_anagrafeStudent(authenticatedUser!.user);
-                ExamUtils.anagrafeStudent(context, authenticatedUser!.user);
+                StudentUtils.anagrafeStudent(context, authenticatedUser!.user);
                 //_userImg(context);
               },
               firstName: authenticatedUser?.user.firstName ?? '',
@@ -70,7 +70,7 @@ class _HomeStudentPageState extends State<HomeStudentPage> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Service',
+                  'Servizi',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25,

@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/TotalExamStudentCard.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/singleExamCard.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class StudentCarrerPage extends StatefulWidget {
-  const StudentCarrerPage({super.key});
+  const StudentCarrerPage({Key? key});
 
   @override
   State<StudentCarrerPage> createState() => _StudentCarrerPageState();
@@ -58,16 +59,28 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
                 itemCount: allExamInfo.length,
                 itemBuilder: (context, index) {
                   final singleExam = allExamInfo[index];
+                  Color colorCard = singleExam.status.esito != "S"
+                      ? const Color.fromARGB(255, 159, 158, 158)
+                      : AppColors.primaryColor;
+                  String voteExam = singleExam.status.esito != "S"
+                      ? "??"
+                      : singleExam.status.voto != null
+                          ? singleExam.status.voto!.toInt().toString()
+                          : "OK";
+                  // Determina se mostrare l'icona della coccarda
+                  bool withHonors = singleExam.status.lode == 1;
                   return SingleExamCard(
+                    key:
+                        UniqueKey(), // Aggiungiamo una chiave univoca per garantire il rebuild corretto
                     index: index + 1,
                     cfuExam: singleExam.cfu!.toInt().toString(),
                     titleExam: singleExam.nome.toString(),
                     dateExam: singleExam.status.data != ""
                         ? '- Superato: ${singleExam.status.data!.toString().split(" ")[0]}'
                         : "",
-                    voteExam: singleExam.status.voto != null
-                        ? singleExam.status.voto!.toInt().toString()
-                        : "OK",
+                    voteExam: voteExam,
+                    colorCard: colorCard,
+                    withHonors: withHonors,
                   );
                 },
               ),
@@ -80,7 +93,7 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
             ),
         ],
       ),
-      bottomNavigationBar: BottomNavBarComponent(),
+      bottomNavigationBar: const BottomNavBarComponent(),
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:appuniparthenope/controller/utilsFunction.dart';
+import 'package:appuniparthenope/controller/studentUtilsFunction.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -93,7 +93,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      ExamUtils.fetchDataAndUpdateStats(
+                      StudentUtils.fetchDataAndUpdateStats(
                           context, authenticatedUser.user);
 
                       final bottomNavBarProvider =
@@ -112,7 +112,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
                   const SizedBox(width: 5),
                   GestureDetector(
                     onTap: () async {
-                      ExamUtils.allCourseStudent(
+                      StudentUtils.allCourseStudent(
                           context, authenticatedUser.user);
 
                       Navigator.pushNamed(context, '/courseStudent');
@@ -127,7 +127,8 @@ class ServiceGroupStudentCard extends StatelessWidget {
                   const SizedBox(width: 5), // Spazio tra le card
                   GestureDetector(
                     onTap: () {
-                      ExamUtils.taxesStudent(context, authenticatedUser.user);
+                      StudentUtils.taxesStudent(
+                          context, authenticatedUser.user);
                       Navigator.pushNamed(context, '/feesStudent');
                     },
                     child: const ServiceCard(
@@ -140,7 +141,90 @@ class ServiceGroupStudentCard extends StatelessWidget {
                   const SizedBox(width: 5), // Spazio tra le card
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, '/watherStudent');
+                      Navigator.pushNamed(context, '/watherPage');
+                    },
+                    child: const ServiceCard(
+                      imagePath: 'assets/icon/weather.png',
+                      title: 'Meteo',
+                      description:
+                          'Puoi utilizzare il servizio meteo dell\'Università Parthenope.',
+                    ),
+                  ),
+                  const SizedBox(width: 5),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//Gruppo Card Docenti
+class ServiceGroupProfCard extends StatelessWidget {
+  const ServiceGroupProfCard({
+    super.key,
+    required this.authenticatedUser,
+  });
+
+  final UserInfo authenticatedUser;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(15.0),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/classroomTeachers');
+                    },
+                    child: const ServiceCard(
+                      imagePath: 'assets/icon/classroom.png',
+                      title: 'Classi',
+                      description:
+                          'Qui è possibile visualizzare le proprie classi e gli eventuali prenotati.',
+                    ),
+                  ),
+                  const SizedBox(width: 5),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/courseTeachers');
+                    },
+                    child: const ServiceCard(
+                      imagePath: 'assets/icon/courses.png',
+                      title: 'Corsi',
+                      description:
+                          'Puoi visualizzare per ogni anno accademico i corsi da seguire.',
+                    ),
+                  ),
+                  const SizedBox(width: 5), // Spazio tra le card
+                  GestureDetector(
+                    onTap: () {
+                      final bottomNavBarProvider =
+                          Provider.of<BottomNavBarProvider>(context,
+                              listen: false);
+                      bottomNavBarProvider.updateIndex(1);
+                      Navigator.pushNamed(context, '/eventsTeachers');
+                    },
+                    child: const ServiceCard(
+                      imagePath: 'assets/icon/lecture.png',
+                      title: 'Eventi',
+                      description:
+                          'Qui puoi visualizzare gli eventi che sono stati organizzati.',
+                    ),
+                  ),
+                  const SizedBox(width: 5), // Spazio tra le card
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/watherPage');
                     },
                     child: const ServiceCard(
                       imagePath: 'assets/icon/weather.png',

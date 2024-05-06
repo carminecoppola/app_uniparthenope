@@ -40,6 +40,7 @@ dependencies:
   flutter_riverpod: ^2.5.1
   table_calendar: ^3.1.1
   path_provider: ^2.1.3
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
@@ -68,12 +69,18 @@ flutter:
     - assets/logo.png
     - assets/user_profile.jpg
     - assets/university/uni_monte.jpg
+    - assets/icon/coccarda.png
+    - assets/icon/coccarda.svg
 
     # Icon Service Image:
     - assets/icon/student.png
     - assets/icon/tax.png
     - assets/icon/courses.png
     - assets/icon/weather.png
+
+     # Icon Prof Service Image:
+    - assets/icon/lecture.png
+    - assets/icon/classroom.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

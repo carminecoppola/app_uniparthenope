@@ -1,143 +1,26 @@
-import 'package:appuniparthenope/provider/taxes_provider.dart';
+import 'package:appuniparthenope/controller/auth_controller.dart';
+import 'package:appuniparthenope/service/api_login_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../controller/auth_controller.dart';
-import '../controller/exam_controller.dart';
-import '../model/studentService/course_data.dart';
-import '../model/user_data_login.dart';
+
 import '../provider/auth_provider.dart';
-import '../provider/exam_provider.dart';
 
-class ExamUtils {
-  //Questa classe racchiude tutte le funzioni utili per i servizi studente
-  static Future<void> anagrafeStudent(
-      BuildContext context, User authenticatedUser) async {
+class UtilsFunction {
+  static Future<void> authUser(
+      BuildContext context, String username, String password) async {
     final AuthController authController = AuthController();
+    //Credenziali HardCore
+    username = "carmine.coppola";
+    password = "CppCmn01_";
 
     try {
-      final anagrafeUser =
-          await authController.setAnagrafe(context, authenticatedUser);
-
+      final authenticatedUser =
+          await authController.authUser(context, username, password);
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      authProvider.setAnagrafeUser(anagrafeUser);
-
-      print(anagrafeUser);
+      authProvider.setAuthenticatedUser(authenticatedUser, password);
+      authProvider.setAuthToken(authenticatedUser.authToken); //Setto il token
     } catch (e) {
-      print('Error during _setAnagrafe: $e');
-    }
-  }
-
-  static Future<void> fetchDataAndUpdateStats(
-      BuildContext context, User authenticatedUser) async {
-    try {
-      await totalExamStats(context, authenticatedUser);
-      await averageStats(context, authenticatedUser);
-      await allExamStudent(context, authenticatedUser);
-    } catch (e) {
-      print('Errore during fetchDataAndUpdateStats() $e');
-    }
-  }
-
-  static Future<void> totalExamStats(
-      BuildContext context, User authenticatedUser) async {
-    final ExamController totalExamController = ExamController();
-    try {
-      final totalExamStudent = await totalExamController.totalExamStatsStudent(
-          authenticatedUser, context);
-
-      final examDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
-      examDataProvider.setTotalStatsExamStudent(totalExamStudent);
-    } catch (e) {
-      print('Errore during _totalExamStats() $e');
-    }
-  }
-
-  static Future<void> averageStats(
-      BuildContext context, User authenticatedUser) async {
-    final ExamController totalExamController = ExamController();
-    try {
-      final aritmeticAverageStudent = await totalExamController.averageStudent(
-          context, authenticatedUser, "A");
-      final weightedAverageStudent = await totalExamController.averageStudent(
-          context, authenticatedUser, "P");
-
-      final examDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
-      examDataProvider.setTotalAverageExamStudent(
-          aritmeticAverageStudent, weightedAverageStudent);
-    } catch (e) {
-      print('Errore during _averageStats() $e');
-    }
-  }
-
-  static Future<void> allExamStudent(
-      BuildContext context, User authenticatedUser) async {
-    final ExamController totalExamController = ExamController();
-    try {
-      final allExamStudent = await totalExamController.fetchAllExamStudent(
-          authenticatedUser, context);
-
-      final examDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
-      examDataProvider.setAllExamStudent(allExamStudent);
-    } catch (e) {
-      print('Errore during _allExamStudent() $e');
-    }
-  }
-
-  static Future<void> allCourseStudent(
-      BuildContext context, User? authenticatedUser) async {
-    final ExamController totalExamController = ExamController();
-    try {
-      final allCourseStudent = await totalExamController.fetchAllCourseStudent(
-          authenticatedUser!, context);
-
-      final examDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
-      examDataProvider.setAllCoursesStudent(allCourseStudent);
-
-      allStatusCourse(context, authenticatedUser, allCourseStudent);
-    } catch (e) {
-      print('Errore during _allCourseStudent() $e');
-    }
-  }
-
-  static Future<void> allStatusCourse(BuildContext context,
-      User authenticatedUser, List<CourseInfo> allCourses) async {
-    final ExamController totalExamController = ExamController();
-    try {
-      final examDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
-
-      for (CourseInfo course in allCourses) {
-        List<StatusCourse> statusCourses = await totalExamController
-            .fetchAllCourseStatus(authenticatedUser, [course], context);
-
-        // Assicurati che lo stato del corso sia disponibile
-        if (statusCourses.isNotEmpty) {
-          // Aggiungi lo stato del corso all'elenco in ExamDataProvider
-          examDataProvider.setAllStatusCourses(
-              [...examDataProvider.allStatusCourses ?? [], ...statusCourses]);
-        }
-      }
-    } catch (e) {
-      print('Errore durante _allStatusCourse() $e');
-    }
-  }
-
-  static Future<void> taxesStudent(
-      BuildContext context, User authenticatedUser) async {
-    final AuthController authController = AuthController();
-    try {
-      final allTaxesStudent =
-          await authController.setTaxes(context, authenticatedUser);
-
-      final taxesDataProvider =
-          Provider.of<TaxesDataProvider>(context, listen: false);
-      taxesDataProvider.setTaxesInfo(allTaxesStudent);
-    } catch (e) {
-      print('Error during _taxesStudent: $e');
+      print('Error during authentication: $e');
     }
   }
 
@@ -158,6 +41,15 @@ class ExamUtils {
       }
     } catch (e) {
       print('Error during _userImg(): $e');
+    }
+  }
+
+  static Future<void> logout(BuildContext context) async {
+    final ApiService logoutController = ApiService();
+    try {
+      await logoutController.logout(context);
+    } catch (e) {
+      print('Error during logout: $e');
     }
   }
 }

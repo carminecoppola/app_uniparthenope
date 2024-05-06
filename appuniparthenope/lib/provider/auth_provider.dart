@@ -41,6 +41,11 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void setAuthToken(String token) {
+    _authToken = token;
+    notifyListeners();
+  }
+
   // Metodo per impostare l'anagrafica dell'utente
   void setAnagrafeUser(UserAnagrafe anagrafeUser) {
     _anagrafeUser = anagrafeUser;

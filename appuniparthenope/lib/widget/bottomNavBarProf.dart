@@ -1,13 +1,12 @@
 import 'package:appuniparthenope/controller/studentUtilsFunction.dart';
-import 'package:appuniparthenope/controller/utilsFunction.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/auth_provider.dart';
 
-class BottomNavBarComponent extends StatelessWidget {
-  const BottomNavBarComponent({super.key});
+class BottomNavBarProfComponent extends StatelessWidget {
+  const BottomNavBarProfComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +20,13 @@ class BottomNavBarComponent extends StatelessWidget {
         navigationProvider.updateIndex(index);
         switch (index) {
           case 0:
-            Navigator.pushNamed(context, '/homeStudent');
+            Navigator.pushNamed(context, '/homeTeacher');
             break;
           case 1:
-            StudentUtils.totalExamStats(context, authenticatedUser!.user);
-            StudentUtils.averageStats(context, authenticatedUser.user);
-            StudentUtils.allExamStudent(context, authenticatedUser.user);
             final bottomNavBarProvider =
                 Provider.of<BottomNavBarProvider>(context, listen: false);
             bottomNavBarProvider.updateIndex(1);
-            Navigator.pushNamed(context, '/carrerStudent');
+            Navigator.pushNamed(context, '/classroomTeachers');
             break;
           case 2:
             // Mostra il menu quando viene premuto l'elemento 2 del BottomNavigationBar
@@ -64,29 +60,26 @@ class BottomNavBarComponent extends StatelessWidget {
                 ),
                 PopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
-                    StudentUtils.fetchDataAndUpdateStats(
-                        context, authenticatedUser!.user);
-                    Navigator.pushNamed(context, '/carrerStudent');
+                    Navigator.pushNamed(context, '/classroomsTeachers');
                   },
-                  icon: Icons.school,
-                  text: 'Carriera',
+                  icon: Icons.school_sharp,
+                  text: 'Classi',
                 ),
                 PopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
                     StudentUtils.allCourseStudent(
                         context, authenticatedUser!.user);
-                    Navigator.pushNamed(context, '/courseStudent');
+                    Navigator.pushNamed(context, '/courseTeachers');
                   },
                   icon: Icons.book,
                   text: 'Corsi',
                 ),
                 PopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
-                    StudentUtils.taxesStudent(context, authenticatedUser!.user);
-                    Navigator.pushNamed(context, '/feesStudent');
+                    Navigator.pushNamed(context, '/eventsTeachers');
                   },
-                  icon: Icons.attach_money_outlined,
-                  text: 'Tasse Universitarie',
+                  icon: Icons.event,
+                  text: 'Eventi',
                 ),
                 PopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
@@ -97,9 +90,7 @@ class BottomNavBarComponent extends StatelessWidget {
                   text: 'Meteo UniParthenope',
                 ),
                 PopupMenuItemBuilder.buildMenuItem(
-                  onTap: () {
-                    UtilsFunction.logout(context);
-                  },
+                  onTap: () {},
                   icon: Icons.logout,
                   text: 'Logout',
                 ),
@@ -118,8 +109,8 @@ class BottomNavBarComponent extends StatelessWidget {
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.school),
-          label: 'Carriera',
+          icon: Icon(Icons.class_),
+          label: 'Classi',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.menu),

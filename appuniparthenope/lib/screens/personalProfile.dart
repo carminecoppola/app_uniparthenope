@@ -17,6 +17,9 @@ class StudentProfilePage extends StatelessWidget {
     final authenticatedUser =
         Provider.of<AuthProvider>(context).authenticatedUser;
     final matricola = authenticatedUser?.user.trattiCarriera[0].matricola;
+    final idDocente = authenticatedUser?.user.trattiCarriera[0].matricola;
+    final role = authenticatedUser?.user.grpDes;
+    final username = authenticatedUser?.user.userId;
 
     final userAnagrafe = Provider.of<AuthProvider>(context).anagrafeUser;
 
@@ -43,7 +46,11 @@ class StudentProfilePage extends StatelessWidget {
                   UserInfoWidget(userAnagrafe),
                   InfoGridView(
                     userAnagrafe,
-                    matricola: matricola,
+                    matricola: role == 'Studenti'
+                        ? matricola
+                        : idDocente, // Passa due id diversi forse xke i docenti non hanno matricola
+                    role: role,
+                    username: username,
                   ),
                   EmailWidget(userAnagrafe),
                 ],
@@ -52,7 +59,7 @@ class StudentProfilePage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavBarComponent(),
+      bottomNavigationBar: const BottomNavBarComponent(),
     );
   }
 }

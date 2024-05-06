@@ -1,9 +1,7 @@
+import 'package:appuniparthenope/controller/utilsFunction.dart';
 import 'package:appuniparthenope/model/studentService/calendar_data.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
-import 'package:appuniparthenope/controller/auth_controller.dart';
-import 'package:appuniparthenope/provider/auth_provider.dart';
-import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -15,8 +13,6 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  final AuthController _authController = AuthController();
 
   List<EventsInfo>? events;
 
@@ -88,7 +84,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           ElevatedButton(
             onPressed: () {
-              _authUser(
+              UtilsFunction.authUser(
                   context, _usernameController.text, _passwordController.text);
               //_userImg(context);
             },
@@ -112,7 +108,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           TextButton(
             onPressed: () {
-              // Azione per gestire il click su "PasswordDimenticata?"
+              // Azione per gestire il click su "Password Dimenticata?"
             },
             child: const Text(
               'Password Dimenticata?',
@@ -137,39 +133,5 @@ class _LoginFormState extends State<LoginForm> {
         ],
       ),
     );
-  }
-
-  void _authUser(BuildContext context, String username, String password) async {
-    //Credenziali HardCore
-    username = "carmine.coppola";
-    password = "CppCmn01_";
-
-    try {
-      final authenticatedUser =
-          await _authController.authUser(context, username, password);
-      final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      authProvider.setAuthenticatedUser(authenticatedUser, password);
-    } catch (e) {
-      print('Error during authentication: $e');
-    }
-  }
-
-  void _userImg(BuildContext context) async {
-    try {
-      final authenticatedUser =
-          Provider.of<AuthProvider>(context, listen: false).authenticatedUser;
-      if (authenticatedUser != null) {
-        final profileImage = await _authController.getUserProfileImage(
-            authenticatedUser.user, context);
-
-        // Utilizza il provider per impostare l'immagine di profilo
-        final authProvider = Provider.of<AuthProvider>(context, listen: false);
-        authProvider.setProfileImage(profileImage);
-      } else {
-        print('Authenticated user is null');
-      }
-    } catch (e) {
-      print('Error during _userImg(): $e');
-    }
   }
 }

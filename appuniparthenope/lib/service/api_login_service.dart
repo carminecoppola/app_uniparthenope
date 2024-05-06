@@ -133,4 +133,31 @@ class ApiService {
       throw Exception('\nErrore durante caricamento delle tasse studente');
     }
   }
+
+  Future<void> logout(BuildContext context) async {
+    try {
+      final String authToken =
+          Provider.of<AuthProvider>(context, listen: false).authToken!;
+      final url = Uri.parse('$baseUrl/UniparthenopeApp/v1/logout');
+
+      final response = await http.post(url, headers: {
+        'Authorization': 'Bearer $authToken',
+      });
+
+      print('Status: ${response.statusCode}');
+
+      if (response.statusCode == 200) {
+        Provider.of<AuthProvider>(context, listen: false).logout();
+        Navigator.pushReplacementNamed(context, '/loginPage');
+      } else if (response.statusCode == 500) {
+        throw Exception('Errore nel Server durante il logout');
+      } else if (response.statusCode == 401) {
+        throw Exception('Auth Token is missing');
+      } else {
+        throw Exception('Errore durante il logout');
+      }
+    } catch (e) {
+      throw Exception('Errore durante il logout: $e');
+    }
+  }
 }
