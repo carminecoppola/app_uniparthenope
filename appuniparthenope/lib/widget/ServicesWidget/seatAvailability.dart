@@ -22,8 +22,7 @@ class ProgressiveCircleSeat extends StatelessWidget {
       circleColor =
           AppColors.successColor; // Verde se più della metà disponibili
     } else {
-      circleColor =
-          AppColors.detailsColor; // Grigio se meno della metà disponibili
+      circleColor = AppColors.detailsColor;
     }
 
     return Stack(

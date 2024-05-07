@@ -2,7 +2,6 @@ import 'package:appuniparthenope/controller/studentUtilsFunction.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../provider/bottomNavBar_provider.dart';
 
 class ServiceCard extends StatelessWidget {
