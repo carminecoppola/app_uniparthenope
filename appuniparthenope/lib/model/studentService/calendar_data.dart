@@ -66,9 +66,9 @@ final descriptionValues = EnumValues(
 
 class Room {
   final String name;
-  final int capacity;
+  final double capacity;
   final String description;
-  final int availability;
+  final double availability;
 
   Room({
     required this.name,

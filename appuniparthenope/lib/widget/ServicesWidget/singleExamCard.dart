@@ -12,7 +12,7 @@ class SingleExamCard extends StatelessWidget {
   final bool withHonors; // Flag per indicare se è presente la lode
 
   const SingleExamCard({
-    Key? key,
+    super.key,
     required this.index,
     required this.cfuExam,
     required this.titleExam,
@@ -20,7 +20,7 @@ class SingleExamCard extends StatelessWidget {
     required this.dateExam,
     required this.colorCard,
     required this.withHonors,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +59,7 @@ class SingleExamCard extends StatelessWidget {
                           height: 42, // Altezza dell'icona
                           color: AppColors.detailsColor,
                         ),
-                      const SizedBox(width: 5),
+                      const SizedBox(width: 6),
                       // Visualizza il voto solo se withHonors è false
                       if (!withHonors)
                         Center(
@@ -69,7 +69,7 @@ class SingleExamCard extends StatelessWidget {
                               color: voteExam == "??"
                                   ? Colors.white
                                   : AppColors.detailsColor,
-                              fontSize: 25,
+                              fontSize: 22,
                               fontWeight: FontWeight.w700,
                             ),
                           ),

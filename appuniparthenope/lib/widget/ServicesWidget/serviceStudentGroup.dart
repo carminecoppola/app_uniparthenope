@@ -212,6 +212,7 @@ class ServiceGroupProfCard extends StatelessWidget {
                           Provider.of<BottomNavBarProvider>(context,
                               listen: false);
                       bottomNavBarProvider.updateIndex(1);
+                      StudentUtils.allEvents(context);
                       Navigator.pushNamed(context, '/eventsTeachers');
                     },
                     child: const ServiceCard(

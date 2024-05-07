@@ -11,15 +11,6 @@ import 'package:provider/provider.dart';
 class ApiStudentService {
   final String baseUrl = "https://api.uniparthenope.it";
 
-  /*Funzione che mi restituisce il totale degli esami:
-    - Url di collegamento : /UniparthenopeApp/v1/students/totalExams/{matId}
-    - Restituisce il TotExam, CFU ecc...
-    - Parametri da passare:
-        - {matId}
-        - utente loggato {username}{password} che si trovano nella 
-          classe User che posso recuperare dall'_authenticatedUser
-  */
-
   Future<Map<String, dynamic>> studentTotalExamsStats(
       User student, BuildContext context) async {
     String matId = student.trattiCarriera[0].matId.toString();
@@ -224,11 +215,12 @@ class ApiStudentService {
 
     final response = await http.get(url);
 
+    
+
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
-      final List<EventsInfo> eventsList =
-          jsonData.map((data) => EventsInfo.fromJson(data)).toList();
-      return eventsList;
+      print('jsonData: $jsonData');
+      return jsonData.map((data) => EventsInfo.fromJson(data)).toList();
     } else if (response.statusCode == 500) {
       throw Exception('Errore del SERVER durante il caricamento degli eventi');
     } else {

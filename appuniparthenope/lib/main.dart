@@ -31,7 +31,6 @@ class MyApp extends StatelessWidget {
         body: LoginForm(),
       ),
       theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
       routes: AppRoutes.routes,
       initialRoute: '/',
     );
@@ -39,9 +38,10 @@ class MyApp extends StatelessWidget {
 }
 
 class AppColors {
-  static const Color primaryColor = Color.fromRGBO(54, 126, 168, 1);
+  //static const Color primaryColor = Color.fromRGBO(54, 126, 168, 1);
+  static const Color primaryColor = Color.fromRGBO(69, 139, 177, 1);
   static const Color accentColor = Colors.orange;
-  static const Color detailsColor = Color.fromRGBO(237, 204, 27, 1);
+  static const Color detailsColor = Color.fromRGBO(231, 171, 27, 1);
   static const Color errorColor = Color.fromRGBO(178, 31, 31, 1);
   static const Color successColor = Color.fromRGBO(48, 186, 23, 1);
   static const Color textColor = Colors.black;

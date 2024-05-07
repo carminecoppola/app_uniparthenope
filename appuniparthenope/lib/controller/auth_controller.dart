@@ -44,12 +44,13 @@ class AuthController {
     switch (role) {
       //else if(_result.user.grpDes === "Registrati" || _result.user.grpDes === "Dottorandi" || _result.user.grpDes === "Ipot. Immatricolati" || _result.user.grpDes === "Preiscritti" || _result.user.grpDes=== "Iscritti"){
       case 'Docenti':
-        // Navigator.pushReplacementNamed(context, '/homeStudent');
-        Navigator.pushReplacementNamed(context, '/homeTeacher');
+        Navigator.pushReplacementNamed(context, '/homeStudent');
+        //Navigator.pushReplacementNamed(context, '/homeTeacher');
+
         break;
       case 'Studenti':
-        Navigator.pushReplacementNamed(context, '/homeStudent');
-        // Navigator.pushReplacementNamed(context, '/homeTeacher');
+        //Navigator.pushReplacementNamed(context, '/homeStudent');
+        Navigator.pushReplacementNamed(context, '/homeTeacher');
         break;
       case 'Ristoranti':
         Navigator.pushReplacementNamed(
@@ -134,7 +135,4 @@ class AuthController {
           'Errore durante il recupero delle informazioni sulle tasse');
     }
   }
-
-  
-
 }

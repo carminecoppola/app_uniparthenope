@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/model/studentService/calendar_data.dart';
 import 'package:appuniparthenope/model/studentService/course_data.dart';
 import 'package:appuniparthenope/model/studentService/exam_data.dart';
 import 'package:appuniparthenope/model/studentService/student_carrer_data.dart';
@@ -10,6 +11,7 @@ class ExamDataProvider extends ChangeNotifier {
   List<ExamData>? _allExamStudent;
   List<CourseInfo>? _allCourseStudent;
   List<StatusCourse>? _allStatusCourses;
+  List<EventsInfo>? _allEvents;
 
   TotalExamStudent? get totalExamStudent => _totalExamStatsStudent;
   AverageInfo? get aritmeticAverageStatsStudent =>
@@ -18,6 +20,7 @@ class ExamDataProvider extends ChangeNotifier {
   List<ExamData>? get allExamStudent => _allExamStudent;
   List<CourseInfo>? get allCourseStudent => _allCourseStudent;
   List<StatusCourse>? get allStatusCourses => _allStatusCourses;
+  List<EventsInfo>? get allEventsList => _allEvents;
 
   // Metodo per impostare l'anagrafica dell'utente
   void setTotalStatsExamStudent(TotalExamStudent totalExamStudent) {
@@ -47,6 +50,12 @@ class ExamDataProvider extends ChangeNotifier {
   // Metodo per impostare lo stato dei corsi dell'utente
   void setAllStatusCourses(List<StatusCourse> allStatusCourses) {
     _allStatusCourses = allStatusCourses;
+    notifyListeners();
+  }
+
+  // Metodo per impostare gli eventi
+  void setAllEvents(List<EventsInfo> allEventsList) {
+    _allEvents = allEventsList;
     notifyListeners();
   }
 }
