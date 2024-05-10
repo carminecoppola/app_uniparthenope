@@ -1,7 +1,9 @@
+import 'package:appuniparthenope/controller/studentUtilsFunction.dart';
 import 'package:appuniparthenope/controller/utilsFunction.dart';
 import 'package:appuniparthenope/model/studentService/calendar_data.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
+
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -79,14 +81,12 @@ class _LoginFormState extends State<LoginForm> {
               ),
             ),
           ),
-          const SizedBox(
-            height: 30.0,
-          ),
+          const SizedBox(height: 30.0),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               UtilsFunction.authUser(
                   context, _usernameController.text, _passwordController.text);
-              //_userImg(context);
+              await StudentUtils.userImg(context);
             },
             style: ElevatedButton.styleFrom(
               padding:

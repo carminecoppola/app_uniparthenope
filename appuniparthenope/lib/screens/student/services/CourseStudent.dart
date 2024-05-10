@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CourseStudentPage extends StatefulWidget {
-  const CourseStudentPage({Key? key});
+  const CourseStudentPage({super.key});
 
   @override
   State<CourseStudentPage> createState() => _CourseStudentState();

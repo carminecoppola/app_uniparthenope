@@ -1,4 +1,3 @@
-import 'package:appuniparthenope/main.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/eventsCard.dart';
@@ -8,7 +7,6 @@ import 'package:intl/intl.dart';
 
 import '../../../model/studentService/calendar_data.dart';
 import '../../../provider/exam_provider.dart';
-import '../../../widget/ServicesWidget/seatAvailability.dart';
 
 class EventsTeachersPage extends StatefulWidget {
   const EventsTeachersPage({super.key});

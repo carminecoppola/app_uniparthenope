@@ -27,6 +27,16 @@ class StudentUtils {
     }
   }
 
+  static Future<void> fetchAnagrafeDataAndProfileImage(
+      BuildContext context, User authenticatedUser) async {
+    try {
+      await anagrafeStudent(context, authenticatedUser);
+      await userImg(context);
+    } catch (e) {
+      print('\nErrore during fetchAnagrafeDataAndProfileImage() $e');
+    }
+  }
+
   static Future<void> fetchDataAndUpdateStats(
       BuildContext context, User authenticatedUser) async {
     try {
@@ -34,7 +44,7 @@ class StudentUtils {
       await averageStats(context, authenticatedUser);
       await allExamStudent(context, authenticatedUser);
     } catch (e) {
-      print('Errore during fetchDataAndUpdateStats() $e');
+      print('\nErrore during fetchDataAndUpdateStats() $e');
     }
   }
 
@@ -49,7 +59,7 @@ class StudentUtils {
           Provider.of<ExamDataProvider>(context, listen: false);
       examDataProvider.setTotalStatsExamStudent(totalExamStudent);
     } catch (e) {
-      print('Errore during _totalExamStats() $e');
+      print('\nErrore during _totalExamStats() $e');
     }
   }
 
@@ -67,7 +77,7 @@ class StudentUtils {
       examDataProvider.setTotalAverageExamStudent(
           aritmeticAverageStudent, weightedAverageStudent);
     } catch (e) {
-      print('Errore during _averageStats() $e');
+      print('\nErrore during _averageStats() $e');
     }
   }
 
@@ -82,7 +92,7 @@ class StudentUtils {
           Provider.of<ExamDataProvider>(context, listen: false);
       examDataProvider.setAllExamStudent(allExamStudent);
     } catch (e) {
-      print('Errore during _allExamStudent() $e');
+      print('\nErrore during _allExamStudent() $e');
     }
   }
 
@@ -99,7 +109,7 @@ class StudentUtils {
 
       allStatusCourse(context, authenticatedUser, allCourseStudent);
     } catch (e) {
-      print('Errore during _allCourseStudent() $e');
+      print('\nErrore during _allCourseStudent() $e');
     }
   }
 
@@ -122,7 +132,7 @@ class StudentUtils {
         }
       }
     } catch (e) {
-      print('Errore durante _allStatusCourse() $e');
+      print('\nErrore durante _allStatusCourse() $e');
     }
   }
 
@@ -137,7 +147,7 @@ class StudentUtils {
           Provider.of<TaxesDataProvider>(context, listen: false);
       taxesDataProvider.setTaxesInfo(allTaxesStudent);
     } catch (e) {
-      print('Error during _taxesStudent: $e');
+      print('\nError during _taxesStudent: $e');
     }
   }
 
@@ -157,7 +167,7 @@ class StudentUtils {
         print('Authenticated user is null');
       }
     } catch (e) {
-      print('Error during _userImg(): $e');
+      print('\nError during _userImg(): $e');
     }
   }
 
@@ -170,7 +180,7 @@ class StudentUtils {
           Provider.of<ExamDataProvider>(context, listen: false);
       eventsDataProvider.setAllEvents(allEvents);
     } catch (e) {
-      print('Errore during allEvents() $e');
+      print('\nErrore during allEvents() $e');
     }
   }
 }

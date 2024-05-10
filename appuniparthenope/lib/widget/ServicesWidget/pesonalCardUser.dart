@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 
@@ -7,7 +6,7 @@ class PersonalCardUser extends StatelessWidget {
   final String firstName;
   final String lastName;
   final String? id;
-  final File? profileImage;
+  final String? profileImage;
 
   const PersonalCardUser({
     required this.onTap,
@@ -51,24 +50,45 @@ class PersonalCardUser extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    // Mostra l'id dell'utente
-                    '\t- Matricola: ${id ?? ''}',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.white,
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        const TextSpan(
+                          text: '\t\t- Matricola: ',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                          ),
+                        ),
+                        TextSpan(
+                          text: id ?? '', // Mostra l'id dell'utente
+                          style: const TextStyle(
+                              fontSize: 14,
+                              color: AppColors.detailsColor,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ],
                     ),
-                  ),
+                  )
                 ],
               ),
               const Spacer(),
               CircleAvatar(
-                radius: 30,
+                radius: 35,
                 backgroundImage: profileImage != null
-                    ? FileImage(profileImage!)
+                    ? Image.asset(profileImage!).image
                     : Image.asset(
                         'assets/user_profile.jpg',
                       ).image,
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: AppColors.detailsColor,
+                      width: 3,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:appuniparthenope/model/studentService/taxes_data.dart';
 import 'package:appuniparthenope/model/user_data_anagrafic.dart';
 import 'package:flutter/material.dart';
@@ -43,13 +42,13 @@ class AuthController {
     switch (role) {
       //else if(_result.user.grpDes === "Registrati" || _result.user.grpDes === "Dottorandi" || _result.user.grpDes === "Ipot. Immatricolati" || _result.user.grpDes === "Preiscritti" || _result.user.grpDes=== "Iscritti"){
       case 'Docenti':
-        Navigator.pushReplacementNamed(context, '/homeStudent');
-        //Navigator.pushReplacementNamed(context, '/homeTeacher');
+        //Navigator.pushReplacementNamed(context, '/homeStudent');
+        Navigator.pushReplacementNamed(context, '/homeTeacher');
 
         break;
       case 'Studenti':
-        //Navigator.pushReplacementNamed(context, '/homeStudent');
-        Navigator.pushReplacementNamed(context, '/homeTeacher');
+        Navigator.pushReplacementNamed(context, '/homeStudent');
+        //Navigator.pushReplacementNamed(context, '/homeTeacher');
         break;
       case 'Ristoranti':
         Navigator.pushReplacementNamed(
@@ -88,18 +87,19 @@ class AuthController {
     }
   }
 
-  Future<File> getUserProfileImage(User student, BuildContext context) async {
+  Future<String> getUserProfileImage(User student, BuildContext context) async {
     try {
       // Chiamata all'API per ottenere l'immagine di profilo dello studente
-      final File profileImage =
+      final String profileImage =
           await apiService.userProfileImage(student, context);
 
-      print('Stampa: $profileImage');
+      //print('\n\n-Controller:$profileImage');
 
-      // Ritorna l'immagine di profilo
+      //Qui restituisce correttamente la posizione dell'immagine
+
       return profileImage;
     } catch (e) {
-      print('Error during getUserProfileImage: $e');
+      print('Error during getUserProfileImage$e');
       throw Exception('Errore durante il recupero dell\'immagine di profilo');
     }
   }

@@ -122,11 +122,9 @@ class ExamController {
     try {
       List<EventsInfo>? events = [];
       List<EventsInfo> allEvents = await apiService.getEvents(context);
-      print('\n\nBro vediamo: $allEvents');
-      if (events != null) {
-        events.addAll(allEvents);
-      }
-      return events ?? []; // Return empty list if events is null
+
+      events.addAll(allEvents);
+          return events ?? []; // Return empty list if events is null
     } catch (e) {
       throw Exception('Errore Caricamento Eventi $e');
     }

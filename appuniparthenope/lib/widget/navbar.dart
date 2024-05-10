@@ -6,7 +6,7 @@ import 'package:appuniparthenope/main.dart';
 import '../screens/student/homeStudent.dart';
 
 class NavbarComponent extends StatelessWidget implements PreferredSizeWidget {
-  const NavbarComponent({Key? key}) : super(key: key);
+  const NavbarComponent({super.key});
 
   final String title = 'Università degli studi di Napoli Parthenope';
 

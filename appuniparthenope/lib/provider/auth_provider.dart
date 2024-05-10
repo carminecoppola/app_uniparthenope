@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:appuniparthenope/model/user_data_anagrafic.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
@@ -17,7 +15,7 @@ class AuthProvider with ChangeNotifier {
   UserAnagrafe? _anagrafeUser; // Utente autenticato
   String? _password; //Password dell'utente
   String? _authToken; // Token di autenticazione
-  File? _profileImage; // Immagine di profilo dell'utente
+  String? _profileImage; // Immagine di profilo dell'utente
 
   // Metodo per ottenere l'utente autenticato
   UserInfo? get authenticatedUser => _authenticatedUser;
@@ -32,7 +30,7 @@ class AuthProvider with ChangeNotifier {
   String? get authToken => _authToken;
 
   // Metodo per ottenere l'immagine di profilo
-  File? get profileImage => _profileImage;
+  String? get profileImage => _profileImage;
 
   // Metodo per impostare l'utente autenticato e il token di autenticazione
   void setAuthenticatedUser(UserInfo user, String myPassword) {
@@ -52,7 +50,7 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setProfileImage(File? image) {
+  void setProfileImage(String image) {
     _profileImage = image;
     notifyListeners();
   }

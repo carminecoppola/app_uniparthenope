@@ -43,8 +43,7 @@ class AvatarWidget extends StatelessWidget {
           radius: 50,
           backgroundColor: Colors.transparent,
           backgroundImage: profileImage != null
-              ? FileImage(profileImage)
-                  as ImageProvider<Object>? // Cast esplicito del tipo
+              ? AssetImage(profileImage)
               : const AssetImage('assets/user_profile.jpg'),
         ),
       ),

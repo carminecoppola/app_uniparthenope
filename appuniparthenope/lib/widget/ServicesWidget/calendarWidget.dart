@@ -4,7 +4,7 @@ import 'package:intl/date_symbol_data_local.dart'; // Importa questa libreria
 import 'package:appuniparthenope/main.dart';
 
 class CalendarWidget extends StatefulWidget {
-  const CalendarWidget({Key? key}) : super(key: key);
+  const CalendarWidget({super.key});
 
   @override
   _CalendarWidgetState createState() => _CalendarWidgetState();

@@ -64,7 +64,7 @@ class ApiService {
   }
 
   // Ottieni l'immagine del profilo dell'utente dal server
-  Future<File> userProfileImage(User student, BuildContext context) async {
+  Future<String> userProfileImage(User student, BuildContext context) async {
     try {
       final String persId = student.persId.toString();
       final String password =
@@ -77,31 +77,30 @@ class ApiService {
         headers: {
           'Authorization':
               'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
-          'Accept': 'image/jpeg',
+          'Content-Type': 'image/jpg',
         },
       );
 
-      print('Status: ${response.statusCode}');
+      print('Status userProfileImage(): ${response.statusCode}');
 
       if (response.statusCode == 200) {
         Uint8List imageData = response.bodyBytes;
-        print('imageData: $imageData');
 
         // Ottieni la directory di salvataggio dell'applicazione
         Directory appDocDir = await getApplicationDocumentsDirectory();
         // Crea un nuovo file nell'applicazione directory
-        File imageFile = File('${appDocDir.path}/profile_image.jpg');
+        File imageFile = File('${appDocDir.path}/my_img.jpg');
         // Scrivi i byte dell'immagine nel file
         await imageFile.writeAsBytes(imageData);
 
-        return imageFile;
+        return imageFile.path;
       } else {
-        throw Exception('Errore durante il recupero dell\'immagine di profilo');
+        throw Exception(
+            'Errore durante il recupero dell\'immagine: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error during getUserProfileImage: $e');
-      // Se c'è un errore, restituisci un'immagine di profilo di fallback
-      return File('assets/logo.png');
+      print('Error during userProfileImage: $e');
+      throw Exception('Errore durante il recupero dell\'immagine di profilo');
     }
   }
 

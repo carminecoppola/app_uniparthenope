@@ -31,9 +31,12 @@ class _HomeStudentPageState extends State<HomeStudentPage> {
             //Widget dati personali utente
             PersonalCardUser(
               onTap: () async {
-                //_anagrafeStudent(authenticatedUser!.user);
                 StudentUtils.anagrafeStudent(context, authenticatedUser!.user);
-                //_userImg(context);
+                StudentUtils.userImg(context);
+                // if (authenticatedUser != null) {
+                //   StudentUtils.fetchAnagrafeDataAndProfileImage(
+                //       context, authenticatedUser.user);
+                // }
               },
               firstName: authenticatedUser?.user.firstName ?? '',
               lastName: authenticatedUser?.user.lastName ?? '',
