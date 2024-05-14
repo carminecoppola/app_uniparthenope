@@ -1,4 +1,5 @@
 import 'package:appuniparthenope/controller/studentUtilsFunction.dart';
+import 'package:appuniparthenope/controller/utilsFunction.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -140,6 +141,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
                   const SizedBox(width: 5), // Spazio tra le card
                   GestureDetector(
                     onTap: () {
+                      UtilsFunction.getWeather(context);
                       Navigator.pushNamed(context, '/watherPage');
                     },
                     child: const ServiceCard(
@@ -224,6 +226,7 @@ class ServiceGroupProfCard extends StatelessWidget {
                   const SizedBox(width: 5), // Spazio tra le card
                   GestureDetector(
                     onTap: () {
+                      UtilsFunction.getWeather(context);
                       Navigator.pushNamed(context, '/watherPage');
                     },
                     child: const ServiceCard(

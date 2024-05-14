@@ -200,7 +200,8 @@ class ApiStudentService {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       //print('\n\n-API-Data: $data');
-      final lectures = LecturesInfo.fromJson(data);
+      //final lectures = LecturesInfo.fromJson(data);
+      LecturesInfo.fromJson(data);
       return data;
     } else if (response.statusCode == 500) {
       throw Exception(
@@ -214,8 +215,6 @@ class ApiStudentService {
     final url = Uri.parse('$baseUrl/GAUniparthenope/v1/getEvents');
 
     final response = await http.get(url);
-
-    
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);

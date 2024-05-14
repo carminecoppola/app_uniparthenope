@@ -43,6 +43,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   easy_search_bar: ^2.5.0
   intl: ^0.19.0
+  url_launcher: ^6.2.6
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +70,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/logo.png
+    - assets/meteoUniLogo.png
     - assets/user_profile.jpg
     - assets/university/uni_monte.jpg
     - assets/icon/coccarda.png
@@ -80,9 +82,19 @@ flutter:
     - assets/icon/courses.png
     - assets/icon/weather.png
 
-     # Icon Prof Service Image:
+    # Icon Prof Service Image:
     - assets/icon/lecture.png
     - assets/icon/classroom.png
+
+    # Icon Weather:
+    - assets/icon/weather/Sole.png
+    - assets/icon/weather/Neve.png
+    - assets/icon/weather/Nuvoloso.png
+    - assets/icon/weather/Pioggia.png
+    - assets/icon/weather/Soleggiato.png
+    - assets/icon/weather/Temporale.png
+    - assets/icon/weather/default.png
+    
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

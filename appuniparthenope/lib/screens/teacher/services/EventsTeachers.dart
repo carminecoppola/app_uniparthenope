@@ -30,9 +30,6 @@ class _EventsTeachersPageState extends State<EventsTeachersPage> {
             height: 25,
             width: 30,
           ),
-          const Center(
-            child: SearchBar(),
-          ),
           const SizedBox(height: 10),
           Expanded(
             child: events != null

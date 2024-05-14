@@ -1,8 +1,9 @@
 import 'package:appuniparthenope/controller/auth_controller.dart';
+import 'package:appuniparthenope/controller/weather_controller.dart';
+import 'package:appuniparthenope/provider/weather_provider.dart';
 import 'package:appuniparthenope/service/api_login_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../provider/auth_provider.dart';
 
 class UtilsFunction {
@@ -24,33 +25,29 @@ class UtilsFunction {
     }
   }
 
-  //Occhio qui
-  static Future<void> userImg(BuildContext context) async {
-    final AuthController authController = AuthController();
-    try {
-      final authenticatedUser =
-          Provider.of<AuthProvider>(context, listen: false).authenticatedUser;
-      if (authenticatedUser != null) {
-        final profileImage = await authController.getUserProfileImage(
-            authenticatedUser.user, context);
-
-        // Utilizza il provider per impostare l'immagine di profilo
-        final authProvider = Provider.of<AuthProvider>(context, listen: false);
-        authProvider.setProfileImage(profileImage);
-      } else {
-        print('Authenticated user is null');
-      }
-    } catch (e) {
-      print('Error during _userImg(): $e');
-    }
-  }
-
   static Future<void> logout(BuildContext context) async {
     final ApiService logoutController = ApiService();
     try {
       await logoutController.logout(context);
     } catch (e) {
       print('Error during logout: $e');
+    }
+  }
+
+  static Future<void> getWeather(BuildContext context) async {
+    final WeatherController weatherController = WeatherController();
+
+    const latitude = 40.7;
+    const longitude = 14.17;
+
+    try {
+      final allTimeSeries = await weatherController.getAllWeatherTime(
+          context, latitude, longitude);
+      final weatherDataProvider =
+          Provider.of<WeatherDataProvider>(context, listen: false);
+      weatherDataProvider.setWeatherInfo(allTimeSeries);
+    } catch (e) {
+      print('Error during getWeather(): $e');
     }
   }
 }

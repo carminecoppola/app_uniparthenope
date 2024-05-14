@@ -100,7 +100,6 @@ class ExamController {
     }
   }
 
-  //Per trovare i corsi
   Future<List<LecturesInfo>> fetchLectures(
       BuildContext context, User student) async {
     try {
@@ -117,14 +116,13 @@ class ExamController {
     }
   }
 
-  //Per ottenere gli eventi
   Future<List<EventsInfo>> getAllEvents(BuildContext context) async {
     try {
       List<EventsInfo>? events = [];
       List<EventsInfo> allEvents = await apiService.getEvents(context);
 
       events.addAll(allEvents);
-          return events ?? []; // Return empty list if events is null
+      return events ?? []; // Return empty list if events is null
     } catch (e) {
       throw Exception('Errore Caricamento Eventi $e');
     }

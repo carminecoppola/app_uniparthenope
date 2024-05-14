@@ -1,4 +1,3 @@
-import 'package:appuniparthenope/controller/studentUtilsFunction.dart';
 import 'package:appuniparthenope/controller/utilsFunction.dart';
 import 'package:appuniparthenope/model/studentService/calendar_data.dart';
 import 'package:flutter/material.dart';
@@ -86,7 +85,7 @@ class _LoginFormState extends State<LoginForm> {
             onPressed: () async {
               UtilsFunction.authUser(
                   context, _usernameController.text, _passwordController.text);
-              await StudentUtils.userImg(context);
+              //await StudentUtils.userImg(context);
             },
             style: ElevatedButton.styleFrom(
               padding:

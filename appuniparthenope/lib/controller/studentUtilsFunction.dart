@@ -10,6 +10,7 @@ import '../provider/exam_provider.dart';
 
 class StudentUtils {
   //Questa classe racchiude tutte le funzioni utili per i servizi studente
+
   static Future<void> anagrafeStudent(
       BuildContext context, User authenticatedUser) async {
     final AuthController authController = AuthController();
@@ -26,7 +27,7 @@ class StudentUtils {
       print('Error during _setAnagrafe: $e');
     }
   }
-
+  //Da controllare poichè inutilizzata
   static Future<void> fetchAnagrafeDataAndProfileImage(
       BuildContext context, User authenticatedUser) async {
     try {

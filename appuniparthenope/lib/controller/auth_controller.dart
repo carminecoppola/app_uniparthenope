@@ -44,7 +44,6 @@ class AuthController {
       case 'Docenti':
         //Navigator.pushReplacementNamed(context, '/homeStudent');
         Navigator.pushReplacementNamed(context, '/homeTeacher');
-
         break;
       case 'Studenti':
         Navigator.pushReplacementNamed(context, '/homeStudent');

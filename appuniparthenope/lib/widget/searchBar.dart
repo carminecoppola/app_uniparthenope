@@ -1,36 +1,21 @@
-import 'package:appuniparthenope/main.dart';
 import 'package:flutter/material.dart';
 
 class SearchBar extends StatelessWidget {
-  const SearchBar({super.key});
+  final Function(String) onChanged;
+
+  const SearchBar({super.key, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 200,
-      height: 100,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: AppColors.successColor,
-      ),
-      child: const Row(
-        children: [
-          Icon(
-            Icons.search,
-            size: 20,
-            color: AppColors.textColor,
-          ),
-          SizedBox(width: 20),
-          Expanded(
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Cerca...',
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextField(
+        decoration: const InputDecoration(
+          hintText: 'Cerca per titolo...',
+          border: OutlineInputBorder(),
+          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        ),
+        onChanged: onChanged,
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../controller/utilsFunction.dart';
 import '../provider/auth_provider.dart';
 
 class BottomNavBarProfComponent extends StatelessWidget {
@@ -83,8 +84,8 @@ class BottomNavBarProfComponent extends StatelessWidget {
                 ),
                 PopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
-                    //ExamUtils
-                    Navigator.pushNamed(context, '/watherStudent');
+                    UtilsFunction.getWeather(context);
+                    Navigator.pushNamed(context, '/watherPage');
                   },
                   icon: Icons.wb_cloudy,
                   text: 'Meteo UniParthenope',

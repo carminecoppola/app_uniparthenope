@@ -19,28 +19,71 @@ class _CourseStudentState extends State<CourseStudentPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Legenda degli stati'),
-          content: const SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Inserisci qui la legenda degli stati
-                Text('Stato 1: Descrizione dello stato 1'),
-                Text('Stato 2: Descrizione dello stato 2'),
-                // Aggiungi altri stati se necessario
-              ],
+          title: const Center(
+            child: Text(
+              'Legenda Stato',
+              style: TextStyle(
+                color: AppColors.detailsColor,
+                fontWeight: FontWeight.bold,
+              ),
             ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Divider(color: AppColors.detailsColor, thickness: 2),
+              SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _legendItem('Attività Didattica Pianificata',
+                        AppColors.detailsColor),
+                    _legendItem('Attività Didattica Non frequentata',
+                        AppColors.lightGray),
+                    _legendItem('Attività Didattica Frequentata',
+                        AppColors.accentColor),
+                    _legendItem(
+                        'Riconosciuta intera Attività', AppColors.successColor),
+                  ],
+                ),
+              ),
+            ],
           ),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Chiudi'),
+              child: const Text(
+                'Chiudi',
+                style: TextStyle(
+                    color: AppColors.detailsColor, fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         );
       },
+    );
+  }
+
+  Widget _legendItem(String text, Color color) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        children: [
+          Container(
+            width: 17,
+            height: 17,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: AppColors.textColor, width: 1),
+              color: color,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(text),
+        ],
+      ),
     );
   }
 
@@ -61,19 +104,26 @@ class _CourseStudentState extends State<CourseStudentPage> {
               _showLegendDialog(context);
             },
             child: Container(
-              padding: const EdgeInsets.all(8),
-              child: const Text(
-                'Leggenda',
-                style: TextStyle(
-                  color: AppColors.detailsColor,
-                  fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline,
-                  decorationColor: AppColors.detailsColor,
-                ),
-              ),
-            ),
+                padding: const EdgeInsets.all(20),
+                child: const Row(
+                  children: [
+                    Icon(Icons.legend_toggle_sharp,
+                        color: AppColors.detailsColor), // Icona "info"
+                    SizedBox(width: 8), // Spazio tra l'icona e il testo
+                    Text(
+                      'Legenda Stato',
+                      style: TextStyle(
+                        color: AppColors.detailsColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17,
+                        decoration: TextDecoration.underline,
+                        decorationColor: AppColors.detailsColor,
+                      ),
+                    ),
+                  ],
+                )),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           if (allCourseInfo != null && allStatusCourses != null)
             Expanded(
               child: ListView.builder(
@@ -93,6 +143,7 @@ class _CourseStudentState extends State<CourseStudentPage> {
                       status: status,
                       codiceCorso:
                           '${course.codice.toString()} - ${course.adId.toString()}',
+                      annoAccademico: course.annoId.toString(),
                     );
                   } else {
                     // Se allStatusCourses non contiene abbastanza elementi,

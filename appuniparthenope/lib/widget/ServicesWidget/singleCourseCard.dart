@@ -7,6 +7,7 @@ class SingleCourseCard extends StatelessWidget {
   final String titleExam;
   final String status;
   final String codiceCorso;
+  final String annoAccademico;
 
   const SingleCourseCard({
     super.key,
@@ -15,6 +16,7 @@ class SingleCourseCard extends StatelessWidget {
     required this.titleExam,
     required this.status,
     required this.codiceCorso,
+    required this.annoAccademico,
   });
 
   @override
@@ -74,6 +76,13 @@ class SingleCourseCard extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                         '- Codice: $codiceCorso',
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 14,
+                        ),
+                      ),
+                      Text(
+                        '- Anno Accademico: $annoAccademico',
                         style: const TextStyle(
                           color: Colors.white70,
                           fontSize: 14,

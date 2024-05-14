@@ -4,7 +4,7 @@ import 'package:appuniparthenope/screens/loadingpage.dart';
 import 'package:appuniparthenope/screens/resturant/homeResturant.dart';
 import 'package:appuniparthenope/screens/student/services/CourseStudent.dart';
 import 'package:appuniparthenope/screens/student/services/FeesUniStudent.dart';
-import 'package:appuniparthenope/screens/student/services/WatherStudent.dart';
+import 'package:appuniparthenope/screens/WeatherPage.dart';
 import 'package:appuniparthenope/screens/student/homeStudent.dart';
 import 'package:appuniparthenope/screens/student/services/myCarrer.dart';
 import 'package:appuniparthenope/screens/personalProfile.dart';
@@ -31,7 +31,7 @@ class AppRoutes {
   static const String carrerStudent = '/carrerStudent';
   static const String courseStudent = '/courseStudent';
   static const String feesStudent = '/feesStudent';
-  static const String watherStudent = '/watherPage';
+  static const String watherPage = '/watherPage';
 
   //Teachers roots
   static const String classroomTeachers = '/classroomTeachers';
@@ -54,7 +54,7 @@ class AppRoutes {
     carrerStudent: (context) => const StudentCarrerPage(),
     courseStudent: (context) => const CourseStudentPage(),
     feesStudent: (context) => const FeesUniStudentPage(),
-    watherStudent: (context) => const WatherUniPage(),
+    watherPage: (context) => const WeatherUniPage(),
 
     //Teachers roots
     classroomTeachers: (context) => const ClassroomTeacherPage(),

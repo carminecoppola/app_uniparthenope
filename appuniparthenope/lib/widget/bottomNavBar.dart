@@ -90,8 +90,8 @@ class BottomNavBarComponent extends StatelessWidget {
                 ),
                 PopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
-                    //ExamUtils
-                    Navigator.pushNamed(context, '/watherStudent');
+                    UtilsFunction.getWeather(context);
+                    Navigator.pushNamed(context, '/watherPage');
                   },
                   icon: Icons.wb_cloudy,
                   text: 'Meteo UniParthenope',
