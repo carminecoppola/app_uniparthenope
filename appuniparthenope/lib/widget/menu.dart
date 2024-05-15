@@ -37,6 +37,7 @@ class MenuControl extends StatelessWidget {
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: AppColors.primaryColor,
+              
             ),
           ),
         ],

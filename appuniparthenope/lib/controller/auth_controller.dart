@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:appuniparthenope/service/api_login_service.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 
+import '../widget/alertDialog.dart';
+
 class AuthController {
   final ApiService apiService = ApiService(); //Richiamo il servizio
 
@@ -24,21 +26,28 @@ class AuthController {
         user: User.fromJson(userData),
       );
 
-      // Naviga alla schermata corretta in base al ruolo dell'utente
-      await navigateByRole(context, authenticatedUser.user.grpDes);
-
       return authenticatedUser;
     } catch (e) {
-      // Gestisce gli errori durante l'autenticazione
-      if (e is Exception && e.toString() == 'Errore durante il login $e') {
-        throw Exception('Credenziali non valide $e');
-      } else {
-        rethrow;
+      if (e.toString().contains('Errore Credenziali Invalide')) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const CustomAlertDialog(
+              title: 'Errore',
+              content:
+                  'Le credenziali fornite non sono valide. Per favore riprova.',
+              buttonText: 'OK',
+              color: Colors.red,
+            );
+          },
+        );
       }
+
+      rethrow;
     }
   }
 
-  Future<void> navigateByRole(BuildContext context, String role) async {
+  static Future<void> navigateByRole(BuildContext context, String role) async {
     switch (role) {
       //else if(_result.user.grpDes === "Registrati" || _result.user.grpDes === "Dottorandi" || _result.user.grpDes === "Ipot. Immatricolati" || _result.user.grpDes === "Preiscritti" || _result.user.grpDes=== "Iscritti"){
       case 'Docenti':

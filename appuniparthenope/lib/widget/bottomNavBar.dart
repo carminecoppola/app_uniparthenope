@@ -141,7 +141,7 @@ class PopupMenuItemBuilder {
     String? fontFamily,
   }) {
     return PopupMenuItem(
-      padding: const EdgeInsets.all(25.0),
+      padding: const EdgeInsets.all(20.0),
       onTap: onTap,
       child: Row(
         children: [
