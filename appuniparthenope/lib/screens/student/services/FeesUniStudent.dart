@@ -69,7 +69,7 @@ class _FeesUniStudentState extends State<FeesUniStudentPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 TaxCategoryCard(
-                                  title: '\u2022 Tasse da pagare',
+                                  title: 'Tasse da pagare',
                                   iconColor: Colors.white,
                                   backgroundColor: AppColors.accentColor,
                                   children: allTaxesInfo.toPay

@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/screens/InfoAppPage.dart';
 import 'package:appuniparthenope/screens/dottorandi/homePhD.dart';
 import 'package:appuniparthenope/screens/guest/homeGuest.dart';
 import 'package:appuniparthenope/screens/loadingpage.dart';
@@ -10,7 +11,6 @@ import 'package:appuniparthenope/screens/student/services/myCarrer.dart';
 import 'package:appuniparthenope/screens/personalProfile.dart';
 import 'package:appuniparthenope/screens/teacher/homeTeacher.dart';
 import 'package:flutter/material.dart';
-
 import 'screens/loginpage.dart';
 import 'screens/teacher/services/ClassroomTeachers.dart';
 import 'screens/teacher/services/CourseTeachers.dart';
@@ -19,6 +19,7 @@ import 'screens/teacher/services/EventsTeachers.dart';
 class AppRoutes {
   static const String loadingPage = '/loadingFirstPage';
   static const String loginPage = '/loginPage';
+  static const String infoAppPage = '/infoAppPage';
   //Role
   static const String homeStudent = '/homeStudent';
   static const String homeTeacher = '/homeTeacher';
@@ -41,6 +42,7 @@ class AppRoutes {
   static final Map<String, WidgetBuilder> routes = {
     loadingPage: (context) => const LoadingFristPage(),
     loginPage: (context) => const LoginForm(),
+    infoAppPage: (context) => const InfoAppPage(),
 
     //Role
     homeStudent: (context) => const HomeStudentPage(),

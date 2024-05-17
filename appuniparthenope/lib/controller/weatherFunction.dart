@@ -30,27 +30,27 @@ class WeatherFunctions {
 
   static String getIconAssetPath(String icon) {
     switch (icon) {
-      case 'Icon.CLOUDY1_NIGHT_PNG':
+      case 'cloudy1_night.png':
         return 'assets/icon/weather/Nuvoloso.png';
-      case 'Icon.CLOUDY1_PNG':
+      case 'cloudy1.png':
         return 'assets/icon/weather/Nuvoloso.png';
-      case 'Icon.CLOUDY2_NIGHT_PNG':
+      case 'cloudy2_night.png':
         return 'assets/icon/weather/Nuvoloso.png';
-      case 'Icon.CLOUDY2_PNG':
+      case 'cloudy2.png':
         return 'assets/icon/weather/Nuvoloso.png';
-      case 'Icon.CLOUDY4_NIGHT_PNG':
+      case 'cloudy4_night.png':
         return 'assets/icon/weather/Nuvoloso.png';
-      case 'Icon.CLOUDY4_PNG':
+      case 'cloudy4.png':
         return 'assets/icon/weather/Nuvoloso.png';
-      case 'Icon.CLOUDY5_NIGHT_PNG':
+      case 'cloudy5_night.png':
         return 'assets/icon/weather/Nuvoloso.png';
-      case 'Icon.CLOUDY5_PNG':
+      case 'cloudy5.png':
         return 'assets/icon/weather/Nuvoloso.png';
-      case 'Icon.SHOWER1_NIGHT_PNG':
+      case 'shower1.png':
         return 'assets/icon/weather/Pioggia.png';
-      case 'Icon.SUNNY_NIGHT_PNG':
+      case 'sunny_night.png':
         return 'assets/icon/weather/Soleggiato.png';
-      case 'Icon.SUNNY_PNG':
+      case 'sunny.png':
         return 'assets/icon/weather/Sole.png';
       default:
         return 'assets/icon/weather/default.png'; // valore di default

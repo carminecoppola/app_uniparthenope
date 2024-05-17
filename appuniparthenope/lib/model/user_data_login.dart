@@ -3,10 +3,12 @@ import 'dart:convert';
 class UserInfo {
   final String authToken;
   final User user;
+  final TrattiCarriera selectedCareer;
 
   UserInfo({
     required this.authToken,
     required this.user,
+    required this.selectedCareer,
   });
 
   factory UserInfo.fromRawJson(String str) =>
@@ -17,11 +19,13 @@ class UserInfo {
   factory UserInfo.fromJson(Map<String, dynamic> json) => UserInfo(
         authToken: json["authToken"],
         user: User.fromJson(json["user"]),
+        selectedCareer: TrattiCarriera.fromJson(json["selectedCareer"]),
       );
 
   Map<String, dynamic> toJson() => {
         "authToken": authToken,
         "user": user.toJson(),
+        "selectedCareer": selectedCareer.toJson(),
       };
 }
 

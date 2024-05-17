@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/main.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/eventsCard.dart';
@@ -7,6 +8,7 @@ import 'package:intl/intl.dart';
 
 import '../../../model/studentService/calendar_data.dart';
 import '../../../provider/exam_provider.dart';
+import '../../../widget/circularProgressIndicator.dart';
 
 class EventsTeachersPage extends StatefulWidget {
   const EventsTeachersPage({super.key});
@@ -56,9 +58,10 @@ class _EventsTeachersPageState extends State<EventsTeachersPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CircularProgressIndicator(),
-                        SizedBox(height: 20),
-                        Text("Caricamento eventi..."),
+                        CustomLoadingIndicator(
+                          text: 'Caricamento eventi...',
+                          myColor: AppColors.primaryColor,
+                        ),
                       ],
                     ),
                   ),

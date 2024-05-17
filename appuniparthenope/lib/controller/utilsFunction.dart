@@ -8,11 +8,14 @@ import '../provider/auth_provider.dart';
 import 'studentUtilsFunction.dart';
 
 class UtilsFunction {
-  static Future<void> authUser(
+  /*static Future<void> authUser(
       BuildContext context, String username, String password) async {
     final AuthController authController = AuthController();
     //Credenziali HardCore
-    
+    // username = "carmine.coppola";
+    // password = "CppCmn01_";
+    username = "VRSMRZ03H11F839Y";
+    password = "Happy2003!";
 
     try {
       final authenticatedUser =
@@ -30,6 +33,38 @@ class UtilsFunction {
           context, authenticatedUser.user.grpDes);
     } catch (e) {
       print('Error during authentication: $e');
+    }
+  }
+*/
+
+  static Future<void> authUser(
+      BuildContext context, String username, String password) async {
+    final AuthController authController = AuthController();
+
+    username = "carmine.coppola";
+    password = "CppCmn01_";
+    // username = "VRSMRZ03H11F839Y";
+    // password = "Happy2003!";
+
+    try {
+      final authenticatedUser =
+          await authController.authUser(context, username, password);
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      authProvider.setAuthenticatedUser(authenticatedUser, password);
+      authProvider
+          .setAuthToken(authenticatedUser.authToken); // Imposta il token
+
+      // Imposta la carriera selezionata
+      authProvider.setSelectedCareer(authenticatedUser.selectedCareer);
+
+      // Precarica i dati necessari per la homepage
+      await StudentUtils.userImg(context);
+
+      // Naviga alla schermata corretta in base al ruolo dell'utente
+      await AuthController.navigateByRole(
+          context, authenticatedUser.user.grpDes);
+    } catch (e) {
+      print('Errore durante l\'autenticazione: $e');
     }
   }
 

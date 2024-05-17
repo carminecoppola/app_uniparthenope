@@ -25,7 +25,7 @@ class ApiWeatherService {
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
 
-      print(jsonResponse);
+      print('\n$jsonResponse');
 
       if (jsonResponse is List) {
         // Se la risposta è una lista, converti ogni elemento in un oggetto PlacesInfo
@@ -47,29 +47,36 @@ class ApiWeatherService {
     }
   }
 
-  Future<List<Timesery>?> getWeatherTimeSeries(
+  Future<List<Timesery>> getWeatherTimeSeries(
       BuildContext context, PlacesInfo place) async {
     final url = Uri.parse('$baseUrl/products/wrf5/timeseries/${place.id}');
 
+    print(place.id);
+
     final response = await http.get(url);
 
-    print('getWeatherTimeSeries() Status: ${response.statusCode}');
+    print('\ngetWeatherTimeSeries() Status: ${response.statusCode}');
 
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
 
-      print(jsonResponse);
+      if (jsonResponse == null || !jsonResponse.containsKey('timeseries')) {
+        throw Exception('JSON response does not contain "timeseries" key');
+      }
 
-      TimeSerysInfo timeSerysInfo = TimeSerysInfo.fromJson(jsonResponse);
-      List<Timesery>? timeSeries = timeSerysInfo.timeseries;
+      // Converti il JSON nella tua classe TimeSeriesInfo
+      try {
+        TimeSerysInfo timeSeriesInfo = TimeSerysInfo.fromJson(jsonResponse);
 
-      if (timeSeries != null) {
-        return timeSeries;
-      } else {
-        throw Exception('La risposta del server è vuota');
+        // Ritorna la lista di timeseries
+        return timeSeriesInfo.timeseries ?? [];
+      } catch (e) {
+        print('Error parsing TimeSerysInfo: $e');
+        throw Exception('Failed to parse TimeSerysInfo from JSON');
       }
     } else {
-      throw Exception('Errore durante il recupero dei dati meteorologici');
+      throw Exception(
+          '- getWeatherTimeSeries() : Errore durante il recupero dei dati meteorologici');
     }
   }
 }

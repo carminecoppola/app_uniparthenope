@@ -6,6 +6,8 @@ import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../widget/circularProgressIndicator.dart';
+
 class CourseStudentPage extends StatefulWidget {
   const CourseStudentPage({super.key});
 
@@ -155,7 +157,10 @@ class _CourseStudentState extends State<CourseStudentPage> {
             )
           else
             const Center(
-              child: CircularProgressIndicator(),
+              child: CustomLoadingIndicator(
+                text: 'Caricamento dei tuoi corsi...',
+                myColor: AppColors.primaryColor,
+              ),
             ),
         ],
       ),

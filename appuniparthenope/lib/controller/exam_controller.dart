@@ -122,7 +122,7 @@ class ExamController {
       List<EventsInfo> allEvents = await apiService.getEvents(context);
 
       events.addAll(allEvents);
-      return events ?? []; // Return empty list if events is null
+      return events;    
     } catch (e) {
       throw Exception('Errore Caricamento Eventi $e');
     }

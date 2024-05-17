@@ -98,6 +98,13 @@ class BottomNavBarComponent extends StatelessWidget {
                 ),
                 PopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
+                    Navigator.pushNamed(context, '/infoAppPage');
+                  },
+                  icon: Icons.info,
+                  text: 'Info',
+                ),
+                PopupMenuItemBuilder.buildMenuItem(
+                  onTap: () {
                     UtilsFunction.logout(context);
                   },
                   icon: Icons.logout,

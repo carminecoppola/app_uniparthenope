@@ -91,6 +91,13 @@ class BottomNavBarProfComponent extends StatelessWidget {
                   text: 'Meteo UniParthenope',
                 ),
                 PopupMenuItemBuilder.buildMenuItem(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/infoAppPage');
+                  },
+                  icon: Icons.info,
+                  text: 'Info',
+                ),
+                PopupMenuItemBuilder.buildMenuItem(
                   onTap: () {},
                   icon: Icons.logout,
                   text: 'Logout',

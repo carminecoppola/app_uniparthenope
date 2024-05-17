@@ -5,11 +5,12 @@ import 'package:appuniparthenope/service/api_login_service.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 
 import '../widget/alertDialog.dart';
+import '../widget/carrerSelectorDialog.dart';
 
 class AuthController {
   final ApiService apiService = ApiService(); //Richiamo il servizio
 
-  Future<UserInfo> authUser(
+  /*Future<UserInfo> authUser(
       BuildContext context, String username, String password) async {
     try {
       // Effettua il login chiamando il servizio API
@@ -45,6 +46,75 @@ class AuthController {
 
       rethrow;
     }
+  }
+  */
+
+  Future<UserInfo> authUser(
+      BuildContext context, String username, String password) async {
+    try {
+      final Map<String, dynamic> responseData =
+          await apiService.login(username, password, context);
+      final String authToken = responseData['authToken'];
+      final Map<String, dynamic> userData = responseData['user'];
+
+      final List<dynamic> trattiCarrieraDynamic = userData['trattiCarriera'];
+
+      if (trattiCarrieraDynamic.isNotEmpty) {
+        String? selectedCareerId;
+
+        if (trattiCarrieraDynamic.length > 1) {
+          selectedCareerId = await showCareerSelectionDialog(
+              context, trattiCarrieraDynamic.cast<Map<String, dynamic>>());
+          if (selectedCareerId == null) {
+            throw Exception('Carriera non selezionata');
+          }
+        } else {
+          selectedCareerId = trattiCarrieraDynamic[0]['cdsId'].toString();
+        }
+
+        // Filtra la carriera selezionata
+        final selectedCareer = trattiCarrieraDynamic.firstWhere(
+            (career) => career['cdsId'].toString() == selectedCareerId);
+
+        // Costruisce un oggetto User con i dati ottenuti
+        final UserInfo authenticatedUser = UserInfo(
+          authToken: authToken,
+          user: User.fromJson(userData),
+          selectedCareer: TrattiCarriera.fromJson(
+              selectedCareer), // Aggiungi questo parametro
+        );
+
+        return authenticatedUser;
+      } else {
+        throw Exception('Nessuna carriera trovata');
+      }
+    } catch (e) {
+      if (e.toString().contains('Errore Credenziali Invalide')) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const CustomAlertDialog(
+              title: 'Errore',
+              content:
+                  'Le credenziali fornite non sono valide. Per favore riprova.',
+              buttonText: 'OK',
+              color: Colors.red,
+            );
+          },
+        );
+      }
+      rethrow;
+    }
+  }
+
+  Future<String?> showCareerSelectionDialog(
+      BuildContext context, List<Map<String, dynamic>> careers) async {
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomCareerSelectionDialog(careers: careers);
+      },
+    );
   }
 
   static Future<void> navigateByRole(BuildContext context, String role) async {

@@ -14,13 +14,19 @@ class TimeSerysInfo {
 
   String toRawJson() => json.encode(toJson());
 
-  factory TimeSerysInfo.fromJson(Map<String, dynamic> json) => TimeSerysInfo(
-        result: json["result"],
-        timeseries: json["timeseries"] == null
-            ? []
-            : List<Timesery>.from(
-                json["timeseries"]!.map((x) => Timesery.fromJson(x))),
-      );
+  factory TimeSerysInfo.fromJson(Map<String, dynamic> json) {
+    if (json == null) {
+      throw Exception('JSON is null');
+    }
+
+    return TimeSerysInfo(
+      result: json["result"],
+      timeseries: json["timeseries"] == null
+          ? []
+          : List<Timesery>.from(
+              json["timeseries"]!.map((x) => Timesery.fromJson(x))),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "result": result,
@@ -37,8 +43,8 @@ class Timesery {
   final String? dateTime;
   final double? dwd10;
   final double? dws10;
-  final IDate? iDate;
-  final Icon? icon;
+  final String? iDate;
+  final String? icon;
   final String? link;
   final double? rh2;
   final double? rh300;
@@ -146,12 +152,12 @@ class Timesery {
         clf: json["clf"]?.toDouble(),
         crd: json["crd"]?.toDouble(),
         crh: json["crh"]?.toDouble(),
-        dateTime: json["dateTime"],
+        dateTime: json["dateTime"]?.toString(),
         dwd10: json["dwd10"]?.toDouble(),
         dws10: json["dws10"]?.toDouble(),
-        iDate: json["iDate"] == null ? null : iDateValues.map[json["iDate"]],
-        icon: json["icon"] == null ? null : iconValues.map[json["icon"]],
-        link: json["link"],
+        iDate: json["iDate"]?.toString(),
+        icon: json["icon"]?.toString(),
+        link: json["link"]?.toString(),
         rh2: json["rh2"]?.toDouble(),
         rh300: json["rh300"]?.toDouble(),
         rh500: json["rh500"]?.toDouble(),
@@ -189,7 +195,7 @@ class Timesery {
         v975: json["v975"]?.toDouble(),
         wchill: json["wchill"]?.toDouble(),
         wd10: json["wd10"]?.toDouble(),
-        winds: json["winds"],
+        winds: json["winds"]?.toString(),
         ws10: json["ws10"]?.toDouble(),
         ws10B: json["ws10b"]?.toInt(),
         ws10K: json["ws10k"]?.toDouble(),
@@ -203,8 +209,8 @@ class Timesery {
         "dateTime": dateTime,
         "dwd10": dwd10,
         "dws10": dws10,
-        "iDate": iDateValues.reverse[iDate],
-        "icon": iconValues.reverse[icon],
+        "iDate": iDate,
+        "icon": icon,
         "link": link,
         "rh2": rh2,
         "rh300": rh300,
@@ -284,8 +290,8 @@ final iconValues = EnumValues({
 });
 
 class TextInfo {
-  final En? en;
-  final It? it;
+  final String? en;
+  final String? it;
 
   TextInfo({
     this.en,
@@ -298,13 +304,13 @@ class TextInfo {
   String toRawJson() => json.encode(toJson());
 
   factory TextInfo.fromJson(Map<String, dynamic> json) => TextInfo(
-        en: enValues.map[json["en"]]!,
-        it: itValues.map[json["it"]]!,
+        en: json["en"]?.toString(),
+        it: json["it"]?.toString(),
       );
 
   Map<String, dynamic> toJson() => {
-        "en": enValues.reverse[en],
-        "it": itValues.reverse[it],
+        "en": en,
+        "it": it,
       };
 }
 

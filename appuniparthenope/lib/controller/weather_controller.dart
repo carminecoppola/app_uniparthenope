@@ -27,6 +27,8 @@ class WeatherController {
         placeName = tmp.last.trim();
       }
 
+      
+
       // Ottieni i dati meteorologici per il luogo più vicino
       List<Timesery>? timeSeries =
           await apiWeatherService.getWeatherTimeSeries(context, nearestPlace);
@@ -51,7 +53,8 @@ class WeatherController {
       return allTimeSeries;
     } catch (e) {
       // Gestisci l'errore qui
-      print('Errore durante il recupero dei dati meteorologici: $e');
+      print(
+          '- getAllWeatherTime(): Errore durante il recupero dei dati meteorologici: $e');
       // Restituisci una lista vuota o lancia l'eccezione a seconda della gestione degli errori desiderata
       return [];
     }

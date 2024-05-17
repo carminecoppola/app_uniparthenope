@@ -8,14 +8,13 @@ Questo provider deve gestire i cambiamenti di stato, ovvero:
 - deve quidni salvare il token che è fondamentale essere sempre autenticato
 - deve permettermi di utilizzare le informazioni dell'utente in diverse pagine
 */
-
-// Definisci una classe per il provider
 class AuthProvider with ChangeNotifier {
   UserInfo? _authenticatedUser; // Utente autenticato
   UserAnagrafe? _anagrafeUser; // Utente autenticato
   String? _password; //Password dell'utente
   String? _authToken; // Token di autenticazione
   String? _profileImage; // Immagine di profilo dell'utente
+  Map<String, dynamic>? _selectedCareer;
 
   // Metodo per ottenere l'utente autenticato
   UserInfo? get authenticatedUser => _authenticatedUser;
@@ -32,6 +31,8 @@ class AuthProvider with ChangeNotifier {
   // Metodo per ottenere l'immagine di profilo
   String? get profileImage => _profileImage;
 
+  Map<String, dynamic>? get selectedCareer => _selectedCareer;
+
   // Metodo per impostare l'utente autenticato e il token di autenticazione
   void setAuthenticatedUser(UserInfo user, String myPassword) {
     _authenticatedUser = user;
@@ -41,6 +42,11 @@ class AuthProvider with ChangeNotifier {
 
   void setAuthToken(String token) {
     _authToken = token;
+    notifyListeners();
+  }
+
+  void setSelectedCareer(TrattiCarriera career) {
+    _selectedCareer = career.toJson();
     notifyListeners();
   }
 

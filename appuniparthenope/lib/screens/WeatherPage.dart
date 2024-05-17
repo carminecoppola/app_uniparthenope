@@ -5,6 +5,7 @@ import '../model/weather_timeSerys_data.dart';
 import '../provider/weather_provider.dart';
 import '../widget/ServicesWidget/weatherInfoWidget.dart';
 import '../widget/bottomNavBar.dart';
+import '../widget/circularProgressIndicator.dart';
 import '../widget/navbar.dart';
 
 class WeatherUniPage extends StatelessWidget {
@@ -42,16 +43,16 @@ class WeatherUniPage extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           Container(
-            width: 120, // Larghezza massima
-            height: 2, // Altezza del divider
-            color: AppColors.primaryColor, // Colore del divider
+            width: 120,
+            height: 2,
+            color: AppColors.primaryColor,
           ),
           const SizedBox(height: 50),
           // Card Meteo
           Center(
             child: SizedBox(
               width: 350,
-              height: 280,
+              height: 300,
               child: Card(
                 color: AppColors.primaryColor,
                 elevation: 10,
@@ -59,14 +60,17 @@ class WeatherUniPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(35),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(25),
                   child: Consumer<WeatherDataProvider>(
                     builder: (context, weatherDataProvider, child) {
                       final List<Timesery> allTimeSeries =
                           weatherDataProvider.timeSeriesList;
                       if (allTimeSeries.isEmpty) {
                         return const Center(
-                          child: CircularProgressIndicator(),
+                          child: CustomLoadingIndicator(
+                            text: 'Caricamento informazioni meteo...',
+                            myColor: AppColors.detailsColor,
+                          ),
                         );
                       } else {
                         return ListView.builder(
@@ -76,7 +80,7 @@ class WeatherUniPage extends StatelessWidget {
                             final Timesery timeSeries = allTimeSeries[index];
                             return Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                                  const EdgeInsets.symmetric(horizontal: 25.0),
                               child: WeatherInfoWidget(
                                 dateTime: timeSeries.dateTime.toString(),
                                 iconAssetPath: timeSeries.icon.toString(),
