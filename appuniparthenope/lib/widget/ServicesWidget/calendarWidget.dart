@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart'; // Importa questa libreria
 import 'package:appuniparthenope/main.dart';
+import 'package:intl/intl.dart';
 
 class CalendarWidget extends StatefulWidget {
   const CalendarWidget({super.key});
@@ -25,9 +26,10 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     initializeDateFormatting('it_IT');
 
     // Aggiungi degli eventi di esempio
-    _events.add(Event(DateTime.now(), "Titolo primo evento"));
-    _events.add(Event(
-        DateTime.now().add(const Duration(days: 1)), "Titolo secondo evento"));
+    _events.add(Event(DateTime.now(), "Esame Architettura Dei Calcolatori",
+        'Prova pratica', 'AULA 1 Primo Piano'));
+    _events.add(Event(DateTime.now().add(const Duration(days: 4)),
+        "Esame Tecnologie Web", 'Prova orale', 'AULA 6'));
   }
 
   @override
@@ -99,26 +101,68 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   }
 
   // Metodo per mostrare il dialogo dell'evento
+// Metodo per mostrare il dialogo dell'evento
   void _showEventDialog(DateTime selectedDay) {
     Event? event = _events.firstWhere(
       (event) => isSameDay(event.date, selectedDay),
-      orElse: () => Event(DateTime.now(), "Nessun evento"),
+      orElse: () => Event(DateTime.now(), "Nessun evento",
+          'Nessuna descrizione', 'Aula non disponibile'),
     );
+
+    // Formatta la data nel formato desiderato
+    String formattedDate = DateFormat('dd/MM/yyyy').format(event.date);
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(event.name),
-          content: Text(event.date.toString()),
+          title: Center(
+            child: Text(
+              event.name,
+              style: const TextStyle(
+                  color: AppColors.backgroundColor,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                'Descrizione: ${event.description}',
+                style: const TextStyle(
+                  color: AppColors.backgroundColor,
+                ),
+              ),
+              Text(
+                'Aula: ${event.aula}',
+                style: const TextStyle(
+                  color: AppColors.backgroundColor,
+                ),
+              ),
+              Text(
+                'Data: $formattedDate',
+                style: const TextStyle(
+                  color: AppColors.backgroundColor,
+                ),
+              ),
+            ],
+          ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Chiudi'),
+              child: const Text(
+                'Chiudi',
+                style: TextStyle(color: AppColors.backgroundColor),
+              ),
             ),
           ],
+          backgroundColor:
+              AppColors.primaryColor, // Colore dello sfondo della modale
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
         );
       },
     );
@@ -129,6 +173,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 class Event {
   final DateTime date;
   final String name;
+  final String description;
+  final String aula;
 
-  Event(this.date, this.name);
+  Event(this.date, this.name, this.description, this.aula);
 }

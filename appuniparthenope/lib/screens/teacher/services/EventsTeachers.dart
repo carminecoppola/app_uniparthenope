@@ -5,8 +5,6 @@ import 'package:appuniparthenope/widget/ServicesWidget/eventsCard.dart';
 import 'package:appuniparthenope/widget/bottomNavBarProf.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-
-import '../../../model/studentService/calendar_data.dart';
 import '../../../model/studentService/events_data.dart';
 import '../../../provider/exam_provider.dart';
 import '../../../widget/circularProgressIndicator.dart';
