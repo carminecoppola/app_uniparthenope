@@ -1,5 +1,5 @@
-import 'package:appuniparthenope/controller/studentUtilsFunction.dart';
-import 'package:appuniparthenope/controller/utilsFunction.dart';
+import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
+import 'package:appuniparthenope/utilityFunctions/utilsFunction.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -223,7 +223,7 @@ class ServiceGroupProfCard extends StatelessWidget {
                           'Qui puoi visualizzare gli eventi che sono stati organizzati.',
                     ),
                   ),
-                  const SizedBox(width: 5), // Spazio tra le card
+                  const SizedBox(width: 5),
                   GestureDetector(
                     onTap: () {
                       UtilsFunction.getWeather(context);

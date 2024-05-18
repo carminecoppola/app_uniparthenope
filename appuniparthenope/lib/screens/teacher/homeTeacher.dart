@@ -1,4 +1,4 @@
-import 'package:appuniparthenope/controller/studentUtilsFunction.dart';
+import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:flutter/material.dart';

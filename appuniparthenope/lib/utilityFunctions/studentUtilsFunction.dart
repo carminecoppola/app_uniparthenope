@@ -168,7 +168,27 @@ class StudentUtils {
         print('Authenticated user is null');
       }
     } catch (e) {
-      print('\nError during _userImg(): $e');
+      print('\nError during userImg(): $e');
+    }
+  }
+
+  static Future<void> qrCodeImg(BuildContext context) async {
+    final AuthController authController = AuthController();
+    try {
+      final authenticatedUser =
+          Provider.of<AuthProvider>(context, listen: false).authenticatedUser;
+      if (authenticatedUser != null) {
+        final qrCode = await authController.getUserQRCode(
+            authenticatedUser.user, context);
+
+        // Utilizza il provider per impostare l'immagine di profilo
+        final authProvider = Provider.of<AuthProvider>(context, listen: false);
+        authProvider.setQRCode(qrCode);
+      } else {
+        print('Authenticated user is null');
+      }
+    } catch (e) {
+      print('\nError during qrCodeImg(): $e');
     }
   }
 

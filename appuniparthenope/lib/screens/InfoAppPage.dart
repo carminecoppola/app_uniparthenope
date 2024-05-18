@@ -64,31 +64,31 @@ class InfoAppPage extends StatelessWidget {
                     children: const [
                       DeveloperInfo(
                         name: 'Raffaele Montela',
-                        asset: 'assets/user_profile.jpg',
+                        asset: 'assets/team/team_leader.jpg',
                         role: 'Team leader',
                       ),
                       SizedBox(height: 20),
                       DeveloperInfo(
                         name: 'Carmine Coppola',
-                        asset: 'assets/user_profile.jpg',
+                        asset: 'assets/team/cc.png',
                         role: 'Developer',
                       ),
                       SizedBox(height: 20),
                       DeveloperInfo(
                         name: 'Ciro Giuseppe De Vita',
-                        asset: 'assets/user_profile.jpg',
+                        asset: 'assets/team/cgdv.png',
                         role: 'Developer',
                       ),
                       SizedBox(height: 20),
                       DeveloperInfo(
                         name: 'Gennaro Mellone',
-                        asset: 'assets/user_profile.jpg',
+                        asset: 'assets/team/gm.jpg',
                         role: 'Developer',
                       ),
                       SizedBox(height: 20),
                       DeveloperInfo(
                         name: 'Nunzio Napolitano',
-                        asset: 'assets/user_profile.jpg',
+                        asset: 'assets/team/nn.jpg',
                         role: 'Responsabile Mobile Store',
                       ),
                     ],

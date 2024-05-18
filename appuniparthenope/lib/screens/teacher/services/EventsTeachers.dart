@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 import '../../../model/studentService/calendar_data.dart';
+import '../../../model/studentService/events_data.dart';
 import '../../../provider/exam_provider.dart';
 import '../../../widget/circularProgressIndicator.dart';
 
@@ -34,7 +35,7 @@ class _EventsTeachersPageState extends State<EventsTeachersPage> {
           ),
           const SizedBox(height: 10),
           Expanded(
-            child: events != null
+            child: events != null && events.isNotEmpty
                 ? ListView.builder(
                     itemCount: events.length,
                     itemBuilder: (context, index) {
@@ -54,17 +55,21 @@ class _EventsTeachersPageState extends State<EventsTeachersPage> {
                       );
                     },
                   )
-                : const Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomLoadingIndicator(
-                          text: 'Caricamento eventi...',
-                          myColor: AppColors.primaryColor,
+                : events != null && events.isEmpty
+                    ? const Center(
+                        child: Text('Nessun evento disponibile.'),
+                      )
+                    : const Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CustomLoadingIndicator(
+                              text: 'Caricamento eventi...',
+                              myColor: AppColors.primaryColor,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
+                      ),
           )
         ],
       ),

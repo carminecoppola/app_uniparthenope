@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-import '../../controller/weatherFunction.dart';
+import '../../utilityFunctions/weatherFunction.dart';
 
 class WeatherInfoWidget extends StatelessWidget {
   final String dateTime;

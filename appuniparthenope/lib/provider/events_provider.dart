@@ -1,5 +1,6 @@
-import 'package:appuniparthenope/model/studentService/calendar_data.dart';
-import 'package:flutter/material.dart'; // Importa il servizio degli eventi
+import 'package:flutter/material.dart';
+
+import '../model/studentService/events_data.dart'; // Importa il servizio degli eventi
 
 class EventsProvider extends ChangeNotifier {
   List<EventsInfo>? _events;

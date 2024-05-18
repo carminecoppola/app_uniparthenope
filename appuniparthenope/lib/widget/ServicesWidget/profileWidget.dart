@@ -44,7 +44,7 @@ class AvatarWidget extends StatelessWidget {
           backgroundColor: Colors.transparent,
           backgroundImage: profileImage != null
               ? AssetImage(profileImage)
-              : const AssetImage('assets/user_profile.jpg'),
+              : const AssetImage('assets/user_profile_default.jpg'),
         ),
       ),
     );

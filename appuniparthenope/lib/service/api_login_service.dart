@@ -104,6 +104,44 @@ class ApiService {
     }
   }
 
+  Future<String> userQRCode(User student, BuildContext context) async {
+    try {
+      final String password =
+          Provider.of<AuthProvider>(context, listen: false).password!;
+      final url = Uri.parse('$baseUrl/Badges/v2/generateQrCode');
+
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization':
+              'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
+          'Content-Type': 'image/jpg',
+        },
+      );
+
+      print('Status userQRCode(): ${response.statusCode}');
+
+      if (response.statusCode == 200) {
+        Uint8List imageData = response.bodyBytes;
+
+        // Ottieni la directory di salvataggio dell'applicazione
+        Directory appDocDir = await getApplicationDocumentsDirectory();
+        // Crea un nuovo file nell'applicazione directory
+        File imageFile = File('${appDocDir.path}/my_qrCode.jpg');
+        // Scrivi i byte dell'immagine nel file
+        await imageFile.writeAsBytes(imageData);
+
+        return imageFile.path;
+      } else {
+        throw Exception(
+            'Errore durante il recupero del QR-Code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error during userQRCode: $e');
+      throw Exception('Errore durante il recupero QR-Code personale');
+    }
+  }
+
   Future<Map<String, dynamic>> getTaxes(
       User student, BuildContext context) async {
     final String persId = student.persId.toString();

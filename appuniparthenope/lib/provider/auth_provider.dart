@@ -14,6 +14,7 @@ class AuthProvider with ChangeNotifier {
   String? _password; //Password dell'utente
   String? _authToken; // Token di autenticazione
   String? _profileImage; // Immagine di profilo dell'utente
+  String? _qrCode; // Immagine di profilo dell'utente
   Map<String, dynamic>? _selectedCareer;
 
   // Metodo per ottenere l'utente autenticato
@@ -30,6 +31,9 @@ class AuthProvider with ChangeNotifier {
 
   // Metodo per ottenere l'immagine di profilo
   String? get profileImage => _profileImage;
+
+  // Metodo per ottenere il QR-Code
+  String? get qrCode => _qrCode;
 
   Map<String, dynamic>? get selectedCareer => _selectedCareer;
 
@@ -58,6 +62,11 @@ class AuthProvider with ChangeNotifier {
 
   void setProfileImage(String image) {
     _profileImage = image;
+    notifyListeners();
+  }
+
+  void setQRCode(String qrCode) {
+    _qrCode = qrCode;
     notifyListeners();
   }
 

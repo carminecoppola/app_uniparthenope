@@ -1,8 +1,9 @@
-import 'package:appuniparthenope/model/studentService/calendar_data.dart';
 import 'package:appuniparthenope/model/studentService/course_data.dart';
 import 'package:appuniparthenope/model/studentService/exam_data.dart';
 import 'package:appuniparthenope/model/studentService/student_carrer_data.dart';
 import 'package:flutter/material.dart';
+
+import '../model/studentService/events_data.dart';
 
 class ExamDataProvider extends ChangeNotifier {
   TotalExamStudent? _totalExamStatsStudent;

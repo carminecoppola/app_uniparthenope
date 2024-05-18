@@ -10,45 +10,6 @@ import '../widget/carrerSelectorDialog.dart';
 class AuthController {
   final ApiService apiService = ApiService(); //Richiamo il servizio
 
-  /*Future<UserInfo> authUser(
-      BuildContext context, String username, String password) async {
-    try {
-      // Effettua il login chiamando il servizio API
-      final Map<String, dynamic> responseData =
-          await apiService.login(username, password, context);
-
-      // Estrae il token e i dati dell'utente dalla risposta
-      final String authToken = responseData['authToken'];
-      final Map<String, dynamic> userData = responseData['user'];
-
-      // Costruisce un oggetto User con i dati ottenuti
-      final UserInfo authenticatedUser = UserInfo(
-        authToken: authToken,
-        user: User.fromJson(userData),
-      );
-
-      return authenticatedUser;
-    } catch (e) {
-      if (e.toString().contains('Errore Credenziali Invalide')) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return const CustomAlertDialog(
-              title: 'Errore',
-              content:
-                  'Le credenziali fornite non sono valide. Per favore riprova.',
-              buttonText: 'OK',
-              color: Colors.red,
-            );
-          },
-        );
-      }
-
-      rethrow;
-    }
-  }
-  */
-
   Future<UserInfo> authUser(
       BuildContext context, String username, String password) async {
     try {
@@ -171,14 +132,22 @@ class AuthController {
       final String profileImage =
           await apiService.userProfileImage(student, context);
 
-      //print('\n\n-Controller:$profileImage');
-
-      //Qui restituisce correttamente la posizione dell'immagine
-
       return profileImage;
     } catch (e) {
       print('Error during getUserProfileImage$e');
       throw Exception('Errore durante il recupero dell\'immagine di profilo');
+    }
+  }
+
+  Future<String> getUserQRCode(User student, BuildContext context) async {
+    try {
+      // Chiamata all'API per ottenere il'QR-Code
+      final String qrCode = await apiService.userQRCode(student, context);
+
+      return qrCode;
+    } catch (e) {
+      print('\nError during getUserQRCode(): $e');
+      throw Exception('\nErrore durante il recupero del QR-Code');
     }
   }
 

@@ -78,7 +78,7 @@ class PersonalCardUser extends StatelessWidget {
                 backgroundImage: profileImage != null
                     ? Image.asset(profileImage!).image
                     : Image.asset(
-                        'assets/user_profile.jpg',
+                        'assets/user_profile_default.jpg',
                       ).image,
                 child: Container(
                   decoration: BoxDecoration(

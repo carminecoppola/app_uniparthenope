@@ -12,6 +12,7 @@ import 'package:appuniparthenope/screens/personalProfile.dart';
 import 'package:appuniparthenope/screens/teacher/homeTeacher.dart';
 import 'package:flutter/material.dart';
 import 'screens/loginpage.dart';
+import 'screens/qrCodePage.dart';
 import 'screens/teacher/services/ClassroomTeachers.dart';
 import 'screens/teacher/services/CourseTeachers.dart';
 import 'screens/teacher/services/EventsTeachers.dart';
@@ -20,6 +21,7 @@ class AppRoutes {
   static const String loadingPage = '/loadingFirstPage';
   static const String loginPage = '/loginPage';
   static const String infoAppPage = '/infoAppPage';
+  static const String qrCodePage = '/qrCodePage';
   //Role
   static const String homeStudent = '/homeStudent';
   static const String homeTeacher = '/homeTeacher';
@@ -43,6 +45,7 @@ class AppRoutes {
     loadingPage: (context) => const LoadingFristPage(),
     loginPage: (context) => const LoginForm(),
     infoAppPage: (context) => const InfoAppPage(),
+    qrCodePage: (context) => const QRCodePage(),
 
     //Role
     homeStudent: (context) => const HomeStudentPage(),

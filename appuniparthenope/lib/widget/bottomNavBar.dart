@@ -1,5 +1,5 @@
-import 'package:appuniparthenope/controller/studentUtilsFunction.dart';
-import 'package:appuniparthenope/controller/utilsFunction.dart';
+import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
+import 'package:appuniparthenope/utilityFunctions/utilsFunction.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:flutter/material.dart';
@@ -61,6 +61,14 @@ class BottomNavBarComponent extends StatelessWidget {
                   },
                   icon: Icons.person,
                   text: 'Personal Card',
+                ),
+                PopupMenuItemBuilder.buildMenuItem(
+                  onTap: () {
+                    StudentUtils.qrCodeImg(context);
+                    Navigator.pushNamed(context, '/qrCodePage');
+                  },
+                  icon: Icons.qr_code,
+                  text: 'QR-Code',
                 ),
                 PopupMenuItemBuilder.buildMenuItem(
                   onTap: () {

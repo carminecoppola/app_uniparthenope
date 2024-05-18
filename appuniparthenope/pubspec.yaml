@@ -71,11 +71,13 @@ flutter:
   assets:
     - assets/logo.png
     - assets/meteoUniLogo.png
-    - assets/user_profile.jpg
+    - assets/user_profile_default.jpg
+    - assets/qrcode_default.png
     - assets/university/uni_monte.jpg
     - assets/university/uni_cdn.png
     - assets/icon/coccarda.png
     - assets/icon/coccarda.svg
+    
 
     # Icon Service Image:
     - assets/icon/student.png
@@ -96,6 +98,13 @@ flutter:
     - assets/icon/weather/Temporale.png
     - assets/icon/weather/default.png
     
+
+    # Team Image:
+    - assets/team/gm.jpg
+    - assets/team/nn.jpg
+    - assets/team/team_leader.jpg
+    - assets/team/cc.png
+    - assets/team/cgdv.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
