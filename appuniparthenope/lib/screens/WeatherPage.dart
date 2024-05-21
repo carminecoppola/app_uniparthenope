@@ -55,7 +55,7 @@ class WeatherUniPage extends StatelessWidget {
             Center(
               child: SizedBox(
                 width: 350,
-                height: 320,
+                height: 350,
                 child: Card(
                   color: AppColors.primaryColor,
                   elevation: 10,
@@ -75,7 +75,7 @@ class WeatherUniPage extends StatelessWidget {
                             color: AppColors.detailsColor,
                           ),
                         ),
-                        const SizedBox(height: 15),
+                        const SizedBox(height: 20),
                         Expanded(
                           child: Consumer<WeatherDataProvider>(
                             builder: (context, weatherDataProvider, child) {
