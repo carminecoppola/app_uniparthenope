@@ -41,10 +41,10 @@ class UtilsFunction {
       BuildContext context, String username, String password) async {
     final AuthController authController = AuthController();
 
-    username = "carmine.coppola";
-    password = "CppCmn01_";
-    // username = "VRSMRZ03H11F839Y";
-    // password = "Happy2003!";
+    // username = "carmine.coppola";
+    // password = "CppCmn01_";
+    username = "VRSMRZ03H11F839Y";
+    password = "Happy2003!";
 
     try {
       final authenticatedUser =
@@ -77,20 +77,4 @@ class UtilsFunction {
     }
   }
 
-  static Future<void> getWeather(BuildContext context) async {
-    final WeatherController weatherController = WeatherController();
-
-    const latitude = 40.7;
-    const longitude = 14.17;
-
-    try {
-      final allTimeSeries = await weatherController.getAllWeatherTime(
-          context, latitude, longitude);
-      final weatherDataProvider =
-          Provider.of<WeatherDataProvider>(context, listen: false);
-      weatherDataProvider.setWeatherInfo(allTimeSeries);
-    } catch (e) {
-      print('Error during getWeather(): $e');
-    }
-  }
 }

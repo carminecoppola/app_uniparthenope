@@ -12,8 +12,8 @@ class ApiWeatherService {
   Future<List<PlacesInfo>> getWeatherPlaces(
       BuildContext context, double latitude, double longitude) async {
     //Messe in maniera costante
-    latitude = 40.7;
-    longitude = 14.17;
+    // latitude = 40.7;
+    // longitude = 14.17;
 
     final url = Uri.parse(
         '$baseUrl/places/search/bycoords/$latitude/$longitude?filter=com');

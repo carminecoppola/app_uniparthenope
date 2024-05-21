@@ -1,6 +1,7 @@
 import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
 import 'package:appuniparthenope/utilityFunctions/utilsFunction.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
+import 'package:appuniparthenope/utilityFunctions/weatherFunction.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../provider/bottomNavBar_provider.dart';
@@ -141,7 +142,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
                   const SizedBox(width: 5), // Spazio tra le card
                   GestureDetector(
                     onTap: () {
-                      UtilsFunction.getWeather(context);
+                      WeatherFunctions.getWeather(context);
                       Navigator.pushNamed(context, '/watherPage');
                     },
                     child: const ServiceCard(
@@ -189,9 +190,9 @@ class ServiceGroupProfCard extends StatelessWidget {
                     },
                     child: const ServiceCard(
                       imagePath: 'assets/icon/classroom.png',
-                      title: 'Classi',
+                      title: 'Aule',
                       description:
-                          'Qui è possibile visualizzare le proprie classi e gli eventuali prenotati.',
+                          'Qui è possibile prenotare le aule per le lezioni e per gli esami.',
                     ),
                   ),
                   const SizedBox(width: 5),
@@ -226,7 +227,7 @@ class ServiceGroupProfCard extends StatelessWidget {
                   const SizedBox(width: 5),
                   GestureDetector(
                     onTap: () {
-                      UtilsFunction.getWeather(context);
+                      WeatherFunctions.getWeather(context);
                       Navigator.pushNamed(context, '/watherPage');
                     },
                     child: const ServiceCard(

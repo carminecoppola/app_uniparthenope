@@ -21,7 +21,7 @@ class ProgressCircleCounter extends StatelessWidget {
     if (completionPercentage == 1.0) {
       circleColor = AppColors.successColor; // Verde se completato
     } else {
-      circleColor = AppColors.detailsColor; // Grigio se meno della metà
+      circleColor = AppColors.detailsColor; // Colore personalizzato
     }
 
     return Stack(alignment: Alignment.center, children: [
@@ -30,14 +30,13 @@ class ProgressCircleCounter extends StatelessWidget {
           width: 100,
           height: 100,
           child: CircularProgressIndicator(
-            value: completionPercentage, // Valore di completamento (da 0 a 1)
-            backgroundColor: Colors.transparent, // Colore di sfondo del cerchio
-            valueColor: AlwaysStoppedAnimation<Color>(
-                circleColor), // Colore del cerchio
-            strokeWidth: 10, // Spessore del cerchio
-          )),
+              value: completionPercentage, // Valore di completamento (da 0 a 1)
+              backgroundColor: const Color.fromARGB(255, 187, 187, 187),
+              valueColor: AlwaysStoppedAnimation<Color>(circleColor),
+              strokeWidth: 10)),
 
       Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             completedExams.toString(),

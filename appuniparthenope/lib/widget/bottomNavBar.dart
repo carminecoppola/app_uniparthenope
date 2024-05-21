@@ -5,6 +5,7 @@ import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/auth_provider.dart';
+import '../utilityFunctions/weatherFunction.dart';
 
 class BottomNavBarComponent extends StatelessWidget {
   const BottomNavBarComponent({super.key});
@@ -98,7 +99,7 @@ class BottomNavBarComponent extends StatelessWidget {
                 ),
                 PopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
-                    UtilsFunction.getWeather(context);
+                    WeatherFunctions.getWeather(context);
                     Navigator.pushNamed(context, '/watherPage');
                   },
                   icon: Icons.wb_cloudy,

@@ -44,6 +44,8 @@ dependencies:
   easy_search_bar: ^2.5.0
   intl: ^0.19.0
   url_launcher: ^6.2.6
+  font_awesome_flutter: ^10.7.0
+  geolocator: ^9.0.2
 
 dev_dependencies:
   flutter_test:
@@ -73,10 +75,16 @@ flutter:
     - assets/meteoUniLogo.png
     - assets/user_profile_default.jpg
     - assets/qrcode_default.png
-    - assets/university/uni_monte.jpg
-    - assets/university/uni_cdn.png
     - assets/icon/coccarda.png
     - assets/icon/coccarda.svg
+
+    # Universitye Image:
+    - assets/university/uni_monte.jpg
+    - assets/university/uni_cdn.png
+    - assets/university/uni_centrale.png 
+    - assets/university/uni_medina.jpeg
+    - assets/university/uni_nola.jpeg
+    - assets/university/uni_villadoria.jpeg
     
 
     # Icon Service Image:

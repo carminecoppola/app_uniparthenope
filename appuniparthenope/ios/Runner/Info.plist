@@ -46,11 +46,18 @@
     <key>UIApplicationSupportsIndirectInputEvents</key>
     <true/>
 
-    <!-- Aggiungi questo dizionario per consentire l'accesso a Internet -->
+    <!-- Consentire l'accesso a Internet -->
     <key>NSAppTransportSecurity</key>
     <dict>
         <key>NSAllowsArbitraryLoads</key>
         <true/>
     </dict>
+
+    <!-- Consentire l'accesso alla Geolocalizzazione -->
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>We need your location to show local weather data.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>We need your location to show local weather data.</string>
+
 </dict>
 </plist>

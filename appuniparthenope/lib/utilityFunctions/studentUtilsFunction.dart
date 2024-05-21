@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../controller/auth_controller.dart';
 import '../controller/exam_controller.dart';
-import '../model/studentService/course_data.dart';
+import '../model/studentService/student_course_data.dart';
 import '../model/user_data_login.dart';
 import '../provider/auth_provider.dart';
 import '../provider/exam_provider.dart';

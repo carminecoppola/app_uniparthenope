@@ -1,7 +1,7 @@
 import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
-import 'package:appuniparthenope/widget/ServicesWidget/serviceStudentGroup.dart';
+import 'package:appuniparthenope/widget/ServicesWidget/serviceUserGroup.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/calendarCard.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/pesonalCardUser.dart';

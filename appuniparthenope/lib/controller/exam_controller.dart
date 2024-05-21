@@ -1,7 +1,7 @@
 import 'package:appuniparthenope/model/studentService/calendar_data.dart';
-import 'package:appuniparthenope/model/studentService/course_data.dart';
+import 'package:appuniparthenope/model/studentService/student_course_data.dart';
 import 'package:appuniparthenope/model/studentService/exam_data.dart';
-import 'package:appuniparthenope/model/studentService/student_carrer_data.dart';
+import 'package:appuniparthenope/model/studentService/student_career_data.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:appuniparthenope/service/api_student_service.dart';
 import 'package:flutter/material.dart';

@@ -1,6 +1,6 @@
-import 'package:appuniparthenope/model/studentService/course_data.dart';
+import 'package:appuniparthenope/model/studentService/student_course_data.dart';
 import 'package:appuniparthenope/model/studentService/exam_data.dart';
-import 'package:appuniparthenope/model/studentService/student_carrer_data.dart';
+import 'package:appuniparthenope/model/studentService/student_career_data.dart';
 import 'package:flutter/material.dart';
 
 import '../model/studentService/events_data.dart';

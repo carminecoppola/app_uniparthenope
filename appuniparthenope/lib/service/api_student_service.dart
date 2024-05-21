@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:appuniparthenope/model/studentService/calendar_data.dart';
-import 'package:appuniparthenope/model/studentService/course_data.dart';
+import 'package:appuniparthenope/model/studentService/student_course_data.dart';
 import 'package:appuniparthenope/model/studentService/exam_data.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:flutter/cupertino.dart';

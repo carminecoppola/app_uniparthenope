@@ -2,7 +2,9 @@ import 'package:appuniparthenope/model/weather_data.dart';
 import 'package:appuniparthenope/model/weather_timeSerys_data.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
+import '../provider/weather_provider.dart';
 import '../service/api_weather_service.dart';
 
 class WeatherController {
@@ -27,7 +29,11 @@ class WeatherController {
         placeName = tmp.last.trim();
       }
 
-      
+      print('\n\nMunicipalità: $placeName');
+
+      final weatherDataProvider =
+          Provider.of<WeatherDataProvider>(context, listen: false);
+      weatherDataProvider.setPlaceName(placeName);
 
       // Ottieni i dati meteorologici per il luogo più vicino
       List<Timesery>? timeSeries =
@@ -52,10 +58,9 @@ class WeatherController {
 
       return allTimeSeries;
     } catch (e) {
-      // Gestisci l'errore qui
       print(
           '- getAllWeatherTime(): Errore durante il recupero dei dati meteorologici: $e');
-      // Restituisci una lista vuota o lancia l'eccezione a seconda della gestione degli errori desiderata
+      // Restituisco una lista vuota o lancia l'eccezione a seconda della gestione degli errori desiderata
       return [];
     }
   }

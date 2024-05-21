@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:math';
 import 'package:appuniparthenope/utilityFunctions/utilsFunction.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
@@ -17,6 +19,36 @@ class _LoginFormState extends State<LoginForm> {
 
   List<EventsInfo>? events;
 
+  final List<String> universityImages = [
+    'assets/university/uni_monte.jpg',
+    'assets/university/uni_cdn.png',
+    'assets/university/uni_centrale.png',
+    'assets/university/uni_medina.jpeg',
+    'assets/university/uni_nola.jpeg',
+    'assets/university/uni_villadoria.jpeg',
+  ];
+
+  late String currentImage;
+  late Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    currentImage = universityImages[Random().nextInt(universityImages.length)];
+    _timer = Timer.periodic(const Duration(seconds: 3), (Timer timer) {
+      setState(() {
+        currentImage =
+            universityImages[Random().nextInt(universityImages.length)];
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -26,25 +58,23 @@ class _LoginFormState extends State<LoginForm> {
             transform: Matrix4.skewY(-0.10)..rotateX(0.0),
             alignment: Alignment.center,
             child: Image.asset(
-              'assets/university/uni_monte.jpg',
+              currentImage,
               height: 250,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
           ),
           CircleAvatar(
-            backgroundColor: AppColors.primaryColor,
+            backgroundColor: Colors.transparent,
             radius: 40,
             child: Image.asset(
               'assets/logo.png',
-              height: 60,
-              width: 60,
-              fit: BoxFit.cover,
+              height: 70,
+              width: 70,
+              fit: BoxFit.contain,
             ),
           ),
-          const SizedBox(
-            height: 20.0,
-          ),
+          const SizedBox(height: 5.0),
           const Padding(
             padding: EdgeInsets.only(left: 20.0),
             child: Align(
@@ -52,9 +82,9 @@ class _LoginFormState extends State<LoginForm> {
               child: Text(
                 'Login',
                 style: TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold,
-                ),
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryColor),
               ),
             ),
           ),

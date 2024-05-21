@@ -1,8 +1,28 @@
+import 'package:appuniparthenope/provider/weather_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import '../controller/weather_controller.dart';
 import '../model/weather_timeSerys_data.dart';
 import 'package:flutter/cupertino.dart';
 
 class WeatherFunctions {
+  static Future<void> getWeather(BuildContext context) async {
+    final WeatherController weatherController = WeatherController();
+
+    const latitude = 40.7;
+    const longitude = 14.17;
+
+    try {
+      final allTimeSeries = await weatherController.getAllWeatherTime(
+          context, latitude, longitude);
+      final weatherDataProvider =
+          Provider.of<WeatherDataProvider>(context, listen: false);
+      weatherDataProvider.setWeatherInfo(allTimeSeries);
+    } catch (e) {
+      print('Error during getWeather(): $e');
+    }
+  }
+
   static String getDayOfWeek(String dateTime) {
     final year = int.parse(dateTime.substring(0, 4));
     final month = int.parse(dateTime.substring(4, 6));

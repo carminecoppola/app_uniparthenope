@@ -64,19 +64,28 @@ class ApiService {
   }
 
   // Ottieni l'immagine del profilo dell'utente dal server
-  Future<String> userProfileImage(User student, BuildContext context) async {
+  Future<String> userProfileImage(User user, BuildContext context) async {
     try {
-      final String persId = student.persId.toString();
+      final String role = user.grpDes.toString();
+      final String persId = user.persId.toString();
+      final String idAb = user.idAb.toString();
       final String password =
           Provider.of<AuthProvider>(context, listen: false).password!;
-      final url =
-          Uri.parse('$baseUrl/UniparthenopeApp/v1/general/image/$persId');
+
+      String url;
+      if (role == 'Studenti') {
+        url = '$baseUrl/UniparthenopeApp/v1/general/image/$persId';
+      } else if (role == 'Docenti') {
+        url = '$baseUrl/UniparthenopeApp/v1/general/image_prof/$idAb';
+      } else {
+        throw Exception('Ruolo non valido');
+      }
 
       final response = await http.get(
-        url,
+        Uri.parse(url),
         headers: {
           'Authorization':
-              'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
+              'Basic ${base64Encode(utf8.encode("${user.userId}:$password"))}',
           'Content-Type': 'image/jpg',
         },
       );
@@ -86,11 +95,8 @@ class ApiService {
       if (response.statusCode == 200) {
         Uint8List imageData = response.bodyBytes;
 
-        // Ottieni la directory di salvataggio dell'applicazione
         Directory appDocDir = await getApplicationDocumentsDirectory();
-        // Crea un nuovo file nell'applicazione directory
         File imageFile = File('${appDocDir.path}/my_img.jpg');
-        // Scrivi i byte dell'immagine nel file
         await imageFile.writeAsBytes(imageData);
 
         return imageFile.path;

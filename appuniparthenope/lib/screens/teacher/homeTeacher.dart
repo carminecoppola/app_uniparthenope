@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../widget/ServicesWidget/calendarCard.dart';
 import '../../widget/ServicesWidget/pesonalCardUser.dart';
-import '../../widget/ServicesWidget/serviceStudentGroup.dart';
+import '../../widget/ServicesWidget/serviceUserGroup.dart';
 import '../../widget/bottomNavBarProf.dart';
 
 class HomeTeacherPage extends StatelessWidget {
