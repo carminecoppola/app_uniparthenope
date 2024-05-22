@@ -3,7 +3,6 @@ import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../utilityFunctions/utilsFunction.dart';
 import '../provider/auth_provider.dart';
 import '../utilityFunctions/weatherFunction.dart';
 

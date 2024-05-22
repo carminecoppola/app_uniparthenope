@@ -186,6 +186,7 @@ class ServiceGroupProfCard extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
+                      StudentUtils.allRooms(context);
                       Navigator.pushNamed(context, '/classroomTeachers');
                     },
                     child: const ServiceCard(

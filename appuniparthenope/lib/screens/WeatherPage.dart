@@ -5,7 +5,7 @@ import '../model/weather_timeSerys_data.dart';
 import '../provider/weather_provider.dart';
 import '../widget/ServicesWidget/weatherInfoWidget.dart';
 import '../widget/bottomNavBar.dart';
-import '../widget/circularProgressIndicator.dart';
+import '../widget/CustomLoadingIndicator.dart';
 import '../widget/navbar.dart';
 
 class WeatherUniPage extends StatelessWidget {

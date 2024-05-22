@@ -3,8 +3,8 @@ import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/serviceUserGroup.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
-import 'package:appuniparthenope/widget/ServicesWidget/calendarCard.dart';
-import 'package:appuniparthenope/widget/ServicesWidget/pesonalCardUser.dart';
+import 'package:appuniparthenope/widget/ServicesWidget/CalendarWidget/calendarCard.dart';
+import 'package:appuniparthenope/widget/ServicesWidget/personalHomeWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

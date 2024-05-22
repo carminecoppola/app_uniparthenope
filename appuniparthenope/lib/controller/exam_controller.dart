@@ -118,15 +118,5 @@ class ExamController {
     }
   }
 
-  Future<List<EventsInfo>> getAllEvents(BuildContext context) async {
-    try {
-      List<EventsInfo>? events = [];
-      List<EventsInfo> allEvents = await apiService.getEvents(context);
-
-      events.addAll(allEvents);
-      return events;    
-    } catch (e) {
-      throw Exception('Errore Caricamento Eventi $e');
-    }
-  }
+  
 }

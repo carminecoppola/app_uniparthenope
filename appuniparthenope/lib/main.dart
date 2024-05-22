@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:appuniparthenope/app_routes.dart';
 import 'package:provider/provider.dart';
 
+import 'provider/rooms_provider.dart';
+
 void main() {
   runApp(
     MultiProvider(
@@ -16,6 +18,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => ExamDataProvider()),
         ChangeNotifierProvider(create: (context) => WeatherDataProvider()),
         ChangeNotifierProvider(create: (context) => TaxesDataProvider()),
+        ChangeNotifierProvider(create: (context) => RoomsProvider()),
         ChangeNotifierProvider(create: (context) => BottomNavBarProvider()),
       ],
       child: const MyApp(),
@@ -49,4 +52,13 @@ class AppColors {
   static const Color textColor = Colors.black;
   static const Color lightGray = Colors.grey;
   static const Color backgroundColor = Colors.white;
+}
+
+String toCamelCase(String text) {
+  return text.toLowerCase().split(' ').map((word) {
+    if (word.isNotEmpty) {
+      return word[0].toUpperCase() + word.substring(1);
+    }
+    return '';
+  }).join(' ');
 }

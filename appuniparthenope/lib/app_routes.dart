@@ -8,10 +8,10 @@ import 'package:appuniparthenope/screens/student/services/FeesUniStudent.dart';
 import 'package:appuniparthenope/screens/WeatherPage.dart';
 import 'package:appuniparthenope/screens/student/homeStudent.dart';
 import 'package:appuniparthenope/screens/student/services/CareerStudent.dart';
-import 'package:appuniparthenope/screens/personalProfile.dart';
 import 'package:appuniparthenope/screens/teacher/homeTeacher.dart';
 import 'package:flutter/material.dart';
 import 'screens/loginpage.dart';
+import 'screens/personalProfile.dart';
 import 'screens/qrCodePage.dart';
 import 'screens/teacher/services/ClassroomTeachers.dart';
 import 'screens/teacher/services/CourseTeachers.dart';
@@ -55,7 +55,7 @@ class AppRoutes {
     homeGuest: (context) => HomeGuestPage(),
 
     //Student roots
-    profileStudent: (context) => const StudentProfilePage(),
+    profileStudent: (context) => const PersonalProfilePage(),
     carrerStudent: (context) => const StudentCarrerPage(),
     courseStudent: (context) => const CourseStudentPage(),
     feesStudent: (context) => const FeesUniStudentPage(),

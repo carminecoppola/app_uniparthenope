@@ -1,5 +1,5 @@
 import 'package:appuniparthenope/main.dart';
-import 'package:appuniparthenope/widget/ServicesWidget/loadingExamsCircle.dart';
+import 'package:appuniparthenope/widget/ServicesWidget/CareerWidget/loadingExamsCircle.dart';
 import 'package:flutter/material.dart';
 
 class TotalExamStudentCard extends StatelessWidget {

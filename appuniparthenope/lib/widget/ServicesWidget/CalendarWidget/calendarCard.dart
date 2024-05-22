@@ -1,4 +1,4 @@
-import 'package:appuniparthenope/widget/ServicesWidget/calendarWidget.dart';
+import 'package:appuniparthenope/widget/ServicesWidget/CalendarWidget/calendarWidget.dart';
 import 'package:flutter/material.dart';
 
 class CalendarCard extends StatelessWidget {

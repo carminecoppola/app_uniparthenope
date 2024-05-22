@@ -13,8 +13,9 @@ class ProgressiveCircleSeat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Calcola la percentuale di posti disponibili
-    double availablePercentage = availableSeats / totalSeats;
+    // Calcola la percentuale di posti disponibili, con gestione del caso in cui totalSeats è zero
+    double availablePercentage =
+        totalSeats > 0 ? (availableSeats / totalSeats) : 0;
 
     // Determina il colore del cerchio in base alla percentuale di posti disponibili
     Color circleColor;
@@ -36,12 +37,10 @@ class ProgressiveCircleSeat extends StatelessWidget {
             value:
                 availablePercentage, // Valore di posti disponibili (da 0 a 1)
             backgroundColor: Colors.transparent, // Colore di sfondo del cerchio
-            valueColor: AlwaysStoppedAnimation<Color>(
-                circleColor), // Colore del cerchio
-            strokeWidth: 5, // Spessore del cerchio
+            valueColor: AlwaysStoppedAnimation<Color>(circleColor),
+            strokeWidth: 5,
           ),
         ),
-
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

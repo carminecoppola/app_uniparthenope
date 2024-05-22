@@ -240,21 +240,4 @@ class ApiStudentService {
       throw Exception('Errore durante caricamento delle lezioni');
     }
   }
-
-  Future<List<EventsInfo>> getEvents(BuildContext context) async {
-    final url = Uri.parse('$baseUrl/GAUniparthenope/v1/getEvents');
-
-    final response = await http.get(url);
-
-    if (response.statusCode == 200) {
-      final List<dynamic> jsonData = json.decode(response.body);
-      print('\n\njsonData: $jsonData');
-
-      return jsonData.map((data) => EventsInfo.fromJson(data)).toList();
-    } else if (response.statusCode == 500) {
-      throw Exception('Errore del SERVER durante il caricamento degli eventi');
-    } else {
-      throw Exception('\nErrore durante caricamento degli eventi');
-    }
-  }
 }

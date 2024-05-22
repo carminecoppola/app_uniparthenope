@@ -1,7 +1,7 @@
 import "package:appuniparthenope/main.dart";
 import "package:appuniparthenope/provider/taxes_provider.dart";
-import "package:appuniparthenope/widget/ServicesWidget/TaxCategoryCard.dart";
-import "package:appuniparthenope/widget/ServicesWidget/taxesCard.dart";
+import "package:appuniparthenope/widget/ServicesWidget/TaxWidget/TaxCategoryCard.dart";
+import "package:appuniparthenope/widget/ServicesWidget/TaxWidget/taxesCard.dart";
 import "package:appuniparthenope/widget/bottomNavBar.dart";
 import "package:appuniparthenope/widget/navbar.dart";
 import "package:flutter/material.dart";

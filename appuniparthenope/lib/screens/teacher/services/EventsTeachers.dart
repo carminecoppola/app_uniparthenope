@@ -1,13 +1,13 @@
 import 'package:appuniparthenope/main.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
-import 'package:appuniparthenope/widget/ServicesWidget/eventsCard.dart';
+import 'package:appuniparthenope/widget/ServicesWidget/EventWidget/eventsCard.dart';
 import 'package:appuniparthenope/widget/bottomNavBarProf.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../../../model/studentService/events_data.dart';
 import '../../../provider/exam_provider.dart';
-import '../../../widget/circularProgressIndicator.dart';
+import '../../../widget/CustomLoadingIndicator.dart';
 
 class EventsTeachersPage extends StatefulWidget {
   const EventsTeachersPage({super.key});

@@ -1,9 +1,12 @@
+import 'package:appuniparthenope/provider/rooms_provider.dart';
 import 'package:appuniparthenope/provider/taxes_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../controller/auth_controller.dart';
 import '../controller/exam_controller.dart';
+import '../controller/uniService_controller.dart';
 import '../model/studentService/student_course_data.dart';
+import '../model/teacherService/room_data.dart';
 import '../model/user_data_login.dart';
 import '../provider/auth_provider.dart';
 import '../provider/exam_provider.dart';
@@ -27,6 +30,7 @@ class StudentUtils {
       print('Error during _setAnagrafe: $e');
     }
   }
+
   //Da controllare poichè inutilizzata
   static Future<void> fetchAnagrafeDataAndProfileImage(
       BuildContext context, User authenticatedUser) async {
@@ -178,8 +182,8 @@ class StudentUtils {
       final authenticatedUser =
           Provider.of<AuthProvider>(context, listen: false).authenticatedUser;
       if (authenticatedUser != null) {
-        final qrCode = await authController.getUserQRCode(
-            authenticatedUser.user, context);
+        final qrCode =
+            await authController.getUserQRCode(authenticatedUser.user, context);
 
         // Utilizza il provider per impostare l'immagine di profilo
         final authProvider = Provider.of<AuthProvider>(context, listen: false);
@@ -193,7 +197,7 @@ class StudentUtils {
   }
 
   static Future<void> allEvents(BuildContext context) async {
-    final ExamController eventController = ExamController();
+    final UniServiceController eventController = UniServiceController();
 
     try {
       final allEvents = await eventController.getAllEvents(context);
@@ -202,6 +206,21 @@ class StudentUtils {
       eventsDataProvider.setAllEvents(allEvents);
     } catch (e) {
       print('\nErrore during allEvents() $e');
+    }
+  }
+
+  static Future<List<AllTodayRooms>> allRooms(BuildContext context) async {
+    final UniServiceController roomController = UniServiceController();
+
+    try {
+      final allrooms = await roomController.getAllTodayRoom(context);
+      final roomsDataProvider =
+          Provider.of<RoomsProvider>(context, listen: false);
+      roomsDataProvider.setAllTodayRooms(allrooms);
+      return allrooms;
+    } catch (e) {
+      print('\nErrore durante allRooms() $e');
+      throw e; // Assicurati di propagare l'eccezione per gestirla nel widget
     }
   }
 }

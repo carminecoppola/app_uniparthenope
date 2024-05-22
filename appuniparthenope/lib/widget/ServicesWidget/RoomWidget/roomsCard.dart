@@ -1,9 +1,12 @@
-import 'package:appuniparthenope/widget/ServicesWidget/seatAvailability.dart';
 import 'package:flutter/material.dart';
+import 'package:appuniparthenope/widget/ServicesWidget/EventWidget/seatAvailability.dart';
 import 'package:appuniparthenope/main.dart';
 
-class EventsCard extends StatelessWidget {
+class RoomsCard extends StatelessWidget {
   final String title;
+  final String profLabel;
+  final String profValue;
+
   final String aula;
   final String descrizioneAula;
   final String dateI;
@@ -13,9 +16,11 @@ class EventsCard extends StatelessWidget {
   final int totalSeats;
   final int occupiedSeats;
 
-  const EventsCard({
+  const RoomsCard({
     super.key,
     required this.title,
+    required this.profLabel,
+    required this.profValue,
     required this.aula,
     required this.descrizioneAula,
     required this.dateI,
@@ -57,7 +62,7 @@ class EventsCard extends StatelessWidget {
                   const TextSpan(
                     text: '\u2022 Aula: ',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
@@ -67,11 +72,35 @@ class EventsCard extends StatelessWidget {
                     style: const TextStyle(
                       color: AppColors.detailsColor,
                       fontWeight: FontWeight.bold,
+                      fontSize: 14,
                     ),
                   ),
                 ],
               ),
             ),
+            Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: '\u2022 $profLabel',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  TextSpan(
+                    text: profValue,
+                    style: const TextStyle(
+                      color: AppColors.detailsColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
