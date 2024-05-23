@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 class LecturesInfo {
   final String nomeLezione;

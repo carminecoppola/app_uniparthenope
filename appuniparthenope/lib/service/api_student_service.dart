@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:provider/provider.dart';
 
-import '../model/studentService/events_data.dart';
 
 class ApiStudentService {
   final String baseUrl = "https://api.uniparthenope.it";

@@ -1,5 +1,4 @@
 import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
-import 'package:appuniparthenope/utilityFunctions/utilsFunction.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:appuniparthenope/utilityFunctions/weatherFunction.dart';
 import 'package:flutter/material.dart';

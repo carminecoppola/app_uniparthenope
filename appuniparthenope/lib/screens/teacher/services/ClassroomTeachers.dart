@@ -4,7 +4,8 @@ import '../../../main.dart';
 import '../../../utilityFunctions/studentUtilsFunction.dart';
 import '../../../widget/CustomLoadingIndicator.dart';
 import '../../../widget/ServicesWidget/RoomWidget/areaDropdown.dart';
-import '../../../widget/ServicesWidget/RoomWidget/roomList.dart';
+import '../../../widget/ServicesWidget/RoomWidget/roomList.dart'; // Importa la barra di ricerca
+import '../../../widget/ServicesWidget/RoomWidget/search_bar.dart';
 import '../../../widget/bottomNavBarProf.dart';
 import '../../../widget/navbar.dart';
 
@@ -18,8 +19,10 @@ class ClassroomTeacherPage extends StatefulWidget {
 class _ClassroomTeacherPageState extends State<ClassroomTeacherPage> {
   String _selectedArea = 'Via Acton'; // Imposta un'area predefinita
   List<AllTodayRooms>? _allRooms;
+  List<AllTodayRooms>? _filteredRooms;
   bool _isLoading = true;
   bool _isFilterSelected = false;
+  String _searchQuery = '';
 
   @override
   void initState() {
@@ -32,6 +35,7 @@ class _ClassroomTeacherPageState extends State<ClassroomTeacherPage> {
       final rooms = await StudentUtils.allRooms(context);
       setState(() {
         _allRooms = rooms;
+        _filteredRooms = rooms;
         _isLoading = false;
       });
     } catch (error) {
@@ -46,6 +50,41 @@ class _ClassroomTeacherPageState extends State<ClassroomTeacherPage> {
     setState(() {
       _selectedArea = newValue!;
       _isFilterSelected = true;
+      _filterRooms();
+    });
+  }
+
+  void _onSearchChanged(String query) {
+    setState(() {
+      _searchQuery = query;
+      _filterRooms();
+    });
+  }
+
+  void _filterRooms() {
+    if (_allRooms == null) return;
+
+    setState(() {
+      _filteredRooms = _allRooms!.where((room) {
+        final areaMatch = room.area == _selectedArea ||
+            _selectedArea == '...seleziona Ateneo...';
+        final searchMatch = room.services!.any((service) {
+          final fields = [
+            service.idCorso,
+            service.start,
+            service.end,
+            service.courseName,
+            service.prof
+          ];
+          return fields.any((field) =>
+              field != null &&
+              field
+                  .toString()
+                  .toLowerCase()
+                  .contains(_searchQuery.toLowerCase()));
+        });
+        return areaMatch && searchMatch;
+      }).toList();
     });
   }
 
@@ -68,6 +107,9 @@ class _ClassroomTeacherPageState extends State<ClassroomTeacherPage> {
                   onChanged: _onAreaChanged,
                 ),
               ),
+              const SizedBox(height: 15),
+              SearchBarCustom(onChanged: _onSearchChanged),
+              const SizedBox(height: 15),
               Expanded(
                 child: _isLoading
                     ? const CustomLoadingIndicator(
@@ -76,13 +118,18 @@ class _ClassroomTeacherPageState extends State<ClassroomTeacherPage> {
                       )
                     : _isFilterSelected
                         ? RoomsList(
-                            rooms: _allRooms!,
+                            rooms: _filteredRooms!,
                             selectedArea: _selectedArea,
                           )
-                        : const Text(
-                            'Seleziona un\'area per visualizzare le aule',
-                            style: TextStyle(
-                                color: AppColors.primaryColor, fontSize: 20),
+                        : const Padding(
+                            padding: EdgeInsets.all(25.0),
+                            child: Text(
+                              'Scegli un ateneo per visualizzare le aule.',
+                              style: TextStyle(
+                                color: AppColors.primaryColor,
+                                fontSize: 16,
+                              ),
+                            ),
                           ),
               ),
             ],

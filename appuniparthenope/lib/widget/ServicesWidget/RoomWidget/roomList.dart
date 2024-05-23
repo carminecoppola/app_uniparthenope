@@ -1,7 +1,9 @@
+import 'package:appuniparthenope/main.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:appuniparthenope/model/teacherService/room_data.dart';
 import '../../../widget/ServicesWidget/RoomWidget/roomsCard.dart';
+import 'messageCard.dart';
 
 class RoomsList extends StatelessWidget {
   final List<AllTodayRooms> rooms;
@@ -50,7 +52,17 @@ class RoomsList extends StatelessWidget {
         rooms.where((room) => room.area == selectedArea).toList();
 
     if (filteredRooms.isEmpty) {
-      return const Text('Nessuna aula occupata oggi');
+      return const CustomMessageCard(
+        icon: Icons.event_busy,
+        text: 'Nessuna aula è stata prenotata per questo ateneo oggi',
+        color: AppColors.errorColor,
+      );
+    } else if (filteredRooms == '...seleziona Ateneo...') {
+      return const CustomMessageCard(
+        icon: Icons.arrow_upward,
+        text: 'Non hai selezionato nessun Ateneo...',
+        color: AppColors.detailsColor,
+      );
     }
 
     return ListView.builder(
