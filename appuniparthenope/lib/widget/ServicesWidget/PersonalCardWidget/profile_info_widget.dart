@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 
 class ProfileInfoWidget extends StatelessWidget {
-  final String label;
-  final String value;
+  final String? label;
+  final String? value;
 
   const ProfileInfoWidget({
     super.key,
@@ -29,7 +29,7 @@ class ProfileInfoWidget extends StatelessWidget {
           width: 5,
         ),
         Text(
-          value,
+          value!,
           style: const TextStyle(
             fontSize: 14,
             color: AppColors.detailsColor,

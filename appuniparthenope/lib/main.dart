@@ -1,6 +1,7 @@
 import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
+import 'package:appuniparthenope/provider/professor_provider.dart';
 import 'package:appuniparthenope/provider/taxes_provider.dart';
 import 'package:appuniparthenope/provider/weather_provider.dart';
 import 'package:appuniparthenope/screens/loginpage.dart';
@@ -16,6 +17,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => ExamDataProvider()),
+        ChangeNotifierProvider(create: (context) => ProfessorDataProvider()),
         ChangeNotifierProvider(create: (context) => WeatherDataProvider()),
         ChangeNotifierProvider(create: (context) => TaxesDataProvider()),
         ChangeNotifierProvider(create: (context) => RoomsProvider()),
@@ -54,8 +56,8 @@ class AppColors {
   static const Color backgroundColor = Colors.white;
 }
 
-String toCamelCase(String text) {
-  return text.toLowerCase().split(' ').map((word) {
+String toCamelCase(String? text) {
+  return text!.toLowerCase().split(' ').map((word) {
     if (word.isNotEmpty) {
       return word[0].toUpperCase() + word.substring(1);
     }

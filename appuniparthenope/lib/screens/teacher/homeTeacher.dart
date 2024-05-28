@@ -26,14 +26,14 @@ class HomeTeacherPage extends StatelessWidget {
             //Widget dati personali utente
             PersonalCardUser(
               onTap: () async {
-                //_anagrafeStudent(authenticatedUser!.user);
-                StudentUtils.anagrafeStudent(context, authenticatedUser!.user);
-                //_userImg(context);
+                StudentUtils.anagrafeStudent(context, authenticatedUser.user);
+                //StudentUtils.userImg(context);
               },
               firstName: authenticatedUser?.user.firstName ?? '',
               lastName: authenticatedUser?.user.lastName ?? '',
-              id: authenticatedUser?.user.trattiCarriera[0].matricola
-                  .toString(),
+              id: authenticatedUser!.user.docenteId != null
+                  ? authenticatedUser.user.docenteId.toString()
+                  : 'N/A',
               profileImage: profileImage,
             ),
 

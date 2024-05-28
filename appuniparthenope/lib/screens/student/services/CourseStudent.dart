@@ -1,12 +1,15 @@
 import 'package:appuniparthenope/main.dart';
+import 'package:appuniparthenope/model/studentService/student_course_data.dart';
+import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/CourseWidget/singleCourseCard.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../widget/CustomLoadingIndicator.dart';
+import '../../../widget/ServicesWidget/CourseWidget/customTabBarCourse.dart';
+import '../../../widget/ServicesWidget/CourseWidget/legendDialog.dart';
 
 class CourseStudentPage extends StatefulWidget {
   const CourseStudentPage({super.key});
@@ -16,85 +19,85 @@ class CourseStudentPage extends StatefulWidget {
 }
 
 class _CourseStudentState extends State<CourseStudentPage> {
-  void _showLegendDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Center(
-            child: Text(
-              'Legenda Stato',
-              style: TextStyle(
-                color: AppColors.detailsColor,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Divider(color: AppColors.detailsColor, thickness: 2),
-              SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _legendItem('Attività Didattica Pianificata',
-                        AppColors.detailsColor),
-                    _legendItem('Attività Didattica Non frequentata',
-                        AppColors.lightGray),
-                    _legendItem('Attività Didattica Frequentata',
-                        AppColors.accentColor),
-                    _legendItem(
-                        'Riconosciuta intera Attività', AppColors.successColor),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text(
-                'Chiudi',
-                style: TextStyle(
-                    color: AppColors.detailsColor, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
-        );
-      },
-    );
+  int _selectedIndex = 0;
+
+  void _onTabTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
-  Widget _legendItem(String text, Color color) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          Container(
-            width: 17,
-            height: 17,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: AppColors.textColor, width: 1),
-              color: color,
-            ),
-          ),
-          const SizedBox(width: 8),
-          Text(text),
-        ],
-      ),
-    );
+  List<String> getTabTitles(BuildContext context) {
+    final examProvider = Provider.of<ExamDataProvider>(context, listen: false);
+    final userProvider = Provider.of<AuthProvider>(context, listen: false);
+    final user =
+        userProvider.authenticatedUser?.user.trattiCarriera[0].dettaglioTratto;
+
+    if (examProvider.allCourseStudent != null &&
+        examProvider.allCourseStudent!.isNotEmpty &&
+        userProvider.authenticatedUser != null &&
+        user != null) {
+      if (user.durataAnni == 2) {
+        return ['1°', '2°'];
+      } else if (user.durataAnni == 3) {
+        return ['1°', '2°', '3°'];
+      } else if (user.durataAnni == 4) {
+        return ['1°', '2°', '3°', '4°'];
+      } else if (user.durataAnni == 5) {
+        return ['1°', '2°', '3°', '4°', '5°'];
+      }
+    }
+    return [''];
   }
 
   @override
   Widget build(BuildContext context) {
     final allCourseInfo =
         Provider.of<ExamDataProvider>(context).allCourseStudent;
-    final allStatusCourses =
-        Provider.of<ExamDataProvider>(context).allStatusCourses;
+    final allStatusCoursesMap =
+        Provider.of<ExamDataProvider>(context).statusCoursesMap;
+
+    final userProvider = Provider.of<AuthProvider>(context, listen: false);
+    final user =
+        userProvider.authenticatedUser?.user.trattiCarriera[0].dettaglioTratto;
+
+    final coursesByYear = {
+      1: <CourseInfo>[],
+      2: <CourseInfo>[],
+      3: <CourseInfo>[],
+      4: <CourseInfo>[],
+      5: <CourseInfo>[],
+    };
+
+    if (allCourseInfo != null) {
+      for (var course in allCourseInfo) {
+        if (user != null && course.annoId > user.durataAnni) {
+          coursesByYear[user.durataAnni]!.add(
+              course); // Assegna corsi oltre l'ultimo anno disponibile all'ultimo anno
+        } else {
+          coursesByYear[course.annoId]?.add(course);
+        }
+      }
+    }
+
+    List<CourseInfo> selectedCourses = [];
+    switch (_selectedIndex) {
+      case 0:
+        selectedCourses = coursesByYear[1]!;
+        break;
+      case 1:
+        selectedCourses = coursesByYear[2]!;
+        break;
+      case 2:
+        selectedCourses = coursesByYear[3]!;
+        break;
+      case 3:
+        selectedCourses = coursesByYear[4]!;
+        break;
+      case 4:
+        selectedCourses = coursesByYear[5]!;
+        break;
+    }
 
     return Scaffold(
       appBar: const NavbarComponent(),
@@ -103,15 +106,15 @@ class _CourseStudentState extends State<CourseStudentPage> {
         children: [
           GestureDetector(
             onTap: () {
-              _showLegendDialog(context);
+              showLegendDialog(context);
             },
             child: Container(
                 padding: const EdgeInsets.all(20),
                 child: const Row(
                   children: [
                     Icon(Icons.legend_toggle_sharp,
-                        color: AppColors.detailsColor), // Icona "info"
-                    SizedBox(width: 8), // Spazio tra l'icona e il testo
+                        color: AppColors.detailsColor),
+                    SizedBox(width: 8),
                     Text(
                       'Legenda Stato',
                       style: TextStyle(
@@ -125,33 +128,34 @@ class _CourseStudentState extends State<CourseStudentPage> {
                   ],
                 )),
           ),
+          const SizedBox(height: 20),
+          CustomTabBarCourse(
+            selectedIndex: _selectedIndex,
+            onTabTapped: _onTabTapped,
+            tabTitles: getTabTitles(context),
+          ),
           const SizedBox(height: 10),
-          if (allCourseInfo != null && allStatusCourses != null)
+          if (allCourseInfo != null && allStatusCoursesMap != null)
             Expanded(
               child: ListView.builder(
-                itemCount: allCourseInfo.length,
+                itemCount: selectedCourses.length,
                 itemBuilder: (context, index) {
-                  final course = allCourseInfo[index];
+                  final course = selectedCourses[index];
                   final cfuExam = course.cfu.toInt().toString();
 
-                  // Verifica se allStatusCourses contiene abbastanza elementi
-                  // prima di accedere all'elemento corrente
-                  if (index < allStatusCourses.length) {
-                    final status = allStatusCourses[index].stato.toString();
-                    return SingleCourseCard(
-                      index: index,
-                      cfuExam: cfuExam,
-                      titleExam: course.nome.toString(),
-                      status: status,
-                      codiceCorso:
-                          '${course.codice.toString()} - ${course.adId.toString()}',
-                      annoAccademico: course.annoId.toString(),
-                    );
-                  } else {
-                    // Se allStatusCourses non contiene abbastanza elementi,
-                    // restituisci un widget vuoto
-                    return const SizedBox.shrink();
-                  }
+                  final status =
+                      allStatusCoursesMap[course.codice]?.stato.toString() ??
+                          'Stato non disponibile';
+
+                  return SingleCourseCard(
+                    index: index,
+                    cfuExam: cfuExam,
+                    titleExam: course.nome.toString(),
+                    status: status,
+                    codiceCorso:
+                        '${course.codice.toString()} - ${course.adId.toString()}',
+                    annoAccademico: course.annoId.toString(),
+                  );
                 },
               ),
             )

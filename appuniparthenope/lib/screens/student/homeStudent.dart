@@ -33,10 +33,7 @@ class _HomeStudentPageState extends State<HomeStudentPage> {
               onTap: () async {
                 StudentUtils.anagrafeStudent(context, authenticatedUser!.user);
                 StudentUtils.userImg(context);
-                // if (authenticatedUser != null) {
-                //   StudentUtils.fetchAnagrafeDataAndProfileImage(
-                //       context, authenticatedUser.user);
-                // }
+                //StudentUtils.calculateGPA(context, authenticatedUser.user);
               },
               firstName: authenticatedUser?.user.firstName ?? '',
               lastName: authenticatedUser?.user.lastName ?? '',

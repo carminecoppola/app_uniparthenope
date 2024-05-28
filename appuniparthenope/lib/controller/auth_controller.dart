@@ -41,10 +41,17 @@ class AuthController {
         final UserInfo authenticatedUser = UserInfo(
           authToken: authToken,
           user: User.fromJson(userData),
-          selectedCareer: TrattiCarriera.fromJson(
-              selectedCareer), // Aggiungi questo parametro
+          selectedCareer: TrattiCarriera.fromJson(selectedCareer),
         );
 
+        return authenticatedUser;
+      } else if (userData['grpDes'] == 'Docenti') {
+        // Costruisce un oggetto User senza carriera per i docenti
+        final UserInfo authenticatedUser = UserInfo(
+          authToken: authToken,
+          user: User.fromJson(userData),
+          selectedCareer: null,
+        );
         return authenticatedUser;
       } else {
         throw Exception('Nessuna carriera trovata');
@@ -82,19 +89,19 @@ class AuthController {
     switch (role) {
       //else if(_result.user.grpDes === "Registrati" || _result.user.grpDes === "Dottorandi" || _result.user.grpDes === "Ipot. Immatricolati" || _result.user.grpDes === "Preiscritti" || _result.user.grpDes=== "Iscritti"){
       case 'Docenti':
-        Navigator.pushReplacementNamed(context, '/homeStudent');
-        //Navigator.pushReplacementNamed(context, '/homeTeacher');
-        break;
-      case 'Studenti':
         //Navigator.pushReplacementNamed(context, '/homeStudent');
         Navigator.pushReplacementNamed(context, '/homeTeacher');
+        break;
+      case 'Studenti':
+        Navigator.pushReplacementNamed(context, '/homeStudent');
+        //Navigator.pushReplacementNamed(context, '/homeTeacher');
         break;
       case 'Ristoranti':
         Navigator.pushReplacementNamed(
             context, '/homeRestaurant'); //Da implementare
         break;
       default:
-        Navigator.pushReplacementNamed(context, '/homeGuest'); //Da implementare
+        Navigator.pushReplacementNamed(context, '/homeGuest');
         break;
     }
   }
@@ -121,7 +128,7 @@ class AuthController {
 
       return anagrafeUser;
     } catch (e) {
-      print('Error during setAnagrafe: $e');
+      print('Error during controller setAnagrafe: $e');
       throw Exception('Errore nella fase di acquisizione dei dati anagrafici');
     }
   }

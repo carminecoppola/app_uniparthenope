@@ -6,8 +6,6 @@ import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:appuniparthenope/service/api_student_service.dart';
 import 'package:flutter/material.dart';
 
-import '../model/studentService/events_data.dart';
-
 class ExamController {
   final ApiStudentService apiService = ApiStudentService();
 
@@ -82,21 +80,18 @@ class ExamController {
     }
   }
 
-  Future<List<StatusCourse>> fetchAllCourseStatus(
+  Future<Map<String, StatusCourse>> fetchAllCourseStatus(
       User student, List<CourseInfo> courses, BuildContext context) async {
     try {
-      List<StatusCourse> allStatusCourses = [];
+      Map<String, StatusCourse> statusCoursesMap = {};
 
-      // Itera su tutti i corsi e recupera lo stato di ciascun corso
       for (CourseInfo course in courses) {
         final StatusCourse statusCourse =
             await apiService.getStatusExam(student, course, context);
-        allStatusCourses.add(statusCourse);
+        statusCoursesMap[course.codice] = statusCourse;
       }
 
-      //print('\nfetchAllCourseStatus(), Stati: $allStatusCourses');
-
-      return allStatusCourses;
+      return statusCoursesMap;
     } catch (e) {
       throw Exception('Errore Caricamento Status dei corsi $e');
     }
@@ -117,6 +112,4 @@ class ExamController {
       throw Exception('Errore Caricamento delle lezioni dello studente');
     }
   }
-
-  
 }

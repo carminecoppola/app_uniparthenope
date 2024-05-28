@@ -4,6 +4,7 @@ import 'package:appuniparthenope/utilityFunctions/weatherFunction.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../provider/bottomNavBar_provider.dart';
+import '../../utilityFunctions/professorUtilsFunction.dart';
 
 class ServiceCard extends StatelessWidget {
   final String imagePath;
@@ -192,28 +193,31 @@ class ServiceGroupProfCard extends StatelessWidget {
                       imagePath: 'assets/icon/classroom.png',
                       title: 'Aule',
                       description:
-                          'Qui è possibile prenotare le aule per le lezioni e per gli esami.',
+                          'Qui è possibile visualizzare e prenotare le aule per le lezioni e per gli esami.',
                     ),
                   ),
                   const SizedBox(width: 5),
                   GestureDetector(
                     onTap: () {
+                      ProfessorUtils.allCourseProfessor(
+                          context, authenticatedUser.user);
+                      //Aggiornamento bottomNavBarProvider
+                      final bottomNavBarProvider =
+                          Provider.of<BottomNavBarProvider>(context,
+                              listen: false);
+                      bottomNavBarProvider.updateIndex(1);
                       Navigator.pushNamed(context, '/courseTeachers');
                     },
                     child: const ServiceCard(
                       imagePath: 'assets/icon/courses.png',
                       title: 'Corsi',
                       description:
-                          'Puoi visualizzare per ogni anno accademico i corsi da seguire.',
+                          'È possibile visualizzare i propri corsi per ogni anno accademico.',
                     ),
                   ),
-                  const SizedBox(width: 5), // Spazio tra le card
+                  const SizedBox(width: 5),
                   GestureDetector(
                     onTap: () {
-                      final bottomNavBarProvider =
-                          Provider.of<BottomNavBarProvider>(context,
-                              listen: false);
-                      bottomNavBarProvider.updateIndex(1);
                       StudentUtils.allEvents(context);
                       Navigator.pushNamed(context, '/eventsTeachers');
                     },

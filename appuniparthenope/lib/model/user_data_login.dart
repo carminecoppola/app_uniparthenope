@@ -3,12 +3,12 @@ import 'dart:convert';
 class UserInfo {
   final String authToken;
   final User user;
-  final TrattiCarriera selectedCareer;
+  final TrattiCarriera? selectedCareer;
 
   UserInfo({
     required this.authToken,
     required this.user,
-    required this.selectedCareer,
+    this.selectedCareer,
   });
 
   factory UserInfo.fromRawJson(String str) =>
@@ -19,49 +19,51 @@ class UserInfo {
   factory UserInfo.fromJson(Map<String, dynamic> json) => UserInfo(
         authToken: json["authToken"],
         user: User.fromJson(json["user"]),
-        selectedCareer: TrattiCarriera.fromJson(json["selectedCareer"]),
+        selectedCareer: json["selectedCareer"] != null
+            ? TrattiCarriera.fromJson(json["selectedCareer"])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
         "authToken": authToken,
         "user": user.toJson(),
-        "selectedCareer": selectedCareer.toJson(),
+        "selectedCareer": selectedCareer?.toJson(),
       };
 }
 
 class User {
-  final String aliasName;
+  final String? aliasName;
   final String codFis;
-  final dynamic docenteId;
+  final int? docenteId;
   final String firstName;
   final String grpDes;
   final int grpId;
   final int id;
-  final dynamic idAb;
+  final int? idAb;
   final String lastName;
-  final int persId;
+  final int? persId;
   final int sessionTimeout;
-  final String sex;
-  final dynamic soggEstId;
+  final String? sex;
+  final int? soggEstId;
   final int tipoFirmaFaId;
   final int tipoFirmaId;
   final List<TrattiCarriera> trattiCarriera;
   final String userId;
 
   User({
-    required this.aliasName,
+    this.aliasName,
     required this.codFis,
-    required this.docenteId,
+    this.docenteId,
     required this.firstName,
     required this.grpDes,
     required this.grpId,
     required this.id,
-    required this.idAb,
+    this.idAb,
     required this.lastName,
-    required this.persId,
+    this.persId,
     required this.sessionTimeout,
-    required this.sex,
-    required this.soggEstId,
+    this.sex,
+    this.soggEstId,
     required this.tipoFirmaFaId,
     required this.tipoFirmaId,
     required this.trattiCarriera,
@@ -88,8 +90,10 @@ class User {
         soggEstId: json["soggEstId"],
         tipoFirmaFaId: json["tipoFirmaFaId"],
         tipoFirmaId: json["tipoFirmaId"],
-        trattiCarriera: List<TrattiCarriera>.from(
-            json["trattiCarriera"].map((x) => TrattiCarriera.fromJson(x))),
+        trattiCarriera: json["trattiCarriera"] != null
+            ? List<TrattiCarriera>.from(
+                json["trattiCarriera"].map((x) => TrattiCarriera.fromJson(x)))
+            : [],
         userId: json["userId"],
       );
 

@@ -12,7 +12,9 @@ class ExamDataProvider extends ChangeNotifier {
   List<ExamData>? _allExamStudent;
   List<CourseInfo>? _allCourseStudent;
   List<StatusCourse>? _allStatusCourses;
+  Map<String, StatusCourse>? _statusCoursesMap; // Aggiungi questa variabile
   List<EventsInfo>? _allEvents;
+  double? _gpa;
 
   TotalExamStudent? get totalExamStudent => _totalExamStatsStudent;
   AverageInfo? get aritmeticAverageStatsStudent =>
@@ -21,7 +23,10 @@ class ExamDataProvider extends ChangeNotifier {
   List<ExamData>? get allExamStudent => _allExamStudent;
   List<CourseInfo>? get allCourseStudent => _allCourseStudent;
   List<StatusCourse>? get allStatusCourses => _allStatusCourses;
+  Map<String, StatusCourse>? get statusCoursesMap =>
+      _statusCoursesMap; // Aggiungi questo getter
   List<EventsInfo>? get allEventsList => _allEvents;
+  double? get allGPA => _gpa;
 
   // Metodo per impostare l'anagrafica dell'utente
   void setTotalStatsExamStudent(TotalExamStudent totalExamStudent) {
@@ -54,9 +59,21 @@ class ExamDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Metodo per impostare la mappa degli stati dei corsi dell'utente
+  void setStatusCoursesMap(Map<String, StatusCourse> statusCoursesMap) {
+    _statusCoursesMap = statusCoursesMap;
+    notifyListeners();
+  }
+
   // Metodo per impostare gli eventi
   void setAllEvents(List<EventsInfo> allEventsList) {
     _allEvents = allEventsList;
+    notifyListeners();
+  }
+
+  // Metodo per impostare gli eventi
+  void setGPA(double gpa) {
+    _gpa = gpa;
     notifyListeners();
   }
 }

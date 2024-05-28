@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:appuniparthenope/utilityFunctions/utilsFunction.dart';
+import 'package:appuniparthenope/widget/CustomLoadingIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -16,6 +17,7 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
 
   final List<String> universityImages = [
     'assets/university/uni_monte.jpg',
@@ -113,29 +115,41 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                 ),
                 const SizedBox(height: 30.0),
-                ElevatedButton(
-                  onPressed: () async {
-                    UtilsFunction.authUser(context, _usernameController.text,
-                        _passwordController.text);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 70.0, vertical: 15.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    backgroundColor: AppColors.primaryColor,
-                    elevation: 10,
-                    shadowColor: Colors.white,
-                  ),
-                  child: const Text(
-                    'Accedi',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+                _isLoading
+                    ? const CustomLoadingIndicator(
+                        text: 'Autenticazione in corso, per favore attendi...',
+                        myColor: AppColors.primaryColor)
+                    : ElevatedButton(
+                        onPressed: () async {
+                          setState(() {
+                            _isLoading = true;
+                          });
+                          await UtilsFunction.authUser(
+                              context,
+                              _usernameController.text,
+                              _passwordController.text);
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 70.0, vertical: 15.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          backgroundColor: AppColors.primaryColor,
+                          elevation: 10,
+                          shadowColor: Colors.white,
+                        ),
+                        child: const Text(
+                          'Accedi',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                 TextButton(
                   onPressed: () async {
                     const url = 'https://passwordreset.microsoftonline.com';

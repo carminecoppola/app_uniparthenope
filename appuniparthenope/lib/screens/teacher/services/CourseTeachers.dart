@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../main.dart';
+import '../../../widget/ServicesWidget/CourseWidget/professor/courseListView.dart';
 import '../../../widget/bottomNavBarProf.dart';
 import '../../../widget/navbar.dart';
 
@@ -18,14 +17,13 @@ class _CoursesTeachersPageState extends State<CoursesTeachersPage> {
       appBar: const NavbarComponent(),
       body: Container(
         color: Colors.white,
-        child: const Center(
-            child: Text(
-          'Sei nella pagina dei corsi',
-          style: TextStyle(
-            fontSize: 20,
-            color: AppColors.primaryColor,
-          ),
-        )),
+        child: const Column(
+          children: [
+            Expanded(
+              child: CourseListWidget(),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: const BottomNavBarProfComponent(),
     );

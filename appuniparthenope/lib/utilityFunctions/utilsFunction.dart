@@ -10,19 +10,23 @@ class UtilsFunction {
       BuildContext context, String username, String password) async {
     final AuthController authController = AuthController();
 
-    username = "carmine.coppola";
-    password = "CppCmn01_";
+    // username = 'carmine.coppola';
+    // password = 'CppCmn01_';
+    // username = 'montella';
+    // password = 'Montella2024!';
 
     try {
       final authenticatedUser =
           await authController.authUser(context, username, password);
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       authProvider.setAuthenticatedUser(authenticatedUser, password);
-      authProvider
-          .setAuthToken(authenticatedUser.authToken); // Imposta il token
+      authProvider.setAuthToken(authenticatedUser.authToken);
 
-      // Imposta la carriera selezionata
-      authProvider.setSelectedCareer(authenticatedUser.selectedCareer);
+      // Se il gruppo dell'utente è 'Docenti', non impostare la carriera
+      if (authenticatedUser.user.grpDes != 'Docenti') {
+        // Imposta la carriera selezionata
+        authProvider.setSelectedCareer(authenticatedUser.selectedCareer!);
+      }
 
       // Precarica i dati necessari per la homepage
       await StudentUtils.userImg(context);

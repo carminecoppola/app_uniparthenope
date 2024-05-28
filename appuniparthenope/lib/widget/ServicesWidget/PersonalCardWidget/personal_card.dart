@@ -3,9 +3,9 @@ import 'package:appuniparthenope/main.dart';
 import 'avatar_widget.dart';
 
 class PersonalCardWidget extends StatelessWidget {
-  final String nome;
-  final String cognome;
-  final String identificativoLabel;
+  final String? nome;
+  final String? cognome;
+  final String? identificativoLabel;
   final String? identificativo;
 
   const PersonalCardWidget({
@@ -34,7 +34,7 @@ class PersonalCardWidget extends StatelessWidget {
             const AvatarWidget(),
             const SizedBox(height: 10),
             Text(
-              '${toCamelCase(nome)} ${toCamelCase(cognome)}',
+              '${toCamelCase(nome!)} ${toCamelCase(cognome!)}',
               style: const TextStyle(
                   color: AppColors.backgroundColor,
                   fontSize: 16,

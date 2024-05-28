@@ -22,7 +22,6 @@ class ApiService {
     print('Response API:${response.body}');
 
     if (response.statusCode == 200) {
-      // Conversione della risposta JSON in una mappa di stringhe dynamiche
       final Map<String, dynamic> data = json.decode(response.body);
       return data;
     } else if (response.statusCode == 401) {
@@ -38,15 +37,19 @@ class ApiService {
   Future<Map<String, dynamic>> studentAnagrafe(
       User student, BuildContext context) async {
     final String persId = student.persId.toString();
+    final String docenteId = student.docenteId.toString();
+
+    final String userId = student.userId;
     final String password =
         Provider.of<AuthProvider>(context, listen: false).password!;
 
+    final String id = student.grpDes == 'Docenti' ? docenteId : persId;
     final url =
-        Uri.parse('$baseUrl/UniparthenopeApp/v1/general/anagrafica/$persId');
+        Uri.parse('$baseUrl/UniparthenopeApp/v1/general/anagrafica/$id');
 
     final response = await http.get(url, headers: {
       'Authorization':
-          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
+          'Basic ${base64Encode(utf8.encode("$userId:$password"))}',
     });
 
     print('Status:${response.statusCode}');

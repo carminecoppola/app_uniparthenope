@@ -10,7 +10,7 @@ import '../widget/ServicesWidget/PersonalCardWidget/profile_info_display.dart';
 import '../widget/ServicesWidget/PersonalCardWidget/tabbar_custom.dart';
 
 class PersonalProfilePage extends StatefulWidget {
-  const PersonalProfilePage({super.key});
+  const PersonalProfilePage({Key? key});
 
   @override
   _PersonalProfilePageState createState() => _PersonalProfilePageState();
@@ -27,18 +27,23 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<BottomNavBarProvider>(context);
-
     final authenticatedUser =
         Provider.of<AuthProvider>(context).authenticatedUser;
-    final identificativo = authenticatedUser?.user.trattiCarriera[0].matricola;
-    final role = authenticatedUser?.user.grpDes;
     final userAnagrafe = Provider.of<AuthProvider>(context).anagrafeUser;
 
+    final trattiCarriera = authenticatedUser?.user.trattiCarriera;
+    final identificativo = trattiCarriera != null && trattiCarriera.isNotEmpty
+        ? trattiCarriera[0].matricola
+        : 'N/A';
+    final facCod = trattiCarriera != null && trattiCarriera.isNotEmpty
+        ? trattiCarriera[0].dettaglioTratto.facCod
+        : null;
+    final role = authenticatedUser?.user.grpDes;
     final identificativoLabel = role == 'Docenti' ? 'ID Docente' : 'Matricola';
 
-    final String backgroundConfig = _chooseBackground(
-        authenticatedUser?.user.trattiCarriera[0].dettaglioTratto.facCod);
+    final String backgroundConfig = facCod != null
+        ? _chooseBackground(facCod)
+        : 'assets/university/uni_monte.jpg';
 
     return Scaffold(
       appBar: const NavbarComponent(),
@@ -69,10 +74,13 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     PersonalCardWidget(
-                      nome: userAnagrafe!.nome,
-                      cognome: userAnagrafe.cognome,
+                      nome: userAnagrafe?.nome ?? 'Nome non disponibile',
+                      cognome:
+                          userAnagrafe?.cognome ?? 'Cognome non disponibile',
                       identificativoLabel: identificativoLabel,
-                      identificativo: identificativo,
+                      identificativo: identificativo != null
+                          ? identificativo.toString()
+                          : 'N/A',
                     ),
                     const SizedBox(height: 8),
                     CustomTabBar(
@@ -98,7 +106,7 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
     );
   }
 
-  //Da rivedere la correttezza dei campi relativi all'immagine, sono sicuro di CDN
+  // Metodo per scegliere lo sfondo in base al codice della facoltà
   String _chooseBackground(String? facCod) {
     switch (facCod) {
       case 'S1':
@@ -108,7 +116,7 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
       case 'S3':
         return 'assets/university/uni_medina.jpeg';
       case 'S4':
-        return 'assets/university/uni_centrale.png ';
+        return 'assets/university/uni_centrale.png';
       case 'S5':
         return 'assets/university/uni_nola.jpeg';
       case 'S6':

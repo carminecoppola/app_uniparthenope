@@ -8,13 +8,16 @@ import '../widget/bottomNavBar.dart';
 import '../widget/qrCode_widget.dart';
 
 class QRCodePage extends StatelessWidget {
-  const QRCodePage({super.key});
+  final String? profileImage;
+
+  const QRCodePage({super.key, this.profileImage});
 
   @override
   Widget build(BuildContext context) {
     final authenticatedUser =
         Provider.of<AuthProvider>(context).authenticatedUser;
-    final matricola = authenticatedUser?.user.trattiCarriera[0].matricola;
+    final user = authenticatedUser?.user.trattiCarriera[0];
+    final profileImage = Provider.of<AuthProvider>(context).profileImage;
 
     return Scaffold(
       appBar: const NavbarComponent(),
@@ -37,7 +40,7 @@ class QRCodePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text(
-                      'QR-Code',
+                      'Personal Card',
                       style: TextStyle(
                           fontSize: 25,
                           color: AppColors.backgroundColor,
@@ -47,37 +50,86 @@ class QRCodePage extends StatelessWidget {
                     const SizedBox(height: 20),
                     const Center(child: QRCodeWidget()),
                     const SizedBox(height: 30),
-                    Center(
-                      child: Text(
-                        '${toCamelCase(authenticatedUser!.user.firstName)} ${toCamelCase(authenticatedUser.user.lastName)}',
-                        style: const TextStyle(
-                          fontSize: 20,
-                          color: AppColors.detailsColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    Center(
-                      child: Text.rich(
-                        TextSpan(
-                          text: 'Matricola: ',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.white70,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: matricola,
-                              style: const TextStyle(
-                                fontSize: 14,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          radius: 40,
+                          backgroundImage: profileImage != null
+                              ? Image.asset(profileImage!).image
+                              : Image.asset(
+                                  'assets/user_profile_default.jpg',
+                                ).image,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
                                 color: AppColors.detailsColor,
-                                fontWeight: FontWeight.bold,
+                                width: 3,
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                        const SizedBox(width: 10),
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${toCamelCase(authenticatedUser!.user.firstName)} ${toCamelCase(authenticatedUser.user.lastName)}',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  color: AppColors.detailsColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Text.rich(
+                                TextSpan(
+                                  text: 'Matricola: ',
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white70,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: user!.matricola,
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: AppColors.detailsColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: true,
+                              ),
+                              Text.rich(
+                                TextSpan(
+                                  text: 'Cds: ',
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white70,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: toCamelCase(user.cdsDes.toString()),
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: AppColors.detailsColor,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                softWrap: true,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import '../../../widget/CustomLoadingIndicator.dart';
+import '../../../widget/ServicesWidget/RoomWidget/areaDropdown.dart';
+import '../../../widget/ServicesWidget/RoomWidget/roomList.dart';
+import '../../../widget/bottomNavBarProf.dart';
+import '../../../widget/navbar.dart';
 import 'package:appuniparthenope/model/teacherService/room_data.dart';
 import '../../../main.dart';
 import '../../../utilityFunctions/studentUtilsFunction.dart';
-import '../../../widget/CustomLoadingIndicator.dart';
-import '../../../widget/ServicesWidget/RoomWidget/areaDropdown.dart';
-import '../../../widget/ServicesWidget/RoomWidget/roomList.dart'; // Importa la barra di ricerca
-import '../../../widget/ServicesWidget/RoomWidget/search_bar.dart';
-import '../../../widget/bottomNavBarProf.dart';
-import '../../../widget/navbar.dart';
 
 class ClassroomTeacherPage extends StatefulWidget {
   const ClassroomTeacherPage({super.key});
@@ -17,75 +16,16 @@ class ClassroomTeacherPage extends StatefulWidget {
 }
 
 class _ClassroomTeacherPageState extends State<ClassroomTeacherPage> {
-  String _selectedArea = 'Via Acton'; // Imposta un'area predefinita
-  List<AllTodayRooms>? _allRooms;
-  List<AllTodayRooms>? _filteredRooms;
+  String _selectedArea = '...seleziona Ateneo...';
+  List<AllTodayRooms>? _allRooms = [];
+  List<AllTodayRooms>? _filteredRooms = [];
   bool _isLoading = true;
   bool _isFilterSelected = false;
-  String _searchQuery = '';
 
   @override
   void initState() {
     super.initState();
     _loadRooms();
-  }
-
-  Future<void> _loadRooms() async {
-    try {
-      final rooms = await StudentUtils.allRooms(context);
-      setState(() {
-        _allRooms = rooms;
-        _filteredRooms = rooms;
-        _isLoading = false;
-      });
-    } catch (error) {
-      setState(() {
-        _isLoading = false;
-      });
-      // Gestisci l'errore qui, ad esempio mostrando un messaggio all'utente
-    }
-  }
-
-  void _onAreaChanged(String? newValue) {
-    setState(() {
-      _selectedArea = newValue!;
-      _isFilterSelected = true;
-      _filterRooms();
-    });
-  }
-
-  void _onSearchChanged(String query) {
-    setState(() {
-      _searchQuery = query;
-      _filterRooms();
-    });
-  }
-
-  void _filterRooms() {
-    if (_allRooms == null) return;
-
-    setState(() {
-      _filteredRooms = _allRooms!.where((room) {
-        final areaMatch = room.area == _selectedArea ||
-            _selectedArea == '...seleziona Ateneo...';
-        final searchMatch = room.services!.any((service) {
-          final fields = [
-            service.idCorso,
-            service.start,
-            service.end,
-            service.courseName,
-            service.prof
-          ];
-          return fields.any((field) =>
-              field != null &&
-              field
-                  .toString()
-                  .toLowerCase()
-                  .contains(_searchQuery.toLowerCase()));
-        });
-        return areaMatch && searchMatch;
-      }).toList();
-    });
   }
 
   @override
@@ -107,8 +47,6 @@ class _ClassroomTeacherPageState extends State<ClassroomTeacherPage> {
                   onChanged: _onAreaChanged,
                 ),
               ),
-              const SizedBox(height: 15),
-              SearchBarCustom(onChanged: _onSearchChanged),
               const SizedBox(height: 15),
               Expanded(
                 child: _isLoading
@@ -138,5 +76,47 @@ class _ClassroomTeacherPageState extends State<ClassroomTeacherPage> {
       ),
       bottomNavigationBar: const BottomNavBarProfComponent(),
     );
+  }
+
+  void _loadRooms() async {
+    try {
+      final rooms = await StudentUtils.allRooms(context);
+      setState(() {
+        _allRooms = rooms ?? [];
+        _filteredRooms = rooms ?? [];
+        _isLoading = false;
+      });
+    } catch (error) {
+      setState(() {
+        _isLoading = false;
+      });
+      // Handle error here, for example, show a Snackbar or an AlertDialog
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Errore durante il caricamento delle aule: $error'),
+        ),
+      );
+    }
+  }
+
+  void _onAreaChanged(String? newValue) {
+    setState(() {
+      _selectedArea = newValue!;
+      _isFilterSelected = true;
+      _filterRooms();
+    });
+  }
+
+  void _filterRooms() {
+    if (_allRooms == null) return;
+
+    setState(() {
+      _filteredRooms = _allRooms!.where((room) {
+        final areaMatch = room.area == _selectedArea ||
+            _selectedArea == '...seleziona Ateneo...';
+
+        return areaMatch;
+      }).toList();
+    });
   }
 }

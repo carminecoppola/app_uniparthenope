@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../controller/auth_controller.dart';
 import '../controller/exam_controller.dart';
 import '../controller/uniService_controller.dart';
+import '../model/studentService/exam_data.dart';
 import '../model/studentService/student_course_data.dart';
 import '../model/teacherService/room_data.dart';
 import '../model/user_data_login.dart';
@@ -101,6 +102,41 @@ class StudentUtils {
     }
   }
 
+  static Future<void> calculateGPA(
+      BuildContext context, User authenticatedUser) async {
+    final ExamController totalExamController = ExamController();
+    try {
+      final allExamStudent = await totalExamController.fetchAllExamStudent(
+          authenticatedUser, context);
+
+      // Filtra gli esami con esito diverso da 'S' e con voto non nullo
+      List<ExamData> validExams = allExamStudent
+          .where((exam) => exam.status.esito == 'S' && exam.status.voto != null)
+          .toList();
+
+      print('\validExams: ${validExams}');
+
+      // Calcola il GPA
+      double gpa = 0;
+      int totalCFU = 0;
+      for (ExamData exam in validExams) {
+        gpa += exam.cfu! *
+            exam.status
+                .voto!; // Aggiunge il peso dell'esame moltiplicato per il voto
+        totalCFU += exam.cfu!.toInt();
+      }
+      gpa /= totalCFU; // Dividi per il totale dei CFU per ottenere la media
+
+      final gapDataProvider =
+          Provider.of<ExamDataProvider>(context, listen: false);
+      gapDataProvider.setGPA(gpa);
+
+      print('\nGPA: ${gpa}');
+    } catch (e) {
+      print('\nErrore during calculateGPA() $e');
+    }
+  }
+
   static Future<void> allCourseStudent(
       BuildContext context, User? authenticatedUser) async {
     final ExamController totalExamController = ExamController();
@@ -124,18 +160,12 @@ class StudentUtils {
     try {
       final examDataProvider =
           Provider.of<ExamDataProvider>(context, listen: false);
+      Map<String, StatusCourse> statusCoursesMap = await totalExamController
+          .fetchAllCourseStatus(authenticatedUser, allCourses, context);
 
-      for (CourseInfo course in allCourses) {
-        List<StatusCourse> statusCourses = await totalExamController
-            .fetchAllCourseStatus(authenticatedUser, [course], context);
-
-        // Assicurati che lo stato del corso sia disponibile
-        if (statusCourses.isNotEmpty) {
-          // Aggiungi lo stato del corso all'elenco in ExamDataProvider
-          examDataProvider.setAllStatusCourses(
-              [...examDataProvider.allStatusCourses ?? [], ...statusCourses]);
-        }
-      }
+      // Converti la mappa in una lista e aggiorna il provider
+      examDataProvider.setAllStatusCourses(statusCoursesMap.values.toList());
+      examDataProvider.setStatusCoursesMap(statusCoursesMap);
     } catch (e) {
       print('\nErrore durante _allStatusCourse() $e');
     }
@@ -220,7 +250,7 @@ class StudentUtils {
       return allrooms;
     } catch (e) {
       print('\nErrore durante allRooms() $e');
-      throw e; // Assicurati di propagare l'eccezione per gestirla nel widget
+      throw e;
     }
   }
 }

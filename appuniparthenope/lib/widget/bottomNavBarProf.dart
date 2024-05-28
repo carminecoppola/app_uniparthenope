@@ -21,13 +21,16 @@ class BottomNavBarProfComponent extends StatelessWidget {
         navigationProvider.updateIndex(index);
         switch (index) {
           case 0:
+            final bottomNavBarProvider =
+                Provider.of<BottomNavBarProvider>(context, listen: false);
+            bottomNavBarProvider.updateIndex(0);
             Navigator.pushNamed(context, '/homeTeacher');
             break;
           case 1:
             final bottomNavBarProvider =
                 Provider.of<BottomNavBarProvider>(context, listen: false);
             bottomNavBarProvider.updateIndex(1);
-            Navigator.pushNamed(context, '/classroomTeachers');
+            Navigator.pushNamed(context, '/courseTeachers');
             break;
           case 2:
             // Mostra il menu quando viene premuto l'elemento 2 del BottomNavigationBar
@@ -69,6 +72,7 @@ class BottomNavBarProfComponent extends StatelessWidget {
                 ),
                 PopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
+                    StudentUtils.allRooms(context);
                     Navigator.pushNamed(context, '/classroomsTeachers');
                   },
                   icon: Icons.school_sharp,
@@ -78,6 +82,10 @@ class BottomNavBarProfComponent extends StatelessWidget {
                   onTap: () {
                     StudentUtils.allCourseStudent(
                         context, authenticatedUser!.user);
+                    final bottomNavBarProvider =
+                        Provider.of<BottomNavBarProvider>(context,
+                            listen: false);
+                    bottomNavBarProvider.updateIndex(1);
                     Navigator.pushNamed(context, '/courseTeachers');
                   },
                   icon: Icons.book,
@@ -85,6 +93,7 @@ class BottomNavBarProfComponent extends StatelessWidget {
                 ),
                 PopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
+                    StudentUtils.allEvents(context);
                     Navigator.pushNamed(context, '/eventsTeachers');
                   },
                   icon: Icons.event,
@@ -126,7 +135,7 @@ class BottomNavBarProfComponent extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.class_),
-          label: 'Classi',
+          label: 'Corsi',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.menu),
