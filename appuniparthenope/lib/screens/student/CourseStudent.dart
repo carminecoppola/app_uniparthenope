@@ -7,9 +7,9 @@ import 'package:appuniparthenope/widget/bottomNavBar.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../widget/CustomLoadingIndicator.dart';
-import '../../../widget/ServicesWidget/CourseWidget/customTabBarCourse.dart';
-import '../../../widget/ServicesWidget/CourseWidget/legendDialog.dart';
+import '../../widget/CustomLoadingIndicator.dart';
+import '../../widget/ServicesWidget/CourseWidget/customTabBarCourse.dart';
+import '../../widget/ServicesWidget/CourseWidget/legendDialog.dart';
 
 class CourseStudentPage extends StatefulWidget {
   const CourseStudentPage({super.key});

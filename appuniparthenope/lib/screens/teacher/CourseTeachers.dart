@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../main.dart';
-import '../../../widget/ServicesWidget/CourseWidget/professor/courseListView.dart';
-import '../../../widget/bottomNavBarProf.dart';
-import '../../../widget/navbar.dart';
+import '../../main.dart';
+import '../../widget/ServicesWidget/CourseWidget/professor/courseListView.dart';
+import '../../widget/bottomNavBarProf.dart';
+import '../../widget/navbar.dart';
 
 class CoursesTeachersPage extends StatefulWidget {
   const CoursesTeachersPage({super.key});

@@ -1,5 +1,4 @@
 import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
-import 'package:appuniparthenope/utilityFunctions/utilsFunction.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +21,7 @@ class BottomNavBarComponent extends StatelessWidget {
         navigationProvider.updateIndex(index);
         switch (index) {
           case 0:
-            Navigator.pushNamed(context, '/homeStudent');
+            Navigator.pushNamed(context, '/homePage');
             break;
           case 1:
             StudentUtils.totalExamStats(context, authenticatedUser!.user);

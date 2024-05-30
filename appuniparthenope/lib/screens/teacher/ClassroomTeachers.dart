@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../widget/CustomLoadingIndicator.dart';
-import '../../../widget/ServicesWidget/RoomWidget/areaDropdown.dart';
-import '../../../widget/ServicesWidget/RoomWidget/roomList.dart';
-import '../../../widget/bottomNavBarProf.dart';
-import '../../../widget/navbar.dart';
+import '../../widget/CustomLoadingIndicator.dart';
+import '../../widget/ServicesWidget/RoomWidget/areaDropdown.dart';
+import '../../widget/ServicesWidget/RoomWidget/roomList.dart';
+import '../../widget/bottomNavBarProf.dart';
+import '../../widget/navbar.dart';
 import 'package:appuniparthenope/model/teacherService/room_data.dart';
-import '../../../main.dart';
-import '../../../utilityFunctions/studentUtilsFunction.dart';
+import '../../main.dart';
+import '../../utilityFunctions/studentUtilsFunction.dart';
 
 class ClassroomTeacherPage extends StatefulWidget {
   const ClassroomTeacherPage({super.key});

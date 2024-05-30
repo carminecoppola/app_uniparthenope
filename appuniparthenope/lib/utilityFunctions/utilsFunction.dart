@@ -9,11 +9,6 @@ class UtilsFunction {
       BuildContext context, String username, String password) async {
     final AuthController authController = AuthController();
 
-    username = 'carmine.coppola';
-    password = 'CppCmn01_';
-    // username = 'MNTRFL72E10F839I';
-    // password = 'Sarima44iv\$!';
-
     try {
       final authenticatedUser =
           await authController.authUser(context, username, password);
@@ -30,12 +25,9 @@ class UtilsFunction {
       // Precarica i dati necessari per la homepage
       await StudentUtils.userImg(context);
 
-      // Naviga alla schermata corretta in base al ruolo dell'utente
-      await AuthController.navigateByRole(
-          context, authenticatedUser.user.grpDes);
+      Navigator.pushReplacementNamed(context, '/homePage');
     } catch (e) {
       print('Errore durante l\'autenticazione: $e');
     }
   }
-
 }

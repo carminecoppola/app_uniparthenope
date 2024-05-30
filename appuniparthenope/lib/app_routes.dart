@@ -1,21 +1,20 @@
 import 'package:appuniparthenope/screens/InfoAppPage.dart';
 import 'package:appuniparthenope/screens/dottorandi/homePhD.dart';
 import 'package:appuniparthenope/screens/guest/homeGuest.dart';
+import 'package:appuniparthenope/screens/home.dart';
 import 'package:appuniparthenope/screens/loadingpage.dart';
 import 'package:appuniparthenope/screens/resturant/homeResturant.dart';
-import 'package:appuniparthenope/screens/student/services/CourseStudent.dart';
-import 'package:appuniparthenope/screens/student/services/FeesUniStudent.dart';
+import 'package:appuniparthenope/screens/student/CourseStudent.dart';
+import 'package:appuniparthenope/screens/student/FeesUniStudent.dart';
 import 'package:appuniparthenope/screens/WeatherPage.dart';
-import 'package:appuniparthenope/screens/student/homeStudent.dart';
-import 'package:appuniparthenope/screens/student/services/CareerStudent.dart';
-import 'package:appuniparthenope/screens/teacher/homeTeacher.dart';
+import 'package:appuniparthenope/screens/student/CareerStudent.dart';
 import 'package:flutter/material.dart';
 import 'screens/loginpage.dart';
 import 'screens/personalProfile.dart';
 import 'screens/qrCodePage.dart';
-import 'screens/teacher/services/ClassroomTeachers.dart';
-import 'screens/teacher/services/CourseTeachers.dart';
-import 'screens/teacher/services/EventsTeachers.dart';
+import 'screens/teacher/ClassroomTeachers.dart';
+import 'screens/teacher/CourseTeachers.dart';
+import 'screens/teacher/EventsTeachers.dart';
 
 class AppRoutes {
   static const String loadingPage = '/loadingFirstPage';
@@ -23,8 +22,7 @@ class AppRoutes {
   static const String infoAppPage = '/infoAppPage';
   static const String qrCodePage = '/qrCodePage';
   //Role
-  static const String homeStudent = '/homeStudent';
-  static const String homeTeacher = '/homeTeacher';
+  static const String home = '/homePage';
   static const String homeResturant = '/homeResturant';
   static const String homePhD = '/homePhD';
   static const String homeGuest = '/homeGuest';
@@ -48,8 +46,7 @@ class AppRoutes {
     qrCodePage: (context) => const QRCodePage(),
 
     //Role
-    homeStudent: (context) => const HomeStudentPage(),
-    homeTeacher: (context) => const HomeTeacherPage(),
+    home: (context) => const HomePage(),
     homeResturant: (context) => const HomeRestaurateursPage(),
     homePhD: (context) => const HomePhDPage(),
     homeGuest: (context) => HomeGuestPage(),

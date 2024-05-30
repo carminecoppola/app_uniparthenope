@@ -4,21 +4,17 @@ import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/serviceUserGroup.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/CalendarWidget/calendarCard.dart';
-import 'package:appuniparthenope/widget/ServicesWidget/personalHomeWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomeStudentPage extends StatefulWidget {
-  const HomeStudentPage({super.key});
+import '../widget/ServicesWidget/personalHomeWidget.dart';
+import '../widget/bottomNavBarProf.dart';
 
-  @override
-  _HomeStudentPageState createState() => _HomeStudentPageState();
-}
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key}) : super(key: key);
 
-class _HomeStudentPageState extends State<HomeStudentPage> {
   @override
   Widget build(BuildContext context) {
-    // Ottieni l'utente autenticato dal provider AuthProvider
     final authenticatedUser =
         Provider.of<AuthProvider>(context).authenticatedUser;
     final profileImage = Provider.of<AuthProvider>(context).profileImage;
@@ -28,22 +24,35 @@ class _HomeStudentPageState extends State<HomeStudentPage> {
         child: Column(
           children: [
             const SizedBox(height: 70),
-            //Widget dati personali utente
-            PersonalCardUser(
-              onTap: () async {
-                StudentUtils.anagrafeStudent(context, authenticatedUser!.user);
-                StudentUtils.userImg(context);
-                //StudentUtils.calculateGPA(context, authenticatedUser.user);
-              },
-              firstName: authenticatedUser?.user.firstName ?? '',
-              lastName: authenticatedUser?.user.lastName ?? '',
-              id: authenticatedUser?.user.trattiCarriera[0].matricola
-                  .toString(),
-              profileImage: profileImage,
-            ),
-
+            if (authenticatedUser?.user.grpDes == 'Studenti')
+              PersonalCardUser(
+                onTap: () async {
+                  StudentUtils.anagrafeStudent(
+                      context, authenticatedUser!.user);
+                  StudentUtils.userImg(context);
+                },
+                firstName: authenticatedUser?.user.firstName ?? '',
+                lastName: authenticatedUser?.user.lastName ?? '',
+                identificativoLabel: 'Matricola:',
+                id: authenticatedUser?.user.trattiCarriera[0].matricola
+                    .toString(),
+                profileImage: profileImage,
+              )
+            else
+              PersonalCardUser(
+                onTap: () async {
+                  StudentUtils.anagrafeStudent(context, authenticatedUser.user);
+                  //StudentUtils.userImg(context);
+                },
+                firstName: authenticatedUser?.user.firstName ?? '',
+                lastName: authenticatedUser?.user.lastName ?? '',
+                identificativoLabel: 'Id Docente:',
+                id: authenticatedUser!.user.docenteId != null
+                    ? authenticatedUser.user.docenteId.toString()
+                    : 'N/A',
+                profileImage: profileImage,
+              ),
             const SizedBox(height: 20),
-            //Calendario
             const Padding(
               padding: EdgeInsets.only(left: 20),
               child: Align(
@@ -64,7 +73,6 @@ class _HomeStudentPageState extends State<HomeStudentPage> {
               child: const CalendarCard(),
             ),
             const SizedBox(height: 20),
-            //Service
             const Padding(
               padding: EdgeInsets.only(left: 20),
               child: Align(
@@ -80,14 +88,22 @@ class _HomeStudentPageState extends State<HomeStudentPage> {
                 ),
               ),
             ),
-            ServiceGroupStudentCard(
-              authenticatedUser: authenticatedUser!,
-            ),
+            // Renderizza i widget dei servizi in base al ruolo dell'utente
+            if (authenticatedUser?.user.grpDes == 'Studenti')
+              ServiceGroupStudentCard(
+                authenticatedUser: authenticatedUser!,
+              )
+            else
+              ServiceGroupProfCard(
+                authenticatedUser: authenticatedUser!,
+              ),
             const SizedBox(height: 10),
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNavBarComponent(),
+      bottomNavigationBar: authenticatedUser.user.grpDes == 'Studenti'
+          ? const BottomNavBarComponent()
+          : const BottomNavBarProfComponent(),
     );
   }
 }

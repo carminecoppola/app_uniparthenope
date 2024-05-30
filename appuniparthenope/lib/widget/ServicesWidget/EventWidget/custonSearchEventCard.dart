@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../main.dart';
+
 class SearchBarEvent extends StatelessWidget {
   final TextEditingController controller;
   final Function(String) onChanged;
@@ -19,8 +21,12 @@ class SearchBarEvent extends StatelessWidget {
         onChanged: onChanged,
         decoration: InputDecoration(
           labelText: 'Cerca eventi',
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
+          labelStyle: const TextStyle(
+            color: AppColors.primaryColor,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: AppColors.primaryColor),
+            borderRadius: BorderRadius.circular(10.0),
           ),
           prefixIcon: const Icon(Icons.search),
         ),
@@ -28,3 +34,18 @@ class SearchBarEvent extends StatelessWidget {
     );
   }
 }
+
+
+/**
+ * InputDecoration(
+                            labelText: 'Username',
+                            labelStyle: const TextStyle(
+                              color: AppColors.primaryColor,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: AppColors.primaryColor),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+ */

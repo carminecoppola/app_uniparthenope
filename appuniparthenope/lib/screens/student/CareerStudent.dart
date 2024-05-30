@@ -7,7 +7,7 @@ import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../widget/CustomLoadingIndicator.dart';
+import '../../widget/CustomLoadingIndicator.dart';
 
 class StudentCarrerPage extends StatefulWidget {
   const StudentCarrerPage({super.key});

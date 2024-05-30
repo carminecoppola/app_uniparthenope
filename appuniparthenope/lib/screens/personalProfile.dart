@@ -7,6 +7,7 @@ import 'package:appuniparthenope/widget/navbar.dart';
 import '../widget/ServicesWidget/PersonalCardWidget/personal_card.dart';
 import '../widget/ServicesWidget/PersonalCardWidget/profile_info_display.dart';
 import '../widget/ServicesWidget/PersonalCardWidget/tabbar_custom.dart';
+import '../widget/bottomNavBarProf.dart';
 
 class PersonalProfilePage extends StatefulWidget {
   const PersonalProfilePage({Key? key});
@@ -114,7 +115,9 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
           ),
         ],
       ),
-      bottomNavigationBar: const BottomNavBarComponent(),
+      bottomNavigationBar: authenticatedUser.user.grpDes == 'Studenti'
+          ? const BottomNavBarComponent()
+          : const BottomNavBarProfComponent(),
     );
   }
 

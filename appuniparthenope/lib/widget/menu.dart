@@ -1,20 +1,17 @@
 import 'package:appuniparthenope/main.dart';
 import 'package:flutter/material.dart';
 
-
 class MenuControl extends StatelessWidget {
   const MenuControl({
     super.key,
     required this.title,
     required this.icon,
     required this.value,
-    //required this.root
   });
 
   final String title;
   final IconData icon;
   final int value;
-  //final String root;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +34,6 @@ class MenuControl extends StatelessWidget {
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: AppColors.primaryColor,
-              
             ),
           ),
         ],

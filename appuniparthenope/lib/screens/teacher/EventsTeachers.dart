@@ -6,9 +6,9 @@ import 'package:appuniparthenope/widget/ServicesWidget/EventWidget/eventsCard.da
 import 'package:appuniparthenope/widget/bottomNavBarProf.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import '../../../model/studentService/events_data.dart';
-import '../../../provider/exam_provider.dart';
-import '../../../widget/CustomLoadingIndicator.dart';
+import '../../model/studentService/events_data.dart';
+import '../../provider/exam_provider.dart';
+import '../../widget/CustomLoadingIndicator.dart';
 
 class EventsTeachersPage extends StatefulWidget {
   const EventsTeachersPage({super.key});

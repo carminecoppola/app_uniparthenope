@@ -1,9 +1,8 @@
+import 'package:appuniparthenope/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:appuniparthenope/main.dart';
-
-import '../screens/student/homeStudent.dart';
 
 class NavbarComponent extends StatelessWidget implements PreferredSizeWidget {
   const NavbarComponent({super.key});
@@ -44,7 +43,7 @@ class NavbarComponent extends StatelessWidget implements PreferredSizeWidget {
             context,
             PageRouteBuilder(
               pageBuilder: (context, animation1, animation2) =>
-                  const HomeStudentPage(),
+                  const HomePage(),
               transitionsBuilder: (context, animation1, animation2, child) {
                 const begin = Offset(-1.0, 0.0);
                 const end = Offset.zero;

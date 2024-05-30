@@ -5,16 +5,18 @@ class PersonalCardUser extends StatelessWidget {
   final VoidCallback onTap;
   final String firstName;
   final String lastName;
+  final String? identificativoLabel;
   final String? id;
   final String? profileImage;
 
   const PersonalCardUser({
+    super.key,
     required this.onTap,
     required this.firstName,
     required this.lastName,
+    this.identificativoLabel,
     this.id,
     this.profileImage,
-    super.key,
   });
 
   @override
@@ -53,15 +55,15 @@ class PersonalCardUser extends StatelessWidget {
                   RichText(
                     text: TextSpan(
                       children: [
-                        const TextSpan(
-                          text: '\t\t- Matricola: ',
-                          style: TextStyle(
+                        TextSpan(
+                          text: '\t\t- $identificativoLabel ',
+                          style: const TextStyle(
                             fontSize: 14,
                             color: Colors.white,
                           ),
                         ),
                         TextSpan(
-                          text: id ?? '', // Mostra l'id dell'utente
+                          text: id ?? '',
                           style: const TextStyle(
                               fontSize: 14,
                               color: AppColors.detailsColor,

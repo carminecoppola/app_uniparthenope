@@ -24,7 +24,7 @@ class BottomNavBarProfComponent extends StatelessWidget {
             final bottomNavBarProvider =
                 Provider.of<BottomNavBarProvider>(context, listen: false);
             bottomNavBarProvider.updateIndex(0);
-            Navigator.pushNamed(context, '/homeTeacher');
+            Navigator.pushNamed(context, '/homePage');
             break;
           case 1:
             final bottomNavBarProvider =
@@ -115,7 +115,12 @@ class BottomNavBarProfComponent extends StatelessWidget {
                   text: 'Info',
                 ),
                 PopupMenuItemBuilder.buildMenuItem(
-                  onTap: () {},
+                  onTap: () async {
+                    final authProvider =
+                        Provider.of<AuthProvider>(context, listen: false);
+                    authProvider.logout();
+                    Navigator.pushReplacementNamed(context, '/loginPage');
+                  },
                   icon: Icons.logout,
                   text: 'Logout',
                 ),
