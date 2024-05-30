@@ -3,12 +3,14 @@ import 'dart:math';
 import 'package:appuniparthenope/utilityFunctions/utilsFunction.dart';
 import 'package:appuniparthenope/widget/CustomLoadingIndicator.dart';
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+  const LoginForm({Key? key}) : super(key: key);
 
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -18,6 +20,7 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+  final LocalAuthentication _localAuthentication = LocalAuthentication();
 
   final List<String> universityImages = [
     'assets/university/uni_monte.jpg',
@@ -47,6 +50,62 @@ class _LoginFormState extends State<LoginForm> {
   void dispose() {
     _timer.cancel();
     super.dispose();
+  }
+
+  Future<void> _authenticateBiometric() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? savedUsername = prefs.getString('username');
+    final String? savedPassword = prefs.getString('password');
+
+    if (savedUsername == null || savedPassword == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+              'Salva le credenziali prima di usare l\'autenticazione biometrica'),
+        ),
+      );
+      return;
+    }
+
+    bool canCheckBiometrics = await _localAuthentication.canCheckBiometrics;
+    if (!canCheckBiometrics) {
+      return;
+    }
+
+    List<BiometricType> availableBiometrics =
+        await _localAuthentication.getAvailableBiometrics();
+    if (availableBiometrics.isEmpty) {
+      return;
+    }
+
+    bool authenticated = await _localAuthentication.authenticate(
+      localizedReason: 'Please authenticate to login',
+    );
+
+    if (authenticated) {
+      _usernameController.text = savedUsername;
+      _passwordController.text = savedPassword;
+      _login();
+    }
+  }
+
+  Future<void> _login() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    final String username = _usernameController.text;
+    final String password = _passwordController.text;
+
+    await UtilsFunction.authUser(context, username, password);
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('username', username);
+    await prefs.setString('password', password);
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -99,14 +158,31 @@ class _LoginFormState extends State<LoginForm> {
                       children: [
                         TextFormField(
                           controller: _usernameController,
-                          decoration:
-                              const InputDecoration(labelText: 'Username'),
+                          decoration: InputDecoration(
+                            labelText: 'Username',
+                            labelStyle: const TextStyle(
+                              color: AppColors.primaryColor,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: AppColors.primaryColor),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 15.0),
                         TextFormField(
                           controller: _passwordController,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelText: 'Password',
+                            labelStyle: const TextStyle(
+                              color: AppColors.primaryColor,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: AppColors.primaryColor),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
                           ),
                           obscureText: true,
                         ),
@@ -120,18 +196,7 @@ class _LoginFormState extends State<LoginForm> {
                         text: 'Autenticazione in corso, per favore attendi...',
                         myColor: AppColors.primaryColor)
                     : ElevatedButton(
-                        onPressed: () async {
-                          setState(() {
-                            _isLoading = true;
-                          });
-                          await UtilsFunction.authUser(
-                              context,
-                              _usernameController.text,
-                              _passwordController.text);
-                          setState(() {
-                            _isLoading = false;
-                          });
-                        },
+                        onPressed: _login,
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 70.0, vertical: 15.0),
@@ -150,6 +215,16 @@ class _LoginFormState extends State<LoginForm> {
                           ),
                         ),
                       ),
+                TextButton(
+                  onPressed: _authenticateBiometric,
+                  child: const Text(
+                    'Accedi con Biometrico',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
                 TextButton(
                   onPressed: () async {
                     const url = 'https://passwordreset.microsoftonline.com';

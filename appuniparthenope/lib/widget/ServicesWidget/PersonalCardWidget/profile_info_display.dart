@@ -1,4 +1,3 @@
-import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -6,13 +5,10 @@ import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/PersonalCardWidget/profile_info_widget.dart';
 
-import '../../../provider/exam_provider.dart';
-import '../CareerWidget/gapWidget.dart';
-
 class ProfileInfoDisplay extends StatelessWidget {
   final int index;
 
-  const ProfileInfoDisplay({Key? key, required this.index}) : super(key: key);
+  const ProfileInfoDisplay({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +20,6 @@ class ProfileInfoDisplay extends StatelessWidget {
     final carriera = trattiCarriera != null && trattiCarriera.isNotEmpty
         ? trattiCarriera[0]
         : null;
-    final identificativoLabel = role == 'Docenti' ? 'ID Docente' : 'Matricola';
-    final identificativo = carriera?.matricola;
-
-    final totalExamStats =
-        Provider.of<ExamDataProvider>(context).totalExamStudent;
-    final aritmeticAverageStats =
-        Provider.of<ExamDataProvider>(context).aritmeticAverageStatsStudent;
-    final weightedAverageStats =
-        Provider.of<ExamDataProvider>(context).weightedAverageStatsStudent;
-    final allExamInfo = Provider.of<ExamDataProvider>(context).allExamStudent;
-    final gpaValue = Provider.of<ExamDataProvider>(context).allGPA;
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -105,20 +90,20 @@ class ProfileInfoDisplay extends StatelessWidget {
               ),
               ProfileInfoWidget(
                 label: 'Ruolo:',
-                value: toCamelCase(role),
-              ),
-              ProfileInfoWidget(
-                label: '$identificativoLabel:',
-                value: identificativo ?? '',
+                value: role == 'Studenti' ? role : userAnagrafe!.ruolo ?? '',
               ),
               if (role == 'Studenti' && carriera != null) ...[
+                ProfileInfoWidget(
+                  label: 'Matricola:',
+                  value: carriera.matricola ?? '',
+                ),
                 ProfileInfoWidget(
                   label: 'Corso di studi:',
                   value: toCamelCase(carriera.cdsDes),
                 ),
                 ProfileInfoWidget(
                   label: 'Id Corso:',
-                  value: carriera.cdsId?.toString() ?? '',
+                  value: carriera.cdsId.toString() ?? '',
                 ),
                 ProfileInfoWidget(
                   label: 'Immatricolazione:',
@@ -128,18 +113,21 @@ class ProfileInfoDisplay extends StatelessWidget {
                   label: 'Anno Accademico:',
                   value: carriera.dettaglioTratto.aaIscrId.toString() ?? '',
                 ),
-                // //GPA
-                // if (totalExamStats == null ||
-                //     aritmeticAverageStats == null ||
-                //     weightedAverageStats == null ||
-                //     allExamInfo == null) ...[
-                //   GPAProgressIndicator(gpa: gpaValue),
-                // ],
+              ],
+              if (role == 'Docenti') ...[
                 ProfileInfoWidget(
-                  label: 'E-mail Ateneo:',
-                  value: userAnagrafe?.emailAte ?? '',
+                  label: 'Id Docente:',
+                  value: authenticatedUser.user.docenteId.toString() ?? '',
+                ),
+                ProfileInfoWidget(
+                  label: 'Settore:',
+                  value: toCamelCase(userAnagrafe!.settore.toString()) ?? '',
                 ),
               ],
+              ProfileInfoWidget(
+                label: 'E-mail Ateneo:',
+                value: userAnagrafe?.emailAte ?? '',
+              ),
             ],
           ],
         ],

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
-import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 
@@ -35,10 +34,11 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
     final identificativo = trattiCarriera != null && trattiCarriera.isNotEmpty
         ? trattiCarriera[0].matricola
         : 'N/A';
+    final identificativoProf = authenticatedUser!.user.docenteId;
     final facCod = trattiCarriera != null && trattiCarriera.isNotEmpty
         ? trattiCarriera[0].dettaglioTratto.facCod
         : null;
-    final role = authenticatedUser?.user.grpDes;
+    final role = authenticatedUser.user.grpDes;
     final identificativoLabel = role == 'Docenti' ? 'ID Docente' : 'Matricola';
 
     final String backgroundConfig = facCod != null
@@ -73,15 +73,27 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    PersonalCardWidget(
-                      nome: userAnagrafe?.nome ?? 'Nome non disponibile',
-                      cognome:
-                          userAnagrafe?.cognome ?? 'Cognome non disponibile',
-                      identificativoLabel: identificativoLabel,
-                      identificativo: identificativo != null
-                          ? identificativo.toString()
-                          : 'N/A',
-                    ),
+                    if (role == 'Studenti') ...[
+                      PersonalCardWidget(
+                        nome: userAnagrafe?.nome ?? 'Nome non disponibile',
+                        cognome:
+                            userAnagrafe?.cognome ?? 'Cognome non disponibile',
+                        identificativoLabel: identificativoLabel,
+                        identificativo: identificativo != null
+                            ? identificativo.toString()
+                            : 'N/A',
+                      ),
+                    ] else ...[
+                      PersonalCardWidget(
+                        nome: userAnagrafe?.nome ?? 'Nome non disponibile',
+                        cognome:
+                            userAnagrafe?.cognome ?? 'Cognome non disponibile',
+                        identificativoLabel: identificativoLabel,
+                        identificativo: identificativo != null
+                            ? identificativoProf.toString()
+                            : 'N/A',
+                      ),
+                    ],
                     const SizedBox(height: 8),
                     CustomTabBar(
                       selectedIndex: _selectedIndex,

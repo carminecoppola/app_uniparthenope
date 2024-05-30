@@ -121,6 +121,8 @@ class AuthController {
         emailAte: responseData['emailAte'],
         sesso: responseData['sesso'],
         telRes: responseData['telRes'],
+        ruolo: responseData['ruolo'],
+        settore: responseData['settore'],
       );
 
       Navigator.pushReplacementNamed(context, '/profileStudent',

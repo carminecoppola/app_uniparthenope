@@ -55,9 +55,11 @@
 
     <!-- Consentire l'accesso alla Geolocalizzazione -->
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>We need your location to show local weather data.</string>
+        <string>We need your location to show local weather data.</string>
     <key>NSLocationAlwaysUsageDescription</key>
-    <string>We need your location to show local weather data.</string>
+        <string>We need your location to show local weather data.</string>
+    <key>NSFaceIDUsageDescription</key>
+        <string>Why is my app authenticating using face id?</string>
 
 </dict>
 </plist>

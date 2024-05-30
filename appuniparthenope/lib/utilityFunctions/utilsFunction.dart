@@ -1,5 +1,4 @@
 import 'package:appuniparthenope/controller/auth_controller.dart';
-import 'package:appuniparthenope/service/api_login_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/auth_provider.dart';
@@ -10,10 +9,10 @@ class UtilsFunction {
       BuildContext context, String username, String password) async {
     final AuthController authController = AuthController();
 
-    // username = 'carmine.coppola';
-    // password = 'CppCmn01_';
-    // username = 'montella';
-    // password = 'Montella2024!';
+    username = 'carmine.coppola';
+    password = 'CppCmn01_';
+    // username = 'MNTRFL72E10F839I';
+    // password = 'Sarima44iv\$!';
 
     try {
       final authenticatedUser =
@@ -39,12 +38,4 @@ class UtilsFunction {
     }
   }
 
-  static Future<void> logout(BuildContext context) async {
-    final ApiService logoutController = ApiService();
-    try {
-      await logoutController.logout(context);
-    } catch (e) {
-      print('Error during logout: $e');
-    }
-  }
 }

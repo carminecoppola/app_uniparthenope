@@ -76,6 +76,9 @@ class AuthProvider with ChangeNotifier {
     _password = null;
     _authToken = null;
     _anagrafeUser = null;
+    _profileImage = null;
+    _qrCode = null;
+    _selectedCareer = null;
     notifyListeners();
   }
 }

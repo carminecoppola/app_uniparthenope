@@ -113,8 +113,11 @@ class BottomNavBarComponent extends StatelessWidget {
                   text: 'Info',
                 ),
                 PopupMenuItemBuilder.buildMenuItem(
-                  onTap: () {
-                    UtilsFunction.logout(context);
+                  onTap: () async {
+                    final authProvider =
+                        Provider.of<AuthProvider>(context, listen: false);
+                    authProvider.logout();
+                    Navigator.pushReplacementNamed(context, '/loginPage');
                   },
                   icon: Icons.logout,
                   text: 'Logout',
