@@ -36,7 +36,11 @@ class SessionProfessorInfo {
         aaCurr: json["aa_curr"],
         semId: json["semId"],
         semDes: json["semDes"],
-        aaId: json["aaId"] is String ? int.parse(json["aaId"]) : json["aaId"],
+        aaId: json["aaId"] != null
+            ? (json["aaId"] is String
+                ? int.tryParse(json["aaId"])
+                : json["aaId"])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {

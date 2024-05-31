@@ -16,7 +16,10 @@ class QRCodePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final authenticatedUser =
         Provider.of<AuthProvider>(context).authenticatedUser;
-    final user = authenticatedUser?.user.trattiCarriera[0];
+    final user = authenticatedUser?.user;
+    final trattiCarriera = user?.trattiCarriera.isNotEmpty == true
+        ? user!.trattiCarriera[0]
+        : null;
     final profileImage = Provider.of<AuthProvider>(context).profileImage;
 
     return Scaffold(
@@ -25,114 +28,172 @@ class QRCodePage extends StatelessWidget {
         child: SingleChildScrollView(
           child: SizedBox(
             width: 350,
-            height: 400,
             child: Card(
               color: AppColors.primaryColor,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
+                borderRadius: BorderRadius.circular(20),
+                side: const BorderSide(
+                    color: AppColors.detailsColor,
+                    width: 4,
+                    strokeAlign: BorderSide.strokeAlignOutside),
               ),
-              elevation: 15.0,
+              elevation: 20.0,
               shadowColor: Colors.grey,
-              child: Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Personal Card',
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: AppColors.backgroundColor,
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.italic),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 300,
+                    height: 150,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/textLogo.png'),
+                        fit: BoxFit.contain,
+                      ),
                     ),
-                    const SizedBox(height: 20),
-                    const Center(child: QRCodeWidget()),
-                    const SizedBox(height: 30),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        CircleAvatar(
-                          radius: 40,
-                          backgroundImage: profileImage != null
-                              ? Image.asset(profileImage!).image
-                              : Image.asset(
-                                  'assets/user_profile_default.jpg',
-                                ).image,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: AppColors.detailsColor,
-                                width: 3,
-                              ),
-                            ),
+                        Text(
+                          user?.grpDes == 'Docenti'
+                              ? 'Faculty Card'
+                              : 'Student Card',
+                          style: const TextStyle(
+                            fontSize: 25,
+                            color: AppColors.backgroundColor,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
                           ),
                         ),
-                        const SizedBox(width: 10),
-                        Flexible(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${toCamelCase(authenticatedUser!.user.firstName)} ${toCamelCase(authenticatedUser.user.lastName)}',
-                                style: const TextStyle(
-                                  fontSize: 20,
+                        const SizedBox(height: 25),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 90,
+                              height: 90,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                  image: profileImage != null
+                                      ? AssetImage(profileImage)
+                                      : const AssetImage(
+                                          'assets/user_profile_default.jpg'),
+                                  fit: BoxFit.cover,
+                                ),
+                                border: Border.all(
                                   color: AppColors.detailsColor,
-                                  fontWeight: FontWeight.bold,
+                                  width: 3,
                                 ),
                               ),
-                              const SizedBox(height: 5),
-                              Text.rich(
-                                TextSpan(
-                                  text: 'Matricola: ',
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.white70,
+                            ),
+                            const SizedBox(width: 20),
+                            Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${toCamelCase(user?.firstName ?? '')} ${toCamelCase(user?.lastName ?? '')}',
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      color: AppColors.detailsColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                  children: [
+                                  const SizedBox(height: 5),
+                                  Text.rich(
                                     TextSpan(
-                                      text: user!.matricola,
+                                      text: 'Id: ',
                                       style: const TextStyle(
                                         fontSize: 12,
-                                        color: AppColors.detailsColor,
-                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white70,
                                       ),
+                                      children: [
+                                        TextSpan(
+                                          text: user?.grpDes == 'Docenti'
+                                              ? user?.docenteId?.toString() ??
+                                                  'N/A'
+                                              : trattiCarriera?.matricola ??
+                                                  'N/A',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: AppColors.detailsColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                softWrap: true,
-                              ),
-                              Text.rich(
-                                TextSpan(
-                                  text: 'Cds: ',
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.white70,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
                                   ),
-                                  children: [
+                                  Text.rich(
                                     TextSpan(
-                                      text: toCamelCase(user.cdsDes.toString()),
+                                      text: 'Role: ',
                                       style: const TextStyle(
                                         fontSize: 12,
-                                        color: AppColors.detailsColor,
-                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white70,
                                       ),
+                                      children: [
+                                        TextSpan(
+                                          text: translateText(
+                                                  user!.grpDes.toString()) ??
+                                              'N/A',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: AppColors.detailsColor,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                softWrap: true,
+                                    overflow: TextOverflow.ellipsis,
+                                    softWrap: true,
+                                  ),
+                                  if (trattiCarriera != null)
+                                    Text.rich(
+                                      TextSpan(
+                                        text: 'Cds: ',
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.white70,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text: toCamelCase(trattiCarriera
+                                                .cdsDes
+                                                .toString()),
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              color: AppColors.detailsColor,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      softWrap: true,
+                                    ),
+                                ],
                               ),
-                            ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 30),
+                        const Center(
+                          child: SizedBox(
+                            width: 170,
+                            height: 170,
+                            child: QRCodeWidget(),
                           ),
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -142,12 +203,14 @@ class QRCodePage extends StatelessWidget {
     );
   }
 
-  static String toCamelCase(String text) {
-    return text.toLowerCase().split(' ').map((word) {
-      if (word.isNotEmpty) {
-        return word[0].toUpperCase() + word.substring(1);
-      }
-      return '';
-    }).join(' ');
+  translateText(String role) {
+    switch (role) {
+      case 'Docenti':
+        return 'Professor';
+      case 'Studenti':
+        return 'Student';
+      default:
+        return 'Unknown';
+    }
   }
 }

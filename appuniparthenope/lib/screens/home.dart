@@ -7,11 +7,12 @@ import 'package:appuniparthenope/widget/ServicesWidget/CalendarWidget/calendarCa
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../utilityFunctions/authUtilsFunction.dart';
 import '../widget/ServicesWidget/personalHomeWidget.dart';
 import '../widget/bottomNavBarProf.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +28,8 @@ class HomePage extends StatelessWidget {
             if (authenticatedUser?.user.grpDes == 'Studenti')
               PersonalCardUser(
                 onTap: () async {
-                  StudentUtils.anagrafeStudent(
-                      context, authenticatedUser!.user);
-                  StudentUtils.userImg(context);
+                  StudentUtils.anagrafeUser(context, authenticatedUser!.user);
+                  AuthUtilsFunction.userImg(context);
                 },
                 firstName: authenticatedUser?.user.firstName ?? '',
                 lastName: authenticatedUser?.user.lastName ?? '',
@@ -41,7 +41,7 @@ class HomePage extends StatelessWidget {
             else
               PersonalCardUser(
                 onTap: () async {
-                  StudentUtils.anagrafeStudent(context, authenticatedUser.user);
+                  StudentUtils.anagrafeUser(context, authenticatedUser.user);
                   //StudentUtils.userImg(context);
                 },
                 firstName: authenticatedUser?.user.firstName ?? '',

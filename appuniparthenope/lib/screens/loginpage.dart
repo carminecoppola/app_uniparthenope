@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:appuniparthenope/utilityFunctions/utilsFunction.dart';
+import 'package:appuniparthenope/utilityFunctions/authUtilsFunction.dart';
 import 'package:appuniparthenope/widget/CustomLoadingIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
@@ -97,7 +97,7 @@ class _LoginFormState extends State<LoginForm> {
     final String username = _usernameController.text;
     final String password = _passwordController.text;
 
-    await UtilsFunction.authUser(context, username, password);
+    await AuthUtilsFunction.authUser(context, username, password);
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', username);

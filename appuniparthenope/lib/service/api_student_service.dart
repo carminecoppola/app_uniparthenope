@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:provider/provider.dart';
 
-
 class ApiStudentService {
   final String baseUrl = "https://api.uniparthenope.it";
 
@@ -237,6 +236,35 @@ class ApiStudentService {
           'Errore del SERVER durante il caricamento delle lezioni dello studente');
     } else {
       throw Exception('Errore durante caricamento delle lezioni');
+    }
+  }
+
+  Future<Map<String, dynamic>> getTaxes(
+      User student, BuildContext context) async {
+    final String persId = student.persId.toString();
+
+    final String password =
+        Provider.of<AuthProvider>(context, listen: false).password!;
+
+    final url =
+        Uri.parse('$baseUrl/UniparthenopeApp/v1/students/taxes/$persId');
+
+    final response = await http.get(url, headers: {
+      'Authorization':
+          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
+    });
+
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      final allTaxes = jsonDecode(response.body);
+      print('\n allTaxes:\n $allTaxes');
+      return allTaxes;
+    } else if (response.statusCode == 500) {
+      throw Exception(
+          'Errore del SERVER durante il caricamento delle tasse dello studente');
+    } else {
+      throw Exception('\nErrore durante caricamento delle tasse studente');
     }
   }
 }

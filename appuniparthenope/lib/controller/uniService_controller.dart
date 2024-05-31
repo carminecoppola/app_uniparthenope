@@ -6,7 +6,7 @@ import '../service/api_univerisity_service.dart';
 
 class UniServiceController {
   final ApiUniversityService apiService =
-      ApiUniversityService(); //Richiamo il servizio
+      ApiUniversityService();
 
   Future<List<EventsInfo>> getAllEvents(BuildContext context) async {
     try {
@@ -32,4 +32,6 @@ class UniServiceController {
           '\n getAllTodayRoom(): Errore Caricamento Aule del giorno $e');
     }
   }
+
+  
 }

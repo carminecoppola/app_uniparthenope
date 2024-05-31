@@ -261,7 +261,7 @@ enum IDate { THE_20240512_Z00 }
 
 final iDateValues = EnumValues({"20240512Z00": IDate.THE_20240512_Z00});
 
-enum Icon {
+enum IconWeather {
   CLOUDY1_NIGHT_PNG,
   CLOUDY1_PNG,
   CLOUDY2_NIGHT_PNG,
@@ -276,17 +276,17 @@ enum Icon {
 }
 
 final iconValues = EnumValues({
-  "cloudy1_night.png": Icon.CLOUDY1_NIGHT_PNG,
-  "cloudy1.png": Icon.CLOUDY1_PNG,
-  "cloudy2_night.png": Icon.CLOUDY2_NIGHT_PNG,
-  "cloudy2.png": Icon.CLOUDY2_PNG,
-  "cloudy4_night.png": Icon.CLOUDY4_NIGHT_PNG,
-  "cloudy4.png": Icon.CLOUDY4_PNG,
-  "cloudy5_night.png": Icon.CLOUDY5_NIGHT_PNG,
-  "cloudy5.png": Icon.CLOUDY5_PNG,
-  "shower1_night.png": Icon.SHOWER1_NIGHT_PNG,
-  "sunny_night.png": Icon.SUNNY_NIGHT_PNG,
-  "sunny.png": Icon.SUNNY_PNG
+  "cloudy1_night.png": IconWeather.CLOUDY1_NIGHT_PNG,
+  "cloudy1.png": IconWeather.CLOUDY1_PNG,
+  "cloudy2_night.png": IconWeather.CLOUDY2_NIGHT_PNG,
+  "cloudy2.png": IconWeather.CLOUDY2_PNG,
+  "cloudy4_night.png": IconWeather.CLOUDY4_NIGHT_PNG,
+  "cloudy4.png": IconWeather.CLOUDY4_PNG,
+  "cloudy5_night.png": IconWeather.CLOUDY5_NIGHT_PNG,
+  "cloudy5.png": IconWeather.CLOUDY5_PNG,
+  "shower1_night.png": IconWeather.SHOWER1_NIGHT_PNG,
+  "sunny_night.png": IconWeather.SUNNY_NIGHT_PNG,
+  "sunny.png": IconWeather.SUNNY_PNG
 });
 
 class TextInfo {

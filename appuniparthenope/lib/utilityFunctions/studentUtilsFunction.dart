@@ -3,7 +3,7 @@ import 'package:appuniparthenope/provider/taxes_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../controller/auth_controller.dart';
-import '../controller/exam_controller.dart';
+import '../controller/student_controller.dart';
 import '../controller/uniService_controller.dart';
 import '../model/studentService/exam_data.dart';
 import '../model/studentService/student_course_data.dart';
@@ -15,7 +15,7 @@ import '../provider/exam_provider.dart';
 class StudentUtils {
   //Questa classe racchiude tutte le funzioni utili per i servizi studente
 
-  static Future<void> anagrafeStudent(
+  static Future<void> anagrafeUser(
       BuildContext context, User authenticatedUser) async {
     final AuthController authController = AuthController();
 
@@ -32,17 +32,6 @@ class StudentUtils {
     }
   }
 
-  //Da controllare poichè inutilizzata
-  static Future<void> fetchAnagrafeDataAndProfileImage(
-      BuildContext context, User authenticatedUser) async {
-    try {
-      await anagrafeStudent(context, authenticatedUser);
-      await userImg(context);
-    } catch (e) {
-      print('\nErrore during fetchAnagrafeDataAndProfileImage() $e');
-    }
-  }
-
   static Future<void> fetchDataAndUpdateStats(
       BuildContext context, User authenticatedUser) async {
     try {
@@ -56,7 +45,7 @@ class StudentUtils {
 
   static Future<void> totalExamStats(
       BuildContext context, User authenticatedUser) async {
-    final ExamController totalExamController = ExamController();
+    final StudentController totalExamController = StudentController();
     try {
       final totalExamStudent = await totalExamController.totalExamStatsStudent(
           authenticatedUser, context);
@@ -71,7 +60,7 @@ class StudentUtils {
 
   static Future<void> averageStats(
       BuildContext context, User authenticatedUser) async {
-    final ExamController totalExamController = ExamController();
+    final StudentController totalExamController = StudentController();
     try {
       final aritmeticAverageStudent = await totalExamController.averageStudent(
           context, authenticatedUser, "A");
@@ -89,7 +78,7 @@ class StudentUtils {
 
   static Future<void> allExamStudent(
       BuildContext context, User authenticatedUser) async {
-    final ExamController totalExamController = ExamController();
+    final StudentController totalExamController = StudentController();
     try {
       final allExamStudent = await totalExamController.fetchAllExamStudent(
           authenticatedUser, context);
@@ -102,44 +91,9 @@ class StudentUtils {
     }
   }
 
-  static Future<void> calculateGPA(
-      BuildContext context, User authenticatedUser) async {
-    final ExamController totalExamController = ExamController();
-    try {
-      final allExamStudent = await totalExamController.fetchAllExamStudent(
-          authenticatedUser, context);
-
-      // Filtra gli esami con esito diverso da 'S' e con voto non nullo
-      List<ExamData> validExams = allExamStudent
-          .where((exam) => exam.status.esito == 'S' && exam.status.voto != null)
-          .toList();
-
-      print('\validExams: ${validExams}');
-
-      // Calcola il GPA
-      double gpa = 0;
-      int totalCFU = 0;
-      for (ExamData exam in validExams) {
-        gpa += exam.cfu! *
-            exam.status
-                .voto!; // Aggiunge il peso dell'esame moltiplicato per il voto
-        totalCFU += exam.cfu!.toInt();
-      }
-      gpa /= totalCFU; // Dividi per il totale dei CFU per ottenere la media
-
-      final gapDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
-      gapDataProvider.setGPA(gpa);
-
-      print('\nGPA: ${gpa}');
-    } catch (e) {
-      print('\nErrore during calculateGPA() $e');
-    }
-  }
-
   static Future<void> allCourseStudent(
       BuildContext context, User? authenticatedUser) async {
-    final ExamController totalExamController = ExamController();
+    final StudentController totalExamController = StudentController();
     try {
       final allCourseStudent = await totalExamController.fetchAllCourseStudent(
           authenticatedUser!, context);
@@ -156,7 +110,7 @@ class StudentUtils {
 
   static Future<void> allStatusCourse(BuildContext context,
       User authenticatedUser, List<CourseInfo> allCourses) async {
-    final ExamController totalExamController = ExamController();
+    final StudentController totalExamController = StudentController();
     try {
       final examDataProvider =
           Provider.of<ExamDataProvider>(context, listen: false);
@@ -173,56 +127,16 @@ class StudentUtils {
 
   static Future<void> taxesStudent(
       BuildContext context, User authenticatedUser) async {
-    final AuthController authController = AuthController();
+    final StudentController totalTaxesController = StudentController();
     try {
       final allTaxesStudent =
-          await authController.setTaxes(context, authenticatedUser);
+          await totalTaxesController.setTaxes(context, authenticatedUser);
 
       final taxesDataProvider =
           Provider.of<TaxesDataProvider>(context, listen: false);
       taxesDataProvider.setTaxesInfo(allTaxesStudent);
     } catch (e) {
       print('\nError during _taxesStudent: $e');
-    }
-  }
-
-  static Future<void> userImg(BuildContext context) async {
-    final AuthController authController = AuthController();
-    try {
-      final authenticatedUser =
-          Provider.of<AuthProvider>(context, listen: false).authenticatedUser;
-      if (authenticatedUser != null) {
-        final profileImage = await authController.getUserProfileImage(
-            authenticatedUser.user, context);
-
-        // Utilizza il provider per impostare l'immagine di profilo
-        final authProvider = Provider.of<AuthProvider>(context, listen: false);
-        authProvider.setProfileImage(profileImage);
-      } else {
-        print('Authenticated user is null');
-      }
-    } catch (e) {
-      print('\nError during userImg(): $e');
-    }
-  }
-
-  static Future<void> qrCodeImg(BuildContext context) async {
-    final AuthController authController = AuthController();
-    try {
-      final authenticatedUser =
-          Provider.of<AuthProvider>(context, listen: false).authenticatedUser;
-      if (authenticatedUser != null) {
-        final qrCode =
-            await authController.getUserQRCode(authenticatedUser.user, context);
-
-        // Utilizza il provider per impostare l'immagine di profilo
-        final authProvider = Provider.of<AuthProvider>(context, listen: false);
-        authProvider.setQRCode(qrCode);
-      } else {
-        print('Authenticated user is null');
-      }
-    } catch (e) {
-      print('\nError during qrCodeImg(): $e');
     }
   }
 

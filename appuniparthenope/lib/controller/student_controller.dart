@@ -6,7 +6,9 @@ import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:appuniparthenope/service/api_student_service.dart';
 import 'package:flutter/material.dart';
 
-class ExamController {
+import '../model/studentService/taxes_data.dart';
+
+class StudentController {
   final ApiStudentService apiService = ApiStudentService();
 
   Future<TotalExamStudent> totalExamStatsStudent(
@@ -94,6 +96,37 @@ class ExamController {
       return statusCoursesMap;
     } catch (e) {
       throw Exception('Errore Caricamento Status dei corsi $e');
+    }
+  }
+
+  Future<TaxesInfo> setTaxes(BuildContext context, User student) async {
+    try {
+      // Chiamata all'API per ottenere le tasse dello studente
+      final Map<String, dynamic> taxesData =
+          await apiService.getTaxes(student, context);
+
+      // Estrai i dati necessari dalle tasse ricevute
+      final String semaforo = taxesData['semaforo'];
+      final List<Payed> payed = List<Payed>.from(
+        taxesData['payed'].map((x) => Payed.fromJson(x)),
+      );
+      final List<ToPay> toPay = List<ToPay>.from(
+        taxesData['to_pay'].map((x) => ToPay.fromJson(x)),
+      );
+
+      // Costruisci un oggetto TaxesInfo con i dati ottenuti
+      final TaxesInfo taxesInfo = TaxesInfo(
+        semaforo: semaforo,
+        payed: payed,
+        toPay: toPay,
+      );
+
+      // Ritorna l'oggetto TaxesInfo
+      return taxesInfo;
+    } catch (e) {
+      print('Error during setTaxes: $e');
+      throw Exception(
+          'Errore durante il recupero delle informazioni sulle tasse');
     }
   }
 

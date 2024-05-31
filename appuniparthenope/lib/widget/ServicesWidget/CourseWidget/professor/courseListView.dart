@@ -4,7 +4,6 @@ import '../../../../main.dart';
 import '../../../../model/teacherService/course_professor_data.dart';
 import '../../../../model/teacherService/session_professor_data.dart';
 import '../../../../provider/auth_provider.dart';
-import '../../../../provider/professor_provider.dart';
 import '../../../../service/api_teacher_service.dart';
 import '../../../../utilityFunctions/professorUtilsFunction.dart';
 import '../../../CustomLoadingIndicator.dart';

@@ -4,6 +4,7 @@ import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/auth_provider.dart';
+import '../utilityFunctions/authUtilsFunction.dart';
 import '../utilityFunctions/weatherFunction.dart';
 
 class BottomNavBarComponent extends StatelessWidget {
@@ -56,7 +57,7 @@ class BottomNavBarComponent extends StatelessWidget {
               items: [
                 PopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
-                    StudentUtils.anagrafeStudent(
+                    StudentUtils.anagrafeUser(
                         context, authenticatedUser!.user);
                   },
                   icon: Icons.person,
@@ -64,7 +65,7 @@ class BottomNavBarComponent extends StatelessWidget {
                 ),
                 PopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
-                    StudentUtils.qrCodeImg(context);
+                    AuthUtilsFunction.qrCodeImg(context);
                     Navigator.pushNamed(context, '/qrCodePage');
                   },
                   icon: Icons.qr_code,

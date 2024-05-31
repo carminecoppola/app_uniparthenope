@@ -1,7 +1,6 @@
 import 'package:appuniparthenope/widget/CustomLoadingIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../main.dart';
 import '../provider/auth_provider.dart';
 
@@ -39,17 +38,20 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
-        width: _isExpanded ? 280 : 140,
-        height: _isExpanded ? 280 : 140,
+        width: _isExpanded ? 280 : 170,
+        height: _isExpanded ? 280 : 170,
         decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: AppColors.detailsColor,
             width: 5,
           ),
         ),
         child: qrCode != null
-            ? Image.asset(qrCode, fit: BoxFit.cover)
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(qrCode, fit: BoxFit.cover),
+              )
             : const CircularProgressIndicator(
                 color: AppColors.detailsColor,
                 strokeWidth: 3,

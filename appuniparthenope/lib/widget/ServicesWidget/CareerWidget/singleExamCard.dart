@@ -12,7 +12,7 @@ class SingleExamCard extends StatelessWidget {
   final bool withHonors; // Flag per indicare se è presente la lode
 
   const SingleExamCard({
-    super.key,
+    Key? key,
     required this.index,
     required this.cfuExam,
     required this.titleExam,
@@ -20,7 +20,7 @@ class SingleExamCard extends StatelessWidget {
     required this.dateExam,
     required this.colorCard,
     required this.withHonors,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +30,15 @@ class SingleExamCard extends StatelessWidget {
         color: colorCard,
         elevation: 8,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Row(
             children: [
               Container(
-                width: 70,
-                height: 70,
+                width: 60,
+                height: 60,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.transparent,
@@ -50,13 +50,13 @@ class SingleExamCard extends StatelessWidget {
                 child: Center(
                   child: Row(
                     children: [
-                      const SizedBox(width: 9),
+                      const SizedBox(width: 6),
                       // Visualizza l'icona della coccarda solo se withHonors è true
                       if (withHonors)
                         SvgPicture.asset(
                           'assets/icon/coccarda.svg', // Percorso dell'icona SVG
-                          width: 42, // Larghezza dell'icona
-                          height: 42, // Altezza dell'icona
+                          width: 38, // Larghezza dell'icona
+                          height: 38, // Altezza dell'icona
                           color: AppColors.detailsColor,
                         ),
                       const SizedBox(width: 6),
@@ -87,7 +87,7 @@ class SingleExamCard extends StatelessWidget {
                       titleExam,
                       style: const TextStyle(
                         color: AppColors.backgroundColor,
-                        fontSize: 12,
+                        fontSize: 11,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -96,7 +96,7 @@ class SingleExamCard extends StatelessWidget {
                       dateExam,
                       style: const TextStyle(
                         color: Colors.white70,
-                        fontSize: 12,
+                        fontSize: 10,
                       ),
                     ),
                   ],
@@ -104,12 +104,11 @@ class SingleExamCard extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               Container(
-                width: 50,
-                height: 50,
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
-                  shape: BoxShape
-                      .rectangle, // Imposta la forma su BoxShape.rectangle
-                  borderRadius: BorderRadius.circular(24),
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.circular(20),
                   color: AppColors.backgroundColor,
                   border: Border.all(
                     color: AppColors.backgroundColor,
@@ -117,8 +116,8 @@ class SingleExamCard extends StatelessWidget {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.lightGray.withOpacity(0.2),
-                      spreadRadius: 2,
+                      color: AppColors.textColor.withOpacity(0.3),
+                      spreadRadius: -3,
                       blurRadius: 5,
                       offset: const Offset(0, 2),
                     ),
@@ -132,7 +131,7 @@ class SingleExamCard extends StatelessWidget {
                       fontFamily: 'Poppins',
                       fontStyle: FontStyle.italic,
                       fontWeight: FontWeight.w800,
-                      fontSize: 13,
+                      fontSize: 10,
                       color: AppColors.lightGray,
                     ),
                   ),

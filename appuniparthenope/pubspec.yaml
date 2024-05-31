@@ -74,6 +74,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/logo.png
+    - assets/textLogo.png
     - assets/meteoUniLogo.png
     - assets/user_profile_default.jpg
     - assets/qrcode_default.png

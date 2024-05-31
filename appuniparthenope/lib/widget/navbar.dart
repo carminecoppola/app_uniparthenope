@@ -4,10 +4,14 @@ import 'package:provider/provider.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:appuniparthenope/main.dart';
 
+import '../screens/loginpage.dart';
+
 class NavbarComponent extends StatelessWidget implements PreferredSizeWidget {
-  const NavbarComponent({super.key});
+  const NavbarComponent({Key? key, this.showBackButton = true})
+      : super(key: key);
 
   final String title = 'Università degli studi di Napoli Parthenope';
+  final bool? showBackButton;
 
   @override
   Widget build(BuildContext context) {
@@ -32,34 +36,48 @@ class NavbarComponent extends StatelessWidget implements PreferredSizeWidget {
           ),
         ],
       ),
-      leading: IconButton(
-        color: Colors.white,
-        icon: const Icon(Icons.arrow_back),
-        onPressed: () {
-          final bottomNavBarProvider =
-              Provider.of<BottomNavBarProvider>(context, listen: false);
-          bottomNavBarProvider.updateIndex(0);
-          Navigator.pushReplacement(
-            context,
-            PageRouteBuilder(
-              pageBuilder: (context, animation1, animation2) =>
-                  const HomePage(),
-              transitionsBuilder: (context, animation1, animation2, child) {
-                const begin = Offset(-1.0, 0.0);
-                const end = Offset.zero;
-                const curve = Curves.easeInOut;
-                final tween = Tween(begin: begin, end: end)
-                    .chain(CurveTween(curve: curve));
-                final offsetAnimation = animation1.drive(tween);
-                return SlideTransition(
-                  position: offsetAnimation,
-                  child: child,
+      leading: showBackButton == true
+          ? IconButton(
+              color: Colors.white,
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                final bottomNavBarProvider =
+                    Provider.of<BottomNavBarProvider>(context, listen: false);
+                bottomNavBarProvider.updateIndex(0);
+                Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) =>
+                        const HomePage(),
+                    transitionsBuilder:
+                        (context, animation1, animation2, child) {
+                      const begin = Offset(-1.0, 0.0);
+                      const end = Offset.zero;
+                      const curve = Curves.easeInOut;
+                      final tween = Tween(begin: begin, end: end)
+                          .chain(CurveTween(curve: curve));
+                      final offsetAnimation = animation1.drive(tween);
+                      return SlideTransition(
+                        position: offsetAnimation,
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+              },
+            )
+          : IconButton(
+              color: Colors.white,
+              icon: const Icon(Icons.navigate_before),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginForm(),
+                  ),
                 );
               },
             ),
-          );
-        },
-      ),
     );
   }
 
