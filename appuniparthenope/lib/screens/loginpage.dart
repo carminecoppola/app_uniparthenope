@@ -10,7 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../main.dart';
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({Key? key}) : super(key: key);
+  const LoginForm({super.key});
 
   @override
   _LoginFormState createState() => _LoginFormState();

@@ -49,7 +49,7 @@ class AppRoutes {
     home: (context) => const HomePage(),
     homeResturant: (context) => const HomeRestaurateursPage(),
     homePhD: (context) => const HomePhDPage(),
-    homeGuest: (context) => HomeGuestPage(),
+    homeGuest: (context) => const HomeGuestPage(),
 
     //Student roots
     profileStudent: (context) => const PersonalProfilePage(),

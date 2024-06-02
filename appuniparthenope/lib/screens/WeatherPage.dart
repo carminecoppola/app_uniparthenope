@@ -3,13 +3,12 @@ import 'package:provider/provider.dart';
 import '../provider/weather_provider.dart';
 import '../widget/ServicesWidget/WeatherWidget/carouselCard.dart';
 import '../widget/ServicesWidget/WeatherWidget/downloadCard.dart';
-import '../widget/ServicesWidget/WeatherWidget/weatherInfoCard.dart';
 import '../widget/navbar.dart';
 import '../widget/bottomNavBar.dart';
 import 'package:appuniparthenope/main.dart';
 
 class WeatherUniPage extends StatelessWidget {
-  const WeatherUniPage({Key? key});
+  const WeatherUniPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +49,6 @@ class WeatherUniPage extends StatelessWidget {
               height: 2,
               color: AppColors.primaryColor,
             ),
-            //const SizedBox(height: 50),
-            //WeatherInfoCard(placeName: placeName),
             const SizedBox(height: 40),
             const CarouselCard(),
             const SizedBox(height: 50),

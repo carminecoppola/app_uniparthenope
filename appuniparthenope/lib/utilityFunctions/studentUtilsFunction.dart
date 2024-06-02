@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../controller/auth_controller.dart';
 import '../controller/student_controller.dart';
 import '../controller/uniService_controller.dart';
-import '../model/studentService/exam_data.dart';
 import '../model/studentService/student_course_data.dart';
 import '../model/teacherService/room_data.dart';
 import '../model/user_data_login.dart';
@@ -164,7 +163,7 @@ class StudentUtils {
       return allrooms;
     } catch (e) {
       print('\nErrore durante allRooms() $e');
-      throw e;
+      rethrow;
     }
   }
 }

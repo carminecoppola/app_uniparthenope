@@ -12,7 +12,7 @@ class SingleExamCard extends StatelessWidget {
   final bool withHonors; // Flag per indicare se è presente la lode
 
   const SingleExamCard({
-    Key? key,
+    super.key,
     required this.index,
     required this.cfuExam,
     required this.titleExam,
@@ -20,7 +20,7 @@ class SingleExamCard extends StatelessWidget {
     required this.dateExam,
     required this.colorCard,
     required this.withHonors,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

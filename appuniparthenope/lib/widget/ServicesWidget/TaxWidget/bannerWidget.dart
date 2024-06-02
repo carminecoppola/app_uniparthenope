@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../provider/taxes_provider.dart';
 
 class BannerWidget extends StatelessWidget {
-  const BannerWidget({Key? key});
+  const BannerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -116,52 +116,104 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Center(
-            child: Text(
-              event.name,
-              style: const TextStyle(
-                  color: AppColors.backgroundColor,
-                  fontWeight: FontWeight.bold),
-            ),
+          backgroundColor: AppColors.backgroundColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
           ),
+          contentPadding: EdgeInsets.zero,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(
-                'Descrizione: ${event.description}',
-                style: const TextStyle(
-                  color: AppColors.backgroundColor,
+              // Parte superiore blu con il titolo e l'icona
+              Container(
+                padding: const EdgeInsets.all(25.0),
+                decoration: const BoxDecoration(
+                  color: AppColors.primaryColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.0),
+                    topRight: Radius.circular(20.0),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.school, // Icona esame
+                      color: Colors.white,
+                    ),
+                    const SizedBox(width: 8.0),
+                    Expanded(
+                      child: Text(
+                        event.name,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Text(
-                'Aula: ${event.aula}',
-                style: const TextStyle(
-                  color: AppColors.backgroundColor,
+              // Parte centrale bianca con le info allineate a sinistra
+              Container(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Center(
+                      child: Text(
+                        event.description,
+                        style: const TextStyle(
+                            color: AppColors.primaryColor,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      '\u2022 Aula: ${event.aula}',
+                      style: const TextStyle(
+                        color: AppColors.primaryColor,
+                        fontSize: 17,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      '\u2022 Data: $formattedDate',
+                      style: const TextStyle(
+                        color: AppColors.primaryColor,
+                        fontSize: 17,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Text(
-                'Data: $formattedDate',
-                style: const TextStyle(
-                  color: AppColors.backgroundColor,
+              // Bottone chiudi di colore blu con testo bianco
+              Container(
+                padding: const EdgeInsets.only(bottom: 16.0, top: 8.0),
+                child: Center(
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: AppColors.primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text(
+                      'Chiudi',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text(
-                'Chiudi',
-                style: TextStyle(color: AppColors.backgroundColor),
-              ),
-            ),
-          ],
-          backgroundColor:
-              AppColors.primaryColor, // Colore dello sfondo della modale
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
           ),
         );
       },

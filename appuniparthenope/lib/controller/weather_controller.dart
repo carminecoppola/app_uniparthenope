@@ -47,7 +47,7 @@ class WeatherController {
             '${DateFormat('yyyyMMdd').format(nextDay)}Z${DateFormat('HH00').format(nextDay)}';
 
         // Trova i dati meteorologici per il giorno specificato
-        Timesery? matchingTimeSeries = timeSeries!.firstWhere(
+        Timesery? matchingTimeSeries = timeSeries.firstWhere(
             (timeSeries) => timeSeries.dateTime == nextDayString,
             orElse: () => throw Exception(
                 'Dati meteorologici non trovati per $nextDayString'));

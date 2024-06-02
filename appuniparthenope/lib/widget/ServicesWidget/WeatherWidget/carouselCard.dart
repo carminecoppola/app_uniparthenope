@@ -1,12 +1,14 @@
 import 'package:appuniparthenope/widget/ServicesWidget/WeatherWidget/singleWeatherCard.dart';
-import 'package:appuniparthenope/widget/ServicesWidget/WeatherWidget/weatherInfoCard.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../model/weather_timeSerys_data.dart';
 import '../../../provider/weather_provider.dart';
 import 'package:appuniparthenope/main.dart';
 
+import '../../CustomLoadingIndicator.dart';
+
 class CarouselCard extends StatefulWidget {
-  const CarouselCard({Key? key});
+  const CarouselCard({super.key});
 
   @override
   _CarouselCardState createState() => _CarouselCardState();
@@ -38,46 +40,64 @@ class _CarouselCardState extends State<CarouselCard> {
           height: 400,
           child: Card(
             color: AppColors.primaryColor,
-            elevation: 15,
+            elevation: 20,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(40),
+              borderRadius: BorderRadius.circular(50),
             ),
-            child: PageView.builder(
-              controller: _pageController,
-              itemCount: Provider.of<WeatherDataProvider>(context)
-                      .timeSeriesList
-                      .length ??
-                  0,
-              itemBuilder: (BuildContext context, int index) {
-                return _buildCarouselItem(index);
+            child: Consumer<WeatherDataProvider>(
+              builder: (context, weatherDataProvider, child) {
+                final timeSeriesList = weatherDataProvider.timeSeriesList;
+
+                if (timeSeriesList.isEmpty) {
+                  return const Center(
+                    child: CustomLoadingIndicator(
+                      text: 'Caricamento informazioni meteo',
+                      myColor: AppColors.detailsColor,
+                    ),
+                  );
+                } else {
+                  return PageView.builder(
+                    controller: _pageController,
+                    itemCount: timeSeriesList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return _buildCarouselItem(index, timeSeriesList);
+                    },
+                  );
+                }
               },
             ),
           ),
         ),
         const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(
-            Provider.of<WeatherDataProvider>(context).timeSeriesList.length ??
-                0,
-            (index) => _buildDot(index),
-          ),
+        Consumer<WeatherDataProvider>(
+          builder: (context, weatherDataProvider, child) {
+            final timeSeriesList = weatherDataProvider.timeSeriesList;
+
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                timeSeriesList.length,
+                (index) => _buildDot(index),
+              ),
+            );
+          },
         ),
       ],
     );
   }
 
-  Widget _buildCarouselItem(int index) {
-    final timeSeries =
-        Provider.of<WeatherDataProvider>(context).timeSeriesList[index];
+  Widget _buildCarouselItem(int index, List<Timesery> timeSeriesList) {
+    final timeSeries = timeSeriesList[index];
+    final placeName = Provider.of<WeatherDataProvider>(context).placeName;
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(20.0),
       child: WeatherInfoWidget(
+        municipalita: placeName,
         dateTime: timeSeries.dateTime.toString(),
         iconAssetPath: timeSeries.icon.toString(),
         iconDescription: timeSeries.winds.toString(),
-        temperature: timeSeries.t2C.toString(),
+        temperature: timeSeries.t2C!.toString().split('.')[0],
         description: timeSeries.text!.it.toString(),
         vento: timeSeries.wd10.toString(),
         velocitaVento: timeSeries.ws10.toString(),

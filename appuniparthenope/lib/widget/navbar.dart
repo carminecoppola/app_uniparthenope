@@ -7,8 +7,7 @@ import 'package:appuniparthenope/main.dart';
 import '../screens/loginpage.dart';
 
 class NavbarComponent extends StatelessWidget implements PreferredSizeWidget {
-  const NavbarComponent({Key? key, this.showBackButton = true})
-      : super(key: key);
+  const NavbarComponent({super.key, this.showBackButton = true});
 
   final String title = 'Università degli studi di Napoli Parthenope';
   final bool? showBackButton;

@@ -48,6 +48,18 @@ class WeatherFunctions {
     return average;
   }
 
+  static double calculateAveragePressure(List<Timesery> timeseries) {
+    double sum = 0;
+    int count = 0;
+    for (var timeSeries in timeseries) {
+      if (timeSeries.slp != null) {
+        sum += timeSeries.slp!;
+        count++;
+      }
+    }
+    return count > 0 ? sum / count : 0;
+  }
+
   static String getIconAssetPath(String icon) {
     switch (icon) {
       case 'cloudy1_night.png':
@@ -74,17 +86,6 @@ class WeatherFunctions {
         return 'assets/icon/weather/Sole.png';
       default:
         return 'assets/icon/weather/default.png'; // valore di default
-    }
-  }
-
-  static IconData getIOSCupertinoIcon(String text) {
-    switch (text.toLowerCase()) {
-      case 'humidity':
-        return CupertinoIcons.drop;
-      case 'wind':
-        return CupertinoIcons.wind;
-      default:
-        return CupertinoIcons.question;
     }
   }
 

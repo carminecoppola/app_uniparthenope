@@ -8,7 +8,7 @@ import 'package:appuniparthenope/widget/CustomLoadingIndicator.dart';
 import 'tabViewTax.dart';
 
 class FeesStudent extends StatefulWidget {
-  const FeesStudent({Key? key});
+  const FeesStudent({super.key});
 
   @override
   State<FeesStudent> createState() => _FeesStudentState();

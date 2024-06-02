@@ -8,6 +8,8 @@ class AuthUtilsFunction {
       BuildContext context, String username, String password) async {
     final AuthController authController = AuthController();
 
+    
+
     try {
       final authenticatedUser =
           await authController.authUser(context, username, password);

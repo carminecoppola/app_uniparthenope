@@ -48,7 +48,7 @@ class ServiceCard extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 5),
-            Container(
+            SizedBox(
               width: 150, // Larghezza fissa per la descrizione
               child: Text(
                 description,

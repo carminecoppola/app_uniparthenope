@@ -10,7 +10,7 @@ import '../widget/ServicesWidget/PersonalCardWidget/tabbar_custom.dart';
 import '../widget/bottomNavBarProf.dart';
 
 class PersonalProfilePage extends StatefulWidget {
-  const PersonalProfilePage({Key? key});
+  const PersonalProfilePage({super.key});
 
   @override
   _PersonalProfilePageState createState() => _PersonalProfilePageState();

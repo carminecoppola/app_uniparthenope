@@ -4,7 +4,7 @@ import 'package:appuniparthenope/main.dart';
 class CustomTaxTabBar extends StatelessWidget {
   final TabController tabController;
 
-  const CustomTaxTabBar({Key? key, required this.tabController});
+  const CustomTaxTabBar({super.key, required this.tabController});
 
   @override
   Widget build(BuildContext context) {

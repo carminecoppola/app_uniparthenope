@@ -15,10 +15,6 @@ class TimeSerysInfo {
   String toRawJson() => json.encode(toJson());
 
   factory TimeSerysInfo.fromJson(Map<String, dynamic> json) {
-    if (json == null) {
-      throw Exception('JSON is null');
-    }
-
     return TimeSerysInfo(
       result: json["result"],
       timeseries: json["timeseries"] == null

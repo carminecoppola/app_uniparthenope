@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import '../../../utilityFunctions/weatherFunction.dart';
 
 class WeatherInfoWidget extends StatelessWidget {
+  final String municipalita;
   final String dateTime;
   final String iconAssetPath;
   final String iconDescription;
@@ -19,6 +20,7 @@ class WeatherInfoWidget extends StatelessWidget {
 
   const WeatherInfoWidget({
     super.key,
+    required this.municipalita,
     required this.dateTime,
     required this.iconAssetPath,
     required this.iconDescription,
@@ -54,6 +56,13 @@ class WeatherInfoWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        Text(
+          WeatherFunctions.toCamelCase(municipalita),
+          style: const TextStyle(
+              color: AppColors.detailsColor,
+              fontSize: 20,
+              fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 10),
         Center(
           child: Image.asset(
@@ -101,8 +110,7 @@ class WeatherInfoWidget extends StatelessWidget {
             childAspectRatio: 3.0,
             padding: const EdgeInsets.all(10),
             children: [
-              _buildWeatherDetail(
-                  FontAwesomeIcons.locationArrow, '$velocitaVento km/h'),
+              _buildWeatherDetail(FontAwesomeIcons.wind, '$velocitaVento km/h'),
               _buildWeatherDetail(
                   FontAwesomeIcons.cloudShowersHeavy, '$probPioggia%'),
               _buildWeatherDetail(FontAwesomeIcons.droplet, relativeHumidity),

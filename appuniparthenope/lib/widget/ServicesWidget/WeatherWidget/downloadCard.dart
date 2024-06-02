@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 
 class DownloadCard extends StatelessWidget {
-  const DownloadCard({Key? key});
+  const DownloadCard({super.key});
 
   @override
   Widget build(BuildContext context) {
