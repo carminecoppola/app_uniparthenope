@@ -1,3 +1,5 @@
+import 'package:appuniparthenope/model/teacherService/course_professor_data.dart';
+import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,16 +10,12 @@ import '../provider/professor_provider.dart';
 
 class ProfessorUtils {
   static Future<void> allCourseProfessor(
-    BuildContext context,
-    User? authenticatedUser,
-  ) async {
+      BuildContext context, User? authenticatedUser) async {
     final ProfessorController totalCourseController = ProfessorController();
     try {
-      // Ottenere la sessione del professore
       final professorSession = await totalCourseController.professorSession(
           authenticatedUser!, context);
 
-      // Estrarre l'aaId dalla sessione
       final aaId = professorSession.aaId;
 
       // Ottenere tutti i corsi del professore usando aaId
@@ -34,9 +32,7 @@ class ProfessorUtils {
   }
 
   static Future<SessionProfessorInfo?> professorSession(
-    BuildContext context,
-    User professor,
-  ) async {
+      BuildContext context, User professor) async {
     final ProfessorController controller = ProfessorController();
     try {
       final session = await controller.professorSession(professor, context);
@@ -44,6 +40,27 @@ class ProfessorUtils {
     } catch (e) {
       print(
           '\nErrore durante il caricamento della sessione del professore: $e');
+      return null;
+    }
+  }
+
+  static Future<DetailsCourseInfo?> detailsCourseProfessor(
+      BuildContext context, int adLogId) async {
+    final ProfessorController controller = ProfessorController();
+    final professor = Provider.of<AuthProvider>(context, listen: false)
+        .authenticatedUser!
+        .user;
+    try {
+      final session = await controller.detailsCourseInfoProfessor(
+          professor, adLogId, context);
+
+      Provider.of<ProfessorDataProvider>(context, listen: false)
+          .setDetailsCourseProfessor(session);
+
+      return session;
+    } catch (e) {
+      print(
+          '\nErrore durante il caricamento delle info sui corsi dei professore: $e');
       return null;
     }
   }

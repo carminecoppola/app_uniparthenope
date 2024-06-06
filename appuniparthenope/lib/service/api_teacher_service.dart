@@ -63,4 +63,32 @@ class ApiTeacherService {
           'Errore durante caricamento della sessione attuale del professore');
     }
   }
+
+  Future<DetailsCourseInfo> getDetailsCourse(
+      User professor, int adLogId, BuildContext context) async {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final String password = authProvider.password!;
+
+    final url =
+        Uri.parse('$baseUrl/UniparthenopeApp/v1/general/infoCourse/$adLogId');
+
+    final response = await http.get(url, headers: {
+      'Authorization':
+          'Basic ${base64Encode(utf8.encode("${professor.userId}:$password"))}',
+    });
+
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      print('\ngetDetailsCourse(): $jsonData');
+      return DetailsCourseInfo.fromJson(jsonData);
+    } else if (response.statusCode == 401) {
+      throw Exception('Unauthorized');
+    } else if (response.statusCode == 500) {
+      throw Exception(
+          'Errore del SERVER durante il caricamento delle informazioni dei corsi del professore');
+    } else {
+      throw Exception(
+          'Errore durante caricamento delle informazioni dei corsi del professore');
+    }
+  }
 }

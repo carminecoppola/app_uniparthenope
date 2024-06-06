@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 class ProfessorDataProvider extends ChangeNotifier {
   List<CourseProfessorInfo>? _allCourseProfessor;
   SessionProfessorInfo? _profSession;
+  DetailsCourseInfo? _detailsCourse;
 
   List<CourseProfessorInfo>? get allCourseProfessor => _allCourseProfessor;
   SessionProfessorInfo? get profSession => _profSession;
+  DetailsCourseInfo? get detailsCourse => _detailsCourse;
 
   void setAllCoursesProfessor(List<CourseProfessorInfo> allCourseProfessor) {
     _allCourseProfessor = allCourseProfessor;
@@ -16,6 +18,11 @@ class ProfessorDataProvider extends ChangeNotifier {
 
   void setProfessorSession(SessionProfessorInfo professorSession) {
     _profSession = professorSession;
+    notifyListeners();
+  }
+
+  void setDetailsCourseProfessor(DetailsCourseInfo detailsCourse) {
+    _detailsCourse = detailsCourse;
     notifyListeners();
   }
 }

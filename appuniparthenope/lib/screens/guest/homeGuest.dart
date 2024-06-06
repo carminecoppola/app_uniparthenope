@@ -3,6 +3,9 @@ import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../widget/GuestWidget/contactWidget.dart';
+import '../../widget/GuestWidget/universityWidget.dart';
+
 class HomeGuestPage extends StatefulWidget {
   const HomeGuestPage({super.key});
 
@@ -114,155 +117,16 @@ class _HomeGuestPageState extends State<HomeGuestPage> {
                             'immagine': 'assets/university/uni_villadoria.jpeg'
                           },
                         ];
-                        return Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            image: DecorationImage(
-                              image: AssetImage(sedeInfo[index]['immagine']!),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Text(
-                                sedeInfo[index]['nome']!,
-                                style: const TextStyle(
-                                  color: AppColors.primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 10,
-                                  backgroundColor:
-                                      Color.fromARGB(255, 226, 226, 226),
-                                ),
-                              ),
-                            ),
-                          ),
+                        return UniversityCardWidget(
+                          nome: sedeInfo[index]['nome']!,
+                          immagine: sedeInfo[index]['immagine']!,
                         );
                       }),
                     ),
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Contatti',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primaryColor,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.facebook,
-                            color: AppColors.primaryColor,
-                            size: 50,
-                          ),
-                          SizedBox(width: 10),
-                          Icon(
-                            FontAwesomeIcons.instagram,
-                            color: AppColors.primaryColor,
-                            size: 50,
-                          ),
-                          SizedBox(width: 10),
-                          Icon(
-                            FontAwesomeIcons.envelope,
-                            color: AppColors.primaryColor,
-                            size: 50,
-                          ),
-                          SizedBox(width: 10),
-                          Icon(
-                            FontAwesomeIcons.linkedin,
-                            color: AppColors.primaryColor,
-                            size: 50,
-                          ),
-                          SizedBox(width: 10),
-                          Icon(
-                            FontAwesomeIcons.youtube,
-                            color: AppColors.primaryColor,
-                            size: 50,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.phone_outlined,
-                            color: AppColors.primaryColor,
-                            size: 15,
-                          ),
-                          SizedBox(width: 4),
-                          Text(
-                            '+39 081 1234567',
-                            style: TextStyle(
-                                fontSize: 10, color: AppColors.primaryColor),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.place,
-                            color: AppColors.primaryColor,
-                            size: 15,
-                          ),
-                          SizedBox(width: 4),
-                          Text(
-                            'Indirizzo: Via Università, 1, Napoli',
-                            style: TextStyle(
-                                fontSize: 10, color: AppColors.primaryColor),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.maps_home_work_outlined,
-                            color: AppColors.primaryColor,
-                            size: 15,
-                          ),
-                          SizedBox(width: 4),
-                          Text(
-                            'Sede centrale: Via Amm. F. Acton, 38 - 80133 Napoli, ITALY',
-                            style: TextStyle(
-                                fontSize: 10, color: AppColors.primaryColor),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.fileInvoice,
-                            color: AppColors.primaryColor,
-                            size: 15,
-                          ),
-                          SizedBox(width: 4),
-                          Text(
-                            'P.IVA 01877320638 - C.F. 80018240632',
-                            style: TextStyle(
-                                fontSize: 10, color: AppColors.primaryColor),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 40),
-                    ],
-                  ),
-                ),
-              ),
+              const ContactSection(),
             ],
           ),
         ),

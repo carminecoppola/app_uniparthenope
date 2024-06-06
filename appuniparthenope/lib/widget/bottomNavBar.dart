@@ -57,8 +57,7 @@ class BottomNavBarComponent extends StatelessWidget {
               items: [
                 PopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
-                    StudentUtils.anagrafeUser(
-                        context, authenticatedUser!.user);
+                    StudentUtils.anagrafeUser(context, authenticatedUser!.user);
                   },
                   icon: Icons.person,
                   text: 'Personal Card',
@@ -79,6 +78,15 @@ class BottomNavBarComponent extends StatelessWidget {
                   },
                   icon: Icons.school,
                   text: 'Carriera',
+                ),
+                PopupMenuItemBuilder.buildMenuItem(
+                  onTap: () {
+                    StudentUtils.allReservationStudent(
+                        context, authenticatedUser!.user);
+                    Navigator.pushNamed(context, '/reservationStudent');
+                  },
+                  icon: Icons.calendar_month,
+                  text: 'Prenotazioni',
                 ),
                 PopupMenuItemBuilder.buildMenuItem(
                   onTap: () {

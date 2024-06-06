@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:appuniparthenope/utilityFunctions/authUtilsFunction.dart';
+import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
 import 'package:appuniparthenope/widget/CustomLoadingIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
@@ -215,14 +216,16 @@ class _LoginFormState extends State<LoginForm> {
                           ),
                         ),
                       ),
+                const SizedBox(
+                  height: 10,
+                ),
                 TextButton(
                   onPressed: _authenticateBiometric,
-                  child: const Text(
-                    'Accedi con Biometrico',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Image.asset(
+                    'assets/icon/faceid.png',
+                    color: AppColors.lightGray,
+                    width: 40,
+                    height: 40,
                   ),
                 ),
                 TextButton(

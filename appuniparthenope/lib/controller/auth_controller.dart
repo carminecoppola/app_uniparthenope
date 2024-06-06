@@ -7,7 +7,7 @@ import '../widget/alertDialog.dart';
 import '../widget/carrerSelectorDialog.dart';
 
 class AuthController {
-  final ApiService apiService = ApiService(); //Richiamo il servizio
+  final ApiService apiService = ApiService();
 
   Future<UserInfo> authUser(
       BuildContext context, String username, String password) async {
@@ -111,24 +111,9 @@ class AuthController {
       final Map<String, dynamic> responseData =
           await apiService.userAnagrafe(student, context);
 
-      final UserAnagrafe anagrafeUser = UserAnagrafe(
-        nome: responseData['nome'],
-        cognome: responseData['cognome'],
-        codFis: responseData['codFis'],
-        dataNascita: responseData['dataNascita'],
-        desCittadinanza: responseData['desCittadinanza'],
-        email: responseData['email'],
-        emailAte: responseData['emailAte'],
-        sesso: responseData['sesso'],
-        telRes: responseData['telRes'],
-        ruolo: responseData['ruolo'],
-        settore: responseData['settore'],
-      );
+      UserAnagrafe userAnagrafe = UserAnagrafe.fromJson(responseData);
 
-      Navigator.pushReplacementNamed(context, '/profileStudent',
-          arguments: anagrafeUser);
-
-      return anagrafeUser;
+      return userAnagrafe;
     } catch (e) {
       print('Error during controller setAnagrafe: $e');
       throw Exception('Errore nella fase di acquisizione dei dati anagrafici');

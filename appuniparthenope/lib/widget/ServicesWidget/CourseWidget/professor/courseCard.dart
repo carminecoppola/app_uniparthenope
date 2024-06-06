@@ -1,7 +1,8 @@
+import 'package:appuniparthenope/utilityFunctions/professorUtilsFunction.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 
-import 'courseInfoText.dart';
+import '../../../../screens/CourseDetailsInfo.dart';
 
 class CourseCard extends StatelessWidget {
   final String adDes;
@@ -10,6 +11,7 @@ class CourseCard extends StatelessWidget {
   final String fine;
   final String ultMod;
   final String sede;
+  final int adLogId; // Aggiungi adLogId
 
   const CourseCard({
     super.key,
@@ -19,13 +21,28 @@ class CourseCard extends StatelessWidget {
     required this.fine,
     required this.ultMod,
     required this.sede,
+    required this.adLogId, // Aggiungi adLogId
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        _showOverlay(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CourseDetailsPage(
+              adDes: adDes,
+              cdsDes: cdsDes,
+              inizio: inizio,
+              fine: fine,
+              sede: sede,
+              adLogId: adLogId,
+            ),
+          ),
+        );
+
+        ProfessorUtils.detailsCourseProfessor(context, adLogId);
       },
       child: Container(
         margin: const EdgeInsets.all(15.0),
@@ -79,82 +96,6 @@ class CourseCard extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  void _showOverlay(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          elevation: 10,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(40),
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              color: AppColors.primaryColor,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            padding: const EdgeInsets.all(25.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Text(
-                    toCamelCase(adDes),
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.detailsColor, // Colore del testo bianco
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                LabelValueText(
-                  label: 'Corso di studi:',
-                  value: toCamelCase(cdsDes),
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: LabelValueText(
-                        label: 'Inizio:',
-                        value: inizio,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: LabelValueText(
-                        label: 'Fine:',
-                        value: fine,
-                      ),
-                    ),
-                  ],
-                ),
-                LabelValueText(
-                  label: 'Sede:',
-                  value: toCamelCase(sede),
-                ),
-                const SizedBox(height: 16),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text(
-                      'Chiudi',
-                      style: TextStyle(color: AppColors.primaryColor),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }

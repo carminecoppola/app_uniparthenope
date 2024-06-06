@@ -66,7 +66,7 @@ class SingleCourseCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        titleExam,
+                        titleExam.split(' CFU')[0],
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 15,

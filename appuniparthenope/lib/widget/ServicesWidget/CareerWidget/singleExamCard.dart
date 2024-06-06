@@ -50,7 +50,7 @@ class SingleExamCard extends StatelessWidget {
                 child: Center(
                   child: Row(
                     children: [
-                      const SizedBox(width: 6),
+                      const SizedBox(width: 5),
                       // Visualizza l'icona della coccarda solo se withHonors è true
                       if (withHonors)
                         SvgPicture.asset(
@@ -84,7 +84,7 @@ class SingleExamCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      titleExam,
+                      titleExam.split(' CFU')[0],
                       style: const TextStyle(
                         color: AppColors.backgroundColor,
                         fontSize: 11,

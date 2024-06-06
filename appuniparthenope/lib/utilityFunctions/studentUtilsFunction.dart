@@ -12,8 +12,6 @@ import '../provider/auth_provider.dart';
 import '../provider/exam_provider.dart';
 
 class StudentUtils {
-  //Questa classe racchiude tutte le funzioni utili per i servizi studente
-
   static Future<void> anagrafeUser(
       BuildContext context, User authenticatedUser) async {
     final AuthController authController = AuthController();
@@ -24,8 +22,6 @@ class StudentUtils {
 
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       authProvider.setAnagrafeUser(anagrafeUser);
-
-      print(anagrafeUser);
     } catch (e) {
       print('Error during _setAnagrafe: $e');
     }
@@ -164,6 +160,21 @@ class StudentUtils {
     } catch (e) {
       print('\nErrore durante allRooms() $e');
       rethrow;
+    }
+  }
+
+  static Future<void> allReservationStudent(
+      BuildContext context, User? authenticatedUser) async {
+    final StudentController totalExamController = StudentController();
+    try {
+      final allReservationStudent = await totalExamController
+          .fetchAllReservationStudent(authenticatedUser!, context);
+
+      final examDataProvider =
+          Provider.of<ExamDataProvider>(context, listen: false);
+      examDataProvider.setAllReservationStudent(allReservationStudent);
+    } catch (e) {
+      print('\nErrore during _allReservationStudent() $e');
     }
   }
 }

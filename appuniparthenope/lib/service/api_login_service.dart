@@ -53,7 +53,6 @@ class ApiService {
     });
 
     print('Status:${response.statusCode}');
-    print('\n\n rb:${response.body}');
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
@@ -151,5 +150,4 @@ class ApiService {
       throw Exception('Errore durante il recupero QR-Code personale');
     }
   }
-
-  }
+}

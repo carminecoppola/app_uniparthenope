@@ -130,3 +130,49 @@ class CourseProfessorInfo {
         "adLogId": adLogId,
       };
 }
+
+class DetailsCourseInfo {
+  final String? contenuti;
+  final String? metodi;
+  final String? verifica;
+  final String? obiettivi;
+  final String? prerequisiti;
+  final String? testi;
+  final String? altro;
+
+  DetailsCourseInfo({
+    this.contenuti,
+    this.metodi,
+    this.verifica,
+    this.obiettivi,
+    this.prerequisiti,
+    this.testi,
+    this.altro,
+  });
+
+  factory DetailsCourseInfo.fromRawJson(String str) =>
+      DetailsCourseInfo.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory DetailsCourseInfo.fromJson(Map<String, dynamic> json) =>
+      DetailsCourseInfo(
+        contenuti: json["contenuti"],
+        metodi: json["metodi"],
+        verifica: json["verifica"],
+        obiettivi: json["obiettivi"],
+        prerequisiti: json["prerequisiti"],
+        testi: json["testi"],
+        altro: json["altro"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "contenuti": contenuti,
+        "metodi": metodi,
+        "verifica": verifica,
+        "obiettivi": obiettivi,
+        "prerequisiti": prerequisiti,
+        "testi": testi,
+        "altro": altro,
+      };
+}

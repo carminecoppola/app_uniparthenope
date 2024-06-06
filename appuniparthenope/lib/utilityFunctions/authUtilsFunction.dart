@@ -8,7 +8,10 @@ class AuthUtilsFunction {
       BuildContext context, String username, String password) async {
     final AuthController authController = AuthController();
 
-    
+    // username = 'carmine.coppola';
+    // password = 'CppCmn01_';
+    // username = 'MNTRFL72E10F839I';
+    // password = 'Sarima44iv\$!';
 
     try {
       final authenticatedUser =

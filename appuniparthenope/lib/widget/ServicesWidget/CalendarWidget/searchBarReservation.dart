@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../../main.dart';
 
-class SearchBarEvent extends StatelessWidget {
+class SearchBarReservationWidget extends StatelessWidget {
   final TextEditingController controller;
-  final Function(String) onChanged;
+  final ValueChanged<String> onChanged;
 
-  const SearchBarEvent({
+  const SearchBarReservationWidget({
     super.key,
     required this.controller,
     required this.onChanged,
@@ -20,7 +20,7 @@ class SearchBarEvent extends StatelessWidget {
         controller: controller,
         onChanged: onChanged,
         decoration: InputDecoration(
-          labelText: 'Cerca eventi',
+          labelText: 'Cerca prenotazione...',
           labelStyle: const TextStyle(
             color: AppColors.primaryColor,
           ),

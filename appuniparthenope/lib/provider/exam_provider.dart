@@ -1,7 +1,9 @@
+import 'package:appuniparthenope/model/studentService/reservation_data.dart';
 import 'package:appuniparthenope/model/studentService/student_course_data.dart';
 import 'package:appuniparthenope/model/studentService/exam_data.dart';
 import 'package:appuniparthenope/model/studentService/student_career_data.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../model/studentService/events_data.dart';
 
@@ -12,21 +14,28 @@ class ExamDataProvider extends ChangeNotifier {
   List<ExamData>? _allExamStudent;
   List<CourseInfo>? _allCourseStudent;
   List<StatusCourse>? _allStatusCourses;
-  Map<String, StatusCourse>? _statusCoursesMap; // Aggiungi questa variabile
+  Map<String, StatusCourse>? _statusCoursesMap;
   List<EventsInfo>? _allEvents;
-  double? _gpa;
+  List<ReservationInfo>? _allReservation;
 
   TotalExamStudent? get totalExamStudent => _totalExamStatsStudent;
+
   AverageInfo? get aritmeticAverageStatsStudent =>
       _aritmeticAverageStatsStudent;
+
   AverageInfo? get weightedAverageStatsStudent => _weightedAverageStatsStudent;
+
   List<ExamData>? get allExamStudent => _allExamStudent;
+
   List<CourseInfo>? get allCourseStudent => _allCourseStudent;
+
   List<StatusCourse>? get allStatusCourses => _allStatusCourses;
-  Map<String, StatusCourse>? get statusCoursesMap =>
-      _statusCoursesMap; // Aggiungi questo getter
+
+  Map<String, StatusCourse>? get statusCoursesMap => _statusCoursesMap;
+
   List<EventsInfo>? get allEventsList => _allEvents;
-  double? get allGPA => _gpa;
+
+  List<ReservationInfo>? get allReservationInfo => _allReservation;
 
   // Metodo per impostare l'anagrafica dell'utente
   void setTotalStatsExamStudent(TotalExamStudent totalExamStudent) {
@@ -71,9 +80,22 @@ class ExamDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Metodo per impostare gli eventi
-  void setGPA(double gpa) {
-    _gpa = gpa;
+  // Metodo per impostare le prenotazioni dello studente
+  void setAllReservationStudent(List<ReservationInfo> allReservation) {
+    _allReservation = allReservation;
+    _sortReservationByDate();
     notifyListeners();
+  }
+
+  // Ordina le prenotazioni per data più recente
+  void _sortReservationByDate() {
+    if (_allReservation != null) {
+      final dateFormat = DateFormat('yyyy/MM/dd HH:mm');
+      _allReservation!.sort((a, b) {
+        DateTime dateA = dateFormat.parse(a.dataEsa!);
+        DateTime dateB = dateFormat.parse(b.dataEsa!);
+        return dateB.compareTo(dateA);
+      });
+    }
   }
 }

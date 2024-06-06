@@ -48,6 +48,7 @@ dependencies:
   geolocator: ^9.0.2
   local_auth: ^2.2.0
   shared_preferences: ^2.2.3
+  dots_indicator: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +80,7 @@ flutter:
     - assets/user_profile_default.jpg
     - assets/qrcode_default.png
     - assets/icon/coccarda.png
+    - assets/icon/faceid.png
     - assets/icon/coccarda.svg
     - assets/Onda.png
 
@@ -96,6 +98,11 @@ flutter:
     - assets/icon/tax.png
     - assets/icon/courses.png
     - assets/icon/weather.png
+    - assets/icon/appointmentIcon.png
+    - assets/icon/discussionIcon.png
+    - assets/icon/practicalTest.png
+
+
 
     # Icon Prof Service Image:
     - assets/icon/lecture.png
@@ -110,13 +117,17 @@ flutter:
     - assets/icon/weather/Temporale.png
     - assets/icon/weather/default.png
     
-
     # Team Image:
     - assets/team/gm.jpg
     - assets/team/nn.jpg
     - assets/team/team_leader.jpg
     - assets/team/cc.png
     - assets/team/cgdv.png
+
+    # Card Image:
+    - assets/scanCode.jpg
+    - assets/addUser.jpg
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

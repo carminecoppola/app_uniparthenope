@@ -74,26 +74,30 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (role == 'Studenti') ...[
-                      PersonalCardWidget(
-                        nome: userAnagrafe?.nome ?? 'Nome non disponibile',
-                        cognome:
-                            userAnagrafe?.cognome ?? 'Cognome non disponibile',
-                        identificativoLabel: identificativoLabel,
-                        identificativo: identificativo != null
-                            ? identificativo.toString()
-                            : 'N/A',
-                      ),
+                    if (userAnagrafe != null) ...[
+                      if (role == 'Studenti') ...[
+                        PersonalCardWidget(
+                          nome: userAnagrafe.nome,
+                          cognome: userAnagrafe.cognome,
+                          identificativoLabel: identificativoLabel,
+                          identificativo: identificativo.toString(),
+                        ),
+                      ] else ...[
+                        PersonalCardWidget(
+                            nome: userAnagrafe.nome,
+                            cognome: userAnagrafe.cognome,
+                            identificativoLabel: identificativoLabel,
+                            identificativo: identificativoProf.toString()),
+                      ],
                     ] else ...[
-                      PersonalCardWidget(
-                        nome: userAnagrafe?.nome ?? 'Nome non disponibile',
-                        cognome:
-                            userAnagrafe?.cognome ?? 'Cognome non disponibile',
-                        identificativoLabel: identificativoLabel,
-                        identificativo: identificativo != null
-                            ? identificativoProf.toString()
-                            : 'N/A',
-                      ),
+                      const Center(
+                        child: PersonalCardWidget(
+                          nome: 'Nome non disponibile',
+                          cognome: 'Cognome non disponibile',
+                          identificativoLabel: 'N/A',
+                          identificativo: 'N/A',
+                        ),
+                      )
                     ],
                     const SizedBox(height: 8),
                     CustomTabBar(

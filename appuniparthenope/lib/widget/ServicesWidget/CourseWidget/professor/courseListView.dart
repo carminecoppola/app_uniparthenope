@@ -18,8 +18,7 @@ class CourseListWidget extends StatelessWidget {
     final professor = authProvider.authenticatedUser!.user;
 
     return FutureProvider<SessionProfessorInfo?>(
-      create: (context) =>
-          ProfessorUtils.professorSession(context, professor),
+      create: (context) => ProfessorUtils.professorSession(context, professor),
       initialData: null,
       child: Consumer<SessionProfessorInfo?>(
         builder: (context, session, child) {
@@ -67,6 +66,7 @@ class CourseListWidget extends StatelessWidget {
                       fine: course.fine ?? '',
                       ultMod: course.ultMod ?? '',
                       sede: course.sede ?? '',
+                      adLogId: course.adLogId!.toInt(),
                     );
                   },
                 );

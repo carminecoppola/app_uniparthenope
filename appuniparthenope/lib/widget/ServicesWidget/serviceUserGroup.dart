@@ -105,14 +105,15 @@ class ServiceGroupStudentCard extends StatelessWidget {
             GestureDetector(
               onTap: () async {
                 StudentUtils.allCourseStudent(context, authenticatedUser.user);
-
+                StudentUtils.allReservationStudent(
+                    context, authenticatedUser.user);
                 Navigator.pushNamed(context, '/courseStudent');
               },
               child: const ServiceCard(
                 imagePath: 'assets/icon/courses.png',
                 title: 'Corsi',
                 description:
-                    'Puoi visualizzare per ogni anno accademico i corsi da seguire.',
+                    'Puoi visualizzare i corsi da seguire per ogni anno accademico previsti.',
               ),
             ),
             const SizedBox(width: 5), // Spazio tra le card

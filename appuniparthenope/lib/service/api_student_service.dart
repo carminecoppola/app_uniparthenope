@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:provider/provider.dart';
 
+import '../model/studentService/reservation_data.dart';
+
 class ApiStudentService {
   final String baseUrl = "https://api.uniparthenope.it";
 
@@ -208,8 +210,41 @@ class ApiStudentService {
     }
   }
 
-  Future<List<LecturesInfo>> getLectures(
+  Future<List<ReservationInfo>> getReservationStudents(
       User student, BuildContext context) async {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final selectedCareer = authProvider.selectedCareer;
+
+    if (selectedCareer == null) {
+      throw Exception('Nessuna carriera selezionata trovata');
+    }
+
+    String matId = selectedCareer['matId'].toString();
+    final String password = authProvider.password!;
+
+    final url = Uri.parse(
+        '$baseUrl/UniparthenopeApp/v1/students/getReservations/$matId');
+
+    final response = await http.get(url, headers: {
+      'Authorization':
+          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
+    });
+
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body) as List<dynamic>;
+      print('\n allReservation:\n $jsonData');
+      return jsonData.map((data) => ReservationInfo.fromJson(data)).toList();
+    } else if (response.statusCode == 500) {
+      throw Exception(
+          'Errore del SERVER durante il caricamento delle prenotazioni effettuate');
+    } else {
+      throw Exception(
+          'Errore durante caricamento delle prenotazioni effettuate dallo studente');
+    }
+  }
+
+  Future<List<LecturesInfo>> getLectures(
+      User user, BuildContext context) async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final selectedCareer = authProvider.selectedCareer;
 
@@ -224,7 +259,7 @@ class ApiStudentService {
 
     final response = await http.get(url, headers: {
       'Authorization':
-          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
+          'Basic ${base64Encode(utf8.encode("${user.userId}:$password"))}',
     });
 
     if (response.statusCode == 200) {

@@ -36,4 +36,17 @@ class ProfessorController {
       throw Exception('Errore Caricamento della Sessione dei Professori $e');
     }
   }
+
+  Future<DetailsCourseInfo> detailsCourseInfoProfessor(
+      User professor, int adLogId, BuildContext context) async {
+    try {
+      final DetailsCourseInfo responseData =
+          await apiService.getDetailsCourse(professor, adLogId, context);
+
+      return responseData;
+    } catch (e) {
+      throw Exception(
+          'Errore Caricamento delle informazioni sui corsi dei Professori $e');
+    }
+  }
 }

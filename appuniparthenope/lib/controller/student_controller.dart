@@ -1,4 +1,5 @@
 import 'package:appuniparthenope/model/studentService/calendar_data.dart';
+import 'package:appuniparthenope/model/studentService/reservation_data.dart';
 import 'package:appuniparthenope/model/studentService/student_course_data.dart';
 import 'package:appuniparthenope/model/studentService/exam_data.dart';
 import 'package:appuniparthenope/model/studentService/student_career_data.dart';
@@ -143,6 +144,24 @@ class StudentController {
       return responseData;
     } catch (e) {
       throw Exception('Errore Caricamento delle lezioni dello studente');
+    }
+  }
+
+  Future<List<ReservationInfo>> fetchAllReservationStudent(
+      User student, BuildContext context) async {
+    try {
+      final List<ReservationInfo> responseData =
+          await apiService.getReservationStudents(student, context);
+
+      print('Lunghezza lista Reservation${responseData.length}');
+
+      if (responseData.isEmpty) {
+        print('\nErrore la lista delle prenotazioni è vuota.');
+      }
+
+      return responseData;
+    } catch (e) {
+      throw Exception('Errore Caricamento Corsi $e');
     }
   }
 }

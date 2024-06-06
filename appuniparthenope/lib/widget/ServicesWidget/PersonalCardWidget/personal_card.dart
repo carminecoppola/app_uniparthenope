@@ -13,7 +13,7 @@ class PersonalCardWidget extends StatelessWidget {
     required this.nome,
     required this.cognome,
     required this.identificativoLabel,
-    this.identificativo,
+    required this.identificativo,
   });
 
   @override
@@ -34,14 +34,14 @@ class PersonalCardWidget extends StatelessWidget {
             const AvatarWidget(),
             const SizedBox(height: 10),
             Text(
-              '${toCamelCase(nome!)} ${toCamelCase(cognome!)}',
+              '${toCamelCase(nome)} ${toCamelCase(cognome)}',
               style: const TextStyle(
                   color: AppColors.backgroundColor,
                   fontSize: 16,
                   fontWeight: FontWeight.bold),
             ),
             Text(
-              identificativo ?? '',
+              identificativo!,
               style: const TextStyle(
                 fontSize: 12,
                 color: AppColors.detailsColor,
