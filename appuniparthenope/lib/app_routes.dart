@@ -1,6 +1,5 @@
 import 'package:appuniparthenope/screens/InfoAppPage.dart';
 import 'package:appuniparthenope/screens/dottorandi/homePhD.dart';
-import 'package:appuniparthenope/screens/guest/homeGuest.dart';
 import 'package:appuniparthenope/screens/guest/homePTA.dart';
 import 'package:appuniparthenope/screens/home.dart';
 import 'package:appuniparthenope/screens/loadingpage.dart';

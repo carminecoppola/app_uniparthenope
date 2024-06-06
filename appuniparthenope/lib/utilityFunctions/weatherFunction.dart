@@ -1,5 +1,6 @@
 import 'package:appuniparthenope/provider/weather_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import '../controller/weather_controller.dart';
 import '../model/weather_timeSerys_data.dart';
@@ -9,19 +10,60 @@ class WeatherFunctions {
   static Future<void> getWeather(BuildContext context) async {
     final WeatherController weatherController = WeatherController();
 
-    const latitude = 40.7;
-    const longitude = 14.17;
-
     try {
-      final allTimeSeries = await weatherController.getAllWeatherTime(
-          context, latitude, longitude);
-      final weatherDataProvider =
-          Provider.of<WeatherDataProvider>(context, listen: false);
-      weatherDataProvider.setWeatherInfo(allTimeSeries);
+      final locationData = await getLocation();
+
+      if (locationData != null) {
+        final latitude = locationData.latitude ?? 40.7;
+        final longitude = locationData.longitude ?? 14.17;
+
+        final allTimeSeries = await weatherController.getAllWeatherTime(
+            context, latitude, longitude);
+        final weatherDataProvider =
+            Provider.of<WeatherDataProvider>(context, listen: false);
+        weatherDataProvider.setWeatherInfo(allTimeSeries);
+      } else {
+        print('Location data is null');
+      }
     } catch (e) {
       print('Error during getWeather(): $e');
     }
   }
+
+  static Future<LocationData?> getLocation() async {
+  Location location = Location();
+
+  bool serviceEnabled;
+  PermissionStatus permissionGranted;
+  LocationData? locationData; // Tipo di dati opzionale
+
+  // Verifica se il servizio di localizzazione è abilitato
+  serviceEnabled = await location.serviceEnabled();
+  if (!serviceEnabled) {
+    // Richiedi all'utente di abilitare il servizio di localizzazione
+    serviceEnabled = await location.requestService();
+    if (!serviceEnabled) {
+      throw Exception('Servizio di localizzazione disabilitato');
+    }
+  }
+
+  // Verifica lo stato del permesso di localizzazione
+  permissionGranted = await location.hasPermission();
+  if (permissionGranted == PermissionStatus.denied) {
+    // Richiedi all'utente il permesso di accedere alla posizione
+    permissionGranted = await location.requestPermission();
+    if (permissionGranted != PermissionStatus.granted) {
+      throw Exception('Permesso di localizzazione negato');
+    }
+  }
+
+  // Ottieni la posizione solo se il servizio e il permesso sono stati abilitati
+  if (serviceEnabled && permissionGranted == PermissionStatus.granted) {
+    locationData = await location.getLocation();
+  }
+
+  return locationData;
+}
 
   static String getDayOfWeek(String dateTime) {
     final year = int.parse(dateTime.substring(0, 4));

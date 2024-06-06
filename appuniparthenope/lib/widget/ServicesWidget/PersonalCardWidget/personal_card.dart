@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
+import '../../../utilityFunctions/authUtilsFunction.dart';
 import 'avatar_widget.dart';
 
 class PersonalCardWidget extends StatelessWidget {
@@ -9,12 +10,12 @@ class PersonalCardWidget extends StatelessWidget {
   final String? identificativo;
 
   const PersonalCardWidget({
-    super.key,
+    Key? key,
     required this.nome,
     required this.cognome,
     required this.identificativoLabel,
     required this.identificativo,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,27 @@ class PersonalCardWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const AvatarWidget(),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(width: 50),
+                  const AvatarWidget(),
+                  const SizedBox(width: 5),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.qr_code,
+                      size: 30,
+                      color: AppColors.detailsColor,
+                    ),
+                    onPressed: () {
+                      AuthUtilsFunction.qrCodeImg(context);
+                      Navigator.pushNamed(context, '/qrCodePage');
+                    },
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(height: 10),
             Text(
               '${toCamelCase(nome)} ${toCamelCase(cognome)}',

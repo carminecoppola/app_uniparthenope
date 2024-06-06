@@ -15,6 +15,7 @@ class BottomNavBarProfComponent extends StatelessWidget {
     final navigationProvider = Provider.of<BottomNavBarProvider>(context);
     final authenticatedUser =
         Provider.of<AuthProvider>(context).authenticatedUser;
+    final anagrafeUser = Provider.of<AuthProvider>(context).anagrafeUser;
 
     return BottomNavigationBar(
       currentIndex: navigationProvider.currentIndex,
@@ -58,6 +59,8 @@ class BottomNavBarProfComponent extends StatelessWidget {
                 PopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
                     StudentUtils.anagrafeUser(context, authenticatedUser!.user);
+                    Navigator.pushReplacementNamed(context, '/profileStudent',
+                        arguments: anagrafeUser);
                   },
                   icon: Icons.person,
                   text: 'Personal Card',

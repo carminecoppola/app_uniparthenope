@@ -12,8 +12,6 @@ class WeatherUniPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final placeName = Provider.of<WeatherDataProvider>(context).placeName;
-
     return Scaffold(
       appBar: const NavbarComponent(),
       body: SingleChildScrollView(
@@ -49,7 +47,7 @@ class WeatherUniPage extends StatelessWidget {
               height: 2,
               color: AppColors.primaryColor,
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
             const CarouselCard(),
             const SizedBox(height: 50),
             const DownloadCard(),

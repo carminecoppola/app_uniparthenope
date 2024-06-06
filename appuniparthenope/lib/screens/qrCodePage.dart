@@ -1,16 +1,16 @@
-import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../main.dart';
-import '../provider/auth_provider.dart';
+import '../widget/navbar.dart';
 import '../widget/bottomNavBar.dart';
 import '../widget/qrCode_widget.dart';
+import '../provider/auth_provider.dart';
+import '../utilityFunctions/authUtilsFunction.dart';
 
 class QRCodePage extends StatelessWidget {
   final String? profileImage;
 
-  const QRCodePage({super.key, this.profileImage});
+  const QRCodePage({Key? key, this.profileImage});
 
   @override
   Widget build(BuildContext context) {
@@ -183,13 +183,36 @@ class QRCodePage extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 30),
-                        const Center(
-                          child: SizedBox(
-                            width: 170,
-                            height: 170,
-                            child: QRCodeWidget(),
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(width: 50),
+                            const Center(
+                              child: SizedBox(
+                                width: 170,
+                                height: 170,
+                                child: QRCodeWidget(),
+                              ),
+                            ),
+                            const SizedBox(width: 5),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.refresh,
+                                size: 40,
+                                color: AppColors.detailsColor,
+                              ),
+                              onPressed: () {
+                                // Aggiorna il QR Code
+                                AuthUtilsFunction.qrCodeImg(context);
+                              },
+                            )
+                          ],
                         ),
+                        const SizedBox(height: 15),
+                        const Text(
+                          'Click per ingrandire',
+                          style: TextStyle(color: AppColors.lightGray),
+                        )
                       ],
                     ),
                   ),

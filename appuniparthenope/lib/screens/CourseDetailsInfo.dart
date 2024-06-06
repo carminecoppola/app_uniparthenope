@@ -1,10 +1,8 @@
 import 'package:appuniparthenope/model/teacherService/course_professor_data.dart';
 import 'package:appuniparthenope/provider/professor_provider.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../widget/alertDialog.dart';

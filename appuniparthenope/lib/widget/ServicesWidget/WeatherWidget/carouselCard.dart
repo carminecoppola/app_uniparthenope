@@ -37,7 +37,7 @@ class _CarouselCardState extends State<CarouselCard> {
       children: [
         SizedBox(
           width: 300,
-          height: 400,
+          height: 450,
           child: Card(
             color: AppColors.primaryColor,
             elevation: 20,

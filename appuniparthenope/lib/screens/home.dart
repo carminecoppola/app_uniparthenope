@@ -1,10 +1,7 @@
 import 'package:appuniparthenope/main.dart';
-import 'package:appuniparthenope/provider/exam_provider.dart';
-import 'package:appuniparthenope/widget/CustomLoadingIndicator.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/CalendarWidget/calendarCard.dart';
 import 'package:appuniparthenope/widget/alertDialog.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../provider/auth_provider.dart';
 import '../utilityFunctions/authUtilsFunction.dart';
@@ -16,7 +13,7 @@ import '../widget/bottomNavBar.dart';
 import '../widget/bottomNavBarProf.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   _HomePageState createState() => _HomePageState();

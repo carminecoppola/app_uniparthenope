@@ -152,8 +152,7 @@ class _CourseStudentState extends State<CourseStudentPage> {
                     cfuExam: cfuExam,
                     titleExam: course.nome.toString(),
                     status: status,
-                    codiceCorso:
-                        '${course.codice.toString()} - ${course.adId.toString()}',
+                    codiceCorso: course.codice.toString(),
                     annoAccademico: course.annoId.toString(),
                   );
                 },

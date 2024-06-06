@@ -24,7 +24,7 @@ class BannerWidget extends StatelessWidget {
           Text(
             'Situazione attuale: ${getStatus(allTaxesInfo?.semaforo)}', // Modificato qui
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
               color:
                   getColorForStatus(allTaxesInfo?.semaforo), // Modificato qui

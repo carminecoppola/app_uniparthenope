@@ -7,6 +7,7 @@ import '../../main.dart';
 import '../../provider/exam_provider.dart';
 import '../../widget/ServicesWidget/AppointmentsWidget/reservationListView.dart';
 import '../../widget/ServicesWidget/AppointmentsWidget/searchBarReservation.dart';
+import '../../widget/bottomNavBar.dart';
 
 class ReservationPage extends StatefulWidget {
   const ReservationPage({
@@ -53,60 +54,59 @@ class _ReservationPageState extends State<ReservationPage>
                 ),
               ),
             )
-          : SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Prenotazioni',
-                      style: TextStyle(
-                        color: AppColors.primaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
-                      ),
-                    ),
-                    const Divider(
+          : Padding(
+              padding: const EdgeInsets.all(0.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Prenotazioni',
+                    style: TextStyle(
                       color: AppColors.primaryColor,
-                      indent: 100,
-                      endIndent: 100,
-                      thickness: 2,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
                     ),
-                    const SizedBox(height: 30),
-                    SearchBarReservationWidget(
-                      controller: searchController,
-                      onChanged: (query) {
-                        setState(() {
-                          searchQuery = query;
-                        });
-                      },
+                  ),
+                  const Divider(
+                    color: AppColors.primaryColor,
+                    indent: 100,
+                    endIndent: 100,
+                    thickness: 2,
+                  ),
+                  const SizedBox(height: 30),
+                  SearchBarReservationWidget(
+                    controller: searchController,
+                    onChanged: (query) {
+                      setState(() {
+                        searchQuery = query;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  ReservationTabBar(
+                    tabController: _tabController,
+                  ),
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        ReservationListWidget(
+                          searchQuery: searchQuery,
+                          filterType: FilterType.past,
+                        ),
+                        ReservationListWidget(
+                          searchQuery: searchQuery,
+                          filterType: FilterType.upcoming,
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 20),
-                    ReservationTabBar(
-                      tabController: _tabController,
-                    ),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      height: 500, // Altezza fissa per la lista
-                      child: TabBarView(
-                        controller: _tabController,
-                        children: [
-                          ReservationListWidget(
-                            searchQuery: searchQuery,
-                            filterType: FilterType.past,
-                          ),
-                          ReservationListWidget(
-                            searchQuery: searchQuery,
-                            filterType: FilterType.upcoming,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
+      bottomNavigationBar: const BottomNavBarComponent(),
     );
   }
 }

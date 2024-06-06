@@ -71,8 +71,8 @@ class ReservationListWidget extends StatelessWidget {
       decoration: const BoxDecoration(
         color: AppColors.primaryColor,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
         ),
         boxShadow: [
           BoxShadow(
@@ -107,21 +107,20 @@ class ReservationListWidget extends StatelessWidget {
                 ],
               ),
             )
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+          : ListView(
+              // Aggiungi ListView per rendere la lista verticale scorrevole
               children: [
-                const SizedBox(height: 8),
                 // Mappa ogni prenotazione filtrata a un widget di visualizzazione
                 ...filteredReservations.map((reservation) {
                   return Container(
-                    margin: const EdgeInsets.symmetric(vertical: 10.0),
-                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.symmetric(vertical: 5.0),
+                    padding: const EdgeInsets.all(5.0),
                     child: SingleAppointmentCard(
                       iconData: Icons.school,
                       reservation: reservation,
                     ),
                   );
-                }).toList(),
+                }),
               ],
             ),
     );

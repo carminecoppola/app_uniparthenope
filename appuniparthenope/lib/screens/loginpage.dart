@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:appuniparthenope/utilityFunctions/authUtilsFunction.dart';
-import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
 import 'package:appuniparthenope/widget/CustomLoadingIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';

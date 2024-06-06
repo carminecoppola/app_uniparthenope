@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CalendarCard extends StatelessWidget {
-  const CalendarCard({Key? key});
+  const CalendarCard({super.key});
 
   @override
   Widget build(BuildContext context) {

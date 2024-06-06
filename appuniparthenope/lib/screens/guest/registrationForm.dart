@@ -3,7 +3,7 @@ import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:flutter/material.dart';
 
 class RegistrationForm extends StatefulWidget {
-  const RegistrationForm({Key? key});
+  const RegistrationForm({super.key});
 
   @override
   _RegistrationFormState createState() => _RegistrationFormState();

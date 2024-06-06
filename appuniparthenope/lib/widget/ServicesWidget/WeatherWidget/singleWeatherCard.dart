@@ -58,9 +58,10 @@ class WeatherInfoWidget extends StatelessWidget {
       children: [
         Text(
           WeatherFunctions.toCamelCase(municipalita),
+          textAlign: TextAlign.center,
           style: const TextStyle(
               color: AppColors.detailsColor,
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
