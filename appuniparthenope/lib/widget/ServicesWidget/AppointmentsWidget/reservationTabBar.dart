@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 
-class CustomTaxTabBar extends StatelessWidget {
+class ReservationTabBar extends StatelessWidget {
   final TabController tabController;
 
-  const CustomTaxTabBar({super.key, required this.tabController});
+  const ReservationTabBar({super.key, required this.tabController});
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +34,12 @@ class CustomTaxTabBar extends StatelessWidget {
         unselectedLabelColor: Colors.grey,
         tabs: const [
           Tab(
-            text: 'Da pagare',
-            icon: Icon(Icons.payment),
+            text: 'Scadute',
+            icon: Icon(Icons.history),
           ),
           Tab(
-            text: 'Pagate',
-            icon: Icon(Icons.check),
+            text: 'Prossimamente',
+            icon: Icon(Icons.upcoming),
           ),
         ],
       ),

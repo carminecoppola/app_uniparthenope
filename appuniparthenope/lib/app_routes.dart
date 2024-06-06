@@ -8,7 +8,7 @@ import 'package:appuniparthenope/screens/resturant/homeResturant.dart';
 import 'package:appuniparthenope/screens/student/CourseStudent.dart';
 import 'package:appuniparthenope/screens/WeatherPage.dart';
 import 'package:appuniparthenope/screens/student/CareerStudent.dart';
-import 'package:appuniparthenope/widget/ServicesWidget/CalendarWidget/reservationPage.dart';
+import 'package:appuniparthenope/screens/student/ReservationStudent.dart';
 import 'package:flutter/material.dart';
 import 'screens/guest/registrationForm.dart';
 import 'screens/guest/viewAllAccess.dart';

@@ -1,7 +1,7 @@
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/CalendarWidget/calendarWidget.dart';
-import 'package:appuniparthenope/widget/ServicesWidget/CalendarWidget/reservationPage.dart';
+import 'package:appuniparthenope/screens/student/ReservationStudent.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
