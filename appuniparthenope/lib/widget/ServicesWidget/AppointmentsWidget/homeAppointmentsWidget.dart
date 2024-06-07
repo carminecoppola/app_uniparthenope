@@ -4,14 +4,31 @@ import 'package:appuniparthenope/main.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
+import 'dart:async';
 
 import '../../../provider/exam_provider.dart';
 import 'singlAppointmentCard.dart';
 
-class HomeAppointmentsCard extends StatelessWidget {
-  const HomeAppointmentsCard({
-    super.key,
-  });
+class HomeAppointmentsCard extends StatefulWidget {
+  const HomeAppointmentsCard({super.key});
+
+  @override
+  _HomeAppointmentsCardState createState() => _HomeAppointmentsCardState();
+}
+
+class _HomeAppointmentsCardState extends State<HomeAppointmentsCard> {
+  bool _isVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Ritarda la visualizzazione dei card per consentire l'animazione
+    Timer(const Duration(milliseconds: 500), () {
+      setState(() {
+        _isVisible = true;
+      });
+    });
+  }
 
   // Funzione per formattare la data nel formato desiderato
   String formatAppointmentDate(DateTime date) {
@@ -47,9 +64,13 @@ class HomeAppointmentsCard extends StatelessWidget {
     final appointmentCards = lastTwoReservations.map((reservation) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: SingleAppointmentCard(
-          iconData: Icons.school,
-          reservation: reservation,
+        child: AnimatedOpacity(
+          opacity: _isVisible ? 1.0 : 0.0,
+          duration: const Duration(milliseconds: 500),
+          child: SingleAppointmentCard(
+            iconData: Icons.school,
+            reservation: reservation,
+          ),
         ),
       );
     }).toList();

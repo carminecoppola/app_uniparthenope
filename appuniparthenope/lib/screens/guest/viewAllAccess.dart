@@ -1,4 +1,5 @@
 import 'package:appuniparthenope/main.dart';
+import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:flutter/material.dart';
 
 class AccessLogsTable extends StatelessWidget {
@@ -13,8 +14,8 @@ class AccessLogsTable extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Biblioteca'),
+      appBar: const NavbarComponent(
+        showBackButton: false,
       ),
       body: Container(
         padding: const EdgeInsets.all(20),

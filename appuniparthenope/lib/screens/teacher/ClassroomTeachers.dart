@@ -37,7 +37,23 @@ class _ClassroomTeacherPageState extends State<ClassroomTeacherPage> {
         child: Center(
           child: Column(
             children: [
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
+              const Text(
+                'Aule Universitari',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primaryColor,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const Divider(
+                color: AppColors.primaryColor,
+                thickness: 2.5,
+                indent: 70,
+                endIndent: 70,
+              ),
+              const SizedBox(height: 20),
               Container(
                 height: 50,
                 width: 250,
@@ -90,7 +106,7 @@ class _ClassroomTeacherPageState extends State<ClassroomTeacherPage> {
       setState(() {
         _isLoading = false;
       });
-      // Handle error here, for example, show a Snackbar or an AlertDialog
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Errore durante il caricamento delle aule: $error'),

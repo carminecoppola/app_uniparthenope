@@ -2,12 +2,12 @@ import 'package:appuniparthenope/screens/InfoAppPage.dart';
 import 'package:appuniparthenope/screens/dottorandi/homePhD.dart';
 import 'package:appuniparthenope/screens/guest/homePTA.dart';
 import 'package:appuniparthenope/screens/home.dart';
-import 'package:appuniparthenope/screens/loadingpage.dart';
 import 'package:appuniparthenope/screens/resturant/homeResturant.dart';
 import 'package:appuniparthenope/screens/student/CourseStudent.dart';
 import 'package:appuniparthenope/screens/WeatherPage.dart';
 import 'package:appuniparthenope/screens/student/CareerStudent.dart';
 import 'package:appuniparthenope/screens/student/ReservationStudent.dart';
+import 'package:appuniparthenope/screens/teacher/CheckCourseTeachers.dart';
 import 'package:flutter/material.dart';
 import 'screens/guest/registrationForm.dart';
 import 'screens/guest/viewAllAccess.dart';
@@ -20,7 +20,6 @@ import 'screens/teacher/CourseTeachers.dart';
 import 'screens/teacher/EventsTeachers.dart';
 
 class AppRoutes {
-  static const String loadingPage = '/loadingFirstPage';
   static const String loginPage = '/loginPage';
   static const String infoAppPage = '/infoAppPage';
   static const String qrCodePage = '/qrCodePage';
@@ -42,13 +41,13 @@ class AppRoutes {
   static const String classroomTeachers = '/classroomTeachers';
   static const String eventsTeachers = '/eventsTeachers';
   static const String courseTeachers = '/courseTeachers';
+  static const String checkCourseTeachers = '/checkCourseTeachers';
 
   //Library roots
   static const String registrationLibrary = '/registrationLibrary';
   static const String viewAllAccessLibrary = '/viewAllAccessLibrary';
 
   static final Map<String, WidgetBuilder> routes = {
-    loadingPage: (context) => const LoadingFristPage(),
     loginPage: (context) => const LoginForm(),
     infoAppPage: (context) => const InfoAppPage(),
     qrCodePage: (context) => const QRCodePage(),
@@ -72,6 +71,7 @@ class AppRoutes {
     classroomTeachers: (context) => const ClassroomTeacherPage(),
     eventsTeachers: (context) => const EventsTeachersPage(),
     courseTeachers: (context) => const CoursesTeachersPage(),
+    checkCourseTeachers: (context) => const CheckCoursesTeachersPage(),
 
     //Library roots
     registrationLibrary: (context) => const RegistrationForm(),

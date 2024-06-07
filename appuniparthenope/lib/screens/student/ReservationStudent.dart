@@ -41,6 +41,12 @@ class _ReservationPageState extends State<ReservationPage>
     final reservations =
         Provider.of<ExamDataProvider>(context).allReservationInfo;
 
+    final filteredReservations = reservations?.where((reservation) {
+      final searchTextLower = searchQuery.toLowerCase();
+      final courseNameLower = reservation.nomeAppello!.toLowerCase();
+      return courseNameLower.contains(searchTextLower);
+    }).toList();
+
     return Scaffold(
       appBar: const NavbarComponent(),
       body: reservations == null
@@ -83,7 +89,22 @@ class _ReservationPageState extends State<ReservationPage>
                       });
                     },
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
+                  if (searchQuery.isNotEmpty && filteredReservations != null)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Trovate ${filteredReservations.length} corrispondenze',
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    ),
+                  const SizedBox(height: 10),
                   ReservationTabBar(
                     tabController: _tabController,
                   ),

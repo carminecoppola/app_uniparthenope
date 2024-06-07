@@ -2,6 +2,7 @@ import 'package:appuniparthenope/model/teacherService/session_professor_data.dar
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:appuniparthenope/service/api_teacher_service.dart';
 import 'package:flutter/material.dart';
+import '../model/teacherService/check_exam_data.dart';
 import '../model/teacherService/course_professor_data.dart';
 
 class ProfessorController {
@@ -47,6 +48,19 @@ class ProfessorController {
     } catch (e) {
       throw Exception(
           'Errore Caricamento delle informazioni sui corsi dei Professori $e');
+    }
+  }
+
+  Future <List<CheckExamInfo>> checkExamInfoProfessor(
+      User professor, int cdsId, int adId, BuildContext context) async {
+    try {
+      final List<CheckExamInfo> responseData =
+          await apiService.getCheckExamInfo(professor, cdsId, adId, context);
+
+      return responseData;
+    } catch (e) {
+      throw Exception(
+          'Errore Caricamento delle informazioni sugli appelli dei corsi dei Professori $e');
     }
   }
 }

@@ -31,14 +31,19 @@ class _HomePageState extends State<HomePage> {
         Provider.of<AuthProvider>(context, listen: false).authenticatedUser;
 
     if (authenticatedUser != null) {
+      // Ensure that context is still mounted before performing operations
+      if (!mounted) return;
+
       // Se l'utente è autenticato, esegui altre azioni come caricare i dati dell'utente
       if (authenticatedUser.user.grpDes == 'Studenti') {
         await StudentUtils.anagrafeUser(context, authenticatedUser.user);
+        if (!mounted) return;
         await StudentUtils.allReservationStudent(
             context, authenticatedUser.user);
       } else if (authenticatedUser.user.grpDes == 'Docenti') {
         await StudentUtils.anagrafeUser(context, authenticatedUser.user);
       } else {
+        if (!mounted) return;
         const CustomAlertDialog(
             title: 'Errore Anagrafica',
             content:
@@ -64,10 +69,13 @@ class _HomePageState extends State<HomePage> {
             if (authenticatedUser?.user.grpDes == 'Studenti')
               PersonalCardUser(
                 onTap: () async {
-                  StudentUtils.anagrafeUser(context, authenticatedUser!.user);
-                  AuthUtilsFunction.userImg(context);
-                  Navigator.pushReplacementNamed(context, '/profileStudent',
-                      arguments: anagrafeUser);
+                  if (authenticatedUser != null) {
+                    await StudentUtils.anagrafeUser(
+                        context, authenticatedUser.user);
+                    AuthUtilsFunction.userImg(context);
+                    Navigator.pushReplacementNamed(context, '/profileStudent',
+                        arguments: anagrafeUser);
+                  }
                 },
                 firstName: authenticatedUser?.user.firstName ?? '',
                 lastName: authenticatedUser?.user.lastName ?? '',
@@ -79,10 +87,12 @@ class _HomePageState extends State<HomePage> {
             else
               PersonalCardUser(
                 onTap: () async {
-                  StudentUtils.anagrafeUser(context, authenticatedUser.user);
-                  //StudentUtils.userImg(context);
-                  Navigator.pushReplacementNamed(context, '/profileStudent',
-                      arguments: anagrafeUser);
+                  if (authenticatedUser != null) {
+                    await StudentUtils.anagrafeUser(
+                        context, authenticatedUser.user);
+                    Navigator.pushReplacementNamed(context, '/profileStudent',
+                        arguments: anagrafeUser);
+                  }
                 },
                 firstName: authenticatedUser?.user.firstName ?? '',
                 lastName: authenticatedUser?.user.lastName ?? '',
@@ -127,7 +137,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-
             const SizedBox(height: 10),
             //Prenotazione
             if (authenticatedUser?.user.grpDes == 'Studenti')

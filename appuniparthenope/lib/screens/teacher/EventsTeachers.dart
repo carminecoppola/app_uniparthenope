@@ -83,6 +83,21 @@ class _EventsTeachersPageState extends State<EventsTeachersPage> {
             },
           ),
           const SizedBox(height: 10),
+          if (_searchText.isNotEmpty && filteredEvents != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Trovate ${filteredEvents.length} corrispondenze',
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ),
+          const SizedBox(height: 10),
           Expanded(
             child: filteredEvents != null && filteredEvents.isNotEmpty
                 ? ListView.builder(

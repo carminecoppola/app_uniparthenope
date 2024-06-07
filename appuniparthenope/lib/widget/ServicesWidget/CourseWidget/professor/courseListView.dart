@@ -64,6 +64,8 @@ class CourseListWidget extends StatelessWidget {
                       cdsDes: course.cdsDes ?? '',
                       inizio: course.inizio ?? '',
                       fine: course.fine ?? '',
+                      cdsId: course.cdsId!.toInt(),
+                      adId: course.adId!.toInt(),
                       ultMod: course.ultMod ?? '',
                       sede: course.sede ?? '',
                       adLogId: course.adLogId!.toInt(),

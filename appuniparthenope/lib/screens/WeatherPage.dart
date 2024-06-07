@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../provider/weather_provider.dart';
+import '../provider/auth_provider.dart';
 import '../widget/ServicesWidget/WeatherWidget/carouselCard.dart';
 import '../widget/ServicesWidget/WeatherWidget/downloadCard.dart';
+import '../widget/bottomNavBarProf.dart';
 import '../widget/navbar.dart';
 import '../widget/bottomNavBar.dart';
 import 'package:appuniparthenope/main.dart';
@@ -12,6 +13,9 @@ class WeatherUniPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authenticatedUser =
+        Provider.of<AuthProvider>(context).authenticatedUser;
+
     return Scaffold(
       appBar: const NavbarComponent(),
       body: SingleChildScrollView(
@@ -54,7 +58,9 @@ class WeatherUniPage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNavBarComponent(),
+      bottomNavigationBar: authenticatedUser!.user.grpDes == 'Studenti'
+          ? const BottomNavBarComponent()
+          : const BottomNavBarProfComponent(),
     );
   }
 }

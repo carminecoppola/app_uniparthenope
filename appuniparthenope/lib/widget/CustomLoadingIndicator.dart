@@ -37,6 +37,7 @@ class CustomLoadingIndicator extends StatelessWidget {
         const SizedBox(height: 20),
         Text(
           text,
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 16,
             color: myColor,

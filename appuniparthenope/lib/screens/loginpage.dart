@@ -19,7 +19,6 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _isLoading = false;
   final LocalAuthentication _localAuthentication = LocalAuthentication();
 
   final List<String> universityImages = [
@@ -90,22 +89,38 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   Future<void> _login() async {
-    setState(() {
-      _isLoading = true;
-    });
-
     final String username = _usernameController.text;
     final String password = _passwordController.text;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Center(
+          child: Container(
+            width: 300,
+            height: 300,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: const Padding(
+              padding: EdgeInsets.all(20.0),
+              child: CustomLoadingIndicator(
+                text: 'Autenticazione in corso, per favore attendi...',
+                myColor: AppColors.primaryColor,
+              ),
+            ),
+          ),
+        );
+      },
+    );
 
     await AuthUtilsFunction.authUser(context, username, password);
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', username);
     await prefs.setString('password', password);
-
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   @override
@@ -191,30 +206,26 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                 ),
                 const SizedBox(height: 30.0),
-                _isLoading
-                    ? const CustomLoadingIndicator(
-                        text: 'Autenticazione in corso, per favore attendi...',
-                        myColor: AppColors.primaryColor)
-                    : ElevatedButton(
-                        onPressed: _login,
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 70.0, vertical: 15.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          backgroundColor: AppColors.primaryColor,
-                          elevation: 10,
-                          shadowColor: Colors.white,
-                        ),
-                        child: const Text(
-                          'Accedi',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
+                ElevatedButton(
+                  onPressed: _login,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 70.0, vertical: 15.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    backgroundColor: AppColors.primaryColor,
+                    elevation: 10,
+                    shadowColor: Colors.white,
+                  ),
+                  child: const Text(
+                    'Accedi',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
                 const SizedBox(
                   height: 10,
                 ),

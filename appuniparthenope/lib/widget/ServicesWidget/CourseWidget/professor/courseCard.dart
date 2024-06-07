@@ -11,7 +11,9 @@ class CourseCard extends StatelessWidget {
   final String fine;
   final String ultMod;
   final String sede;
-  final int adLogId; // Aggiungi adLogId
+  final int adLogId;
+  final int cdsId;
+  final int adId;
 
   const CourseCard({
     super.key,
@@ -21,28 +23,46 @@ class CourseCard extends StatelessWidget {
     required this.fine,
     required this.ultMod,
     required this.sede,
-    required this.adLogId, // Aggiungi adLogId
+    required this.adLogId,
+    required this.cdsId,
+    required this.adId,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => CourseDetailsPage(
-              adDes: adDes,
-              cdsDes: cdsDes,
-              inizio: inizio,
-              fine: fine,
-              sede: sede,
-              adLogId: adLogId,
-            ),
-          ),
+      onTap: () async {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return const Dialog(
+              backgroundColor: Colors.transparent,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(AppColors.primaryColor),
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    'Caricamento appelli...',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         );
 
-        ProfessorUtils.detailsCourseProfessor(context, adLogId);
+        await ProfessorUtils.chechExamInfoProfessor(context, cdsId, adId);
+        Navigator.pop(context); // Close the loading dialog
+        Navigator.pushNamed(context, '/checkCourseTeachers');
       },
       child: Container(
         margin: const EdgeInsets.all(15.0),
@@ -73,7 +93,7 @@ class CourseCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        toCamelCase(adDes),
+                        toCamelCase(adDes.split(' CFU')[0]),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 14,
@@ -99,3 +119,22 @@ class CourseCard extends StatelessWidget {
     );
   }
 }
+
+
+
+/*// onTap: () {
+      //   Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: (context) => CourseDetailsPage(
+      //         adDes: adDes,
+      //         cdsDes: cdsDes,
+      //         inizio: inizio,
+      //         fine: fine,
+      //         sede: sede,
+      //         adLogId: adLogId,
+      //       ),
+      //     ),
+      //   );
+      //   ProfessorUtils.detailsCourseProfessor(context, adLogId);
+      // }, */
