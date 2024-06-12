@@ -9,8 +9,8 @@ import '../../../../utilityFunctions/professorUtilsFunction.dart';
 import '../../../CustomLoadingIndicator.dart';
 import 'courseCard.dart';
 
-class CourseListWidget extends StatelessWidget {
-  const CourseListWidget({super.key});
+class CourseListProfessorWidget extends StatelessWidget {
+  const CourseListProfessorWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -59,16 +59,8 @@ class CourseListWidget extends StatelessWidget {
                   itemCount: allCourses.length,
                   itemBuilder: (context, index) {
                     final course = allCourses[index];
-                    return CourseCard(
-                      adDes: course.adDes ?? '',
-                      cdsDes: course.cdsDes ?? '',
-                      inizio: course.inizio ?? '',
-                      fine: course.fine ?? '',
-                      cdsId: course.cdsId!.toInt(),
-                      adId: course.adId!.toInt(),
-                      ultMod: course.ultMod ?? '',
-                      sede: course.sede ?? '',
-                      adLogId: course.adLogId!.toInt(),
+                    return SingleProfessorCourseCard(
+                      course: course,
                     );
                   },
                 );

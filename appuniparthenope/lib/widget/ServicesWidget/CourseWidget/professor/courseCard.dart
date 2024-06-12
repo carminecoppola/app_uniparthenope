@@ -1,32 +1,15 @@
+import 'package:appuniparthenope/provider/professor_provider.dart';
 import 'package:appuniparthenope/utilityFunctions/professorUtilsFunction.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
+import 'package:provider/provider.dart';
 
-import '../../../../screens/CourseDetailsInfo.dart';
+import '../../../../model/teacherService/course_professor_data.dart';
 
-class CourseCard extends StatelessWidget {
-  final String adDes;
-  final String cdsDes;
-  final String inizio;
-  final String fine;
-  final String ultMod;
-  final String sede;
-  final int adLogId;
-  final int cdsId;
-  final int adId;
+class SingleProfessorCourseCard extends StatelessWidget {
+  final CourseProfessorInfo course;
 
-  const CourseCard({
-    super.key,
-    required this.adDes,
-    required this.cdsDes,
-    required this.inizio,
-    required this.fine,
-    required this.ultMod,
-    required this.sede,
-    required this.adLogId,
-    required this.cdsId,
-    required this.adId,
-  });
+  const SingleProfessorCourseCard({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +43,13 @@ class CourseCard extends StatelessWidget {
           },
         );
 
-        await ProfessorUtils.chechExamInfoProfessor(context, cdsId, adId);
-        Navigator.pop(context); // Close the loading dialog
-        Navigator.pushNamed(context, '/checkCourseTeachers');
+        await ProfessorUtils.checkExamInfoProfessor(
+            context, course.cdsId!.toInt(), course.adId!.toInt());
+        Provider.of<ProfessorDataProvider>(context, listen: false)
+            .setSelectedCourse(course);
+
+        //Navigo alla pagina che mi mostra gli appelli d'esame disponibili
+        Navigator.pushNamed(context, '/sessAvProfCourses');
       },
       child: Container(
         margin: const EdgeInsets.all(15.0),
@@ -93,7 +80,7 @@ class CourseCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        toCamelCase(adDes.split(' CFU')[0]),
+                        toCamelCase(course.adDes!.split(' CFU')[0]),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 14,
@@ -101,7 +88,7 @@ class CourseCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        toCamelCase(cdsDes),
+                        toCamelCase(course.cdsDes),
                         style: const TextStyle(
                           color: Color.fromARGB(255, 181, 181, 181),
                           fontSize: 12,
@@ -119,22 +106,3 @@ class CourseCard extends StatelessWidget {
     );
   }
 }
-
-
-
-/*// onTap: () {
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) => CourseDetailsPage(
-      //         adDes: adDes,
-      //         cdsDes: cdsDes,
-      //         inizio: inizio,
-      //         fine: fine,
-      //         sede: sede,
-      //         adLogId: adLogId,
-      //       ),
-      //     ),
-      //   );
-      //   ProfessorUtils.detailsCourseProfessor(context, adLogId);
-      // }, */

@@ -79,7 +79,8 @@ class QRCodePage extends StatelessWidget {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 image: DecorationImage(
-                                  image: profileImage != null
+                                  image: profileImage != null &&
+                                          profileImage.isNotEmpty
                                       ? AssetImage(profileImage)
                                       : const AssetImage(
                                           'assets/user_profile_default.jpg'),

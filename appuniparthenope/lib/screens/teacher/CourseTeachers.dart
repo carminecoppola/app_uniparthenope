@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import '../../main.dart';
 import '../../provider/professor_provider.dart';
@@ -70,7 +69,7 @@ class _CoursesTeachersPageState extends State<CoursesTeachersPage> {
             ],
             const SizedBox(height: 20),
             const Expanded(
-              child: CourseListWidget(),
+              child: CourseListProfessorWidget(),
             ),
           ],
         ),

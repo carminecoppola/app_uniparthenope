@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 import 'package:appuniparthenope/utilityFunctions/authUtilsFunction.dart';
 import 'package:appuniparthenope/widget/CustomLoadingIndicator.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
+import '../widget/loginPhoto.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -20,35 +20,26 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final LocalAuthentication _localAuthentication = LocalAuthentication();
-
-  final List<String> universityImages = [
-    'assets/university/uni_monte.jpg',
-    'assets/university/uni_cdn.png',
-    'assets/university/uni_centrale.png',
-    'assets/university/uni_medina.jpeg',
-    'assets/university/uni_nola.jpeg',
-    'assets/university/uni_villadoria.jpeg',
-  ];
-
+  late ImageLogic imageLogic;
   late String currentImage;
-  late Timer _timer;
 
   @override
   void initState() {
     super.initState();
-    currentImage = universityImages[Random().nextInt(universityImages.length)];
-    _timer = Timer.periodic(const Duration(seconds: 3), (Timer timer) {
-      setState(() {
-        currentImage =
-            universityImages[Random().nextInt(universityImages.length)];
-      });
-    });
+    imageLogic = ImageLogic(_onImageChange);
+    currentImage = imageLogic.getCurrentImage();
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    imageLogic.stopTimer();
     super.dispose();
+  }
+
+  void _onImageChange() {
+    setState(() {
+      currentImage = imageLogic.getCurrentImage();
+    });
   }
 
   Future<void> _authenticateBiometric() async {

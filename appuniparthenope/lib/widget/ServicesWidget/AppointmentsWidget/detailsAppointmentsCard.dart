@@ -129,14 +129,15 @@ class DetailsAppointmentCard extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: AppColors.primaryColor,
                 ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start, // Align items at the top
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Parte sinistra con asset
                     Container(
@@ -154,18 +155,17 @@ class DetailsAppointmentCard extends StatelessWidget {
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment:
-                            MainAxisAlignment.start, // Align items at the top
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          const SizedBox(
-                              height:
-                                  8), // Small spacing between the title and content
+                          const SizedBox(height: 8),
                           Text(
                             teacherName,
                             style: const TextStyle(
                               fontSize: 14,
                               color: AppColors.lightGray,
                             ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                           Text(
                             courseInfo,
@@ -173,6 +173,8 @@ class DetailsAppointmentCard extends StatelessWidget {
                               fontSize: 14,
                               color: AppColors.lightGray,
                             ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
                           Text(
                             'Aula: $room',
@@ -180,6 +182,8 @@ class DetailsAppointmentCard extends StatelessWidget {
                               fontSize: 14,
                               color: AppColors.lightGray,
                             ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),

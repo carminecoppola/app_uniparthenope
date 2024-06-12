@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../main.dart';
-import '../../provider/professor_provider.dart';
-import '../../widget/ServicesWidget/CourseWidget/professor/courseCheckExamCard.dart';
-import '../../widget/navbar.dart';
+import '../../../../main.dart';
+import '../../../../provider/professor_provider.dart';
+import 'courseCheckExamCard.dart';
+import '../../../navbar.dart';
 
-class CheckCoursesTeachersPage extends StatelessWidget {
-  const CheckCoursesTeachersPage({
+class SessionsAvailableProfessorCourses extends StatelessWidget {
+  const SessionsAvailableProfessorCourses({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     final checkCourses =
-        Provider.of<ProfessorDataProvider>(context).allCheckExamInfoProfessor;
+        Provider.of<ProfessorDataProvider>(context).allExamInfoProfessor;
 
     return Scaffold(
       appBar: const NavbarComponent(),
@@ -26,7 +26,7 @@ class CheckCoursesTeachersPage extends StatelessWidget {
             const SizedBox(height: 25),
             const Center(
               child: Text(
-                'Appelli',
+                'Appelli Esame',
                 style: TextStyle(
                   color: AppColors.primaryColor,
                   fontSize: 25,
@@ -34,7 +34,7 @@ class CheckCoursesTeachersPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            // const SizedBox(height: 10),
             if (checkCourses != null && checkCourses.isNotEmpty) ...[
               Center(
                 child: Text(
@@ -42,7 +42,7 @@ class CheckCoursesTeachersPage extends StatelessWidget {
                       .toString(),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                    color: AppColors.primaryColor,
+                    color: AppColors.detailsColor,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),

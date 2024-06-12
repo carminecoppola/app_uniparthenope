@@ -7,7 +7,7 @@ import 'package:appuniparthenope/screens/student/CourseStudent.dart';
 import 'package:appuniparthenope/screens/WeatherPage.dart';
 import 'package:appuniparthenope/screens/student/CareerStudent.dart';
 import 'package:appuniparthenope/screens/student/ReservationStudent.dart';
-import 'package:appuniparthenope/screens/teacher/CheckCourseTeachers.dart';
+import 'package:appuniparthenope/widget/ServicesWidget/CourseWidget/professor/SessionsAvailableProfessorCourses.dart';
 import 'package:flutter/material.dart';
 import 'screens/guest/registrationForm.dart';
 import 'screens/guest/viewAllAccess.dart';
@@ -41,7 +41,7 @@ class AppRoutes {
   static const String classroomTeachers = '/classroomTeachers';
   static const String eventsTeachers = '/eventsTeachers';
   static const String courseTeachers = '/courseTeachers';
-  static const String checkCourseTeachers = '/checkCourseTeachers';
+  static const String sessionsAvailableProfessorCourses = '/sessAvProfCourses';
 
   //Library roots
   static const String registrationLibrary = '/registrationLibrary';
@@ -71,7 +71,8 @@ class AppRoutes {
     classroomTeachers: (context) => const ClassroomTeacherPage(),
     eventsTeachers: (context) => const EventsTeachersPage(),
     courseTeachers: (context) => const CoursesTeachersPage(),
-    checkCourseTeachers: (context) => const CheckCoursesTeachersPage(),
+    sessionsAvailableProfessorCourses: (context) =>
+        const SessionsAvailableProfessorCourses(),
 
     //Library roots
     registrationLibrary: (context) => const RegistrationForm(),

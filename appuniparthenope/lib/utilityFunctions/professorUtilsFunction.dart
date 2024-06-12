@@ -67,7 +67,7 @@ class ProfessorUtils {
     }
   }
 
-  static Future<void> chechExamInfoProfessor(
+  static Future<void> checkExamInfoProfessor(
       BuildContext context, int cdsId, int adId) async {
     final ProfessorController controller = ProfessorController();
     final professor = Provider.of<AuthProvider>(context, listen: false)
@@ -78,7 +78,27 @@ class ProfessorUtils {
           professor, cdsId, adId, context);
 
       Provider.of<ProfessorDataProvider>(context, listen: false)
-          .setAllCheckExamInfoProfessor(session);
+          .setAllExamInfoProfessor(session);
+    } catch (e) {
+      print(
+          '\nErrore durante il caricamento delle info sui corsi dei professore: $e');
+    }
+  }
+
+  static Future<void> allStudentListExam(
+      BuildContext context, String cdsId, String aaId, String appId) async {
+    final ProfessorController controller = ProfessorController();
+    final professor = Provider.of<AuthProvider>(context, listen: false)
+        .authenticatedUser!
+        .user;
+    try {
+      final session = await controller.allStudentListForExam(
+          professor, cdsId, aaId, appId, context);
+
+      print('\n\n allStudentListExam: $session');
+
+      Provider.of<ProfessorDataProvider>(context, listen: false)
+          .setAllStudentListExam(session);
     } catch (e) {
       print(
           '\nErrore durante il caricamento delle info sui corsi dei professore: $e');

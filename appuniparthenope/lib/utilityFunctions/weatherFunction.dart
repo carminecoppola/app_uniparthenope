@@ -31,39 +31,39 @@ class WeatherFunctions {
   }
 
   static Future<LocationData?> getLocation() async {
-  Location location = Location();
+    Location location = Location();
 
-  bool serviceEnabled;
-  PermissionStatus permissionGranted;
-  LocationData? locationData; // Tipo di dati opzionale
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+    LocationData? locationData; // Tipo di dati opzionale
 
-  // Verifica se il servizio di localizzazione è abilitato
-  serviceEnabled = await location.serviceEnabled();
-  if (!serviceEnabled) {
-    // Richiedi all'utente di abilitare il servizio di localizzazione
-    serviceEnabled = await location.requestService();
+    // Verifica se il servizio di localizzazione è abilitato
+    serviceEnabled = await location.serviceEnabled();
     if (!serviceEnabled) {
-      throw Exception('Servizio di localizzazione disabilitato');
+      // Richiedi all'utente di abilitare il servizio di localizzazione
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        throw Exception('Servizio di localizzazione disabilitato');
+      }
     }
-  }
 
-  // Verifica lo stato del permesso di localizzazione
-  permissionGranted = await location.hasPermission();
-  if (permissionGranted == PermissionStatus.denied) {
-    // Richiedi all'utente il permesso di accedere alla posizione
-    permissionGranted = await location.requestPermission();
-    if (permissionGranted != PermissionStatus.granted) {
-      throw Exception('Permesso di localizzazione negato');
+    // Verifica lo stato del permesso di localizzazione
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      // Richiedi all'utente il permesso di accedere alla posizione
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
+        throw Exception('Permesso di localizzazione negato');
+      }
     }
-  }
 
-  // Ottieni la posizione solo se il servizio e il permesso sono stati abilitati
-  if (serviceEnabled && permissionGranted == PermissionStatus.granted) {
-    locationData = await location.getLocation();
-  }
+    // Ottieni la posizione solo se il servizio e il permesso sono stati abilitati
+    if (serviceEnabled && permissionGranted == PermissionStatus.granted) {
+      locationData = await location.getLocation();
+    }
 
-  return locationData;
-}
+    return locationData;
+  }
 
   static String getDayOfWeek(String dateTime) {
     final year = int.parse(dateTime.substring(0, 4));

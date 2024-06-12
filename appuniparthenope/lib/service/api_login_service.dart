@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
+
+import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -67,7 +69,7 @@ class ApiService {
   }
 
   // Ottieni l'immagine del profilo dell'utente dal server
-  Future<String> userProfileImage(User user, BuildContext context) async {
+  /*Future<String> userProfileImage(User user, BuildContext context) async {
     try {
       final String role = user.grpDes.toString();
       final String persId = user.persId.toString();
@@ -110,6 +112,82 @@ class ApiService {
     } catch (e) {
       print('Error during userProfileImage: $e');
       throw Exception('Errore durante il recupero dell\'immagine di profilo');
+    }
+  }
+*/
+
+  Future<void> requestPermissions() async {
+    if (Platform.isAndroid || Platform.isIOS) {
+      if (await Permission.storage.request().isGranted) {
+        print('Permission granted');
+      } else {
+        print('Permission denied');
+      }
+    }
+  }
+
+  Future<String> userProfileImage(User user, BuildContext context) async {
+    if (Platform.isAndroid || Platform.isIOS) {
+      await requestPermissions();
+    }
+
+    try {
+      final String role = user.grpDes.toString();
+      final String persId = user.persId.toString();
+      final String idAb = user.idAb.toString();
+      final String password =
+          Provider.of<AuthProvider>(context, listen: false).password!;
+
+      String url;
+      if (role == 'Studenti') {
+        url = '$baseUrl/UniparthenopeApp/v1/general/image/$persId';
+      } else if (role == 'Docenti') {
+        url = '$baseUrl/UniparthenopeApp/v1/general/image_prof/$idAb';
+      } else {
+        throw Exception('Invalid role');
+      }
+
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Authorization':
+              'Basic ${base64Encode(utf8.encode("${user.userId}:$password"))}',
+          'Content-Type': 'image/jpg',
+        },
+      );
+
+      print('Status userProfileImage(): ${response.statusCode}');
+
+      if (response.statusCode == 200) {
+        Uint8List imageData = response.bodyBytes;
+
+        if (Platform.isAndroid || Platform.isIOS) {
+          Directory appDocDir = await getApplicationDocumentsDirectory();
+          String filePath = '${appDocDir.path}/my_img.jpg';
+          print('Image file path: $filePath');
+
+          File imageFile = File(filePath);
+          await imageFile.writeAsBytes(imageData);
+          print('Image written to file');
+
+          bool fileExists = await imageFile.exists();
+          print('File exists: $fileExists');
+
+          if (fileExists) {
+            return imageFile.path;
+          } else {
+            throw Exception('File not found in specified path');
+          }
+        } else {
+          // Handle web or other platforms differently if needed
+          return '';
+        }
+      } else {
+        throw Exception('Error retrieving image: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error during userProfileImage: $e');
+      throw Exception('Error retrieving profile image');
     }
   }
 

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import '../model/teacherService/check_exam_data.dart';
 import '../model/teacherService/course_professor_data.dart';
+import '../model/teacherService/list_student_exam.dart';
 import '../model/user_data_login.dart';
 import '../provider/auth_provider.dart';
 
@@ -12,7 +13,7 @@ class ApiTeacherService {
   final String baseUrl = "https://api.uniparthenope.it";
 
   Future<List<CourseProfessorInfo>> getAllCourse(
-      User professor, int aaId, BuildContext context) async {
+      User professor, String aaId, BuildContext context) async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final String password = authProvider.password!;
 
@@ -117,6 +118,38 @@ class ApiTeacherService {
     } else {
       throw Exception(
           'Errore durante caricamento degli appelli del professore');
+    }
+  }
+
+  Future<List<ListStudentsExam>> getStudentListExam(User professor,
+      String cdsId, String aaId, String appId, BuildContext context) async {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final String password = authProvider.password!;
+
+    final url = Uri.parse(
+        '$baseUrl/UniparthenopeApp/v1/professor/getStudentList/$cdsId/$aaId/$appId');
+
+    final response = await http.get(url, headers: {
+      'Authorization':
+          'Basic ${base64Encode(utf8.encode("${professor.userId}:$password"))}',
+    });
+
+    print('\n\n $url');
+
+    print('\n\n ${response.statusCode}');
+
+    print('\n\n ${response.body}');
+
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body) as List<dynamic>;
+      return jsonData.map((data) => ListStudentsExam.fromJson(data)).toList();
+    } else if (response.statusCode == 401) {
+      throw Exception('Unauthorized');
+    } else if (response.statusCode == 500) {
+      throw Exception(
+          'Errore del SERVER durante il caricamento della lista degli studenti per questo esame');
+    } else {
+      throw Exception('Errore durante caricamento della lista degli studenti');
     }
   }
 }

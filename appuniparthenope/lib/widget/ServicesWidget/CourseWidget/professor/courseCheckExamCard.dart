@@ -1,7 +1,13 @@
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/model/teacherService/check_exam_data.dart';
+import 'package:appuniparthenope/provider/professor_provider.dart';
+import 'package:appuniparthenope/utilityFunctions/professorUtilsFunction.dart';
+import 'package:appuniparthenope/widget/CustomLoadingIndicator.dart';
+import 'package:appuniparthenope/widget/ServicesWidget/CourseWidget/professor/listStudentExam.dart';
+import 'package:appuniparthenope/widget/alertDialog.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SingleCheckExamCard extends StatelessWidget {
   CheckExamInfo course;
@@ -13,9 +19,42 @@ class SingleCheckExamCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final selectedCourse =
+        Provider.of<ProfessorDataProvider>(context, listen: false)
+            .selectedCourse;
+    final profSession =
+        Provider.of<ProfessorDataProvider>(context, listen: false).profSession;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: InkWell(
+        onTap: () async {
+          if (selectedCourse != null && profSession != null) {
+            try {
+              await ProfessorUtils.allStudentListExam(
+                  context,
+                  selectedCourse.cdsId!.toString(),
+                  selectedCourse.adId!.toString(),
+                  course.appId!.toString());
+
+              // Mostra l'overlay con la lista degli studenti
+              showDialog(
+                context: context,
+                builder: (context) => const StudentsOverlay(),
+              );
+            } catch (e) {
+              const CustomAlertDialog(
+                  title: 'Errore',
+                  content: 'content',
+                  buttonText: 'Chiudi',
+                  color: AppColors.errorColor);
+            }
+          } else {
+            const CustomLoadingIndicator(
+                text: 'Caricamento lista studenti...',
+                myColor: AppColors.detailsColor);
+          }
+        },
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,

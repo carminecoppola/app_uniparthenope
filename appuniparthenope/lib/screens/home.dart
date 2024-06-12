@@ -1,4 +1,5 @@
 import 'package:appuniparthenope/main.dart';
+import 'package:appuniparthenope/widget/CustomLoadingIndicator.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/CalendarWidget/calendarCard.dart';
 import 'package:appuniparthenope/widget/alertDialog.dart';
 import 'package:flutter/material.dart';
@@ -6,9 +7,10 @@ import 'package:provider/provider.dart';
 import '../provider/auth_provider.dart';
 import '../utilityFunctions/authUtilsFunction.dart';
 import '../utilityFunctions/studentUtilsFunction.dart';
+import '../widget/HomeWidget/sectionTitle.dart';
 import '../widget/ServicesWidget/AppointmentsWidget/homeAppointmentsWidget.dart';
-import '../widget/ServicesWidget/personalHomeWidget.dart';
-import '../widget/ServicesWidget/serviceUserGroup.dart';
+import '../widget/HomeWidget/personalHomeWidget.dart';
+import '../widget/HomeWidget/serviceUserGroup.dart';
 import '../widget/bottomNavBar.dart';
 import '../widget/bottomNavBarProf.dart';
 
@@ -34,7 +36,7 @@ class _HomePageState extends State<HomePage> {
       // Ensure that context is still mounted before performing operations
       if (!mounted) return;
 
-      // Se l'utente è autenticato, esegui altre azioni come caricare i dati dell'utente
+      // Se l'utente è autenticato, ed è uno Studente carica le sue prenotazioni
       if (authenticatedUser.user.grpDes == 'Studenti') {
         await StudentUtils.anagrafeUser(context, authenticatedUser.user);
         if (!mounted) return;
@@ -42,6 +44,7 @@ class _HomePageState extends State<HomePage> {
             context, authenticatedUser.user);
       } else if (authenticatedUser.user.grpDes == 'Docenti') {
         await StudentUtils.anagrafeUser(context, authenticatedUser.user);
+        //Nel caso carico
       } else {
         if (!mounted) return;
         const CustomAlertDialog(
@@ -66,15 +69,22 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             const SizedBox(height: 70),
-            if (authenticatedUser?.user.grpDes == 'Studenti')
+            if (authenticatedUser?.user.grpDes == 'Studenti') ...[
               PersonalCardUser(
                 onTap: () async {
                   if (authenticatedUser != null) {
                     await StudentUtils.anagrafeUser(
                         context, authenticatedUser.user);
                     AuthUtilsFunction.userImg(context);
-                    Navigator.pushReplacementNamed(context, '/profileStudent',
-                        arguments: anagrafeUser);
+                    if (anagrafeUser != null) {
+                      Navigator.pushReplacementNamed(context, '/profileStudent',
+                          arguments: anagrafeUser);
+                    } else {
+                      const CustomLoadingIndicator(
+                        text: 'Caricamento dei tuoi dati persoanli',
+                        myColor: AppColors.primaryColor,
+                      );
+                    }
                   }
                 },
                 firstName: authenticatedUser?.user.firstName ?? '',
@@ -83,15 +93,50 @@ class _HomePageState extends State<HomePage> {
                 id: authenticatedUser?.user.trattiCarriera[0].matricola
                     .toString(),
                 profileImage: profileImage,
-              )
-            else
+              ),
+              const SizedBox(height: 20),
+              const SectionTitle(title: 'Prenotazioni'),
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/reservationStudent');
+                  },
+                  child: const Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'Mostra tutte',
+                      style: TextStyle(
+                          color: AppColors.primaryColor,
+                          decoration: TextDecoration.underline,
+                          decorationColor: AppColors.primaryColor,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              const HomeAppointmentsCard(),
+              const SizedBox(height: 20),
+              const SectionTitle(title: 'Servizi'),
+              ServiceGroupStudentCard(
+                authenticatedUser: authenticatedUser!,
+              ),
+              const SizedBox(height: 10),
+            ] else ...[
               PersonalCardUser(
                 onTap: () async {
                   if (authenticatedUser != null) {
                     await StudentUtils.anagrafeUser(
                         context, authenticatedUser.user);
-                    Navigator.pushReplacementNamed(context, '/profileStudent',
-                        arguments: anagrafeUser);
+                    if (anagrafeUser != null) {
+                      Navigator.pushReplacementNamed(context, '/profileStudent',
+                          arguments: anagrafeUser);
+                    } else {
+                      const CustomLoadingIndicator(
+                          text: 'Caricamento dei tuoi dati persoanli',
+                          myColor: AppColors.primaryColor);
+                    }
                   }
                 },
                 firstName: authenticatedUser?.user.firstName ?? '',
@@ -102,73 +147,16 @@ class _HomePageState extends State<HomePage> {
                     : 'N/A',
                 profileImage: profileImage,
               ),
-            const SizedBox(height: 20),
-            const Padding(
-              padding: EdgeInsets.only(left: 20),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Prenotazioni',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                    color: AppColors.primaryColor,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/reservationStudent');
-                },
-                child: const Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    'Mostra tutte',
-                    style: TextStyle(
-                        color: AppColors.primaryColor,
-                        decoration: TextDecoration.underline,
-                        decorationColor: AppColors.primaryColor,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            //Prenotazione
-            if (authenticatedUser?.user.grpDes == 'Studenti')
-              const HomeAppointmentsCard()
-            else
+              const SizedBox(height: 20),
+              const SectionTitle(title: 'Calendario'),
               const CalendarCard(),
-            const SizedBox(height: 20),
-            const Padding(
-              padding: EdgeInsets.only(left: 20),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Servizi',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                    color: AppColors.primaryColor,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ),
-            // Renderizza i widget dei servizi in base al ruolo dell'utente
-            if (authenticatedUser?.user.grpDes == 'Studenti')
-              ServiceGroupStudentCard(
-                authenticatedUser: authenticatedUser!,
-              )
-            else
+              const SizedBox(height: 20),
+              const SectionTitle(title: 'Servizi'),
               ServiceGroupProfCard(
-                authenticatedUser: authenticatedUser!,
+                authenticatedUser: authenticatedUser,
               ),
-            const SizedBox(height: 10),
+              const SizedBox(height: 10),
+            ]
           ],
         ),
       ),

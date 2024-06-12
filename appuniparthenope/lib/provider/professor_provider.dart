@@ -3,20 +3,30 @@ import 'package:appuniparthenope/model/teacherService/course_professor_data.dart
 import 'package:appuniparthenope/model/teacherService/session_professor_data.dart';
 import 'package:flutter/material.dart';
 
+import '../model/teacherService/list_student_exam.dart';
+
 class ProfessorDataProvider extends ChangeNotifier {
   List<CourseProfessorInfo>? _allCourseProfessor;
+  CourseProfessorInfo? _selectedCourse;
   SessionProfessorInfo? _profSession;
   DetailsCourseInfo? _detailsCourse;
-  List<CheckExamInfo>? _allCheckExamInfoProfessor;
+  List<CheckExamInfo>? _allExamInfoProfessor;
+  List<ListStudentsExam>? _allStudentListExam;
 
   List<CourseProfessorInfo>? get allCourseProfessor => _allCourseProfessor;
+  CourseProfessorInfo? get selectedCourse => _selectedCourse;
   SessionProfessorInfo? get profSession => _profSession;
   DetailsCourseInfo? get detailsCourse => _detailsCourse;
-  List<CheckExamInfo>? get allCheckExamInfoProfessor =>
-      _allCheckExamInfoProfessor;
+  List<CheckExamInfo>? get allExamInfoProfessor => _allExamInfoProfessor;
+  List<ListStudentsExam>? get allStudentListExam => _allStudentListExam;
 
   void setAllCoursesProfessor(List<CourseProfessorInfo> allCourseProfessor) {
     _allCourseProfessor = allCourseProfessor;
+    notifyListeners();
+  }
+
+  void setSelectedCourse(CourseProfessorInfo selectedCourse) {
+    _selectedCourse = selectedCourse;
     notifyListeners();
   }
 
@@ -30,17 +40,21 @@ class ProfessorDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setAllCheckExamInfoProfessor(
-      List<CheckExamInfo> allCheckExamInfoProfessor) {
+  void setAllExamInfoProfessor(List<CheckExamInfo> allExamInfoProfessor) {
     // Ordina la lista in base alla dataEsame più recente
-    allCheckExamInfoProfessor.sort((a, b) {
+    allExamInfoProfessor.sort((a, b) {
       // Converti le date in DateTime per poterle confrontare
       DateTime dateA = DateTime.parse(_convertToDate(a.dataEsame));
       DateTime dateB = DateTime.parse(_convertToDate(b.dataEsame));
       // Ordina in ordine decrescente
       return dateB.compareTo(dateA);
     });
-    _allCheckExamInfoProfessor = allCheckExamInfoProfessor;
+    _allExamInfoProfessor = allExamInfoProfessor;
+    notifyListeners();
+  }
+
+  void setAllStudentListExam(List<ListStudentsExam> allStudentListExam) {
+    _allStudentListExam = allStudentListExam;
     notifyListeners();
   }
 

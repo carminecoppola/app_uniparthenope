@@ -4,7 +4,7 @@ class SessionProfessorInfo {
   final String? aaCurr;
   final int? semId;
   final String? semDes;
-  final int? aaId;
+  final String? aaId;
 
   SessionProfessorInfo({
     this.aaCurr,
@@ -17,7 +17,7 @@ class SessionProfessorInfo {
     String? aaCurr,
     int? semId,
     String? semDes,
-    int? aaId,
+    String? aaId,
   }) =>
       SessionProfessorInfo(
         aaCurr: aaCurr ?? this.aaCurr,
@@ -36,11 +36,7 @@ class SessionProfessorInfo {
         aaCurr: json["aa_curr"],
         semId: json["semId"],
         semDes: json["semDes"],
-        aaId: json["aaId"] != null
-            ? (json["aaId"] is String
-                ? int.tryParse(json["aaId"])
-                : json["aaId"])
-            : null,
+        aaId: json["aaId"],
       );
 
   Map<String, dynamic> toJson() => {

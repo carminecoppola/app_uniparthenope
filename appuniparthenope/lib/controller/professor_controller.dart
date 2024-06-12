@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/model/teacherService/list_student_exam.dart';
 import 'package:appuniparthenope/model/teacherService/session_professor_data.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:appuniparthenope/service/api_teacher_service.dart';
@@ -9,7 +10,7 @@ class ProfessorController {
   final ApiTeacherService apiService = ApiTeacherService();
 
   Future<List<CourseProfessorInfo>> fetchAllCourseProfessor(
-      User professor, int aaId, BuildContext context) async {
+      User professor, String aaId, BuildContext context) async {
     try {
       final List<CourseProfessorInfo> responseData =
           await apiService.getAllCourse(professor, aaId, context);
@@ -51,7 +52,7 @@ class ProfessorController {
     }
   }
 
-  Future <List<CheckExamInfo>> checkExamInfoProfessor(
+  Future<List<CheckExamInfo>> checkExamInfoProfessor(
       User professor, int cdsId, int adId, BuildContext context) async {
     try {
       final List<CheckExamInfo> responseData =
@@ -61,6 +62,19 @@ class ProfessorController {
     } catch (e) {
       throw Exception(
           'Errore Caricamento delle informazioni sugli appelli dei corsi dei Professori $e');
+    }
+  }
+
+  Future<List<ListStudentsExam>> allStudentListForExam(User professor,
+      String cdsId, String aaId, String appId, BuildContext context) async {
+    try {
+      final List<ListStudentsExam> responseData = await apiService
+          .getStudentListExam(professor, cdsId, aaId, appId, context);
+
+      return responseData;
+    } catch (e) {
+      throw Exception(
+          'Errore Caricamento delle informazioni sulla lista degli studenti esame:  $e');
     }
   }
 }
