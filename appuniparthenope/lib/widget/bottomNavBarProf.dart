@@ -1,11 +1,13 @@
 import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
+import 'package:appuniparthenope/widget/logoutDialogConfirm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/auth_provider.dart';
 import '../utilityFunctions/authUtilsFunction.dart';
 import '../utilityFunctions/weatherFunction.dart';
+import 'popupMenuItem.dart';
 
 class BottomNavBarProfComponent extends StatelessWidget {
   const BottomNavBarProfComponent({super.key});
@@ -56,7 +58,7 @@ class BottomNavBarProfComponent extends StatelessWidget {
               context: context,
               position: position,
               items: [
-                PopupMenuItemBuilder.buildMenuItem(
+                CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
                     StudentUtils.anagrafeUser(context, authenticatedUser!.user);
                     Navigator.pushReplacementNamed(context, '/profileStudent',
@@ -65,7 +67,7 @@ class BottomNavBarProfComponent extends StatelessWidget {
                   icon: Icons.person,
                   text: 'Personal Card',
                 ),
-                PopupMenuItemBuilder.buildMenuItem(
+                CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
                     AuthUtilsFunction.qrCodeImg(context);
                     Navigator.pushNamed(context, '/qrCodePage');
@@ -73,7 +75,7 @@ class BottomNavBarProfComponent extends StatelessWidget {
                   icon: Icons.qr_code,
                   text: 'QR-Code',
                 ),
-                PopupMenuItemBuilder.buildMenuItem(
+                CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
                     StudentUtils.allRooms(context);
                     Navigator.pushNamed(context, '/classroomsTeachers');
@@ -81,7 +83,7 @@ class BottomNavBarProfComponent extends StatelessWidget {
                   icon: Icons.school_sharp,
                   text: 'Classi',
                 ),
-                PopupMenuItemBuilder.buildMenuItem(
+                CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
                     StudentUtils.allCourseStudent(
                         context, authenticatedUser!.user);
@@ -94,7 +96,7 @@ class BottomNavBarProfComponent extends StatelessWidget {
                   icon: Icons.book,
                   text: 'Corsi',
                 ),
-                PopupMenuItemBuilder.buildMenuItem(
+                CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
                     StudentUtils.allEvents(context);
                     Navigator.pushNamed(context, '/eventsTeachers');
@@ -102,7 +104,7 @@ class BottomNavBarProfComponent extends StatelessWidget {
                   icon: Icons.event,
                   text: 'Eventi',
                 ),
-                PopupMenuItemBuilder.buildMenuItem(
+                CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
                     WeatherFunctions.getWeather(context);
                     Navigator.pushNamed(context, '/watherPage');
@@ -110,19 +112,16 @@ class BottomNavBarProfComponent extends StatelessWidget {
                   icon: Icons.wb_cloudy,
                   text: 'Meteo UniParthenope',
                 ),
-                PopupMenuItemBuilder.buildMenuItem(
+                CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
                     Navigator.pushNamed(context, '/infoAppPage');
                   },
                   icon: Icons.info,
                   text: 'Info',
                 ),
-                PopupMenuItemBuilder.buildMenuItem(
-                  onTap: () async {
-                    final authProvider =
-                        Provider.of<AuthProvider>(context, listen: false);
-                    authProvider.logout();
-                    Navigator.pushReplacementNamed(context, '/loginPage');
+                CustomPopupMenuItemBuilder.buildMenuItem(
+                  onTap: () {
+                    _showLogoutConfirmationDialog(context);
                   },
                   icon: Icons.logout,
                   text: 'Logout',
@@ -152,36 +151,13 @@ class BottomNavBarProfComponent extends StatelessWidget {
       ],
     );
   }
-}
 
-class PopupMenuItemBuilder {
-  static PopupMenuItem buildMenuItem({
-    required IconData icon,
-    required String text,
-    required VoidCallback onTap,
-    Color? textColor,
-    double? fontSize,
-    FontWeight? fontWeight,
-    String? fontFamily,
-  }) {
-    return PopupMenuItem(
-      padding: const EdgeInsets.all(20.0),
-      onTap: onTap,
-      child: Row(
-        children: [
-          Icon(icon), // Icona
-          const SizedBox(width: 5), // Spazio tra l'icona e il testo
-          Text(
-            text,
-            style: TextStyle(
-              color: textColor ?? AppColors.primaryColor, // Colore del testo
-              fontSize: fontSize ?? 16, // Dimensione del testo
-              fontWeight: fontWeight ?? FontWeight.bold, // Grassetto del testo
-              fontFamily: fontFamily ?? 'Roboto', // Font del testo
-            ),
-          ),
-        ],
-      ),
+  void _showLogoutConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const LogoutConfirmationDialog();
+      },
     );
   }
 }

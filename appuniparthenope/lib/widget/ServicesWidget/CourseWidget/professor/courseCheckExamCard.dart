@@ -10,9 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SingleCheckExamCard extends StatelessWidget {
-  CheckExamInfo course;
+  final CheckExamInfo course;
 
-  SingleCheckExamCard({
+  const SingleCheckExamCard({
     super.key,
     required this.course,
   });

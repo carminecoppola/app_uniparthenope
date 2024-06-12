@@ -64,12 +64,20 @@ class _HomePageState extends State<HomePage> {
     final anagrafeUser = Provider.of<AuthProvider>(context).anagrafeUser;
     final profileImage = Provider.of<AuthProvider>(context).profileImage;
 
+    if (authenticatedUser == null) {
+      return Scaffold(
+        body: Container(
+          color: Colors.white,
+        ),
+      );
+    }
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
             const SizedBox(height: 70),
-            if (authenticatedUser?.user.grpDes == 'Studenti') ...[
+            if (authenticatedUser.user.grpDes == 'Studenti') ...[
               PersonalCardUser(
                 onTap: () async {
                   if (authenticatedUser != null) {
@@ -81,16 +89,16 @@ class _HomePageState extends State<HomePage> {
                           arguments: anagrafeUser);
                     } else {
                       const CustomLoadingIndicator(
-                        text: 'Caricamento dei tuoi dati persoanli',
+                        text: 'Caricamento dei tuoi dati personali',
                         myColor: AppColors.primaryColor,
                       );
                     }
                   }
                 },
-                firstName: authenticatedUser?.user.firstName ?? '',
-                lastName: authenticatedUser?.user.lastName ?? '',
+                firstName: authenticatedUser.user.firstName ?? '',
+                lastName: authenticatedUser.user.lastName ?? '',
                 identificativoLabel: 'Matricola:',
-                id: authenticatedUser?.user.trattiCarriera[0].matricola
+                id: authenticatedUser.user.trattiCarriera[0].matricola
                     .toString(),
                 profileImage: profileImage,
               ),
@@ -120,7 +128,7 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 20),
               const SectionTitle(title: 'Servizi'),
               ServiceGroupStudentCard(
-                authenticatedUser: authenticatedUser!,
+                authenticatedUser: authenticatedUser,
               ),
               const SizedBox(height: 10),
             ] else ...[
@@ -134,15 +142,15 @@ class _HomePageState extends State<HomePage> {
                           arguments: anagrafeUser);
                     } else {
                       const CustomLoadingIndicator(
-                          text: 'Caricamento dei tuoi dati persoanli',
+                          text: 'Caricamento dei tuoi dati personali',
                           myColor: AppColors.primaryColor);
                     }
                   }
                 },
-                firstName: authenticatedUser?.user.firstName ?? '',
-                lastName: authenticatedUser?.user.lastName ?? '',
+                firstName: authenticatedUser.user.firstName ?? '',
+                lastName: authenticatedUser.user.lastName ?? '',
                 identificativoLabel: 'Id Docente:',
-                id: authenticatedUser!.user.docenteId != null
+                id: authenticatedUser.user.docenteId != null
                     ? authenticatedUser.user.docenteId.toString()
                     : 'N/A',
                 profileImage: profileImage,
