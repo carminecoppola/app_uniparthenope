@@ -13,7 +13,7 @@ class ApiTeacherService {
   final String baseUrl = "https://api.uniparthenope.it";
 
   Future<List<CourseProfessorInfo>> getAllCourse(
-      User professor, String aaId, BuildContext context) async {
+      User professor, String? aaId, BuildContext context) async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final String password = authProvider.password!;
 
@@ -54,6 +54,7 @@ class ApiTeacherService {
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
+      print(jsonData); // Aggiungi questo per vedere i dati ricevuti
       return SessionProfessorInfo.fromJson(jsonData);
     } else if (response.statusCode == 401) {
       throw Exception('Unauthorized');

@@ -163,7 +163,8 @@ class ApiService {
 
         if (Platform.isAndroid || Platform.isIOS) {
           Directory appDocDir = await getApplicationDocumentsDirectory();
-          String filePath = '${appDocDir.path}/my_img.jpg';
+          String filePath =
+              '${appDocDir.path}/profile_image_${user.userId}.jpg'; // Nome file unico
           print('Image file path: $filePath');
 
           File imageFile = File(filePath);
@@ -179,7 +180,7 @@ class ApiService {
             throw Exception('File not found in specified path');
           }
         } else {
-          // Handle web or other platforms differently if needed
+          // Gestione web o altre piattaforme se necessario
           return '';
         }
       } else {
@@ -226,6 +227,21 @@ class ApiService {
     } catch (e) {
       print('Error during userQRCode: $e');
       throw Exception('Errore durante il recupero QR-Code personale');
+    }
+  }
+
+  Future<void> deleteProfileImage() async {
+    try {
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      String filePath = '${appDocDir.path}/my_img.jpg';
+      File imageFile = File(filePath);
+
+      if (await imageFile.exists()) {
+        await imageFile.delete();
+        print('Profile image deleted');
+      }
+    } catch (e) {
+      print('Error deleting profile image: $e');
     }
   }
 }

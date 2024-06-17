@@ -89,6 +89,7 @@ flutter:
     - assets/qrcode_default.png
     - assets/icon/coccarda.png
     - assets/icon/faceid.png
+    - assets/icon/fingerprint.png
     - assets/icon/coccarda.svg
     - assets/Onda.png
 

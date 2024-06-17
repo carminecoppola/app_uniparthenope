@@ -2,6 +2,8 @@ import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/CareerWidget/loadingExamsCircle.dart';
 import 'package:flutter/material.dart';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 class TotalExamStudentCard extends StatelessWidget {
   final String cfuPar, cfuTot;
   final int examSuperati, examTotali;
@@ -25,7 +27,7 @@ class TotalExamStudentCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        width: 350,
+        width: kIsWeb ? 700 : 350,
         height: 120,
         decoration: BoxDecoration(
           color: Colors.white,

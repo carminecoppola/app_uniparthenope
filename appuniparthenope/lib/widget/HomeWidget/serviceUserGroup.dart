@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import '../../provider/bottomNavBar_provider.dart';
 import '../../utilityFunctions/professorUtilsFunction.dart';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 class ServiceCard extends StatelessWidget {
   final String imagePath;
   final String title;
@@ -32,8 +34,8 @@ class ServiceCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Container(
-                width: 150,
-                height: 150,
+                width: kIsWeb ? 250 : 150,
+                height: kIsWeb ? 250 : 150,
                 alignment: Alignment.center,
                 child: Image.asset(imagePath),
               ),
@@ -101,7 +103,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
                     'Qui puoi visualizzare i dettagli relativi agli esami che hai superato.',
               ),
             ),
-            const SizedBox(width: 5),
+            const SizedBox(width: kIsWeb ? 50 : 5),
             GestureDetector(
               onTap: () async {
                 StudentUtils.allCourseStudent(context, authenticatedUser.user);
@@ -116,7 +118,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
                     'Puoi visualizzare i corsi da seguire per ogni anno accademico previsti.',
               ),
             ),
-            const SizedBox(width: 5), // Spazio tra le card
+            const SizedBox(width: kIsWeb ? 50 : 5), // Spazio tra le card
             GestureDetector(
               onTap: () {
                 StudentUtils.taxesStudent(context, authenticatedUser.user);
@@ -129,7 +131,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
                     'Puoi tenere sotto controllo la situazione delle tasse universitarie.',
               ),
             ),
-            const SizedBox(width: 5), // Spazio tra le card
+            const SizedBox(width: kIsWeb ? 50 : 5), // Spazio tra le card
             GestureDetector(
               onTap: () {
                 WeatherFunctions.getWeather(context);
@@ -142,7 +144,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
                     'Puoi utilizzare il servizio meteo dell\'Università Parthenope.',
               ),
             ),
-            const SizedBox(width: 5),
+            const SizedBox(width: kIsWeb ? 50 : 5),
           ],
         ),
       ),
@@ -179,7 +181,7 @@ class ServiceGroupProfCard extends StatelessWidget {
                     'Qui è possibile visualizzare e prenotare le aule.',
               ),
             ),
-            const SizedBox(width: 5),
+            const SizedBox(width: kIsWeb ? 50 : 5),
             GestureDetector(
               onTap: () {
                 ProfessorUtils.allCourseProfessor(
@@ -197,7 +199,7 @@ class ServiceGroupProfCard extends StatelessWidget {
                     'È possibile visualizzare i propri corsi per ogni anno accademico.',
               ),
             ),
-            const SizedBox(width: 5),
+            const SizedBox(width: kIsWeb ? 50 : 5),
             GestureDetector(
               onTap: () {
                 StudentUtils.allEvents(context);
@@ -210,7 +212,7 @@ class ServiceGroupProfCard extends StatelessWidget {
                     'Qui puoi visualizzare gli eventi che sono stati organizzati.',
               ),
             ),
-            const SizedBox(width: 5),
+            const SizedBox(width: kIsWeb ? 50 : 5),
             GestureDetector(
               onTap: () {
                 WeatherFunctions.getWeather(context);
@@ -223,7 +225,7 @@ class ServiceGroupProfCard extends StatelessWidget {
                     'Puoi utilizzare il servizio meteo dell\'Università Parthenope.',
               ),
             ),
-            const SizedBox(width: 5),
+            const SizedBox(width: kIsWeb ? 50 : 5),
           ],
         ),
       ),

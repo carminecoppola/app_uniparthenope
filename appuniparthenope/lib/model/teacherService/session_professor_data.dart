@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class SessionProfessorInfo {
   final String? aaCurr;
-  final int? semId;
+  final String? semId;
   final String? semDes;
   final String? aaId;
 
@@ -15,7 +15,7 @@ class SessionProfessorInfo {
 
   SessionProfessorInfo copyWith({
     String? aaCurr,
-    int? semId,
+    String? semId,
     String? semDes,
     String? aaId,
   }) =>
@@ -34,7 +34,7 @@ class SessionProfessorInfo {
   factory SessionProfessorInfo.fromJson(Map<String, dynamic> json) =>
       SessionProfessorInfo(
         aaCurr: json["aa_curr"],
-        semId: json["semId"],
+        semId: json["semId"].toString(),
         semDes: json["semDes"],
         aaId: json["aaId"],
       );

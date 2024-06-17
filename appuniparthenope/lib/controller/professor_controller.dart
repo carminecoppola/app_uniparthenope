@@ -10,10 +10,10 @@ class ProfessorController {
   final ApiTeacherService apiService = ApiTeacherService();
 
   Future<List<CourseProfessorInfo>> fetchAllCourseProfessor(
-      User professor, String aaId, BuildContext context) async {
+      User professor, String? aaId, BuildContext context) async {
     try {
       final List<CourseProfessorInfo> responseData =
-          await apiService.getAllCourse(professor, aaId, context);
+          await apiService.getAllCourse(professor, aaId!, context);
 
       print('\nLunghezza lista${responseData.length}');
 

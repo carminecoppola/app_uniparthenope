@@ -1,4 +1,5 @@
 import 'package:appuniparthenope/model/user_data_anagrafic.dart';
+import 'package:appuniparthenope/service/api_login_service.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 
@@ -76,6 +77,7 @@ class AuthProvider with ChangeNotifier {
     _password = null;
     _authToken = null;
     _anagrafeUser = null;
+    ApiService().deleteProfileImage();
     _profileImage = null;
     _qrCode = null;
     _selectedCareer = null;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class PersonalCardUser extends StatelessWidget {
   final VoidCallback onTap;
@@ -30,7 +31,7 @@ class PersonalCardUser extends StatelessWidget {
           borderRadius: BorderRadius.circular(30), // Bordi arrotondati
         ),
         child: Container(
-          width: 350, //Dimensioni card
+          width: kIsWeb ? 800 : 350,
           height: 120,
           //Card Studente
           padding: const EdgeInsets.all(20), // Padding interno

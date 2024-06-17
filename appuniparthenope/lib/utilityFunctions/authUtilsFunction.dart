@@ -39,9 +39,11 @@ class AuthUtilsFunction {
         final profileImage = await authController.getUserProfileImage(
             authenticatedUser.user, context);
 
-        // Utilizza il provider per impostare l'immagine di profilo
-        final authProvider = Provider.of<AuthProvider>(context, listen: false);
-        authProvider.setProfileImage(profileImage);
+        if (context.mounted) {
+          final authProvider =
+              Provider.of<AuthProvider>(context, listen: false);
+          authProvider.setProfileImage(profileImage);
+        }
       } else {
         print('Authenticated user is null');
       }

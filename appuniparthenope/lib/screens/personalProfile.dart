@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
@@ -31,11 +32,22 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
         Provider.of<AuthProvider>(context).authenticatedUser;
     final userAnagrafe = Provider.of<AuthProvider>(context).anagrafeUser;
 
-    final trattiCarriera = authenticatedUser?.user.trattiCarriera;
+    if (authenticatedUser == null) {
+      return Scaffold(
+        body: Container(
+          color: AppColors.backgroundColor,
+          child: const Center(
+            child: Text("User not authenticated"),
+          ),
+        ),
+      );
+    }
+
+    final trattiCarriera = authenticatedUser.user.trattiCarriera;
     final identificativo = trattiCarriera != null && trattiCarriera.isNotEmpty
         ? trattiCarriera[0].matricola
         : 'N/A';
-    final identificativoProf = authenticatedUser!.user.docenteId;
+    final identificativoProf = authenticatedUser.user.docenteId;
     final facCod = trattiCarriera != null && trattiCarriera.isNotEmpty
         ? trattiCarriera[0].dettaglioTratto.facCod
         : null;

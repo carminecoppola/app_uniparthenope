@@ -1,13 +1,14 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:appuniparthenope/utilityFunctions/authUtilsFunction.dart';
 import 'package:appuniparthenope/widget/CustomLoadingIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../main.dart';
-import '../widget/loginPhoto.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -20,26 +21,53 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final LocalAuthentication _localAuthentication = LocalAuthentication();
-  late ImageLogic imageLogic;
+
+  final List<String> universityImages = [
+    'assets/university/uni_monte.jpg',
+    'assets/university/uni_cdn.png',
+    'assets/university/uni_centrale.png',
+    'assets/university/uni_medina.jpeg',
+    'assets/university/uni_nola.jpeg',
+    'assets/university/uni_villadoria.jpeg',
+  ];
+
   late String currentImage;
+  late Timer _timer;
+  bool _biometricAvailable = false;
+  BiometricType? _biometricType;
+  bool _loading = false; // Aggiunta variabile di stato per il caricamento
 
   @override
   void initState() {
     super.initState();
-    imageLogic = ImageLogic(_onImageChange);
-    currentImage = imageLogic.getCurrentImage();
+    currentImage = universityImages[Random().nextInt(universityImages.length)];
+    _timer = Timer.periodic(const Duration(seconds: 3), (Timer timer) {
+      setState(() {
+        currentImage =
+            universityImages[Random().nextInt(universityImages.length)];
+      });
+    });
+    _checkBiometricAvailability();
+  }
+
+  Future<void> _checkBiometricAvailability() async {
+    bool canCheckBiometrics = await _localAuthentication.canCheckBiometrics;
+    if (canCheckBiometrics) {
+      List<BiometricType> availableBiometrics =
+          await _localAuthentication.getAvailableBiometrics();
+      if (availableBiometrics.isNotEmpty) {
+        setState(() {
+          _biometricAvailable = true;
+          _biometricType = availableBiometrics.first;
+        });
+      }
+    }
   }
 
   @override
   void dispose() {
-    imageLogic.stopTimer();
+    _timer.cancel();
     super.dispose();
-  }
-
-  void _onImageChange() {
-    setState(() {
-      currentImage = imageLogic.getCurrentImage();
-    });
   }
 
   Future<void> _authenticateBiometric() async {
@@ -50,27 +78,25 @@ class _LoginFormState extends State<LoginForm> {
     if (savedUsername == null || savedPassword == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
+          backgroundColor: AppColors.detailsColor,
           content: Text(
-              'Salva le credenziali prima di usare l\'autenticazione biometrica'),
+              'Non hai credenziali salvate per l\'autenticazione biometrica'),
         ),
       );
       return;
     }
 
-    bool canCheckBiometrics = await _localAuthentication.canCheckBiometrics;
-    if (!canCheckBiometrics) {
-      return;
-    }
-
-    List<BiometricType> availableBiometrics =
-        await _localAuthentication.getAvailableBiometrics();
-    if (availableBiometrics.isEmpty) {
-      return;
-    }
+    setState(() {
+      _loading = true; // Mostra il dialogo di caricamento
+    });
 
     bool authenticated = await _localAuthentication.authenticate(
       localizedReason: 'Please authenticate to login',
     );
+
+    setState(() {
+      _loading = false; // Nascondi il dialogo di caricamento
+    });
 
     if (authenticated) {
       _usernameController.text = savedUsername;
@@ -83,37 +109,22 @@ class _LoginFormState extends State<LoginForm> {
     final String username = _usernameController.text;
     final String password = _passwordController.text;
 
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return Center(
-          child: Container(
-            width: 300,
-            height: 300,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: const Padding(
-              padding: EdgeInsets.all(20.0),
-              child: CustomLoadingIndicator(
-                text: 'Autenticazione in corso, per favore attendi...',
-                myColor: AppColors.primaryColor,
-              ),
-            ),
-          ),
-        );
-      },
-    );
+    setState(() {
+      _loading = true; // Mostra il dialogo di caricamento
+    });
 
     await AuthUtilsFunction.authUser(context, username, password);
+
+    setState(() {
+      _loading = false; // Nascondi il dialogo di caricamento
+    });
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', username);
     await prefs.setString('password', password);
   }
 
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,22 +138,22 @@ class _LoginFormState extends State<LoginForm> {
                   alignment: Alignment.center,
                   child: Image.asset(
                     currentImage,
-                    height: 250,
+                    height: kIsWeb ? 400 : 250,
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
                 ),
                 CircleAvatar(
                   backgroundColor: Colors.transparent,
-                  radius: 45,
+                  radius: kIsWeb ? 35 : 45,
                   child: Image.asset(
                     'assets/logo.png',
-                    height: 75,
-                    width: 75,
+                    height: kIsWeb ? 150 : 75,
+                    width: kIsWeb ? 150 : 75,
                     fit: BoxFit.contain,
                   ),
                 ),
-                const SizedBox(height: 5.0),
+                const SizedBox(height: kIsWeb ? 50.0 : 5.0),
                 const Padding(
                   padding: EdgeInsets.only(left: 20.0),
                   child: Align(
@@ -201,7 +212,8 @@ class _LoginFormState extends State<LoginForm> {
                   onPressed: _login,
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 70.0, vertical: 15.0),
+                        horizontal: kIsWeb ? 100.0 : 70.0,
+                        vertical: kIsWeb ? 20.0 : 15.0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
@@ -220,15 +232,18 @@ class _LoginFormState extends State<LoginForm> {
                 const SizedBox(
                   height: 10,
                 ),
-                TextButton(
-                  onPressed: _authenticateBiometric,
-                  child: Image.asset(
-                    'assets/icon/faceid.png',
-                    color: AppColors.lightGray,
-                    width: 40,
-                    height: 40,
+                if (_biometricAvailable)
+                  TextButton(
+                    onPressed: _authenticateBiometric,
+                    child: Image.asset(
+                      _biometricType == BiometricType.face
+                          ? 'assets/icon/faceid.png'
+                          : 'assets/icon/fingerprint.png',
+                      color: AppColors.lightGray,
+                      width: 40,
+                      height: 40,
+                    ),
                   ),
-                ),
                 TextButton(
                   onPressed: () async {
                     const url = 'https://passwordreset.microsoftonline.com';
@@ -262,6 +277,28 @@ class _LoginFormState extends State<LoginForm> {
               ],
             ),
           ),
+          // Dialogo di caricamento
+          if (_loading)
+            Container(
+              color: Colors.black.withOpacity(0.5),
+              child: Center(
+                child: Container(
+                  width: 300,
+                  height: 300,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: CustomLoadingIndicator(
+                      text: 'Autenticazione in corso, per favore attendi...',
+                      myColor: AppColors.primaryColor,
+                    ),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
