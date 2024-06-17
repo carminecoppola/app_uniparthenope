@@ -1,74 +1,74 @@
 # app@uniparthenope  
 
-app@uniparthenope è un'applicazione mobile sviluppata utilizzando Flutter, progettata per gli studenti e i docenti e il PTA dell'Università Parthenope. L'app offre una serie di servizi utili come la visualizzazione della carriera accademica, l'accesso ai corsi, la gestione delle tasse universitarie e un servizio meteo integrato e un servizio bibliotecario.
+app@uniparthenope is a mobile application developed using Flutter, designed for students, faculty, and administrative staff of the University of Parthenope. The app provides a range of useful services such as viewing academic progress, accessing courses, managing university fees, an integrated weather service, and a library service.
 
-## Caratteristiche
+## Features
 
-- **Autenticazione**: Login tramite credenziali universitarie e utilizzo FaceID.
-- **Carriera**: Visualizzazione degli esami superati e del percorso accademico.
-- **Corsi**: Accesso ai corsi per ogni anno accademico.
-- **Tasse**: Monitoraggio della situazione delle tasse universitarie.
-- **Meteo**: Servizio meteo dell'Università Parthenope.
-- **Disponibilità Aule (per Docenti)**: Visualizzazione e prenotazione delle aule.
-- **Ricerca Eventi (per Docenti)**: Visualizzazione degli eventi orgnaizzati dall'univeristà.
+- **Authentication**: Login using university credentials and FaceID.
+- **Academic Progress**: View completed exams and academic path.
+- **Courses**: Access courses for each academic year.
+- **Fees**: Monitor the status of university fees.
+- **Weather**: University of Parthenope weather service.
+- **Room Availability (for Faculty)**: View and book classrooms.
+- **Event Search (for Faculty)**: View events organized by the university.
 
-## Tecnologie Utilizzate
+## Technologies Used
 
-- **Flutter**: Framework utilizzato per lo sviluppo dell'app.
-- **Provider**: Gestione dello stato dell'app.
-- **HTTP**: Comunicazione con i servizi backend dell'università (API's Uniparthenope).
-- **Shared Preferences**: Salvataggio delle credenziali di login in modo sicuro.
-- **Local Authentication**: Supporto per l'autenticazione biometrica (impronta digitale/riconoscimento facciale).
+- **Flutter**: Framework used for app development.
+- **Provider**: State management for the app.
+- **HTTP**: Communication with university backend services ([API's Uniparthenope](https://api.uniparthenope.it)).
+- **Shared Preferences**: Securely saving login credentials.
+- **Local Authentication**: Support for biometric authentication (fingerprint/face recognition).
 
-## Installazione
+## Installation
 
-1. **Prerequisiti**:
-    - [Flutter](https://flutter.dev/docs/get-started/install) installato sul proprio sistema.
-    - Un emulatore Android/iOS configurato o un dispositivo fisico collegato.
+1. **Prerequisites**:
+    - [Flutter](https://flutter.dev/docs/get-started/install) installed on your system.
+    - A configured Android/iOS emulator or a connected physical device.
 
-2. **Clonare il Repository**:
+2. **Clone the Repository**:
     ```sh
-    git clone https://github.com/username/UniParthenopeApp.git
+    git clone https://github.com/carminecoppola/appUniParthenope.git
     cd UniParthenopeApp
     ```
 
-3. **Installare le Dipendenze**:
+3. **Install Dependencies**:
     ```sh
     flutter pub get
     ```
 
-4. **Eseguire l'App**:
+4. **Run the App**:
     ```sh
     flutter run
     ```
 
-## Struttura del Progetto
+## Project Structure
 
-- **lib/**: Contiene il codice sorgente dell'app.
-  - **main.dart**: Punto di ingresso dell'app.
-  - **models/**: Modelli dei dati.
-  - **controller/**: Funzioni per la corretta implementazione della logica dei dati.
-  - **providers/**: Provider per la gestione dello stato.
-  - **screens/**: Schermate dell'app.
-  - **services/**: Funzioni di servizio per interfacciarsi con l'API dell'università.
-  - **utilityFunctions/**: Funzioni utili da utilizzare nei widget.
-  - **widgets/**: Widget personalizzati utilizzati nell'app.
-  - **app_routes.dart**: Rotte definite.
+- **lib/**: Contains the app source code.
+  - **main.dart**: Entry point of the app.
+  - **models/**: Data models.
+  - **controller/**: Functions for proper data logic implementation.
+  - **providers/**: State management providers.
+  - **screens/**: App screens.
+  - **services/**: Service functions to interact with the university API.
+  - **utilityFunctions/**: Useful functions for widgets.
+  - **widgets/**: Custom widgets used in the app.
+  - **app_routes.dart**: Defined routes.
 
-## Contribuire
+## Contributing
 
-Contributi, bug report e richieste di funzionalità sono benvenuti!
+Contributions, bug reports, and feature requests are welcome!
 
-1. Fork il progetto
-2. Crea un branch per la tua funzionalità (`git checkout -b feature/feature-name`)
-3. Fai il commit delle tue modifiche (`git commit -m 'Add some feature'`)
-4. Fai il push al branch (`git push origin feature/feature-name`)
-5. Apri una Pull Request
+1. Fork the project
+2. Create a branch for your feature (`git checkout -b feature/feature-name`)
+3. Commit your changes (`git commit -m 'Add some feature'`)
+4. Push to the branch (`git push origin feature/feature-name`)
+5. Open a Pull Request
 
-## Licenza
+## License
 
-Questo progetto è licenziato sotto la licenza MIT. Vedi il file [LICENSE](LICENSE) per maggiori dettagli.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## Contatti
+## Contact
 
-Per ulteriori informazioni, domande o suggerimenti, contattami all'indirizzo email: [tuoemail@example.com](mailto:carminecoppola917@gmail.com).
+For further information, questions, or suggestions, contact me at: [carminecoppola917@gmail.com](mailto:carminecoppola917@gmail.com).
