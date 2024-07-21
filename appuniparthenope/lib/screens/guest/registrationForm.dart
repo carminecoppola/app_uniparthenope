@@ -40,7 +40,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const NavbarComponent(),
+      appBar: const NavbarComponent(
+        showBackButton: false,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Card(

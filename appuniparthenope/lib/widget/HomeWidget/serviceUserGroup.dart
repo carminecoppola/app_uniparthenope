@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:appuniparthenope/utilityFunctions/weatherFunction.dart';
@@ -44,9 +45,9 @@ class ServiceCard extends StatelessWidget {
             Text(
               title,
               style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primaryColor),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 5),
@@ -97,7 +98,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
                 Navigator.pushNamed(context, '/carrerStudent');
               },
               child: const ServiceCard(
-                imagePath: 'assets/icon/student.png',
+                imagePath: 'assets/icon/services/careerStudent.png',
                 title: 'Carriera',
                 description:
                     'Qui puoi visualizzare i dettagli relativi agli esami che hai superato.',
@@ -112,7 +113,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
                 Navigator.pushNamed(context, '/courseStudent');
               },
               child: const ServiceCard(
-                imagePath: 'assets/icon/courses.png',
+                imagePath: 'assets/icon/services/courses2.png',
                 title: 'Corsi',
                 description:
                     'Puoi visualizzare i corsi da seguire per ogni anno accademico previsti.',
@@ -125,7 +126,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
                 Navigator.pushNamed(context, '/feesStudent');
               },
               child: const ServiceCard(
-                imagePath: 'assets/icon/tax.png',
+                imagePath: 'assets/icon/services/tax2.png',
                 title: 'Tasse',
                 description:
                     'Puoi tenere sotto controllo la situazione delle tasse universitarie.',
@@ -138,7 +139,7 @@ class ServiceGroupStudentCard extends StatelessWidget {
                 Navigator.pushNamed(context, '/watherPage');
               },
               child: const ServiceCard(
-                imagePath: 'assets/icon/weather.png',
+                imagePath: 'assets/icon/services/weather2.png',
                 title: 'Meteo',
                 description:
                     'Puoi utilizzare il servizio meteo dell\'Università Parthenope.',
@@ -175,7 +176,7 @@ class ServiceGroupProfCard extends StatelessWidget {
                 Navigator.pushNamed(context, '/classroomTeachers');
               },
               child: const ServiceCard(
-                imagePath: 'assets/icon/classroom.png',
+                imagePath: 'assets/icon/services/classroom3.png',
                 title: 'Aule',
                 description:
                     'Qui è possibile visualizzare e prenotare le aule.',
@@ -193,10 +194,10 @@ class ServiceGroupProfCard extends StatelessWidget {
                 Navigator.pushNamed(context, '/courseTeachers');
               },
               child: const ServiceCard(
-                imagePath: 'assets/icon/courses.png',
+                imagePath: 'assets/icon/services/courses2.png',
                 title: 'Corsi',
                 description:
-                    'È possibile visualizzare i propri corsi per ogni anno accademico.',
+                    'È possibile visualizzare i propri corsi dell\'anno accademico.',
               ),
             ),
             const SizedBox(width: kIsWeb ? 50 : 5),
@@ -206,7 +207,7 @@ class ServiceGroupProfCard extends StatelessWidget {
                 Navigator.pushNamed(context, '/eventsTeachers');
               },
               child: const ServiceCard(
-                imagePath: 'assets/icon/lecture.png',
+                imagePath: 'assets/icon/services/events2.png',
                 title: 'Eventi',
                 description:
                     'Qui puoi visualizzare gli eventi che sono stati organizzati.',
@@ -219,7 +220,7 @@ class ServiceGroupProfCard extends StatelessWidget {
                 Navigator.pushNamed(context, '/watherPage');
               },
               child: const ServiceCard(
-                imagePath: 'assets/icon/weather.png',
+                imagePath: 'assets/icon/services/weather2.png',
                 title: 'Meteo',
                 description:
                     'Puoi utilizzare il servizio meteo dell\'Università Parthenope.',

@@ -9,24 +9,29 @@ import '../model/teacherService/course_professor_data.dart';
 class ProfessorController {
   final ApiTeacherService apiService = ApiTeacherService();
 
+  /// Ottiene tutti i corsi del professore per l'anno accademico specificato.
+  /// Ritorna una lista di [CourseProfessorInfo].
   Future<List<CourseProfessorInfo>> fetchAllCourseProfessor(
       User professor, String? aaId, BuildContext context) async {
     try {
       final List<CourseProfessorInfo> responseData =
           await apiService.getAllCourse(professor, aaId!, context);
 
-      print('\nLunghezza lista${responseData.length}');
+      print('\nLunghezza lista: ${responseData.length}');
 
       if (responseData.isEmpty) {
-        print('\nErrore la lista dei corsi dei professori è vuota.');
+        print('\nErrore: la lista dei corsi dei professori è vuota.');
       }
 
       return responseData;
     } catch (e) {
-      throw Exception('Errore Caricamento Corsi dei Professori $e');
+      throw Exception(
+          'Errore durante il caricamento dei corsi dei professori: $e');
     }
   }
 
+  /// Ottiene la sessione del professore.
+  /// Ritorna un oggetto [SessionProfessorInfo].
   Future<SessionProfessorInfo> professorSession(
       User professor, BuildContext context) async {
     try {
@@ -35,10 +40,13 @@ class ProfessorController {
 
       return responseData;
     } catch (e) {
-      throw Exception('Errore Caricamento della Sessione dei Professori $e');
+      throw Exception(
+          'Errore durante il caricamento della sessione dei professori: $e');
     }
   }
 
+  /// Ottiene i dettagli del corso del professore per un determinato [adLogId].
+  /// Ritorna un oggetto [DetailsCourseInfo].
   Future<DetailsCourseInfo> detailsCourseInfoProfessor(
       User professor, int adLogId, BuildContext context) async {
     try {
@@ -48,10 +56,12 @@ class ProfessorController {
       return responseData;
     } catch (e) {
       throw Exception(
-          'Errore Caricamento delle informazioni sui corsi dei Professori $e');
+          'Errore durante il caricamento delle informazioni sui corsi dei professori: $e');
     }
   }
 
+  /// Ottiene le informazioni sugli esami del professore per un determinato [cdsId] e [adId].
+  /// Ritorna una lista di [CheckExamInfo].
   Future<List<CheckExamInfo>> checkExamInfoProfessor(
       User professor, int cdsId, int adId, BuildContext context) async {
     try {
@@ -61,10 +71,12 @@ class ProfessorController {
       return responseData;
     } catch (e) {
       throw Exception(
-          'Errore Caricamento delle informazioni sugli appelli dei corsi dei Professori $e');
+          'Errore durante il caricamento delle informazioni sugli appelli dei corsi dei professori: $e');
     }
   }
 
+  /// Ottiene la lista degli studenti per un determinato esame.
+  /// Ritorna una lista di [ListStudentsExam].
   Future<List<ListStudentsExam>> allStudentListForExam(User professor,
       String cdsId, String aaId, String appId, BuildContext context) async {
     try {
@@ -74,7 +86,7 @@ class ProfessorController {
       return responseData;
     } catch (e) {
       throw Exception(
-          'Errore Caricamento delle informazioni sulla lista degli studenti esame:  $e');
+          'Errore durante il caricamento delle informazioni sulla lista degli studenti per l\'esame: $e');
     }
   }
 }

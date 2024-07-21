@@ -10,6 +10,8 @@ import '../service/api_weather_service.dart';
 class WeatherController {
   final ApiWeatherService apiWeatherService = ApiWeatherService();
 
+  /// Ottiene la serie temporale dei dati meteorologici per le coordinate specificate.
+  /// Ritorna una lista di [Timesery].
   Future<List<Timesery>> getAllWeatherTime(
       BuildContext context, double latitude, double longitude) async {
     try {
@@ -31,6 +33,7 @@ class WeatherController {
 
       print('\n\nMunicipalità: $placeName');
 
+      // Imposta il nome del luogo nel provider dei dati meteorologici
       final weatherDataProvider =
           Provider.of<WeatherDataProvider>(context, listen: false);
       weatherDataProvider.setPlaceName(placeName);
@@ -60,7 +63,7 @@ class WeatherController {
     } catch (e) {
       print(
           '- getAllWeatherTime(): Errore durante il recupero dei dati meteorologici: $e');
-      // Restituisco una lista vuota o lancia l'eccezione a seconda della gestione degli errori desiderata
+      // Restituisce una lista vuota in caso di errore
       return [];
     }
   }

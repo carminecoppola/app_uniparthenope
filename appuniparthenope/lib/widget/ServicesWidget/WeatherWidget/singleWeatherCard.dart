@@ -57,7 +57,7 @@ class WeatherInfoWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          WeatherFunctions.toCamelCase(municipalita),
+          toCamelCase(municipalita),
           textAlign: TextAlign.center,
           style: const TextStyle(
               color: AppColors.detailsColor,
@@ -73,7 +73,7 @@ class WeatherInfoWidget extends StatelessWidget {
           ),
         ),
         Text(
-          WeatherFunctions.toCamelCase(dayOfWeek),
+          toCamelCase(dayOfWeek),
           style: const TextStyle(
               color: AppColors.backgroundColor,
               fontSize: 10,
@@ -89,7 +89,7 @@ class WeatherInfoWidget extends StatelessWidget {
           ),
         ),
         Text(
-          WeatherFunctions.toCamelCase(
+          toCamelCase(
               description.replaceAll('It.', '').replaceAll('_', ' ')),
           style: const TextStyle(
             color: AppColors.backgroundColor,

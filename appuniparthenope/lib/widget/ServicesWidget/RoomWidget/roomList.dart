@@ -46,6 +46,24 @@ class RoomsList extends StatelessWidget {
     return {'label': label, 'value': value};
   }
 
+  String formatDate(DateTime date) {
+    final now = DateTime.now();
+    final startOfToday = DateTime(now.year, now.month, now.day);
+    final startOfTomorrow = startOfToday.add(const Duration(days: 1));
+
+    if (date.year == startOfToday.year &&
+        date.month == startOfToday.month &&
+        date.day == startOfToday.day) {
+      return 'Oggi';
+    } else if (date.year == startOfTomorrow.year &&
+        date.month == startOfTomorrow.month &&
+        date.day == startOfTomorrow.day) {
+      return 'Domani';
+    } else {
+      return DateFormat('dd/MM/yyyy').format(date);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final filteredRooms =
@@ -74,9 +92,13 @@ class RoomsList extends StatelessWidget {
             final dateTimeStart = DateTime.parse(service.start.toString());
             final dateTimeEnd = DateTime.parse(service.end.toString());
 
-            final dateI = DateFormat('yyyy-MM-dd').format(dateTimeStart);
+            final startDateString = formatDate(dateTimeStart);
+            final endDateString = formatDate(dateTimeEnd);
+            final isSameDay = dateTimeStart.day == dateTimeEnd.day &&
+                dateTimeStart.month == dateTimeEnd.month &&
+                dateTimeStart.year == dateTimeEnd.year;
+
             final timeI = DateFormat('HH:mm').format(dateTimeStart);
-            final dateF = DateFormat('yyyy-MM-dd').format(dateTimeEnd);
             final timeF = DateFormat('HH:mm').format(dateTimeEnd);
             final profInfo = formatProfName(service.prof.toString());
 
@@ -86,9 +108,9 @@ class RoomsList extends StatelessWidget {
               profValue: profInfo['value']!,
               aula: service.room!.name.toString(),
               descrizioneAula: service.room!.description.toString(),
-              dateI: dateI,
+              dateI: startDateString,
               timeI: timeI,
-              dateF: dateF,
+              dateF: isSameDay ? 'In giornata' : endDateString,
               timeF: timeF,
               totalSeats: service.room!.capacity!,
               occupiedSeats: service.room!.availability!,

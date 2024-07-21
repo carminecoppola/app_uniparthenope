@@ -61,37 +61,7 @@ class InfoAppPage extends StatelessWidget {
                   padding: const EdgeInsets.all(30),
                   child: ListView(
                     scrollDirection: Axis.vertical,
-                    children: const [
-                      DeveloperInfo(
-                        name: 'Raffaele Montela',
-                        asset: 'assets/team/team_leader.jpg',
-                        role: 'Team leader',
-                      ),
-                      SizedBox(height: 20),
-                      DeveloperInfo(
-                        name: 'Carmine Coppola',
-                        asset: 'assets/team/cc.png',
-                        role: 'Developer',
-                      ),
-                      SizedBox(height: 20),
-                      DeveloperInfo(
-                        name: 'Ciro Giuseppe De Vita',
-                        asset: 'assets/team/cgdv.png',
-                        role: 'Developer',
-                      ),
-                      SizedBox(height: 20),
-                      DeveloperInfo(
-                        name: 'Gennaro Mellone',
-                        asset: 'assets/team/gm.jpg',
-                        role: 'Developer',
-                      ),
-                      SizedBox(height: 20),
-                      DeveloperInfo(
-                        name: 'Nunzio Napolitano',
-                        asset: 'assets/team/nn.jpg',
-                        role: 'Responsabile Mobile Store',
-                      ),
-                    ],
+                    children: _buildDeveloperInfoList(),
                   ),
                 ),
               ),
@@ -101,6 +71,60 @@ class InfoAppPage extends StatelessWidget {
       ),
       bottomNavigationBar: const BottomNavBarComponent(),
     );
+  }
+
+  List<Widget> _buildDeveloperInfoList() {
+    final developers = [
+      {
+        'name': 'Raffaele Montela',
+        'asset': 'assets/team/team_leader.jpg',
+        'role': 'Team leader'
+      },
+      {
+        'name': 'Carmine Coppola',
+        'asset': 'assets/team/cc.png',
+        'role': 'Developer'
+      },
+      {
+        'name': 'Ciro Giuseppe De Vita',
+        'asset': 'assets/team/cgdv.png',
+        'role': 'Developer'
+      },
+      {
+        'name': 'Gennaro Mellone',
+        'asset': 'assets/team/gm.jpg',
+        'role': 'Developer'
+      },
+      {
+        'name': 'Nunzio Napolitano',
+        'asset': 'assets/team/nn.jpg',
+        'role': 'Responsabile Mobile Store'
+      },
+    ];
+
+    List<Widget> developerInfoList = [];
+    for (var i = 0; i < developers.length; i++) {
+      developerInfoList.add(DeveloperInfo(
+        name: developers[i]['name']!,
+        asset: developers[i]['asset']!,
+        role: developers[i]['role']!,
+      ));
+      if (i < developers.length - 1) {
+        developerInfoList.add(const SizedBox(height: 5));
+        developerInfoList.add(
+          Container(
+            margin: const EdgeInsets.symmetric(
+                horizontal: 26.0), // Aggiungi margine laterale
+            child: const Divider(
+              color: Colors.white, // Colore bianco
+              thickness: 0.5, // Spessore della linea
+            ),
+          ),
+        );
+        developerInfoList.add(const SizedBox(height: 5));
+      }
+    }
+    return developerInfoList;
   }
 }
 

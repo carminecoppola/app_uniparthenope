@@ -1,7 +1,6 @@
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/CareerWidget/loadingExamsCircle.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class TotalExamStudentCard extends StatelessWidget {
@@ -24,6 +23,10 @@ class TotalExamStudentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color textColor = examSuperati == examTotali
+        ? AppColors.successColor
+        : AppColors.detailsColor;
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -61,9 +64,9 @@ class TotalExamStudentCard extends StatelessWidget {
                     children: [
                       Text(
                         mediaTrentesimi,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 13,
-                          color: AppColors.detailsColor,
+                          color: textColor,
                           fontWeight: FontWeight.w800,
                         ),
                       ),
@@ -81,10 +84,10 @@ class TotalExamStudentCard extends StatelessWidget {
                     children: [
                       Text(
                         mediaCentesimi,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w800,
-                          color: AppColors.detailsColor,
+                          color: textColor,
                         ),
                       ),
                       Text(
@@ -105,6 +108,7 @@ class TotalExamStudentCard extends StatelessWidget {
             ProgressCircleCounter(
               totalCount: examTotali,
               completedExams: examSuperati,
+              textColor: textColor,
             ),
             const Spacer(),
             Padding(
@@ -123,10 +127,10 @@ class TotalExamStudentCard extends StatelessWidget {
                     children: [
                       Text(
                         '$cfuPar/',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w800,
-                          color: AppColors.detailsColor,
+                          color: textColor,
                         ),
                       ),
                       Text(

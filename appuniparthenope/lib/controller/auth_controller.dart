@@ -9,6 +9,8 @@ import '../widget/carrerSelectorDialog.dart';
 class AuthController {
   final ApiService apiService = ApiService();
 
+  /// Autentica l'utente utilizzando username e password.
+  /// Se l'autenticazione ha successo, ritorna un oggetto [UserInfo].
   Future<UserInfo> authUser(
       BuildContext context, String username, String password) async {
     try {
@@ -22,6 +24,7 @@ class AuthController {
       if (trattiCarrieraDynamic.isNotEmpty) {
         String? selectedCareerId;
 
+        // Se ci sono più carriere, mostra il dialogo di selezione
         if (trattiCarrieraDynamic.length > 1) {
           selectedCareerId = await showCareerSelectionDialog(
               context, trattiCarrieraDynamic.cast<Map<String, dynamic>>());
@@ -75,6 +78,8 @@ class AuthController {
     }
   }
 
+  /// Mostra un dialogo per la selezione della carriera.
+  /// Ritorna l'ID della carriera selezionata.
   Future<String?> showCareerSelectionDialog(
       BuildContext context, List<Map<String, dynamic>> careers) async {
     return showDialog<String>(
@@ -85,27 +90,8 @@ class AuthController {
     );
   }
 
-  static Future<void> navigateByRole(BuildContext context, String role) async {
-    switch (role) {
-      //else if(_result.user.grpDes === "Registrati" || _result.user.grpDes === "Dottorandi" || _result.user.grpDes === "Ipot. Immatricolati" || _result.user.grpDes === "Preiscritti" || _result.user.grpDes=== "Iscritti"){
-      case 'Docenti':
-        //Navigator.pushReplacementNamed(context, '/homeStudent');
-        Navigator.pushReplacementNamed(context, '/homeTeacher');
-        break;
-      case 'Studenti':
-        Navigator.pushReplacementNamed(context, '/homeStudent');
-        //Navigator.pushReplacementNamed(context, '/homeTeacher');
-        break;
-      case 'Ristoranti':
-        Navigator.pushReplacementNamed(
-            context, '/homeRestaurant'); //Da implementare
-        break;
-      default:
-        Navigator.pushReplacementNamed(context, '/homeGuest');
-        break;
-    }
-  }
-
+  /// Imposta i dati anagrafici dello studente.
+  /// Ritorna un oggetto [UserAnagrafe].
   Future<UserAnagrafe> setAnagrafe(BuildContext context, User student) async {
     try {
       final Map<String, dynamic> responseData =
@@ -120,9 +106,10 @@ class AuthController {
     }
   }
 
+  /// Ottiene l'immagine di profilo dello studente.
+  /// Ritorna una stringa con il percorso dell'immagine.
   Future<String> getUserProfileImage(User student, BuildContext context) async {
     try {
-      // Chiamata all'API per ottenere l'immagine di profilo dello studente
       final String profileImage =
           await apiService.userProfileImage(student, context);
 
@@ -133,9 +120,10 @@ class AuthController {
     }
   }
 
+  /// Ottiene il QR-Code dello studente.
+  /// Ritorna una stringa con il QR-Code.
   Future<String> getUserQRCode(User student, BuildContext context) async {
     try {
-      // Chiamata all'API per ottenere il'QR-Code
       final String qrCode = await apiService.userQRCode(student, context);
 
       return qrCode;

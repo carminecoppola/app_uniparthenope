@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 class ProgressCircleCounter extends StatelessWidget {
   final int totalCount; // Numero totale di esami
   final int completedExams; // Numero di esami superati
+  final Color textColor;
 
   const ProgressCircleCounter({
     super.key,
     required this.totalCount,
     required this.completedExams,
+    required this.textColor,
   });
 
   @override
@@ -40,10 +42,10 @@ class ProgressCircleCounter extends StatelessWidget {
         children: [
           Text(
             completedExams.toString(),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w800,
-              color: AppColors.detailsColor,
+              color: textColor,
             ),
           ),
           Text(

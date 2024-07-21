@@ -37,6 +37,20 @@ class _EventsTeachersPageState extends State<EventsTeachersPage> {
     super.dispose();
   }
 
+  String formatDate(DateTime date) {
+    final now = DateTime.now();
+    final startOfToday = DateTime(now.year, now.month, now.day);
+    final startOfTomorrow = startOfToday.add(const Duration(days: 1));
+
+    if (date.isAtSameMomentAs(startOfToday)) {
+      return 'Oggi';
+    } else if (date.isAtSameMomentAs(startOfTomorrow)) {
+      return 'Domani';
+    } else {
+      return DateFormat('dd/MM/yyyy').format(date);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final eventsDataProvider = Provider.of<ExamDataProvider>(context);
@@ -106,13 +120,19 @@ class _EventsTeachersPageState extends State<EventsTeachersPage> {
                       final event = filteredEvents[index];
                       final startTime = DateFormat('HH:mm').format(event.start);
                       final endTime = DateFormat('HH:mm').format(event.end);
+                      final startDateString = formatDate(event.start);
+                      final endDateString = formatDate(event.end);
+                      final isSameDay = event.start.day == event.end.day &&
+                          event.start.month == event.end.month &&
+                          event.start.year == event.end.year;
+
                       return EventsCard(
                         title: event.courseName,
                         aula: event.room.name,
                         descrizioneAula: event.room.description,
-                        dateI: DateFormat('dd/MM/yyyy').format(event.start),
+                        dateI: startDateString,
                         timeI: startTime,
-                        dateF: DateFormat('dd/MM/yyyy').format(event.end),
+                        dateF: isSameDay ? 'In giornata' : endDateString,
                         timeF: endTime,
                         totalSeats: event.room.capacity.toInt(),
                         occupiedSeats: event.room.availability.toInt(),

@@ -80,7 +80,7 @@ class _LoginFormState extends State<LoginForm> {
         const SnackBar(
           backgroundColor: AppColors.detailsColor,
           content: Text(
-              'Non hai credenziali salvate per l\'autenticazione biometrica'),
+              'Non hai credenziali salvate per l\'autenticazione biometrica, effettua il primo accesso.'),
         ),
       );
       return;

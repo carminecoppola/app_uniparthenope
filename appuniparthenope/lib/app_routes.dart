@@ -9,6 +9,7 @@ import 'package:appuniparthenope/screens/student/CareerStudent.dart';
 import 'package:appuniparthenope/screens/student/ReservationStudent.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/CourseWidget/professor/SessionsAvailableProfessorCourses.dart';
 import 'package:flutter/material.dart';
+import 'screens/guest/homeGuest.dart';
 import 'screens/guest/registrationForm.dart';
 import 'screens/guest/viewAllAccess.dart';
 import 'screens/loginpage.dart';
@@ -56,8 +57,8 @@ class AppRoutes {
     home: (context) => const HomePage(),
     homeResturant: (context) => const HomeRestaurateursPage(),
     homePhD: (context) => const HomePhDPage(),
-    //homeGuest: (context) => const HomeGuestPage(),
-    homeGuest: (context) => const HomePTAPage(),
+    homeGuest: (context) => const HomeGuestPage(),
+    //homeGuest: (context) => const HomePTAPage(),
 
     //Student roots
     profileStudent: (context) => const PersonalProfilePage(),

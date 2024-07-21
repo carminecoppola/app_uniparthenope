@@ -44,12 +44,27 @@ class CourseListProfessorWidget extends StatelessWidget {
                 );
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return const Center(
-                  child: Text(
-                    'Attualmente non è possibile visualizzare i corsi disponibili',
-                    style: TextStyle(
-                      color: AppColors.errorColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.error,
+                          color: AppColors.detailsColor,
+                          size: 48.0,
+                        ),
+                        SizedBox(height: 8.0),
+                        Text(
+                          'Attualmente non è possibile visualizzare i corsi disponibili',
+                          style: TextStyle(
+                            color: AppColors.detailsColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
                   ),
                 );

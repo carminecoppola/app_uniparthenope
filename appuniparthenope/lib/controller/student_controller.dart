@@ -12,6 +12,8 @@ import '../model/studentService/taxes_data.dart';
 class StudentController {
   final ApiStudentService apiService = ApiStudentService();
 
+  /// Ottiene le statistiche totali degli esami di uno studente.
+  /// Ritorna un [TotalExamStudent].
   Future<TotalExamStudent> totalExamStatsStudent(
       User student, BuildContext context) async {
     try {
@@ -27,10 +29,12 @@ class StudentController {
       return totStatsExam;
     } catch (e) {
       throw Exception(
-          'Errore Caricamento delle statistiche totali degli esami');
+          'Errore durante il caricamento delle statistiche totali degli esami');
     }
   }
 
+  /// Ottiene la media degli esami di uno studente.
+  /// Ritorna un [AverageInfo].
   Future<AverageInfo> averageStudent(
       BuildContext context, User student, String averageType) async {
     try {
@@ -45,44 +49,49 @@ class StudentController {
 
       return averageStats;
     } catch (e) {
-      throw Exception('Errore Caricamento della media degli esami');
+      throw Exception('Errore durante il caricamento della media degli esami');
     }
   }
 
+  /// Ottiene tutti gli esami di uno studente.
+  /// Ritorna una lista di [ExamData].
   Future<List<ExamData>> fetchAllExamStudent(
       User student, BuildContext context) async {
     try {
-      // Wait for the API response to complete
       final List<ExamData> responseData =
           await apiService.getStudentExams(student, context);
 
       if (responseData.isEmpty) {
-        print('\nErrore la lista degli esami è vuota.');
+        print('\nErrore: la lista degli esami è vuota.');
       }
       return responseData;
     } catch (e) {
-      throw Exception('Errore Caricamento Esami $e');
+      throw Exception('Errore durante il caricamento degli esami: $e');
     }
   }
 
+  /// Ottiene tutti i corsi di uno studente.
+  /// Ritorna una lista di [CourseInfo].
   Future<List<CourseInfo>> fetchAllCourseStudent(
       User student, BuildContext context) async {
     try {
       final List<CourseInfo> responseData =
           await apiService.getAllCourse(student, context);
 
-      print('Lunghezza lista${responseData.length}');
+      print('Lunghezza lista corsi: ${responseData.length}');
 
       if (responseData.isEmpty) {
-        print('\nErrore la lista dei corsi è vuota.');
+        print('\nErrore: la lista dei corsi è vuota.');
       }
 
       return responseData;
     } catch (e) {
-      throw Exception('Errore Caricamento Corsi $e');
+      throw Exception('Errore durante il caricamento dei corsi: $e');
     }
   }
 
+  /// Ottiene lo stato di tutti i corsi di uno studente.
+  /// Ritorna una mappa di [StatusCourse] con il codice del corso come chiave.
   Future<Map<String, StatusCourse>> fetchAllCourseStatus(
       User student, List<CourseInfo> courses, BuildContext context) async {
     try {
@@ -96,17 +105,18 @@ class StudentController {
 
       return statusCoursesMap;
     } catch (e) {
-      throw Exception('Errore Caricamento Status dei corsi $e');
+      throw Exception(
+          'Errore durante il caricamento dello stato dei corsi: $e');
     }
   }
 
+  /// Ottiene le tasse di uno studente.
+  /// Ritorna un [TaxesInfo].
   Future<TaxesInfo> setTaxes(BuildContext context, User student) async {
     try {
-      // Chiamata all'API per ottenere le tasse dello studente
       final Map<String, dynamic> taxesData =
           await apiService.getTaxes(student, context);
 
-      // Estrai i dati necessari dalle tasse ricevute
       final String semaforo = taxesData['semaforo'];
       final List<Payed> payed = List<Payed>.from(
         taxesData['payed'].map((x) => Payed.fromJson(x)),
@@ -115,22 +125,22 @@ class StudentController {
         taxesData['to_pay'].map((x) => ToPay.fromJson(x)),
       );
 
-      // Costruisci un oggetto TaxesInfo con i dati ottenuti
       final TaxesInfo taxesInfo = TaxesInfo(
         semaforo: semaforo,
         payed: payed,
         toPay: toPay,
       );
 
-      // Ritorna l'oggetto TaxesInfo
       return taxesInfo;
     } catch (e) {
-      print('Error during setTaxes: $e');
+      print('Errore durante setTaxes: $e');
       throw Exception(
           'Errore durante il recupero delle informazioni sulle tasse');
     }
   }
 
+  /// Ottiene tutte le lezioni di uno studente.
+  /// Ritorna una lista di [LecturesInfo].
   Future<List<LecturesInfo>> fetchLectures(
       BuildContext context, User student) async {
     try {
@@ -138,30 +148,33 @@ class StudentController {
           await apiService.getLectures(student, context);
 
       if (responseData.isEmpty) {
-        print('\nErrore la lista degli esami è vuota.');
+        print('\nErrore: la lista delle lezioni è vuota.');
       }
 
       return responseData;
     } catch (e) {
-      throw Exception('Errore Caricamento delle lezioni dello studente');
+      throw Exception(
+          'Errore durante il caricamento delle lezioni dello studente');
     }
   }
 
+  /// Ottiene tutte le prenotazioni di uno studente.
+  /// Ritorna una lista di [ReservationInfo].
   Future<List<ReservationInfo>> fetchAllReservationStudent(
       User student, BuildContext context) async {
     try {
       final List<ReservationInfo> responseData =
           await apiService.getReservationStudents(student, context);
 
-      print('Lunghezza lista Reservation${responseData.length}');
+      print('Lunghezza lista prenotazioni: ${responseData.length}');
 
       if (responseData.isEmpty) {
-        print('\nErrore la lista delle prenotazioni è vuota.');
+        print('\nErrore: la lista delle prenotazioni è vuota.');
       }
 
       return responseData;
     } catch (e) {
-      throw Exception('Errore Caricamento Corsi $e');
+      throw Exception('Errore durante il caricamento delle prenotazioni: $e');
     }
   }
 }
