@@ -95,11 +95,6 @@ class InfoAppPage extends StatelessWidget {
         'asset': 'assets/team/gm.jpg',
         'role': 'Developer'
       },
-      {
-        'name': 'Nunzio Napolitano',
-        'asset': 'assets/team/nn.jpg',
-        'role': 'Responsabile Mobile Store'
-      },
     ];
 
     List<Widget> developerInfoList = [];
