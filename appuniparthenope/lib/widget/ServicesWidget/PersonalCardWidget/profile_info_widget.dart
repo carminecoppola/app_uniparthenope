@@ -42,15 +42,15 @@ class ProfileInfoWidget extends StatelessWidget {
   }
 }
 
-class AvatarWidget extends StatelessWidget {
-  const AvatarWidget({super.key});
+// class AvatarWidget extends StatelessWidget {
+//   const AvatarWidget({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return const CircleAvatar(
-      radius: 50,
-      backgroundColor: Colors.white,
-      child: Icon(Icons.person, size: 50),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return const CircleAvatar(
+//       radius: 50,
+//       backgroundColor: Colors.white,
+//       child: Icon(Icons.person, size: 50),
+//     );
+//   }
+// }

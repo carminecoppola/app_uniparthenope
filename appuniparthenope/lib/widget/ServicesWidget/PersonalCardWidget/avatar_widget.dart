@@ -2,6 +2,8 @@ import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:io';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AvatarWidget extends StatelessWidget {
   const AvatarWidget({super.key});
@@ -9,6 +11,15 @@ class AvatarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profileImage = Provider.of<AuthProvider>(context).profileImage;
+    ImageProvider<Object>? backgroundImage;
+
+    if (kIsWeb && profileImage != null) {
+      backgroundImage = NetworkImage(profileImage);
+    } else if (profileImage != null) {
+      backgroundImage = FileImage(File(profileImage));
+    } else {
+      backgroundImage = const AssetImage('assets/user_profile_default.jpg');
+    }
 
     return Center(
       child: Container(
@@ -22,9 +33,7 @@ class AvatarWidget extends StatelessWidget {
         child: CircleAvatar(
           radius: 50,
           backgroundColor: Colors.transparent,
-          backgroundImage: profileImage != null
-              ? AssetImage(profileImage)
-              : const AssetImage('assets/user_profile_default.jpg'),
+          backgroundImage: backgroundImage,
         ),
       ),
     );

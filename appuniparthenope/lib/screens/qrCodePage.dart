@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../main.dart';
+import '../widget/bottomNavBarProf.dart';
 import '../widget/navbar.dart';
 import '../widget/bottomNavBar.dart';
 import '../widget/qrCode_widget.dart';
 import '../provider/auth_provider.dart';
 import '../utilityFunctions/authUtilsFunction.dart';
+import 'dart:io';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class QRCodePage extends StatelessWidget {
   final String? profileImage;
 
-  const QRCodePage({Key? key, this.profileImage});
+  const QRCodePage({Key? key, this.profileImage}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +24,19 @@ class QRCodePage extends StatelessWidget {
         ? user!.trattiCarriera[0]
         : null;
     final profileImage = Provider.of<AuthProvider>(context).profileImage;
+
+    ImageProvider<Object>? profileImageProvider;
+
+    if (profileImage != null && profileImage.isNotEmpty) {
+      if (kIsWeb) {
+        profileImageProvider = NetworkImage(profileImage);
+      } else {
+        profileImageProvider = FileImage(File(profileImage));
+      }
+    } else {
+      profileImageProvider =
+          const AssetImage('assets/user_profile_default.jpg');
+    }
 
     return Scaffold(
       appBar: const NavbarComponent(),
@@ -33,9 +49,10 @@ class QRCodePage extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
                 side: const BorderSide(
-                    color: AppColors.detailsColor,
-                    width: 4,
-                    strokeAlign: BorderSide.strokeAlignOutside),
+                  color: AppColors.detailsColor,
+                  width: 4,
+                  strokeAlign: BorderSide.strokeAlignOutside,
+                ),
               ),
               elevation: 20.0,
               shadowColor: Colors.grey,
@@ -73,22 +90,31 @@ class QRCodePage extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Container(
-                              width: 90,
-                              height: 90,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
-                                  image: profileImage != null &&
-                                          profileImage.isNotEmpty
-                                      ? AssetImage(profileImage)
-                                      : const AssetImage(
-                                          'assets/user_profile_default.jpg'),
-                                  fit: BoxFit.cover,
-                                ),
-                                border: Border.all(
-                                  color: AppColors.detailsColor,
-                                  width: 3,
+                            GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => Dialog(
+                                    child: Image(
+                                      image: profileImageProvider!,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                width: 90,
+                                height: 90,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                    image: profileImageProvider!,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  border: Border.all(
+                                    color: AppColors.detailsColor,
+                                    width: 3,
+                                  ),
                                 ),
                               ),
                             ),
@@ -223,7 +249,9 @@ class QRCodePage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const BottomNavBarComponent(),
+      bottomNavigationBar: authenticatedUser!.user.grpDes == 'Studenti'
+          ? const BottomNavBarComponent()
+          : const BottomNavBarProfComponent(),
     );
   }
 

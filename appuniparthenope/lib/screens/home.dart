@@ -33,10 +33,8 @@ class _HomePageState extends State<HomePage> {
         Provider.of<AuthProvider>(context, listen: false).authenticatedUser;
 
     if (authenticatedUser != null) {
-      // Ensure that context is still mounted before performing operations
       if (!mounted) return;
 
-      // Se l'utente è autenticato, ed è uno Studente carica le sue prenotazioni
       if (authenticatedUser.user.grpDes == 'Studenti') {
         await StudentUtils.anagrafeUser(context, authenticatedUser.user);
         if (!mounted) return;
@@ -44,7 +42,6 @@ class _HomePageState extends State<HomePage> {
             context, authenticatedUser.user);
       } else if (authenticatedUser.user.grpDes == 'Docenti') {
         await StudentUtils.anagrafeUser(context, authenticatedUser.user);
-        //Nel caso carico
       } else {
         if (!mounted) return;
         const CustomAlertDialog(

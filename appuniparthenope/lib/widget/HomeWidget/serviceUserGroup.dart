@@ -1,13 +1,13 @@
 import 'package:appuniparthenope/main.dart';
-import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
-import 'package:appuniparthenope/utilityFunctions/weatherFunction.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:provider/provider.dart';
+
+import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
+import 'package:appuniparthenope/utilityFunctions/weatherFunction.dart';
 import '../../provider/bottomNavBar_provider.dart';
 import '../../utilityFunctions/professorUtilsFunction.dart';
-
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class ServiceCard extends StatelessWidget {
   final String imagePath;
@@ -45,9 +45,10 @@ class ServiceCard extends StatelessWidget {
             Text(
               title,
               style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryColor),
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: AppColors.primaryColor,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 5),
@@ -70,8 +71,8 @@ class ServiceCard extends StatelessWidget {
   }
 }
 
-//Gruppo Card Studenti
-class ServiceGroupStudentCard extends StatelessWidget {
+// Gruppo Card Studenti
+class ServiceGroupStudentCard extends StatefulWidget {
   const ServiceGroupStudentCard({
     super.key,
     required this.authenticatedUser,
@@ -80,81 +81,146 @@ class ServiceGroupStudentCard extends StatelessWidget {
   final UserInfo authenticatedUser;
 
   @override
+  _ServiceGroupStudentCardState createState() =>
+      _ServiceGroupStudentCardState();
+}
+
+class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController.addListener(() {
+      final page = (_pageController.page ?? 0).round();
+      if (page != _currentPage) {
+        setState(() {
+          _currentPage = page;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    List<List<Widget>> pages = [
+      [
+        GestureDetector(
+          onTap: () {
+            StudentUtils.fetchDataAndUpdateStats(
+                context, widget.authenticatedUser.user);
+            final bottomNavBarProvider =
+                Provider.of<BottomNavBarProvider>(context, listen: false);
+            bottomNavBarProvider.updateIndex(1);
+            Navigator.pushNamed(context, '/carrerStudent');
+          },
+          child: const ServiceCard(
+            imagePath: 'assets/icon/services/careerStudent.png',
+            title: 'Carriera',
+            description:
+                'Qui puoi visualizzare i dettagli relativi agli esami che hai superato.',
+          ),
+        ),
+        GestureDetector(
+          onTap: () async {
+            await StudentUtils.allCourseStudent(
+                context, widget.authenticatedUser.user);
+            await StudentUtils.allReservationStudent(
+                context, widget.authenticatedUser.user);
+            Navigator.pushNamed(context, '/courseStudent');
+          },
+          child: const ServiceCard(
+            imagePath: 'assets/icon/services/courses2.png',
+            title: 'Corsi',
+            description:
+                'Puoi visualizzare i corsi da seguire per ogni anno accademico previsti.',
+          ),
+        ),
+      ],
+      [
+        GestureDetector(
+          onTap: () {
+            StudentUtils.taxesStudent(context, widget.authenticatedUser.user);
+            Navigator.pushNamed(context, '/feesStudent');
+          },
+          child: const ServiceCard(
+            imagePath: 'assets/icon/services/tax2.png',
+            title: 'Tasse',
+            description:
+                'Puoi tenere sotto controllo la situazione delle tasse universitarie.',
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            WeatherFunctions.getWeather(context);
+            Navigator.pushNamed(context, '/watherPage');
+          },
+          child: const ServiceCard(
+            imagePath: 'assets/icon/services/weather2.png',
+            title: 'Meteo',
+            description:
+                'Puoi utilizzare il servizio meteo dell\'Università Parthenope.',
+          ),
+        ),
+      ],
+    ];
+
     return Container(
       padding: const EdgeInsets.all(15.0),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            GestureDetector(
-              onTap: () {
-                StudentUtils.fetchDataAndUpdateStats(
-                    context, authenticatedUser.user);
-
-                final bottomNavBarProvider =
-                    Provider.of<BottomNavBarProvider>(context, listen: false);
-                bottomNavBarProvider.updateIndex(1);
-                Navigator.pushNamed(context, '/carrerStudent');
+      child: Column(
+        children: [
+          Container(
+            height: 250, // Imposta l'altezza del PageView
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: pages.length,
+              itemBuilder: (context, index) {
+                return Row(
+                  children: pages[index].map((card) {
+                    return Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: card,
+                      ),
+                    );
+                  }).toList(),
+                );
               },
-              child: const ServiceCard(
-                imagePath: 'assets/icon/services/careerStudent.png',
-                title: 'Carriera',
-                description:
-                    'Qui puoi visualizzare i dettagli relativi agli esami che hai superato.',
+            ),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(
+              pages.length, // Numero totale di pagine
+              (index) => Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                width: 8.0,
+                height: 8.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _currentPage == index
+                      ? AppColors.primaryColor
+                      : Colors.grey,
+                ),
               ),
             ),
-            const SizedBox(width: kIsWeb ? 50 : 5),
-            GestureDetector(
-              onTap: () async {
-                StudentUtils.allCourseStudent(context, authenticatedUser.user);
-                StudentUtils.allReservationStudent(
-                    context, authenticatedUser.user);
-                Navigator.pushNamed(context, '/courseStudent');
-              },
-              child: const ServiceCard(
-                imagePath: 'assets/icon/services/courses2.png',
-                title: 'Corsi',
-                description:
-                    'Puoi visualizzare i corsi da seguire per ogni anno accademico previsti.',
-              ),
-            ),
-            const SizedBox(width: kIsWeb ? 50 : 5), // Spazio tra le card
-            GestureDetector(
-              onTap: () {
-                StudentUtils.taxesStudent(context, authenticatedUser.user);
-                Navigator.pushNamed(context, '/feesStudent');
-              },
-              child: const ServiceCard(
-                imagePath: 'assets/icon/services/tax2.png',
-                title: 'Tasse',
-                description:
-                    'Puoi tenere sotto controllo la situazione delle tasse universitarie.',
-              ),
-            ),
-            const SizedBox(width: kIsWeb ? 50 : 5), // Spazio tra le card
-            GestureDetector(
-              onTap: () {
-                WeatherFunctions.getWeather(context);
-                Navigator.pushNamed(context, '/watherPage');
-              },
-              child: const ServiceCard(
-                imagePath: 'assets/icon/services/weather2.png',
-                title: 'Meteo',
-                description:
-                    'Puoi utilizzare il servizio meteo dell\'Università Parthenope.',
-              ),
-            ),
-            const SizedBox(width: kIsWeb ? 50 : 5),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
 
-//Gruppo Card Docenti
-class ServiceGroupProfCard extends StatelessWidget {
+// Gruppo Card Docenti
+class ServiceGroupProfCard extends StatefulWidget {
   const ServiceGroupProfCard({
     super.key,
     required this.authenticatedUser,
@@ -163,72 +229,134 @@ class ServiceGroupProfCard extends StatelessWidget {
   final UserInfo authenticatedUser;
 
   @override
+  _ServiceGroupProfCardState createState() => _ServiceGroupProfCardState();
+}
+
+class _ServiceGroupProfCardState extends State<ServiceGroupProfCard> {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController.addListener(() {
+      final page = (_pageController.page ?? 0).round();
+      if (page != _currentPage) {
+        setState(() {
+          _currentPage = page;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    List<List<Widget>> pages = [
+      [
+        GestureDetector(
+          onTap: () {
+            StudentUtils.allRooms(context);
+            Navigator.pushNamed(context, '/classroomTeachers');
+          },
+          child: const ServiceCard(
+            imagePath: 'assets/icon/services/classroom3.png',
+            title: 'Aule',
+            description: 'Qui è possibile visualizzare e prenotare le aule.',
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            ProfessorUtils.allCourseProfessor(
+                context, widget.authenticatedUser.user);
+            final bottomNavBarProvider =
+                Provider.of<BottomNavBarProvider>(context, listen: false);
+            bottomNavBarProvider.updateIndex(1);
+            Navigator.pushNamed(context, '/courseTeachers');
+          },
+          child: const ServiceCard(
+            imagePath: 'assets/icon/services/courses2.png',
+            title: 'Corsi',
+            description:
+                'È possibile visualizzare i propri corsi dell\'anno accademico.',
+          ),
+        ),
+      ],
+      [
+        GestureDetector(
+          onTap: () {
+            StudentUtils.allEvents(context);
+            Navigator.pushNamed(context, '/eventsTeachers');
+          },
+          child: const ServiceCard(
+            imagePath: 'assets/icon/services/events2.png',
+            title: 'Eventi',
+            description:
+                'Qui puoi visualizzare gli eventi che sono stati organizzati.',
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            WeatherFunctions.getWeather(context);
+            Navigator.pushNamed(context, '/watherPage');
+          },
+          child: const ServiceCard(
+            imagePath: 'assets/icon/services/weather2.png',
+            title: 'Meteo',
+            description:
+                'Puoi utilizzare il servizio meteo dell\'Università Parthenope.',
+          ),
+        ),
+      ],
+    ];
+
     return Container(
       padding: const EdgeInsets.all(15.0),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            GestureDetector(
-              onTap: () {
-                StudentUtils.allRooms(context);
-                Navigator.pushNamed(context, '/classroomTeachers');
+      child: Column(
+        children: [
+          Container(
+            height: 250, // Imposta l'altezza del PageView
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: pages.length,
+              itemBuilder: (context, index) {
+                return Row(
+                  children: pages[index].map((card) {
+                    return Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: card,
+                      ),
+                    );
+                  }).toList(),
+                );
               },
-              child: const ServiceCard(
-                imagePath: 'assets/icon/services/classroom3.png',
-                title: 'Aule',
-                description:
-                    'Qui è possibile visualizzare e prenotare le aule.',
+            ),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(
+              pages.length, // Numero totale di pagine
+              (index) => Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                width: 8.0,
+                height: 8.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _currentPage == index
+                      ? AppColors.primaryColor
+                      : Colors.grey,
+                ),
               ),
             ),
-            const SizedBox(width: kIsWeb ? 50 : 5),
-            GestureDetector(
-              onTap: () {
-                ProfessorUtils.allCourseProfessor(
-                    context, authenticatedUser.user);
-                //Aggiornamento bottomNavBarProvider
-                final bottomNavBarProvider =
-                    Provider.of<BottomNavBarProvider>(context, listen: false);
-                bottomNavBarProvider.updateIndex(1);
-                Navigator.pushNamed(context, '/courseTeachers');
-              },
-              child: const ServiceCard(
-                imagePath: 'assets/icon/services/courses2.png',
-                title: 'Corsi',
-                description:
-                    'È possibile visualizzare i propri corsi dell\'anno accademico.',
-              ),
-            ),
-            const SizedBox(width: kIsWeb ? 50 : 5),
-            GestureDetector(
-              onTap: () {
-                StudentUtils.allEvents(context);
-                Navigator.pushNamed(context, '/eventsTeachers');
-              },
-              child: const ServiceCard(
-                imagePath: 'assets/icon/services/events2.png',
-                title: 'Eventi',
-                description:
-                    'Qui puoi visualizzare gli eventi che sono stati organizzati.',
-              ),
-            ),
-            const SizedBox(width: kIsWeb ? 50 : 5),
-            GestureDetector(
-              onTap: () {
-                WeatherFunctions.getWeather(context);
-                Navigator.pushNamed(context, '/watherPage');
-              },
-              child: const ServiceCard(
-                imagePath: 'assets/icon/services/weather2.png',
-                title: 'Meteo',
-                description:
-                    'Puoi utilizzare il servizio meteo dell\'Università Parthenope.',
-              ),
-            ),
-            const SizedBox(width: kIsWeb ? 50 : 5),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

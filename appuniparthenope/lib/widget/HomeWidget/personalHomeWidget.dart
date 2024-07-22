@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:io';
 
 class PersonalCardUser extends StatelessWidget {
   final VoidCallback onTap;
@@ -22,6 +23,16 @@ class PersonalCardUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ImageProvider<Object>? backgroundImage;
+
+    if (kIsWeb && profileImage != null) {
+      backgroundImage = NetworkImage(profileImage!);
+    } else if (profileImage != null) {
+      backgroundImage = FileImage(File(profileImage!));
+    } else {
+      backgroundImage = const AssetImage('assets/user_profile_default.jpg');
+    }
+
     return GestureDetector(
       onTap: onTap,
       child: Card(
@@ -78,11 +89,7 @@ class PersonalCardUser extends StatelessWidget {
               const Spacer(),
               CircleAvatar(
                 radius: 35,
-                backgroundImage: profileImage != null
-                    ? Image.asset(profileImage!).image
-                    : Image.asset(
-                        'assets/user_profile_default.jpg',
-                      ).image,
+                backgroundImage: backgroundImage,
                 child: Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,

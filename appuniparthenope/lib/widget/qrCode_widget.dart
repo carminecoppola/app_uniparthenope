@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../main.dart';
 import '../provider/auth_provider.dart';
+import 'dart:io';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class QRCodeWidget extends StatefulWidget {
   const QRCodeWidget({super.key});
@@ -18,6 +20,16 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
   Widget build(BuildContext context) {
     final qrCode = Provider.of<AuthProvider>(context).qrCode;
 
+    ImageProvider<Object>? qrCodeImage;
+
+    if (kIsWeb && qrCode != null) {
+      qrCodeImage = NetworkImage(qrCode);
+    } else if (qrCode != null) {
+      qrCodeImage = FileImage(File(qrCode));
+    } else {
+      qrCodeImage = const AssetImage('assets/user_profile_default.jpg');
+    }
+
     return GestureDetector(
       onTap: () {
         showDialog(
@@ -27,7 +39,7 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
               width: 300,
               height: 300,
               child: qrCode != null
-                  ? Image.asset(qrCode, fit: BoxFit.cover)
+                  ? Image(image: qrCodeImage!, fit: BoxFit.cover)
                   : const CustomLoadingIndicator(
                       text: 'Caricamento QR-Code',
                       myColor: AppColors.detailsColor,
@@ -50,7 +62,7 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
         child: qrCode != null
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.asset(qrCode, fit: BoxFit.cover),
+                child: Image(image: qrCodeImage!, fit: BoxFit.cover),
               )
             : const CircularProgressIndicator(
                 color: AppColors.detailsColor,

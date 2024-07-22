@@ -26,10 +26,10 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     initializeDateFormatting('it_IT');
 
     // Aggiungi degli eventi di esempio
-    _events.add(Event(DateTime.now(), "Esame Architettura Dei Calcolatori",
-        'Prova pratica', 'AULA 1 Primo Piano'));
-    _events.add(Event(DateTime.now().add(const Duration(days: 4)),
-        "Esame Tecnologie Web", 'Prova orale', 'AULA 6'));
+    // _events.add(Event(DateTime.now(), "Esame Architettura Dei Calcolatori",
+    //     'Prova pratica', 'AULA 1 Primo Piano'));
+    // _events.add(Event(DateTime.now().add(const Duration(days: 4)),
+    //     "Esame Tecnologie Web", 'Prova orale', 'AULA 6'));
   }
 
   @override

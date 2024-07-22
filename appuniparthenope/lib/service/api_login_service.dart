@@ -117,8 +117,20 @@ class ApiService {
 */
 
   Future<void> requestPermissions() async {
-    if (Platform.isAndroid || Platform.isIOS) {
-      if (await Permission.storage.request().isGranted) {
+    if (Platform.isAndroid) {
+      // Controlla la versione di Android
+      if (await Permission.storage.request().isGranted ||
+          await Permission.photos.request().isGranted ||
+          await Permission.videos.request().isGranted ||
+          await Permission.audio.request().isGranted) {
+        print('All permissions granted');
+      } else {
+        print('Permission denied');
+        // Gestione degli errori o richieste ripetute qui
+      }
+    } else if (Platform.isIOS) {
+      PermissionStatus status = await Permission.photos.request();
+      if (status.isGranted) {
         print('Permission granted');
       } else {
         print('Permission denied');
@@ -162,12 +174,15 @@ class ApiService {
         Uint8List imageData = response.bodyBytes;
 
         if (Platform.isAndroid || Platform.isIOS) {
+          print('\n Platform: $Platform');
           Directory appDocDir = await getApplicationDocumentsDirectory();
+          print('\n appDocDir: $appDocDir');
           String filePath =
-              '${appDocDir.path}/profile_image_${user.userId}.jpg'; // Nome file unico
+              '${appDocDir.path}/profile_image_${user.userId}.jpg';
           print('Image file path: $filePath');
 
           File imageFile = File(filePath);
+          print('\n imageFile: $imageFile');
           await imageFile.writeAsBytes(imageData);
           print('Image written to file');
 
@@ -175,6 +190,7 @@ class ApiService {
           print('File exists: $fileExists');
 
           if (fileExists) {
+            print('File exists: ${imageFile.path}');
             return imageFile.path;
           } else {
             throw Exception('File not found in specified path');

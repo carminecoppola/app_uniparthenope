@@ -44,6 +44,66 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
       );
     }
 
+    // Se tutti i dati sono presenti, ma la lista degli esami è vuota
+
+    if (allExamInfo.isEmpty) {
+      return Scaffold(
+        appBar: const NavbarComponent(),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(height: 10),
+            Center(
+              child: TotalExamStudentCard(
+                mediaTrentesimi: weightedAverageStats.trenta.toString(),
+                mediaCentesimi: weightedAverageStats.centodieci.toString(),
+                totTrentesimi: weightedAverageStats.baseTrenta.toString(),
+                totCentesimi: weightedAverageStats.baseCentodieci.toString(),
+                cfuPar: '${totalExamStats.cfuPar.toInt()}',
+                cfuTot: '${totalExamStats.cfuTot.toInt()}',
+                examSuperati: totalExamStats.numAdSuperate,
+                examTotali: totalExamStats.totAdSuperate,
+              ),
+            ),
+            const SizedBox(height: 30),
+            Center(
+              child: Card(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 5,
+                child: const Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.school,
+                        size: 50,
+                        color: Colors.orangeAccent,
+                      ),
+                      SizedBox(height: 15),
+                      Text(
+                        'Non hai nessun esame nella tua carriera',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.detailsColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        bottomNavigationBar: const BottomNavBarComponent(),
+      );
+    }
+
     // Se tutti i dati sono presenti, mostra il contenuto
     return Scaffold(
       appBar: const NavbarComponent(),
