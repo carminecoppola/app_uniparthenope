@@ -17,9 +17,7 @@ class _HomeGuestPageState extends State<HomeGuestPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const NavbarComponent(
-        showBackButton: false,
-      ),
+      appBar: const NavbarComponent(role: 'Guest'),
       body: SingleChildScrollView(
         child: Container(
           color: Colors.white,

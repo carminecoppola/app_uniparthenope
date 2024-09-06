@@ -15,7 +15,7 @@ class AccessLogsTable extends StatelessWidget {
 
     return Scaffold(
       appBar: const NavbarComponent(
-        showBackButton: false,
+        role: 'PTA',
       ),
       body: Container(
         padding: const EdgeInsets.all(20),

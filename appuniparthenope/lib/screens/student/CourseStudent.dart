@@ -31,7 +31,7 @@ class _CourseStudentState extends State<CourseStudentPage> {
     final examProvider = Provider.of<ExamDataProvider>(context, listen: false);
     final userProvider = Provider.of<AuthProvider>(context, listen: false);
     final user =
-        userProvider.authenticatedUser?.user.trattiCarriera[0].dettaglioTratto;
+        userProvider.authenticatedUser?.user.trattiCarriera?[0].dettaglioTratto;
 
     if (examProvider.allCourseStudent != null &&
         examProvider.allCourseStudent!.isNotEmpty &&
@@ -59,7 +59,7 @@ class _CourseStudentState extends State<CourseStudentPage> {
 
     final userProvider = Provider.of<AuthProvider>(context, listen: false);
     final user =
-        userProvider.authenticatedUser?.user.trattiCarriera[0].dettaglioTratto;
+        userProvider.authenticatedUser?.user.trattiCarriera?[0].dettaglioTratto;
 
     final coursesByYear = {
       1: <CourseInfo>[],

@@ -3,15 +3,13 @@ import 'package:appuniparthenope/widget/ServicesWidget/LibraryWidget/libraryCard
 import 'package:flutter/material.dart';
 import '../../widget/navbar.dart';
 
-class HomePTAPage extends StatelessWidget {
-  const HomePTAPage({super.key});
+class LibraryPage extends StatelessWidget {
+  const LibraryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const NavbarComponent(
-        showBackButton: false,
-      ),
+      appBar: const NavbarComponent(role: 'PTA'),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

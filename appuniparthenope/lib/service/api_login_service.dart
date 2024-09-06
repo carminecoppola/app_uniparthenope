@@ -41,7 +41,7 @@ class ApiService {
     final String persId = student.persId.toString();
     final String docenteId = student.docenteId.toString();
 
-    final String userId = student.userId;
+    final String? userId = student.userId;
     final String password =
         Provider.of<AuthProvider>(context, listen: false).password!;
 

@@ -1,6 +1,6 @@
-import 'package:appuniparthenope/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:appuniparthenope/main.dart';
 
 class SingleExamCard extends StatelessWidget {
   final int index;
@@ -36,6 +36,7 @@ class SingleExamCard extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           child: Row(
             children: [
+              // Cerchio per il voto e la coccarda
               Container(
                 width: 60,
                 height: 60,
@@ -48,21 +49,22 @@ class SingleExamCard extends StatelessWidget {
                   ),
                 ),
                 child: Center(
-                  child: Row(
+                  child: Stack(
+                    alignment: Alignment.center,
                     children: [
-                      const SizedBox(width: 5),
                       // Visualizza l'icona della coccarda solo se withHonors è true
                       if (withHonors)
-                        SvgPicture.asset(
-                          'assets/icon/coccarda.svg', // Percorso dell'icona SVG
-                          width: 38, // Larghezza dell'icona
-                          height: 38, // Altezza dell'icona
-                          color: AppColors.detailsColor,
+                        Positioned(
+                          child: SvgPicture.asset(
+                            'assets/icon/coccarda.svg', // Percorso dell'icona SVG
+                            width: 50, // Larghezza dell'icona
+                            height: 50, // Altezza dell'icona
+                            color: AppColors.successColor,
+                          ),
                         ),
-                      const SizedBox(width: 6),
                       // Visualizza il voto solo se withHonors è false
                       if (!withHonors)
-                        Center(
+                        Positioned(
                           child: Text(
                             voteExam,
                             style: TextStyle(
@@ -73,7 +75,7 @@ class SingleExamCard extends StatelessWidget {
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                        )
+                        ),
                     ],
                   ),
                 ),
@@ -103,6 +105,7 @@ class SingleExamCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 10),
+              // Riquadro CFU
               Container(
                 width: 40,
                 height: 40,

@@ -1,5 +1,6 @@
-import 'package:appuniparthenope/main.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../main.dart';
 import '../widget/bottomNavBar.dart';
 import '../widget/navbar.dart';
 
@@ -10,64 +11,106 @@ class InfoAppPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const NavbarComponent(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(
-            height: 30,
-          ),
-          Image.asset(
-            'assets/logo.png',
-            width: 150, // Imposta la larghezza desiderata
-            height: 150, // Imposta l'altezza desiderata
-          ),
-          const SizedBox(height: 12),
-          const Text(
-            'app@Uniparthenope',
-            style: TextStyle(
-              fontSize: 14,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Logo dell'università
+                Image.asset(
+                  'assets/logo.png',
+                  width: 150,
+                  height: 150,
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              'app@Uniparthenope',
+              style: TextStyle(
+                fontSize: 14,
+                color: AppColors.primaryColor,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const Text(
+              'Version: 4.0.1',
+              style: TextStyle(
+                fontSize: 12,
+                color: AppColors.textColor,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 5),
+            Container(
+              width: 190,
+              height: 2,
               color: AppColors.primaryColor,
             ),
-            textAlign: TextAlign.center,
-          ),
-          const Text(
-            'Version: 3.0.6',
-            style: TextStyle(
-              fontSize: 12,
-              color: AppColors.textColor,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 5),
-          Container(
-            width: 190,
-            height: 2,
-            color: AppColors.primaryColor,
-          ),
-          const SizedBox(height: 50),
-          // Card Meteo
-          Center(
-            child: SizedBox(
-              width: 360,
-              height: 300,
-              child: Card(
-                color: AppColors.primaryColor,
-                elevation: 10,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(35),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(30),
-                  child: ListView(
-                    scrollDirection: Axis.vertical,
-                    children: _buildDeveloperInfoList(),
+            const SizedBox(height: 50),
+            Center(
+              child: SizedBox(
+                width: 360,
+                height: 300,
+                child: Card(
+                  color: AppColors.primaryColor,
+                  elevation: 10,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(35),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: ListView(
+                      scrollDirection: Axis.vertical,
+                      children: _buildDeveloperInfoList(),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 30),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+              margin: const EdgeInsets.symmetric(horizontal: 20),
+              decoration: BoxDecoration(
+                color: Colors.orange.shade50,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 6,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.email,
+                        color: AppColors.primaryColor, size: 30),
+                    onPressed: () {
+                      _sendEmail();
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Contatta gli sviluppatori se hai notato\nun problema nell\'applicazione',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 30),
+          ],
+        ),
       ),
       bottomNavigationBar: const BottomNavBarComponent(),
     );
@@ -108,11 +151,10 @@ class InfoAppPage extends StatelessWidget {
         developerInfoList.add(const SizedBox(height: 5));
         developerInfoList.add(
           Container(
-            margin: const EdgeInsets.symmetric(
-                horizontal: 26.0), // Aggiungi margine laterale
+            margin: const EdgeInsets.symmetric(horizontal: 26.0),
             child: const Divider(
-              color: Colors.white, // Colore bianco
-              thickness: 0.5, // Spessore della linea
+              color: Colors.white,
+              thickness: 0.5,
             ),
           ),
         );
@@ -120,6 +162,22 @@ class InfoAppPage extends StatelessWidget {
       }
     }
     return developerInfoList;
+  }
+
+  void _sendEmail() async {
+    final Uri emailUri = Uri(
+      scheme: 'mailto',
+      path: 'prova@developer.it',
+      queryParameters: {
+        'subject': 'Richiesta di Supporto',
+      },
+    );
+
+    if (await canLaunchUrl(emailUri)) {
+      await launchUrl(emailUri);
+    } else {
+      throw 'Could not launch $emailUri';
+    }
   }
 }
 
@@ -163,9 +221,10 @@ class DeveloperInfo extends StatelessWidget {
             Text(
               '\t\t\t$role',
               style: const TextStyle(
-                  fontSize: 13,
-                  color: Colors.white,
-                  fontStyle: FontStyle.italic),
+                fontSize: 13,
+                color: Colors.white,
+                fontStyle: FontStyle.italic,
+              ),
             ),
           ],
         ),

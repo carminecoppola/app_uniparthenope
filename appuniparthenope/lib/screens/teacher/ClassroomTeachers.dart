@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../provider/auth_provider.dart';
 import '../../widget/CustomLoadingIndicator.dart';
 import '../../widget/ServicesWidget/RoomWidget/areaDropdown.dart';
 import '../../widget/ServicesWidget/RoomWidget/roomList.dart';
@@ -30,8 +32,13 @@ class _ClassroomTeacherPageState extends State<ClassroomTeacherPage> {
 
   @override
   Widget build(BuildContext context) {
+    final authenticatedUser =
+        Provider.of<AuthProvider>(context, listen: false).authenticatedUser;
+
     return Scaffold(
-      appBar: const NavbarComponent(),
+      appBar: NavbarComponent(
+        role: authenticatedUser!.user.grpDes.toString(),
+      ),
       body: Container(
         color: Colors.white,
         child: Center(

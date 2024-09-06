@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                 firstName: authenticatedUser.user.firstName ?? '',
                 lastName: authenticatedUser.user.lastName ?? '',
                 identificativoLabel: 'Matricola:',
-                id: authenticatedUser.user.trattiCarriera[0].matricola
+                id: authenticatedUser.user.trattiCarriera![0].matricola
                     .toString(),
                 profileImage: profileImage,
               ),

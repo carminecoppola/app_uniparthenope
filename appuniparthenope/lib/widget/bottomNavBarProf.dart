@@ -81,7 +81,7 @@ class BottomNavBarProfComponent extends StatelessWidget {
                     Navigator.pushNamed(context, '/classroomsTeachers');
                   },
                   icon: Icons.school_sharp,
-                  text: 'Classi',
+                  text: 'Aule',
                 ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {

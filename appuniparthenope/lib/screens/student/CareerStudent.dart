@@ -7,6 +7,7 @@ import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../provider/auth_provider.dart';
 import '../../widget/CustomLoadingIndicator.dart';
 
 class StudentCarrerPage extends StatefulWidget {
@@ -19,6 +20,8 @@ class StudentCarrerPage extends StatefulWidget {
 class _StudentCarrerPageState extends State<StudentCarrerPage> {
   @override
   Widget build(BuildContext context) {
+    final authenticatedUser =
+        Provider.of<AuthProvider>(context, listen: false).authenticatedUser;
     final totalExamStats =
         Provider.of<ExamDataProvider>(context).totalExamStudent;
     final aritmeticAverageStats =
@@ -32,15 +35,16 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
         aritmeticAverageStats == null ||
         weightedAverageStats == null ||
         allExamInfo == null) {
-      return const Scaffold(
-        appBar: NavbarComponent(),
-        body: Center(
+      return Scaffold(
+        appBar:
+            NavbarComponent(role: authenticatedUser!.user.grpDes.toString()),
+        body: const Center(
           child: CustomLoadingIndicator(
             text: 'Caricamento carriera...',
             myColor: AppColors.primaryColor,
           ),
         ),
-        bottomNavigationBar: BottomNavBarComponent(),
+        bottomNavigationBar: const BottomNavBarComponent(),
       );
     }
 

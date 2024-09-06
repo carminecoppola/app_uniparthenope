@@ -98,6 +98,7 @@ class _FeesStudentState extends State<FeesStudent>
                                                           .toString(),
                                                       amount: toPayItem.importo
                                                           .toString(),
+                                                      isPaid: false,
                                                     ))
                                                 .toList(),
                                           ),
@@ -126,6 +127,7 @@ class _FeesStudentState extends State<FeesStudent>
                                                     .toString(),
                                                 amount: payedItem.importo
                                                     .toString(),
+                                                isPaid: true,
                                               ))
                                           .toList(),
                                     ),

@@ -34,6 +34,7 @@ dependencies:
   dots_indicator: ^3.0.0
   location: ^6.0.2
   permission_handler: ^11.3.1
+  package_info_plus: ^8.0.2
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +68,7 @@ flutter:
   assets:
     - assets/logo.png
     - assets/textLogo.png
+    - assets/pta.png
     - assets/meteoUniLogo.png
     - assets/user_profile_default.jpg
     - assets/qrcode_default.png
@@ -85,6 +87,7 @@ flutter:
     - assets/icon/appointmentIcon.png
     - assets/icon/discussionIcon.png
     - assets/icon/practicalTest.png
+    - assets/icon/services/libraryService.png
 
     # Icon Student Service Image:
     - assets/icon/services/careerStudent.png

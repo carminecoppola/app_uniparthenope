@@ -41,7 +41,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const NavbarComponent(
-        showBackButton: false,
+        role: 'PTA',
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),

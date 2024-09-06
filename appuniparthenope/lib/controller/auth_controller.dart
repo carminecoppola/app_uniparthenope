@@ -16,15 +16,20 @@ class AuthController {
     try {
       final Map<String, dynamic> responseData =
           await apiService.login(username, password, context);
-      final String authToken = responseData['authToken'];
-      final Map<String, dynamic> userData = responseData['user'];
 
-      final List<dynamic> trattiCarrieraDynamic = userData['trattiCarriera'];
+      final String authToken = responseData['authToken'] ?? '';
+
+      final Map<String, dynamic>? userData = responseData['user'];
+      if (userData == null) {
+        throw Exception('Dati utente mancanti');
+      }
+
+      final List<dynamic> trattiCarrieraDynamic =
+          userData['trattiCarriera'] ?? [];
 
       if (trattiCarrieraDynamic.isNotEmpty) {
         String? selectedCareerId;
 
-        // Se ci sono più carriere, mostra il dialogo di selezione
         if (trattiCarrieraDynamic.length > 1) {
           selectedCareerId = await showCareerSelectionDialog(
               context, trattiCarrieraDynamic.cast<Map<String, dynamic>>());
@@ -35,26 +40,44 @@ class AuthController {
           selectedCareerId = trattiCarrieraDynamic[0]['cdsId'].toString();
         }
 
-        // Filtra la carriera selezionata
         final selectedCareer = trattiCarrieraDynamic.firstWhere(
-            (career) => career['cdsId'].toString() == selectedCareerId);
+            (career) => career['cdsId'].toString() == selectedCareerId,
+            orElse: () => throw Exception('Carriera selezionata non trovata'));
 
-        // Costruisce un oggetto User con i dati ottenuti
-        final UserInfo authenticatedUser = UserInfo(
+        return UserInfo(
           authToken: authToken,
           user: User.fromJson(userData),
           selectedCareer: TrattiCarriera.fromJson(selectedCareer),
         );
-
-        return authenticatedUser;
       } else if (userData['grpDes'] == 'Docenti') {
-        // Costruisce un oggetto User senza carriera per i docenti
-        final UserInfo authenticatedUser = UserInfo(
+        return UserInfo(
           authToken: authToken,
           user: User.fromJson(userData),
           selectedCareer: null,
         );
-        return authenticatedUser;
+      } else if (userData['grpDes'] == 'PTA') {
+        return UserInfo(
+          authToken: authToken,
+          user: User.fromJson(userData),
+          selectedCareer: null,
+        );
+      } else if (userData['grpDes'] == 'Ipot. Immatricolati' ||
+          userData['grpDes'] == 'Preiscritti' ||
+          userData['grpDes'] == 'Iscritti') {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const CustomAlertDialog(
+              title: 'Area Riservata Non Disponibile',
+              content:
+                  'Gentile utente, attualmente non puoi ancora accedere alla tua area personale. Non preoccuparti, non appena la tua immatricolazione sarà completata, avrai accesso completo ai servizi. Grazie per la tua pazienza!',
+              buttonText: 'OK',
+              color: Colors.orange,
+              icon: Icons.info_outline,
+            );
+          },
+        );
+        throw Exception('Utente non ancora immatricolato');
       } else {
         throw Exception('Nessuna carriera trovata');
       }

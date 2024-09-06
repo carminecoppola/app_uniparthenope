@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/controller/auth_controller.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/EventWidget/custonSearchEventCard.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:appuniparthenope/widget/bottomNavBarProf.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../../model/studentService/events_data.dart';
+import '../../provider/auth_provider.dart';
 import '../../provider/exam_provider.dart';
 import '../../widget/CustomLoadingIndicator.dart';
 
@@ -53,6 +55,9 @@ class _EventsTeachersPageState extends State<EventsTeachersPage> {
 
   @override
   Widget build(BuildContext context) {
+    final authenticatedUser =
+        Provider.of<AuthProvider>(context, listen: false).authenticatedUser;
+
     final eventsDataProvider = Provider.of<ExamDataProvider>(context);
     final List<EventsInfo>? events = eventsDataProvider.allEventsList;
 
@@ -64,7 +69,9 @@ class _EventsTeachersPageState extends State<EventsTeachersPage> {
     }).toList();
 
     return Scaffold(
-      appBar: const NavbarComponent(),
+      appBar: NavbarComponent(
+        role: authenticatedUser!.user.grpDes.toString(),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

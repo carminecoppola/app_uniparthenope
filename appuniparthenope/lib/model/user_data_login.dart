@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class UserInfo {
-  final String authToken;
+  final String? authToken;
   final User user;
   final TrattiCarriera? selectedCareer;
 
@@ -35,39 +35,39 @@ class User {
   final String? aliasName;
   final String codFis;
   final int? docenteId;
-  final String firstName;
+  final String? firstName;
   final String grpDes;
-  final int grpId;
-  final int id;
+  final int? grpId;
+  final int? id;
   final int? idAb;
-  final String lastName;
+  final String? lastName;
   final int? persId;
-  final int sessionTimeout;
+  final int? sessionTimeout;
   final String? sex;
   final int? soggEstId;
-  final int tipoFirmaFaId;
-  final int tipoFirmaId;
+  final int? tipoFirmaFaId;
+  final int? tipoFirmaId;
   final List<TrattiCarriera> trattiCarriera;
-  final String userId;
+  final String? userId;
 
   User({
     this.aliasName,
     required this.codFis,
     this.docenteId,
-    required this.firstName,
+    this.firstName,
     required this.grpDes,
-    required this.grpId,
-    required this.id,
+    this.grpId,
+    this.id,
     this.idAb,
-    required this.lastName,
+    this.lastName,
     this.persId,
-    required this.sessionTimeout,
+    this.sessionTimeout,
     this.sex,
     this.soggEstId,
-    required this.tipoFirmaFaId,
-    required this.tipoFirmaId,
+    this.tipoFirmaFaId,
+    this.tipoFirmaId,
     required this.trattiCarriera,
-    required this.userId,
+    this.userId,
   });
 
   factory User.fromRawJson(String str) => User.fromJson(json.decode(str));

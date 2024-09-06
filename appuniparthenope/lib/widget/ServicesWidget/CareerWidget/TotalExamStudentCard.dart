@@ -1,7 +1,7 @@
-import 'package:appuniparthenope/main.dart';
-import 'package:appuniparthenope/widget/ServicesWidget/CareerWidget/loadingExamsCircle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:appuniparthenope/main.dart';
+import 'package:appuniparthenope/widget/ServicesWidget/CareerWidget/loadingExamsCircle.dart';
 
 class TotalExamStudentCard extends StatelessWidget {
   final String cfuPar, cfuTot;
@@ -26,6 +26,9 @@ class TotalExamStudentCard extends StatelessWidget {
     final Color textColor = examSuperati == examTotali
         ? AppColors.successColor
         : AppColors.detailsColor;
+
+    // Usa la funzione di utilità per ottenere il valore formattato di cfuTot
+    final formattedCfuTot = formatCfuValue(cfuPar, cfuTot);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -134,7 +137,7 @@ class TotalExamStudentCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        cfuTot,
+                        formattedCfuTot,
                         style: const TextStyle(
                           fontSize: 15,
                           color: AppColors.textColor,
@@ -151,4 +154,22 @@ class TotalExamStudentCard extends StatelessWidget {
       ),
     );
   }
+}
+
+// Funzione per errore CFU che serve a comparare
+// e formattare il valore totale di CFU
+String formatCfuValue(String cfuPar, String cfuTot) {
+  // Converti i valori in double
+  double cfuParValue = double.tryParse(cfuPar) ?? 0.0;
+  double cfuTotValue = double.tryParse(cfuTot) ?? 0.0;
+
+  // Se cfuPar è maggiore di cfuTot, imposta cfuTot uguale a cfuPar
+  if (cfuParValue > cfuTotValue) {
+    cfuTotValue = cfuParValue;
+  }
+
+  // Converti a intero se il numero non ha decimali significativi
+  return cfuTotValue % 1 == 0
+      ? cfuTotValue.toInt().toString()
+      : cfuTotValue.toString();
 }
