@@ -53,8 +53,8 @@ android {
         targetSdk 34
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        versionCode flutterVersionCode
-        versionName flutterVersionName
+        versionCode 4
+        versionName "4.0.1"
     }
 
     signingConfigs {
