@@ -35,7 +35,9 @@ class _LoginFormState extends State<LoginForm> {
   late Timer _timer;
   bool _biometricAvailable = false;
   BiometricType? _biometricType;
-  bool _loading = false; // Aggiunta variabile di stato per il caricamento
+  bool _loading = false;
+  bool _rememberMe = false; // Variabile per il salvataggio delle credenziali
+  bool _obscurePassword = true; // Variabile per la visibilità della password
 
   @override
   void initState() {
@@ -48,6 +50,16 @@ class _LoginFormState extends State<LoginForm> {
       });
     });
     _checkBiometricAvailability();
+    _loadSavedCredentials(); // Carica le credenziali salvate al lancio dell'app
+  }
+
+  Future<void> _loadSavedCredentials() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _usernameController.text = prefs.getString('username') ?? '';
+      _passwordController.text = prefs.getString('password') ?? '';
+      _rememberMe = prefs.getBool('rememberMe') ?? false;
+    });
   }
 
   Future<void> _checkBiometricAvailability() async {
@@ -120,11 +132,16 @@ class _LoginFormState extends State<LoginForm> {
     });
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('username', username);
-    await prefs.setString('password', password);
+    if (_rememberMe) {
+      await prefs.setString('username', username);
+      await prefs.setString('password', password);
+    } else {
+      await prefs.remove('username');
+      await prefs.remove('password');
+    }
+    await prefs.setBool('rememberMe', _rememberMe);
   }
 
-  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -200,8 +217,44 @@ class _LoginFormState extends State<LoginForm> {
                                   color: AppColors.primaryColor),
                               borderRadius: BorderRadius.circular(10.0),
                             ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                color: AppColors.primaryColor,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _obscurePassword = !_obscurePassword;
+                                });
+                              },
+                            ),
                           ),
-                          obscureText: true,
+                          obscureText:
+                              _obscurePassword, // Controlla la visibilità
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Checkbox(
+                              value: _rememberMe,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  _rememberMe = value ?? false;
+                                });
+                              },
+                              activeColor: AppColors.primaryColor,
+                              shape:
+                                  const CircleBorder(), // Rende il checkbox rotondo
+                            ),
+                            const Text(
+                              'Ricorda credenziali',
+                              style: TextStyle(
+                                color: AppColors.lightGray,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -229,9 +282,7 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 if (_biometricAvailable)
                   TextButton(
                     onPressed: _authenticateBiometric,
