@@ -91,24 +91,30 @@ class ReservationInfo {
 
   factory ReservationInfo.fromJson(Map<String, dynamic> json) =>
       ReservationInfo(
-        adId: json["adId"],
-        appId: json["appId"],
-        nomeAppello: json["nomeAppello"],
-        nomePres: json["nome_pres"],
-        cognomePres: json["cognome_pres"],
-        numIscritti: json["numIscritti"],
-        note: json["note"],
-        statoDes: json["statoDes"],
-        statoEsito: statoValues.map[json["statoEsito"]]!,
-        statoVerb: statoValues.map[json["statoVerb"]]!,
-        statoPubbl: statoValues.map[json["statoPubbl"]]!,
-        tipoApp: tipoAppValues.map[json["tipoApp"]]!,
-        aulaId: json["aulaId"],
-        edificioId: edificioIdValues.map[json["edificioId"]]!,
-        edificioDes: edificioDesValues.map[json["edificioDes"]]!,
-        aulaDes: json["aulaDes"],
-        desApp: json["desApp"],
-        dataEsa: json["dataEsa"],
+        adId: json["adId"] ?? 0,
+        appId: json["appId"] ?? 0,
+        nomeAppello: json["nomeAppello"] ?? '',
+        nomePres: json["nome_pres"] ?? '',
+        cognomePres: json["cognome_pres"] ?? '',
+        numIscritti: json["numIscritti"] ?? 0,
+        note: json["note"] ?? '',
+        statoDes: json["statoDes"] ?? '',
+        statoEsito:
+            statoValues.map[json["statoEsito"]] ?? Stato.A, // Default value
+        statoVerb:
+            statoValues.map[json["statoVerb"]] ?? Stato.A, // Default value
+        statoPubbl:
+            statoValues.map[json["statoPubbl"]] ?? Stato.A, // Default value
+        tipoApp: tipoAppValues.map[json["tipoApp"]] ??
+            TipoApp.APPELLO_CON_FIRMA_DIGITALE_REMOTA, // Default value
+        aulaId: json["aulaId"] ?? 0,
+        edificioId: edificioIdValues.map[json["edificioId"]] ??
+            EdificioId.EMPTY, // Default value
+        edificioDes: edificioDesValues.map[json["edificioDes"]] ??
+            EdificioDes.EMPTY, // Default value
+        aulaDes: json["aulaDes"] ?? '',
+        desApp: json["desApp"] ?? '',
+        dataEsa: json["dataEsa"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {

@@ -202,11 +202,13 @@ class StudentUtils {
       BuildContext context, User? authenticatedUser) async {
     final StudentController totalExamController = StudentController();
     try {
-      // Ottiene tutte le prenotazioni dello studente.
-      final allReservationStudent = await totalExamController
-          .fetchAllReservationStudent(authenticatedUser!, context);
+      if (authenticatedUser == null) {
+        throw Exception('Utente non autenticato');
+      }
 
-      // Aggiorna il provider con tutte le prenotazioni dello studente.
+      final allReservationStudent = await totalExamController
+          .fetchAllReservationStudent(authenticatedUser, context);
+
       final examDataProvider =
           Provider.of<ExamDataProvider>(context, listen: false);
       examDataProvider.setAllReservationStudent(allReservationStudent);

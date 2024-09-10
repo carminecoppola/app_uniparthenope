@@ -6,6 +6,7 @@ import 'package:appuniparthenope/widget/popupMenuItem.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/auth_provider.dart';
+import '../provider/exam_provider.dart';
 import '../utilityFunctions/authUtilsFunction.dart';
 import '../utilityFunctions/weatherFunction.dart';
 
@@ -18,6 +19,8 @@ class BottomNavBarComponent extends StatelessWidget {
     final authenticatedUser =
         Provider.of<AuthProvider>(context).authenticatedUser;
     final anagrafeUser = Provider.of<AuthProvider>(context).anagrafeUser;
+    final examDataProvider =
+        Provider.of<ExamDataProvider>(context, listen: false);
 
     return BottomNavigationBar(
       currentIndex: navigationProvider.currentIndex,
@@ -127,6 +130,7 @@ class BottomNavBarComponent extends StatelessWidget {
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
                     _showLogoutConfirmationDialog(context);
+                    examDataProvider.clearReservations();
                   },
                   icon: Icons.logout,
                   text: 'Logout',

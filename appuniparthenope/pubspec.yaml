@@ -1,10 +1,7 @@
 name: appuniparthenope
-description: "A new Flutter project."
+description: "The official app of the University of Naples 'Parthenope,' developed by students, offers a tailored experience for the academic community. Whether you are a student, teacher, or part of the administrative staff, you will have quick and easy access to all essential university information. Explore the new minimalist interface inspired by our university's colors, designed to make navigation intuitive and enjoyable. Keep track of your academic activities, available rooms, and university events all in one place."
 
-
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
-version: 1.0.0+1
+version: 4.0.1+1
 
 environment:
   sdk: '>=3.3.1 <4.0.0'
@@ -35,6 +32,7 @@ dependencies:
   location: ^6.0.2
   permission_handler: ^11.3.1
   package_info_plus: ^8.0.2
+  device_info_plus: ^10.1.2
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +64,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - pubspec.yaml
     - assets/logo.png
     - assets/textLogo.png
     - assets/pta.png

@@ -61,39 +61,42 @@ class WeatherInfoWidget extends StatelessWidget {
           textAlign: TextAlign.center,
           style: const TextStyle(
               color: AppColors.detailsColor,
-              fontSize: 18,
+              fontSize: 16,
+              fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          toCamelCase(dayOfWeek),
+          style: const TextStyle(
+              color: AppColors.backgroundColor,
+              fontSize: 12,
               fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
         Center(
           child: Image.asset(
             assets,
-            width: 120,
-            height: 120,
+            width: 100,
+            height: 100,
           ),
         ),
-        Text(
-          toCamelCase(dayOfWeek),
-          style: const TextStyle(
+        Center(
+          child: Text(
+            '$temperature°',
+            style: const TextStyle(
               color: AppColors.backgroundColor,
-              fontSize: 10,
-              fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          '$temperature°',
-          style: const TextStyle(
-            color: AppColors.backgroundColor,
-            fontSize: 30,
-            fontWeight: FontWeight.bold,
+              fontSize: 40,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-        Text(
-          toCamelCase(
-              description.replaceAll('It.', '').replaceAll('_', ' ')),
-          style: const TextStyle(
-            color: AppColors.backgroundColor,
-            fontSize: 10,
+        Center(
+          child: Text(
+            toCamelCase(description.replaceAll('It.', '').replaceAll('_', ' ')),
+            style: const TextStyle(
+                color: AppColors.backgroundColor,
+                fontSize: 14,
+                fontWeight: FontWeight.bold),
           ),
         ),
         const Divider(

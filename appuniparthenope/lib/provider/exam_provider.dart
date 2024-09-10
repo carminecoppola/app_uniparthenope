@@ -80,10 +80,14 @@ class ExamDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Metodo per impostare le prenotazioni dello studente
   void setAllReservationStudent(List<ReservationInfo> allReservation) {
     _allReservation = allReservation;
     _sortReservationByDate();
+    notifyListeners();
+  }
+
+  void clearReservations() {
+    _allReservation = [];
     notifyListeners();
   }
 

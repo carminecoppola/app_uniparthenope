@@ -21,6 +21,7 @@ class ApiWeatherService {
     final response = await http.get(url);
 
     print('getWeatherPlaces() Status: ${response.statusCode}');
+    print('Latitude:${latitude} & longitude: ${longitude}');
 
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
@@ -51,7 +52,7 @@ class ApiWeatherService {
       BuildContext context, PlacesInfo place) async {
     final url = Uri.parse('$baseUrl/products/wrf5/timeseries/${place.id}');
 
-    print(place.id);
+    print('\nPlace Id: {place.id}');
 
     final response = await http.get(url);
 
@@ -59,6 +60,8 @@ class ApiWeatherService {
 
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
+
+      print('\nTimeSeries: $jsonResponse');
 
       if (jsonResponse == null || !jsonResponse.containsKey('timeseries')) {
         throw Exception('JSON response does not contain "timeseries" key');

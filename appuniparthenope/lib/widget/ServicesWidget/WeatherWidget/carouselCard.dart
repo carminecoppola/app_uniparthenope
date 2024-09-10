@@ -51,7 +51,7 @@ class _CarouselCardState extends State<CarouselCard> {
                 if (timeSeriesList.isEmpty) {
                   return const Center(
                     child: CustomLoadingIndicator(
-                      text: 'Caricamento informazioni meteo',
+                      text: 'Caricamento\ninformazioni meteo',
                       myColor: AppColors.detailsColor,
                     ),
                   );
@@ -90,15 +90,22 @@ class _CarouselCardState extends State<CarouselCard> {
     final timeSeries = timeSeriesList[index];
     final placeName = Provider.of<WeatherDataProvider>(context).placeName;
 
+    // Truncate the placeName
+    final truncatedPlaceName = placeName.replaceAll('Comune di ', '');
+
+    // Debug prints
+    print('DateTime: ${timeSeries.dateTime}');
+    print('PlaceName: $truncatedPlaceName');
+
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: WeatherInfoWidget(
-        municipalita: placeName,
+        municipalita: truncatedPlaceName,
         dateTime: timeSeries.dateTime.toString(),
         iconAssetPath: timeSeries.icon.toString(),
         iconDescription: timeSeries.winds.toString(),
-        temperature: timeSeries.t2C!.toString().split('.')[0],
-        description: timeSeries.text!.it.toString(),
+        temperature: timeSeries.t2C.toString().split('.')[0],
+        description: timeSeries.text?.it ?? '',
         vento: timeSeries.wd10.toString(),
         velocitaVento: timeSeries.ws10.toString(),
         umidita: timeSeries,

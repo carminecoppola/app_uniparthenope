@@ -27,7 +27,7 @@ class WeatherUniPage extends StatelessWidget {
               height: 40,
             ),
             const Text(
-              'Weather',
+              'Meteo',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -47,7 +47,7 @@ class WeatherUniPage extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             Container(
-              width: 120,
+              width: 150,
               height: 2,
               color: AppColors.primaryColor,
             ),

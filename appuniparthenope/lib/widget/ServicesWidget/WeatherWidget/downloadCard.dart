@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:appuniparthenope/main.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../../main.dart'; // Aggiungi questa importazione
 
 class DownloadCard extends StatelessWidget {
   const DownloadCard({super.key});
@@ -7,8 +9,13 @@ class DownloadCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        //Link download
+      onTap: () async {
+        final String url = _getDownloadLink(context);
+        if (await canLaunch(url)) {
+          await launch(url);
+        } else {
+          throw 'Could not launch $url';
+        }
       },
       child: SizedBox(
         width: 350,
@@ -52,5 +59,14 @@ class DownloadCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _getDownloadLink(BuildContext context) {
+    // Determina la piattaforma e restituisce il link corretto
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
+      return 'https://apps.apple.com/it/app/meteo-uniparthenope/id1518001997';
+    } else {
+      return 'https://play.google.com/store/apps/details?id=it.uniparthenope.meteo&hl=it';
+    }
   }
 }

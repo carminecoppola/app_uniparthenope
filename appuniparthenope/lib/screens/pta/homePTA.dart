@@ -107,7 +107,7 @@ class _PTAHomePageState extends State<PTAHomePage> {
             const SizedBox(height: 10),
             // PageView con le card e i pallini di navigazione
             Container(
-              height: 250, // Imposta l'altezza del PageView
+              height: 300, // Imposta l'altezza del PageView
               child: PageView.builder(
                 controller: _pageController,
                 itemCount: pages.length,

@@ -18,6 +18,7 @@ class HomeAppointmentsCard extends StatefulWidget {
 
 class _HomeAppointmentsCardState extends State<HomeAppointmentsCard> {
   bool _isVisible = false;
+  bool _isLoadingTimedOut = false;
 
   @override
   void initState() {
@@ -26,6 +27,14 @@ class _HomeAppointmentsCardState extends State<HomeAppointmentsCard> {
     Timer(const Duration(milliseconds: 500), () {
       setState(() {
         _isVisible = true;
+      });
+    });
+
+    // Imposta il timeout per il caricamento
+    Timer(const Duration(seconds: 30), () {
+      if (!mounted) return; // Verifica se il widget è ancora montato
+      setState(() {
+        _isLoadingTimedOut = true;
       });
     });
   }
@@ -45,8 +54,8 @@ class _HomeAppointmentsCardState extends State<HomeAppointmentsCard> {
     final reservationExam =
         Provider.of<ExamDataProvider>(context).allReservationInfo;
 
-    // Se i dati sono ancora in caricamento, mostra il caricamento
-    if (reservationExam == null) {
+    // Se i dati sono ancora in caricamento e non è scaduto il timeout, mostra il caricamento
+    if (reservationExam == null && !_isLoadingTimedOut) {
       return const Center(
         child: CustomLoadingIndicator(
           text: 'Caricamento ultime prenotazioni...',
@@ -55,10 +64,39 @@ class _HomeAppointmentsCardState extends State<HomeAppointmentsCard> {
       );
     }
 
+    // Mostra il messaggio di timeout se i dati non sono disponibili e il timeout è scaduto
+    if (reservationExam == null && _isLoadingTimedOut) {
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.error_outline,
+                color: AppColors.detailsColor,
+                size: 40,
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Al momento non è stato possibile visualizzate le tue prenotazioni.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: AppColors.lightGray,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     // Prendi le ultime due prenotazioni, se disponibili
-    final lastTwoReservations = reservationExam.length >= 2
-        ? reservationExam.sublist(0, 2)
-        : reservationExam;
+    final lastTwoReservations =
+        reservationExam != null && reservationExam.length >= 2
+            ? reservationExam.sublist(0, 2)
+            : reservationExam ?? [];
 
     // Crea una lista di SingleAppointmentCard per le ultime due prenotazioni
     final appointmentCards = lastTwoReservations.map((reservation) {

@@ -294,19 +294,25 @@ class TextInfo {
     this.it,
   });
 
-  factory TextInfo.fromRawJson(String str) =>
-      TextInfo.fromJson(json.decode(str));
+  factory TextInfo.fromRawJson(String str) {
+    final jsonData = json.decode(str);
+    print('Raw JSON: $jsonData'); // Debugging
+    return TextInfo.fromJson(jsonData);
+  }
 
   String toRawJson() => json.encode(toJson());
 
-  factory TextInfo.fromJson(Map<String, dynamic> json) => TextInfo(
-        en: json["en"]?.toString(),
-        it: json["it"]?.toString(),
-      );
+  factory TextInfo.fromJson(Map<String, dynamic> json) {
+    print('Parsing JSON: $json'); // Debugging
+    return TextInfo(
+      en: json["en-US"]?.toString(),
+      it: json["it-IT"]?.toString(),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
-        "en": en,
-        "it": it,
+        "en-US": en,
+        "it-IT": it,
       };
 }
 

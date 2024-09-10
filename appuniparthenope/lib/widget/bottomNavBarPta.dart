@@ -1,5 +1,6 @@
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
+import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/widget/logoutDialogConfirm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,8 @@ class BottomNavBarPTAComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final navigationProvider = Provider.of<BottomNavBarProvider>(context);
+    final examDataProvider =
+        Provider.of<ExamDataProvider>(context, listen: false);
 
     return BottomNavigationBar(
       currentIndex: navigationProvider.currentIndex,
@@ -24,6 +27,7 @@ class BottomNavBarPTAComponent extends StatelessWidget {
             break;
           case 1:
             _showLogoutConfirmationDialog(context);
+            examDataProvider.clearReservations();
             break;
         }
       },

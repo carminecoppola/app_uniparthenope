@@ -177,7 +177,7 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
       child: Column(
         children: [
           Container(
-            height: 250, // Imposta l'altezza del PageView
+            height: 300, // Imposta l'altezza del PageView
             child: PageView.builder(
               controller: _pageController,
               itemCount: pages.length,
@@ -320,7 +320,7 @@ class _ServiceGroupProfCardState extends State<ServiceGroupProfCard> {
       child: Column(
         children: [
           Container(
-            height: 250, // Imposta l'altezza del PageView
+            height: 300, // Imposta l'altezza del PageView
             child: PageView.builder(
               controller: _pageController,
               itemCount: pages.length,

@@ -214,13 +214,17 @@ class ApiStudentService {
       User student, BuildContext context) async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final selectedCareer = authProvider.selectedCareer;
+    final password = authProvider.password;
 
+    // Aggiungi questi controlli per evitare che il codice tenti di accedere a variabili null
     if (selectedCareer == null) {
       throw Exception('Nessuna carriera selezionata trovata');
     }
+    if (password == null) {
+      throw Exception('Password non trovata');
+    }
 
     String matId = selectedCareer['matId'].toString();
-    final String password = authProvider.password!;
 
     final url = Uri.parse(
         '$baseUrl/UniparthenopeApp/v1/students/getReservations/$matId');

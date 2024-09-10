@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
@@ -18,6 +19,8 @@ class BottomNavBarProfComponent extends StatelessWidget {
     final authenticatedUser =
         Provider.of<AuthProvider>(context).authenticatedUser;
     final anagrafeUser = Provider.of<AuthProvider>(context).anagrafeUser;
+    final examDataProvider =
+        Provider.of<ExamDataProvider>(context, listen: false);
 
     return BottomNavigationBar(
       currentIndex: navigationProvider.currentIndex,
@@ -122,6 +125,7 @@ class BottomNavBarProfComponent extends StatelessWidget {
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
                     _showLogoutConfirmationDialog(context);
+                    examDataProvider.clearReservations();
                   },
                   icon: Icons.logout,
                   text: 'Logout',
