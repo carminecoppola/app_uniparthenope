@@ -176,7 +176,7 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
       padding: const EdgeInsets.all(15.0),
       child: Column(
         children: [
-          Container(
+          SizedBox(
             height: 300, // Imposta l'altezza del PageView
             child: PageView.builder(
               controller: _pageController,
@@ -319,7 +319,7 @@ class _ServiceGroupProfCardState extends State<ServiceGroupProfCard> {
       padding: const EdgeInsets.all(15.0),
       child: Column(
         children: [
-          Container(
+          SizedBox(
             height: 300, // Imposta l'altezza del PageView
             child: PageView.builder(
               controller: _pageController,

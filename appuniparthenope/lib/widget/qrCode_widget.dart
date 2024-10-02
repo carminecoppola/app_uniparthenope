@@ -62,7 +62,7 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
         child: qrCode != null
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image(image: qrCodeImage!, fit: BoxFit.cover),
+                child: Image(image: qrCodeImage, fit: BoxFit.cover),
               )
             : const CircularProgressIndicator(
                 color: AppColors.detailsColor,

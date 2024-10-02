@@ -105,8 +105,8 @@ class _ClassroomTeacherPageState extends State<ClassroomTeacherPage> {
     try {
       final rooms = await StudentUtils.allRooms(context);
       setState(() {
-        _allRooms = rooms ?? [];
-        _filteredRooms = rooms ?? [];
+        _allRooms = rooms;
+        _filteredRooms = rooms;
         _isLoading = false;
       });
     } catch (error) {

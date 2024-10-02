@@ -19,6 +19,7 @@ class StudentController {
     try {
       final Map<String, dynamic> responseData =
           await apiService.studentTotalExamsStats(student, context);
+      print('Risposta TotalExamStudent: $responseData');
 
       final TotalExamStudent totStatsExam = TotalExamStudent(
           totAdSuperate: responseData['totAdSuperate'],
@@ -29,7 +30,7 @@ class StudentController {
       return totStatsExam;
     } catch (e) {
       throw Exception(
-          'Errore durante il caricamento delle statistiche totali degli esami');
+          'Errore durante il caricamento delle statistiche totali degli esami: $e');
     }
   }
 
@@ -40,6 +41,7 @@ class StudentController {
     try {
       final Map<String, dynamic> responseData =
           await apiService.studentAverage(context, student, averageType);
+      print('Risposta averageStudent(): $responseData');
 
       final AverageInfo averageStats = AverageInfo(
           trenta: responseData['trenta'],
@@ -62,7 +64,7 @@ class StudentController {
           await apiService.getStudentExams(student, context);
 
       if (responseData.isEmpty) {
-        print('\nErrore: la lista degli esami è vuota.');
+        print('\nfetchAllExamStudent(): la lista degli esami è vuota.');
       }
       return responseData;
     } catch (e) {

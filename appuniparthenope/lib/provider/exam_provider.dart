@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../model/studentService/events_data.dart';
 
 class ExamDataProvider extends ChangeNotifier {
+  String? _pianoId;
   TotalExamStudent? _totalExamStatsStudent;
   AverageInfo? _aritmeticAverageStatsStudent;
   AverageInfo? _weightedAverageStatsStudent;
@@ -17,6 +18,8 @@ class ExamDataProvider extends ChangeNotifier {
   Map<String, StatusCourse>? _statusCoursesMap;
   List<EventsInfo>? _allEvents;
   List<ReservationInfo>? _allReservation;
+
+  String? get pianoId => _pianoId;
 
   TotalExamStudent? get totalExamStudent => _totalExamStatsStudent;
 
@@ -38,6 +41,12 @@ class ExamDataProvider extends ChangeNotifier {
   List<ReservationInfo>? get allReservationInfo => _allReservation;
 
   // Metodo per impostare l'anagrafica dell'utente
+  void setPianoId(String? pianoId) {
+    _pianoId = pianoId;
+    notifyListeners();
+  }
+
+  // Metodo per impostare le statistiche degli esami dell'utente
   void setTotalStatsExamStudent(TotalExamStudent totalExamStudent) {
     _totalExamStatsStudent = totalExamStudent;
     notifyListeners();

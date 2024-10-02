@@ -10,12 +10,12 @@ class PersonalCardWidget extends StatelessWidget {
   final String? identificativo;
 
   const PersonalCardWidget({
-    Key? key,
+    super.key,
     required this.nome,
     required this.cognome,
     required this.identificativoLabel,
     required this.identificativo,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

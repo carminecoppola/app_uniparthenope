@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 
 import '../../provider/auth_provider.dart';
 import '../../utilityFunctions/studentUtilsFunction.dart';
-import '../../utilityFunctions/weatherFunction.dart';
 import '../../widget/HomeWidget/sectionTitle.dart';
 import '../../widget/HomeWidget/serviceUserGroup.dart';
 import '../../widget/ServicesWidget/PTAWidget/ptaCard.dart';
@@ -106,7 +105,7 @@ class _PTAHomePageState extends State<PTAHomePage> {
             const SectionTitle(title: 'Servizi'),
             const SizedBox(height: 10),
             // PageView con le card e i pallini di navigazione
-            Container(
+            SizedBox(
               height: 300, // Imposta l'altezza del PageView
               child: PageView.builder(
                 controller: _pageController,

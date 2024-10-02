@@ -1,4 +1,3 @@
-import 'package:appuniparthenope/controller/auth_controller.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/EventWidget/custonSearchEventCard.dart';
 import 'package:flutter/material.dart';

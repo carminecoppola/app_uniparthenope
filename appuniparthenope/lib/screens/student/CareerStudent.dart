@@ -30,138 +30,151 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
         Provider.of<ExamDataProvider>(context).weightedAverageStatsStudent;
     final allExamInfo = Provider.of<ExamDataProvider>(context).allExamStudent;
 
-    // Controlla se qualche dato è null
-    if (totalExamStats == null ||
-        aritmeticAverageStats == null ||
-        weightedAverageStats == null ||
-        allExamInfo == null) {
-      return Scaffold(
-        appBar:
-            NavbarComponent(role: authenticatedUser!.user.grpDes.toString()),
-        body: const Center(
-          child: CustomLoadingIndicator(
-            text: 'Caricamento carriera...',
-            myColor: AppColors.primaryColor,
-          ),
-        ),
-        bottomNavigationBar: const BottomNavBarComponent(),
-      );
-    }
+    // Verifica lo stato della carriera
+    CareerState careerState = checkCareerState(
+      totalExamStats: totalExamStats,
+      aritmeticAverageStats: aritmeticAverageStats,
+      weightedAverageStats: weightedAverageStats,
+      allExamInfo: allExamInfo,
+    );
 
-    // Se tutti i dati sono presenti, ma la lista degli esami è vuota
-
-    if (allExamInfo.isEmpty) {
-      return Scaffold(
-        appBar: const NavbarComponent(),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SizedBox(height: 10),
-            Center(
-              child: TotalExamStudentCard(
-                mediaTrentesimi: weightedAverageStats.trenta.toString(),
-                mediaCentesimi: weightedAverageStats.centodieci.toString(),
-                totTrentesimi: weightedAverageStats.baseTrenta.toString(),
-                totCentesimi: weightedAverageStats.baseCentodieci.toString(),
-                cfuPar: '${totalExamStats.cfuPar.toInt()}',
-                cfuTot: '${totalExamStats.cfuTot.toInt()}',
-                examSuperati: totalExamStats.numAdSuperate,
-                examTotali: totalExamStats.totAdSuperate,
-              ),
+    // In base allo stato, mostra il contenuto corretto
+    switch (careerState) {
+      case CareerState.loading:
+        return Scaffold(
+          appBar:
+              NavbarComponent(role: authenticatedUser!.user.grpDes.toString()),
+          body: const Center(
+            child: CustomLoadingIndicator(
+              text: 'Caricamento carriera...',
+              myColor: AppColors.primaryColor,
             ),
-            const SizedBox(height: 30),
-            Center(
-              child: Card(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                elevation: 5,
-                child: const Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.school,
-                        size: 50,
-                        color: Colors.orangeAccent,
-                      ),
-                      SizedBox(height: 15),
-                      Text(
-                        'Non hai nessun esame nella tua carriera',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.detailsColor,
+          ),
+          bottomNavigationBar: const BottomNavBarComponent(),
+        );
+      case CareerState.empty:
+        return Scaffold(
+          appBar: const NavbarComponent(),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(height: 80),
+              Center(
+                child: Card(
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  elevation: 5,
+                  child: const Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.school,
+                          size: 50,
+                          color: Colors.orangeAccent,
                         ),
-                      ),
-                    ],
+                        SizedBox(height: 15),
+                        Text(
+                          'Al momento, non risultano esami nel tuo percorso accademico.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.detailsColor,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-        bottomNavigationBar: const BottomNavBarComponent(),
-      );
+            ],
+          ),
+          bottomNavigationBar: const BottomNavBarComponent(),
+        );
+      case CareerState.populated:
+        return Scaffold(
+          appBar: const NavbarComponent(),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(height: 10),
+              Center(
+                child: TotalExamStudentCard(
+                  mediaTrentesimi: weightedAverageStats!.trenta.toString(),
+                  mediaCentesimi: weightedAverageStats.centodieci.toString(),
+                  totTrentesimi: weightedAverageStats.baseTrenta.toString(),
+                  totCentesimi: weightedAverageStats.baseCentodieci.toString(),
+                  cfuPar: '${totalExamStats!.cfuPar.toInt()}',
+                  cfuTot: '${totalExamStats.cfuTot.toInt()}',
+                  examSuperati: totalExamStats.numAdSuperate,
+                  examTotali: totalExamStats.totAdSuperate,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: allExamInfo!.length,
+                  itemBuilder: (context, index) {
+                    final singleExam = allExamInfo[index];
+                    Color colorCard = singleExam.status.esito != "S"
+                        ? const Color.fromARGB(255, 159, 158, 158)
+                        : AppColors.primaryColor;
+                    String voteExam = singleExam.status.esito != "S"
+                        ? "??"
+                        : singleExam.status.voto != null
+                            ? singleExam.status.voto!.toInt().toString()
+                            : "OK";
+                    bool withHonors = singleExam.status.lode == 1;
+                    return SingleExamCard(
+                      key: UniqueKey(),
+                      index: index + 1,
+                      cfuExam: singleExam.cfu!.toInt().toString(),
+                      titleExam: singleExam.nome.toString(),
+                      dateExam: singleExam.status.data != ""
+                          ? '- Superato: ${singleExam.status.data!.toString().split(" ")[0]}'
+                          : "",
+                      voteExam: voteExam,
+                      colorCard: colorCard,
+                      withHonors: withHonors,
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+          bottomNavigationBar: const BottomNavBarComponent(),
+        );
+      default:
+        return const SizedBox.shrink();
     }
-
-    // Se tutti i dati sono presenti, mostra il contenuto
-    return Scaffold(
-      appBar: const NavbarComponent(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(height: 10),
-          Center(
-            child: TotalExamStudentCard(
-              mediaTrentesimi: weightedAverageStats.trenta.toString(),
-              mediaCentesimi: weightedAverageStats.centodieci.toString(),
-              totTrentesimi: weightedAverageStats.baseTrenta.toString(),
-              totCentesimi: weightedAverageStats.baseCentodieci.toString(),
-              cfuPar: '${totalExamStats.cfuPar.toInt()}',
-              cfuTot: '${totalExamStats.cfuTot.toInt()}',
-              examSuperati: totalExamStats.numAdSuperate,
-              examTotali: totalExamStats.totAdSuperate,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Expanded(
-            child: ListView.builder(
-              itemCount: allExamInfo.length,
-              itemBuilder: (context, index) {
-                final singleExam = allExamInfo[index];
-                Color colorCard = singleExam.status.esito != "S"
-                    ? const Color.fromARGB(255, 159, 158, 158)
-                    : AppColors.primaryColor;
-                String voteExam = singleExam.status.esito != "S"
-                    ? "??"
-                    : singleExam.status.voto != null
-                        ? singleExam.status.voto!.toInt().toString()
-                        : "OK";
-                // Determina se mostrare l'icona della coccarda
-                bool withHonors = singleExam.status.lode == 1;
-                return SingleExamCard(
-                  key:
-                      UniqueKey(), // Aggiungiamo una chiave univoca per garantire il rebuild corretto
-                  index: index + 1,
-                  cfuExam: singleExam.cfu!.toInt().toString(),
-                  titleExam: singleExam.nome.toString(),
-                  dateExam: singleExam.status.data != ""
-                      ? '- Superato: ${singleExam.status.data!.toString().split(" ")[0]}'
-                      : "",
-                  voteExam: voteExam,
-                  colorCard: colorCard,
-                  withHonors: withHonors,
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: const BottomNavBarComponent(),
-    );
   }
+}
+
+enum CareerState { loading, empty, populated }
+
+CareerState checkCareerState({
+  required totalExamStats,
+  required aritmeticAverageStats,
+  required weightedAverageStats,
+  required allExamInfo,
+}) {
+  print('totalExamStats: $totalExamStats');
+  print('aritmeticAverageStats: $aritmeticAverageStats');
+  print('weightedAverageStats: $weightedAverageStats');
+  print('allExamInfo: $totalExamStats');
+  // Se i dati non sono ancora caricati
+  if (totalExamStats == null || allExamInfo == null) {
+    return CareerState.loading;
+  }
+  // Se la lista degli esami è vuota e le medie sono null
+  if (allExamInfo.isEmpty ||
+      (aritmeticAverageStats.trenta == 0 && weightedAverageStats.trenta == 0)) {
+    return CareerState.empty;
+  }
+  // Se ci sono esami nella lista e medie valide
+  return CareerState.populated;
 }

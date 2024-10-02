@@ -27,6 +27,13 @@ class TotalExamStudentCard extends StatelessWidget {
         ? AppColors.successColor
         : AppColors.detailsColor;
 
+    // Controlla se ci sono esami
+    if (examTotali == 0) {
+      return const SizedBox(
+        height: 50,
+      );
+    }
+
     // Usa la funzione di utilità per ottenere il valore formattato di cfuTot
     final formattedCfuTot = formatCfuValue(cfuPar, cfuTot);
 

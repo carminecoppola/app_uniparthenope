@@ -51,7 +51,7 @@ class ContactSection extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 _buildContactCard(
-                  'assets/icon/contact/parthenopeUnita.png',
+                  'assets/icon/contact/uniparthenope.png',
                   'https://www.uniparthenope.it/',
                 ),
                 const SizedBox(width: 10),

@@ -77,25 +77,23 @@ class _HomePageState extends State<HomePage> {
             if (authenticatedUser.user.grpDes == 'Studenti') ...[
               PersonalCardUser(
                 onTap: () async {
-                  if (authenticatedUser != null) {
-                    await StudentUtils.anagrafeUser(
-                        context, authenticatedUser.user);
-                    AuthUtilsFunction.userImg(context);
-                    if (anagrafeUser != null) {
-                      Navigator.pushReplacementNamed(context, '/profileStudent',
-                          arguments: anagrafeUser);
-                    } else {
-                      const CustomLoadingIndicator(
-                        text: 'Caricamento dei tuoi dati personali',
-                        myColor: AppColors.primaryColor,
-                      );
-                    }
+                  await StudentUtils.anagrafeUser(
+                      context, authenticatedUser.user);
+                  AuthUtilsFunction.userImg(context);
+                  if (anagrafeUser != null) {
+                    Navigator.pushReplacementNamed(context, '/profileStudent',
+                        arguments: anagrafeUser);
+                  } else {
+                    const CustomLoadingIndicator(
+                      text: 'Caricamento dei tuoi dati personali',
+                      myColor: AppColors.primaryColor,
+                    );
                   }
-                },
+                                },
                 firstName: authenticatedUser.user.firstName ?? '',
                 lastName: authenticatedUser.user.lastName ?? '',
                 identificativoLabel: 'Matricola:',
-                id: authenticatedUser.user.trattiCarriera![0].matricola
+                id: authenticatedUser.user.trattiCarriera[0].matricola
                     .toString(),
                 profileImage: profileImage,
               ),
@@ -131,19 +129,17 @@ class _HomePageState extends State<HomePage> {
             ] else ...[
               PersonalCardUser(
                 onTap: () async {
-                  if (authenticatedUser != null) {
-                    await StudentUtils.anagrafeUser(
-                        context, authenticatedUser.user);
-                    if (anagrafeUser != null) {
-                      Navigator.pushReplacementNamed(context, '/profileStudent',
-                          arguments: anagrafeUser);
-                    } else {
-                      const CustomLoadingIndicator(
-                          text: 'Caricamento dei tuoi dati personali',
-                          myColor: AppColors.primaryColor);
-                    }
+                  await StudentUtils.anagrafeUser(
+                      context, authenticatedUser.user);
+                  if (anagrafeUser != null) {
+                    Navigator.pushReplacementNamed(context, '/profileStudent',
+                        arguments: anagrafeUser);
+                  } else {
+                    const CustomLoadingIndicator(
+                        text: 'Caricamento dei tuoi dati personali',
+                        myColor: AppColors.primaryColor);
                   }
-                },
+                                },
                 firstName: authenticatedUser.user.firstName ?? '',
                 lastName: authenticatedUser.user.lastName ?? '',
                 identificativoLabel: 'Id Docente:',

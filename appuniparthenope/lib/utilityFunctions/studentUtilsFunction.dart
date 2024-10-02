@@ -66,13 +66,31 @@ class StudentUtils {
       BuildContext context, User authenticatedUser) async {
     final StudentController totalExamController = StudentController();
     try {
+      // Stampa un messaggio di avvio
+      print('Inizio il caricamento delle statistiche medie.');
+
       // Ottiene la media aritmetica degli esami dello studente.
       final aritmeticAverageStudent = await totalExamController.averageStudent(
           context, authenticatedUser, "A");
+      print('Risposta averageStudent(): $aritmeticAverageStudent');
+
+      // Verifica se i dati della media sono validi
+      if (aritmeticAverageStudent.trenta == 0 &&
+          aritmeticAverageStudent.centodieci == 0) {
+        print('Nessun esame disponibile per calcolare la media aritmetica.');
+        return; // Esci dal metodo se non ci sono dati
+      }
 
       // Ottiene la media ponderata degli esami dello studente.
       final weightedAverageStudent = await totalExamController.averageStudent(
           context, authenticatedUser, "P");
+      print('Risposta weightedAverageStudent(): $weightedAverageStudent');
+
+      if (weightedAverageStudent.trenta == 0 &&
+          weightedAverageStudent.centodieci == 0) {
+        print('Nessun esame disponibile per calcolare la media ponderata.');
+        return; // Esci dal metodo se non ci sono dati
+      }
 
       // Aggiorna il provider con le statistiche medie degli esami dello studente.
       final examDataProvider =
@@ -80,7 +98,7 @@ class StudentUtils {
       examDataProvider.setTotalAverageExamStudent(
           aritmeticAverageStudent, weightedAverageStudent);
     } catch (e) {
-      print('\nErrore during _averageStats() $e');
+      print('Errore durante _averageStats() $e');
     }
   }
 

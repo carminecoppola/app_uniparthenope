@@ -92,6 +92,22 @@ class _HomeAppointmentsCardState extends State<HomeAppointmentsCard> {
       );
     }
 
+    if (reservationExam != null && reservationExam.isEmpty) {
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 50.0),
+          child: Text(
+            'Non ci sono prenotazioni al momento',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              color: AppColors.lightGray,
+            ),
+          ),
+        ),
+      );
+    }
+
     // Prendi le ultime due prenotazioni, se disponibili
     final lastTwoReservations =
         reservationExam != null && reservationExam.length >= 2

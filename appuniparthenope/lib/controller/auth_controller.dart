@@ -78,6 +78,22 @@ class AuthController {
           },
         );
         throw Exception('Utente non ancora immatricolato');
+      } else if (userData.values.any((value) => value == null || value == '')) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const CustomAlertDialog(
+              title: 'Dati Mancanti',
+              content:
+                  'Alcune informazioni nel tuo profilo risultano mancanti o incomplete. '
+                  'Si prega di contattare il supporto per risolvere il problema.',
+              buttonText: 'OK',
+              color: Colors.orange,
+              icon: Icons.warning,
+            );
+          },
+        );
+        throw Exception('Dati utenti mancanti');
       } else {
         throw Exception('Nessuna carriera trovata');
       }

@@ -36,7 +36,7 @@ class AccessLogsTable extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
               dataRowColor:
-                  MaterialStateColor.resolveWith((states) => Colors.grey[200]!),
+                  WidgetStateColor.resolveWith((states) => Colors.grey[200]!),
               columns: const [
                 DataColumn(
                     label: Text(

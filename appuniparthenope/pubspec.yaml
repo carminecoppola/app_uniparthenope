@@ -1,7 +1,7 @@
 name: appuniparthenope
 description: "The official app of the University of Naples 'Parthenope,' developed by students, offers a tailored experience for the academic community. Whether you are a student, teacher, or part of the administrative staff, you will have quick and easy access to all essential university information. Explore the new minimalist interface inspired by our university's colors, designed to make navigation intuitive and enjoyable. Keep track of your academic activities, available rooms, and university events all in one place."
 
-version: 4.0.1+1
+version: 4.0.2+1
 
 environment:
   sdk: '>=3.3.1 <4.0.0'
@@ -161,7 +161,7 @@ flutter:
     - assets/icon/contact/fb.png
     - assets/icon/contact/ig.png
     - assets/icon/contact/linkedin.png
-    - assets/icon/contact/parthenopeUnita.png
+    - assets/icon/contact/uniparthenope.png
     - assets/icon/contact/youtube.png
     
     # Team Image:

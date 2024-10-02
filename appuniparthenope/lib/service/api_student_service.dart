@@ -9,6 +9,7 @@ import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:provider/provider.dart';
 
 import '../model/studentService/reservation_data.dart';
+import '../provider/exam_provider.dart';
 
 class ApiStudentService {
   final String baseUrl = "https://api.uniparthenope.it";
@@ -129,8 +130,20 @@ class ApiStudentService {
     });
 
     if (response.statusCode == 200) {
-      final pianoId = jsonDecode(response.body);
-      return pianoId;
+      final pianoIdMap = jsonDecode(response.body);
+      final pianoId = pianoIdMap['pianoId']
+          ?.toString(); // Assicurati di estrarre pianoId correttamente
+
+      if (pianoId == null) {
+        throw Exception('Il pianoId non è disponibile');
+      }
+
+      final studentProvider =
+          Provider.of<ExamDataProvider>(context, listen: false);
+      studentProvider.setPianoId(pianoId); // Passa il pianoId come stringa
+      return pianoIdMap;
+    } else if (response.statusCode == 404) {
+      throw Exception('Attualmente non è possibile determinare i tuoi corsi');
     } else if (response.statusCode == 500) {
       throw Exception('Errore del SERVER durante il caricamento di pianoId');
     } else {
@@ -150,10 +163,15 @@ class ApiStudentService {
     String stuId = selectedCareer['stuId'].toString();
     final String password = authProvider.password!;
 
-    final pianoIdMap = await getPianoId(
-        student, context); // Attendi il completamento del Future
-    final pianoId = pianoIdMap['pianoId']
-        .toString(); // Ottieni il pianoId dalla mappa restituita
+    final pianoIdMap = await getPianoId(student, context);
+    final pianoId =
+        pianoIdMap['pianoId']?.toString(); // Controlla se il pianoId è null
+
+    print('getAllCourse(): pianoId: $pianoId');
+
+    if (pianoId == null) {
+      throw Exception('Il pianoId non è disponibilie');
+    }
 
     final url = Uri.parse(
         '$baseUrl/UniparthenopeApp/v1/students/exams/$stuId/$pianoId');

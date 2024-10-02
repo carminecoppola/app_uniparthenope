@@ -13,7 +13,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 class QRCodePage extends StatelessWidget {
   final String? profileImage;
 
-  const QRCodePage({Key? key, this.profileImage}) : super(key: key);
+  const QRCodePage({super.key, this.profileImage});
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +108,7 @@ class QRCodePage extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   image: DecorationImage(
-                                    image: profileImageProvider!,
+                                    image: profileImageProvider,
                                     fit: BoxFit.cover,
                                   ),
                                   border: Border.all(

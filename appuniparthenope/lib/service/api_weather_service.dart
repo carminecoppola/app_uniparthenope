@@ -21,7 +21,7 @@ class ApiWeatherService {
     final response = await http.get(url);
 
     print('getWeatherPlaces() Status: ${response.statusCode}');
-    print('Latitude:${latitude} & longitude: ${longitude}');
+    print('Latitude:$latitude & longitude: $longitude');
 
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);

@@ -44,11 +44,11 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
     }
 
     final trattiCarriera = authenticatedUser.user.trattiCarriera;
-    final identificativo = trattiCarriera != null && trattiCarriera.isNotEmpty
+    final identificativo = trattiCarriera.isNotEmpty
         ? trattiCarriera[0].matricola
         : 'N/A';
     final identificativoProf = authenticatedUser.user.docenteId;
-    final facCod = trattiCarriera != null && trattiCarriera.isNotEmpty
+    final facCod = trattiCarriera.isNotEmpty
         ? trattiCarriera[0].dettaglioTratto.facCod
         : null;
     final role = authenticatedUser.user.grpDes;

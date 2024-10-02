@@ -124,13 +124,11 @@ class InfoAppPage extends StatelessWidget {
                           icon: const Icon(Icons.email,
                               color: AppColors.primaryColor, size: 30),
                           onPressed: () {
-                            if (authenticatedUser != null) {
-                              _sendEmail(
-                                authenticatedUser.firstName,
-                                authenticatedUser.lastName,
-                                versionApp,
-                              );
-                            }
+                            _sendEmail(
+                              authenticatedUser.firstName,
+                              authenticatedUser.lastName,
+                              versionApp,
+                            );
                           },
                         ),
                         const SizedBox(height: 10),
