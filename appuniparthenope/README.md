@@ -55,6 +55,19 @@ app@uniparthenope is a mobile application developed using Flutter, designed for 
   - **widgets/**: Custom widgets used in the app.
   - **app_routes.dart**: Defined routes.
 
+## Development Team
+
+The **app@uniparthenope** application was developed by a team of students from the University of Naples "Parthenope", consisting of:
+
+| Name                  | Role         |
+|-----------------------|--------------|
+| **Raffaele Montela**   | Team leader  |
+| **Carmine Coppola**    | Developer    |
+| **Ciro Giuseppe De Vita** | Developer |
+| **Gennaro Mellone**    | Developer    |
+
+The team has worked with dedication to provide an innovative and accessible solution for the entire academic community.
+
 ## Contributing
 
 Contributions, bug reports, and feature requests are welcome!
