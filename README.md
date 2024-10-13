@@ -59,12 +59,12 @@ app@uniparthenope is a mobile application developed using Flutter, designed for 
 
 The **app@uniparthenope** application was developed by a team of students from the University of Naples "Parthenope", consisting of:
 
-| Name                  | Role         | Image                              |
-|-----------------------|--------------|------------------------------------|
-| **Raffaele Montela**   | Team leader  | ![Raffaele Montela](assets/team/team_leader.jpg) |
-| **Carmine Coppola**    | Developer    | ![Carmine Coppola](assets/team/cc.png) |
-| **Ciro Giuseppe De Vita** | Developer | ![Ciro Giuseppe De Vita](assets/team/cgdv.png) |
-| **Gennaro Mellone**    | Developer    | ![Gennaro Mellone](assets/team/gm.jpg) |
+| Name                  | Role         |
+|-----------------------|--------------|
+| **Raffaele Montela**   | Team leader  |
+| **Carmine Coppola**    | Developer    |
+| **Ciro Giuseppe De Vita** | Developer |
+| **Gennaro Mellone**    | Developer    |
 
 The team has worked with dedication to provide an innovative and accessible solution for the entire academic community.
 
