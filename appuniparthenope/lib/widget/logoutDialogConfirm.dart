@@ -32,7 +32,7 @@ class LogoutConfirmationDialog extends StatelessWidget {
           onPressed: () async {
             final authProvider =
                 Provider.of<AuthProvider>(context, listen: false);
-            authProvider.logout();
+            authProvider.logout(context);
             Navigator.pushNamed(
               context,
               '/loginPage',

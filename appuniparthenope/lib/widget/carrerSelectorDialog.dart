@@ -80,8 +80,10 @@ class CustomCareerSelectionDialog extends StatelessWidget {
                             children: <TextSpan>[
                               TextSpan(
                                 text: careers[index]['staStuDes'].toString(),
-                                style: const TextStyle(
-                                  color: AppColors.detailsColor,
+                                style: TextStyle(
+                                  color: careers[index]['staStuDes'] == 'Attivo'
+                                      ? Colors.green
+                                      : Colors.red,
                                 ),
                               ),
                             ],

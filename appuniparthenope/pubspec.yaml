@@ -66,6 +66,7 @@ flutter:
   assets:
     - pubspec.yaml
     - assets/logo.png
+    - assets/logoWhite.png
     - assets/textLogo.png
     - assets/pta.png
     - assets/meteoUniLogo.png

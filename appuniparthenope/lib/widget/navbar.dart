@@ -32,7 +32,7 @@ class NavbarComponent extends StatelessWidget implements PreferredSizeWidget {
       title: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset('assets/logo.png', width: 30, height: 30),
+          Image.asset('assets/logoWhite.png', width: 30, height: 30),
           const SizedBox(height: 8),
           Text(
             title,

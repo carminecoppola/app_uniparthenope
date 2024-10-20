@@ -29,6 +29,16 @@ class _LoginFormState extends State<LoginForm> {
     'assets/university/uni_medina.jpeg',
     'assets/university/uni_nola.jpeg',
     'assets/university/uni_villadoria.jpeg',
+    'assets/university/caroselloSedi/SedeC2.png',
+    'assets/university/caroselloSedi/SedeC3.png',
+    'assets/university/caroselloSedi/SedeCD2.png',
+    'assets/university/caroselloSedi/SedeCD3.png',
+    'assets/university/caroselloSedi/SedeCD4.png',
+    'assets/university/caroselloSedi/SedePaca2.png',
+    'assets/university/caroselloSedi/SedePaca3.png',
+    'assets/university/caroselloSedi/SedeVDA1.png',
+    'assets/university/caroselloSedi/SedeVDA2.png',
+    'assets/university/caroselloSedi/SedeVDA3.png',
   ];
 
   late String currentImage;
@@ -150,9 +160,11 @@ class _LoginFormState extends State<LoginForm> {
           SingleChildScrollView(
             child: Column(
               children: [
-                Transform(
-                  transform: Matrix4.skewY(-0.10)..rotateX(0.0),
-                  alignment: Alignment.center,
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40),
+                  ),
                   child: Image.asset(
                     currentImage,
                     height: kIsWeb ? 400 : 250,

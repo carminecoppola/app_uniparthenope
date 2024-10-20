@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "LaunchImage.png",
+      "filename" : "Parthenope-SigleLogo-2023-white.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "LaunchImage@2x.png",
+      "filename" : "Parthenope-SigleLogo-2023-white 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "LaunchImage@3x.png",
+      "filename" : "Parthenope-SigleLogo-2023-white 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

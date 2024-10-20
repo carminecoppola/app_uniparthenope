@@ -155,26 +155,30 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
 }
 
 enum CareerState { loading, empty, populated }
-
 CareerState checkCareerState({
   required totalExamStats,
   required aritmeticAverageStats,
   required weightedAverageStats,
   required allExamInfo,
 }) {
-  print('totalExamStats: $totalExamStats');
+  print('Dati checkCareerState():\n\ntotalExamStats: $totalExamStats');
   print('aritmeticAverageStats: $aritmeticAverageStats');
   print('weightedAverageStats: $weightedAverageStats');
   print('allExamInfo: $totalExamStats');
+  
   // Se i dati non sono ancora caricati
   if (totalExamStats == null || allExamInfo == null) {
     return CareerState.loading;
   }
-  // Se la lista degli esami è vuota e le medie sono null
-  if (allExamInfo.isEmpty ||
-      (aritmeticAverageStats.trenta == 0 && weightedAverageStats.trenta == 0)) {
+  
+  // Se la lista degli esami è vuota oppure se le medie sono nulle o pari a 0
+  if (allExamInfo.isEmpty || 
+      (aritmeticAverageStats == null && weightedAverageStats == null) ||
+      (aritmeticAverageStats != null && aritmeticAverageStats.trenta == 0 && 
+       weightedAverageStats != null && weightedAverageStats.trenta == 0)) {
     return CareerState.empty;
   }
+
   // Se ci sono esami nella lista e medie valide
   return CareerState.populated;
 }

@@ -2,6 +2,9 @@ import 'package:appuniparthenope/model/user_data_anagrafic.dart';
 import 'package:appuniparthenope/service/api_login_service.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
+import 'package:provider/provider.dart';
+
+import 'exam_provider.dart';
 
 /*
 Questo provider deve gestire i cambiamenti di stato, ovvero:
@@ -73,7 +76,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   // Metodo per effettuare il logout
-  void logout() {
+  void logout(BuildContext context) {
     _authenticatedUser = null;
     _password = null;
     _authToken = null;
@@ -82,6 +85,10 @@ class AuthProvider with ChangeNotifier {
     _profileImage = null;
     _qrCode = null;
     _selectedCareer = null;
+
+    // Ripulisci i dati della carriera
+    Provider.of<ExamDataProvider>(context, listen: false).clearCareerData();
+
     notifyListeners();
   }
 }

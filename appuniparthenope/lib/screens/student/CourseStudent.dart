@@ -1,12 +1,12 @@
 import 'package:appuniparthenope/main.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:appuniparthenope/model/studentService/student_course_data.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/CourseWidget/singleCourseCard.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../widget/CustomLoadingIndicator.dart';
 import '../../widget/ServicesWidget/CourseWidget/customTabBarCourse.dart';
 import '../../widget/ServicesWidget/CourseWidget/legendDialog.dart';
@@ -36,9 +36,6 @@ class _CourseStudentState extends State<CourseStudentPage> {
     if (selectedCareer != null) {
       final durataAnni = selectedCareer['dettaglioTratto']['durataAnni'];
 
-      print('Descrizione Corso: ${selectedCareer['cdsDes']}');
-      print('Durata Anni: $durataAnni');
-
       if (examProvider.allCourseStudent != null &&
           examProvider.allCourseStudent!.isNotEmpty) {
         if (durataAnni == 2) {
@@ -52,8 +49,6 @@ class _CourseStudentState extends State<CourseStudentPage> {
         }
       }
     }
-
-    // Restituisci una lista vuota se non si trova un titolo
     return [];
   }
 
@@ -71,7 +66,6 @@ class _CourseStudentState extends State<CourseStudentPage> {
     if (selectedCareer != null) {
       final durataAnni = selectedCareer['dettaglioTratto']['durataAnni'];
 
-      // Controllo pianoId
       if (pianoId == null) {
         return Scaffold(
           appBar: const NavbarComponent(),
@@ -127,10 +121,8 @@ class _CourseStudentState extends State<CourseStudentPage> {
 
       if (allCourseInfo != null) {
         for (var course in allCourseInfo) {
-          // Usa sempre durataAnni invece di user.durataAnni
           if (course.annoId > durataAnni) {
-            coursesByYear[durataAnni]!.add(
-                course); // Assegna corsi oltre l'ultimo anno disponibile all'ultimo anno
+            coursesByYear[durataAnni]!.add(course);
           } else {
             coursesByYear[course.annoId]?.add(course);
           }
@@ -194,26 +186,52 @@ class _CourseStudentState extends State<CourseStudentPage> {
             const SizedBox(height: 10),
             if (allCourseInfo != null && allStatusCoursesMap != null)
               Expanded(
-                child: ListView.builder(
-                  itemCount: selectedCourses.length,
-                  itemBuilder: (context, index) {
-                    final course = selectedCourses[index];
-                    final cfuExam = course.cfu.toInt().toString();
+                child: selectedCourses.isNotEmpty
+                    ? ListView.builder(
+                        itemCount: selectedCourses.length,
+                        itemBuilder: (context, index) {
+                          final course = selectedCourses[index];
+                          final cfuExam = course.cfu.toInt().toString();
 
-                    final status =
-                        allStatusCoursesMap[course.codice]?.stato.toString() ??
-                            'Stato non disponibile';
+                          final status = allStatusCoursesMap[course.codice]
+                                  ?.stato
+                                  .toString() ??
+                              'Stato non disponibile';
 
-                    return SingleCourseCard(
-                      index: index,
-                      cfuExam: cfuExam,
-                      titleExam: course.nome.toString(),
-                      status: status,
-                      codiceCorso: course.codice.toString(),
-                      annoAccademico: course.annoId.toString(),
-                    );
-                  },
-                ),
+                          return SingleCourseCard(
+                            index: index,
+                            cfuExam: cfuExam,
+                            titleExam: course.nome.toString(),
+                            status: status,
+                            codiceCorso: course.codice.toString(),
+                            annoAccademico: course.annoId.toString(),
+                          );
+                        },
+                      )
+                    : Center(
+                        child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.info_outline,
+                              size: 50,
+                              color: AppColors.lightGray,
+                            ),
+                            const SizedBox(height: 15),
+                            Text(
+                              'Non sono visualizzabili gli esami del ${_selectedIndex + 1}° anno accademico.',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.lightGray,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
               )
             else
               const Center(

@@ -100,6 +100,21 @@ class ExamDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Metodo per ripulire i dati della carriera
+  void clearCareerData() {
+    _pianoId = null;
+    _totalExamStatsStudent = null;
+    _aritmeticAverageStatsStudent = null;
+    _weightedAverageStatsStudent = null;
+    _allExamStudent = null;
+    _allCourseStudent = null;
+    _allStatusCourses = null;
+    _statusCoursesMap = null;
+    _allEvents = null;
+    _allReservation = null;
+    notifyListeners();
+  }
+
   // Ordina le prenotazioni per data più recente
   void _sortReservationByDate() {
     if (_allReservation != null) {
