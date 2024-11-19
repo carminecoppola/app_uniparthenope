@@ -131,6 +131,16 @@ class _LoginFormState extends State<LoginForm> {
     final String username = _usernameController.text;
     final String password = _passwordController.text;
 
+    if (username.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: AppColors.detailsColor,
+          content: Text('Inserisci username e password'),
+        ),
+      );
+      return;
+    }
+
     setState(() {
       _loading = true; // Mostra il dialogo di caricamento
     });

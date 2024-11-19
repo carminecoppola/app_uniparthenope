@@ -201,76 +201,76 @@ class TrattiCarriera {
 }
 
 class DettaglioTratto {
-  final int aaIscrId;
-  final int aaOrdId;
-  final int aaRegId;
-  final int anniFc;
-  final int annoCorso;
+  final int? aaIscrId;
+  final int? aaOrdId;
+  final int? aaRegId;
+  final int? anniFc;
+  final int? annoCorso;
   final String cdsCod;
-  final int cdsId;
-  final int condFlg;
-  final int domiscrFlg;
-  final int durataAnni;
+  final int? cdsId;
+  final int? condFlg;
+  final int? domiscrFlg;
+  final int? durataAnni;
   final String facCod;
-  final int facId;
-  final int iscrId;
-  final int matId;
-  final int mobilFlg;
+  final int? facId;
+  final int? iscrId;
+  final int? matId;
+  final int? mobilFlg;
   final String motStaiscrCod;
   final String motStamatCod;
   final String motStastuCod;
-  final int normId;
-  final int notaBloccanteFlg;
-  final int passaggioFlg;
+  final int? normId;
+  final int? notaBloccanteFlg;
+  final int? passaggioFlg;
   final String pdsCod;
-  final int pdsId;
+  final int? pdsId;
   final String profCod;
-  final int ptFlg;
+  final int? ptFlg;
   final String staIscrCod;
   final String staMatCod;
   final String staStuCod;
-  final int stuId;
+  final int? stuId;
   final dynamic tipoCatAmmId;
   final String tipoCorsoCod;
   final String tipoIscrCod;
   final String tipoSpecCod;
-  final int ultimoAnnoFlg;
+  final int? ultimoAnnoFlg;
 
   DettaglioTratto({
-    required this.aaIscrId,
-    required this.aaOrdId,
-    required this.aaRegId,
-    required this.anniFc,
-    required this.annoCorso,
+    this.aaIscrId,
+    this.aaOrdId,
+    this.aaRegId,
+    this.anniFc,
+    this.annoCorso,
     required this.cdsCod,
-    required this.cdsId,
-    required this.condFlg,
-    required this.domiscrFlg,
-    required this.durataAnni,
+    this.cdsId,
+    this.condFlg,
+    this.domiscrFlg,
+    this.durataAnni,
     required this.facCod,
-    required this.facId,
-    required this.iscrId,
-    required this.matId,
-    required this.mobilFlg,
+    this.facId,
+    this.iscrId,
+    this.matId,
+    this.mobilFlg,
     required this.motStaiscrCod,
     required this.motStamatCod,
     required this.motStastuCod,
-    required this.normId,
-    required this.notaBloccanteFlg,
-    required this.passaggioFlg,
+    this.normId,
+    this.notaBloccanteFlg,
+    this.passaggioFlg,
     required this.pdsCod,
-    required this.pdsId,
+    this.pdsId,
     required this.profCod,
-    required this.ptFlg,
+    this.ptFlg,
     required this.staIscrCod,
     required this.staMatCod,
     required this.staStuCod,
-    required this.stuId,
-    required this.tipoCatAmmId,
+    this.stuId,
+    this.tipoCatAmmId,
     required this.tipoCorsoCod,
     required this.tipoIscrCod,
     required this.tipoSpecCod,
-    required this.ultimoAnnoFlg,
+    this.ultimoAnnoFlg,
   });
 
   factory DettaglioTratto.fromRawJson(String str) =>

@@ -2,6 +2,7 @@ import 'package:appuniparthenope/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/auth_provider.dart';
+import '../widget/alertDialog.dart';
 
 /// Classe di utility per le operazioni di autenticazione e gestione dell'utente.
 class AuthUtilsFunction {
@@ -37,6 +38,23 @@ class AuthUtilsFunction {
       // Naviga alla homepage dopo l'autenticazione.
       if (authenticatedUser.user.grpDes == 'PTA') {
         Navigator.pushReplacementNamed(context, '/homePTA');
+      } else if (authenticatedUser.user.grpDes == 'Ipot. Immatricolati' ||
+          authenticatedUser.user.grpDes == 'Preiscritti' ||
+          authenticatedUser.user.grpDes == 'Iscritti') {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const CustomAlertDialog(
+              title: 'Area Riservata Non Disponibile',
+              content:
+                  'Gentile utente, attualmente non puoi ancora accedere alla tua area personale. Non preoccuparti, non appena la tua immatricolazione sarà completata, avrai accesso completo ai servizi. Grazie per la tua pazienza!',
+              buttonText: 'OK',
+              color: Colors.orange,
+              icon: Icons.info_outline,
+            );
+          },
+        );
+        throw Exception('Utente non ancora immatricolato');
       } else {
         Navigator.pushReplacementNamed(context, '/homePage');
       }
