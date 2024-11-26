@@ -1,0 +1,8 @@
+{
+  "login": "Login",
+  "username": "Username",
+  "rememberme": "Remember credentials",
+  "resetpsw": "Reset password ?",
+  "loginguest": "Login as guest",
+  "loading": "Authenticating, please wait..."
+}

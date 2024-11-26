@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
@@ -10,6 +11,8 @@ import 'package:appuniparthenope/app_routes.dart';
 import 'package:provider/provider.dart';
 
 import 'provider/rooms_provider.dart';
+
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(
@@ -34,9 +37,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const Scaffold(
-        body: LoginForm(),
-      ),
+      locale: const Locale('en'), // Puoi anche usare il Locale salvato
+      supportedLocales: const [
+        Locale('en'), // Inglese
+        Locale('it'), // Italiano
+      ],
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      home: const LoginForm(),
       theme: ThemeData.light(),
       routes: AppRoutes.routes,
       initialRoute: '/',

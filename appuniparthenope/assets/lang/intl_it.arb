@@ -1,0 +1,10 @@
+{
+  "login": "Accedi",
+  "username": "Nome utente",
+  "rememberme": "Ricorda credenziali", 
+  "resetpsw": "Password dimenticata ?",
+  "loginguest": "Accedi come ospite",
+  "loading": "Autenticazione in corso, per favore attendi..."
+
+
+}

@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+import '../app_localizations.dart';
 import '../main.dart';
 
 class LoginForm extends StatefulWidget {
@@ -193,16 +194,17 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                 ),
                 const SizedBox(height: kIsWeb ? 50.0 : 5.0),
-                const Padding(
-                  padding: EdgeInsets.only(left: 20.0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
                   child: Align(
                     alignment: Alignment.bottomLeft,
                     child: Text(
-                      'Login',
-                      style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primaryColor),
+                      AppLocalizations.of(context).translate('login'),
+                      style: const TextStyle(
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryColor,
+                      ),
                     ),
                   ),
                 ),
@@ -215,7 +217,8 @@ class _LoginFormState extends State<LoginForm> {
                         TextFormField(
                           controller: _usernameController,
                           decoration: InputDecoration(
-                            labelText: 'Username',
+                            labelText: AppLocalizations.of(context)
+                                .translate('username'),
                             labelStyle: const TextStyle(
                               color: AppColors.primaryColor,
                             ),
@@ -270,9 +273,10 @@ class _LoginFormState extends State<LoginForm> {
                               shape:
                                   const CircleBorder(), // Rende il checkbox rotondo
                             ),
-                            const Text(
-                              'Ricorda credenziali',
-                              style: TextStyle(
+                            Text(
+                              AppLocalizations.of(context)
+                                  .translate('rememberme'),
+                              style: const TextStyle(
                                 color: AppColors.lightGray,
                               ),
                             ),
@@ -296,9 +300,9 @@ class _LoginFormState extends State<LoginForm> {
                     elevation: 10,
                     shadowColor: Colors.white,
                   ),
-                  child: const Text(
-                    'Accedi',
-                    style: TextStyle(
+                  child: Text(
+                    AppLocalizations.of(context).translate('login'),
+                    style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
@@ -326,9 +330,9 @@ class _LoginFormState extends State<LoginForm> {
                       throw 'Impossibile aprire l\'URL: $url';
                     }
                   },
-                  child: const Text(
-                    'Password Dimenticata?',
-                    style: TextStyle(
+                  child: Text(
+                    AppLocalizations.of(context).translate('resetpsw'),
+                    style: const TextStyle(
                       color: Colors.grey,
                       fontWeight: FontWeight.bold,
                     ),
@@ -338,9 +342,9 @@ class _LoginFormState extends State<LoginForm> {
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, '/homeGuest');
                   },
-                  child: const Text(
-                    'Accedi come ospite',
-                    style: TextStyle(
+                  child: Text(
+                    AppLocalizations.of(context).translate('loginguest'),
+                    style: const TextStyle(
                       color: Colors.grey,
                       fontWeight: FontWeight.bold,
                     ),
@@ -362,10 +366,10 @@ class _LoginFormState extends State<LoginForm> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(20.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
                     child: CustomLoadingIndicator(
-                      text: 'Autenticazione in corso, per favore attendi...',
+                      text: AppLocalizations.of(context).translate('loading'),
                       myColor: AppColors.primaryColor,
                     ),
                   ),

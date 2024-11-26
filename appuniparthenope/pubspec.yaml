@@ -34,6 +34,8 @@ dependencies:
   package_info_plus: ^8.0.2
   device_info_plus: ^10.1.2
   yaml: ^3.1.2
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +81,11 @@ flutter:
     - assets/icon/coccarda.svg
     - assets/Onda.png
     - assets/maps.png
+
+    #lingua
+    - assets/lang/
+    - assets/lang/intl_en.arb
+    - assets/lang/intl_it.arb
 
     # Icon Service Image:
     - assets/icon/services/student.png
