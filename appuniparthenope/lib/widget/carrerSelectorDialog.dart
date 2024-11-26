@@ -1,6 +1,8 @@
 import 'package:appuniparthenope/main.dart';
 import 'package:flutter/material.dart';
 
+import '../app_localizations.dart';
+
 class CustomCareerSelectionDialog extends StatelessWidget {
   final List<Map<String, dynamic>> careers;
 
@@ -23,11 +25,11 @@ class CustomCareerSelectionDialog extends StatelessWidget {
               height: 100,
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0),
             child: Text(
-              'Seleziona la Carriera',
-              style: TextStyle(
+              AppLocalizations.of(context).translate('select_career'),
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
                 color: AppColors.primaryColor,
@@ -61,7 +63,8 @@ class CustomCareerSelectionDialog extends StatelessWidget {
                         const SizedBox(height: 5.0),
                         RichText(
                           text: TextSpan(
-                            text: '\t\tMatricola: ',
+                            text:
+                                '\t\t${AppLocalizations.of(context).translate('studentid')}: ',
                             style: const TextStyle(color: AppColors.lightGray),
                             children: <TextSpan>[
                               TextSpan(
@@ -75,7 +78,8 @@ class CustomCareerSelectionDialog extends StatelessWidget {
                         ),
                         RichText(
                           text: TextSpan(
-                            text: '\t\tStato: ',
+                            text:
+                                '\t\t${AppLocalizations.of(context).translate('studentid')}: ',
                             style: const TextStyle(color: AppColors.lightGray),
                             children: <TextSpan>[
                               TextSpan(

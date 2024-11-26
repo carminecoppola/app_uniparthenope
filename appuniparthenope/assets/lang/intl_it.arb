@@ -4,7 +4,43 @@
   "rememberme": "Ricorda credenziali", 
   "resetpsw": "Password dimenticata ?",
   "loginguest": "Accedi come ospite",
-  "loading": "Autenticazione in corso, per favore attendi..."
+  "loading": "Autenticazione in corso, per favore attendi...",
+  "loading_personal_date": "Caricamento dei tuoi dati personali",
+  "close": "Chiudi",
 
 
+  "error_anagrafic":"Errore anagrafica",
+  "error_loading_anagrafic": "Si è verificato un errore nel caricamento dei tuoi dati personali, ci scusiamo.",
+  "error_loading_career": "Si è verificato un errore nel caricamento della tua carriera, ci scusiamo.",
+  "error_loading_reservation": "Si è verificato un errore nel caricamento delle tue prenotazioni, ci scusiamo.",
+  "error_loading_service": "Si è verificato un errore nel caricamento dei tuoi servizi, ci scusiamo.",
+  "error_loading_weather": "Si è verificato un errore nel caricamento delle informazioni meteo, ci scusiamo.",
+  "error_loading_courses": "Si è verificato un errore nel caricamento dei tuoi corsi, ci scusiamo.",
+  "error_loading_fees": "Si è verificato un errore nel caricamento delle tue tasse, ci scusiamo.",
+
+
+
+
+  "select_career": "Seleziona la carriera",
+  "studentid": "Matricola",
+  "profid": "Docente ID",
+  "state": "Stato",
+  "reservation": "Prenotazioni",
+  "calendar": "Calendario",
+  "showall": "Mostra tutto",
+  "services": "Servizi",
+  "career": "Carriera",
+  "career_dsc": "Qui puoi visualizzare i dettagli relativi agli esami che hai superato",
+  "courses": "Corsi",
+  "couses_dsc": "Puoi visualizzare i corsi da seguire per ogni anno accademico previsti",
+  "fees": "Tasse",
+  "fees_dsc": "Puoi tenere sotto controllo la situazione delle tasse universitarie.",
+  "weather": "Meteo",
+  "weather_dsc": "Puoi utilizzare il servizio meteo dell' Università Parthenope.",
+  "courses_prof":"Corsi",
+  "courses_prof_dsc":"È possibile visualizzare i propri corsi dell 'anno accademico.",
+  "events":"Eventi",
+  "events_dsc":"Qui puoi visualizzare gli eventi che sono stati organizzati.",
+  "classroom":"Aule",
+  "classroom_dsc":"Qui puoi visualizzare le aule disponibili per le lezioni."
 }

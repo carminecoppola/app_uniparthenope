@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:flutter/material.dart';
@@ -121,11 +122,10 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
             bottomNavBarProvider.updateIndex(1);
             Navigator.pushNamed(context, '/carrerStudent');
           },
-          child: const ServiceCard(
+          child: ServiceCard(
             imagePath: 'assets/icon/services/careerStudent.png',
-            title: 'Carriera',
-            description:
-                'Qui puoi visualizzare i dettagli relativi agli esami che hai superato.',
+            title: AppLocalizations.of(context).translate('career'),
+            description: AppLocalizations.of(context).translate('career_dsc'),
           ),
         ),
         GestureDetector(
@@ -136,11 +136,10 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
                 context, widget.authenticatedUser.user);
             Navigator.pushNamed(context, '/courseStudent');
           },
-          child: const ServiceCard(
+          child: ServiceCard(
             imagePath: 'assets/icon/services/courses2.png',
-            title: 'Corsi',
-            description:
-                'Puoi visualizzare i corsi da seguire per ogni anno accademico previsti.',
+            title: AppLocalizations.of(context).translate('courses'),
+            description: AppLocalizations.of(context).translate('couses_dsc'),
           ),
         ),
       ],
@@ -150,11 +149,10 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
             StudentUtils.taxesStudent(context, widget.authenticatedUser.user);
             Navigator.pushNamed(context, '/feesStudent');
           },
-          child: const ServiceCard(
+          child: ServiceCard(
             imagePath: 'assets/icon/services/tax2.png',
-            title: 'Tasse',
-            description:
-                'Puoi tenere sotto controllo la situazione delle tasse universitarie.',
+            title: AppLocalizations.of(context).translate('fees'),
+            description: AppLocalizations.of(context).translate('fees_dsc'),
           ),
         ),
         GestureDetector(
@@ -162,11 +160,10 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
             WeatherFunctions.getWeather(context);
             Navigator.pushNamed(context, '/watherPage');
           },
-          child: const ServiceCard(
+          child: ServiceCard(
             imagePath: 'assets/icon/services/weather2.png',
-            title: 'Meteo',
-            description:
-                'Puoi utilizzare il servizio meteo dell\'Università Parthenope.',
+            title: AppLocalizations.of(context).translate('weather'),
+            description: AppLocalizations.of(context).translate('weather_dsc'),
           ),
         ),
       ],
@@ -264,10 +261,11 @@ class _ServiceGroupProfCardState extends State<ServiceGroupProfCard> {
             StudentUtils.allRooms(context);
             Navigator.pushNamed(context, '/classroomTeachers');
           },
-          child: const ServiceCard(
+          child: ServiceCard(
             imagePath: 'assets/icon/services/classroom3.png',
-            title: 'Aule',
-            description: 'Qui è possibile visualizzare e prenotare le aule.',
+            title: AppLocalizations.of(context).translate('classroom'),
+            description:
+                AppLocalizations.of(context).translate('classroom_dsc'),
           ),
         ),
         GestureDetector(
@@ -279,11 +277,11 @@ class _ServiceGroupProfCardState extends State<ServiceGroupProfCard> {
             bottomNavBarProvider.updateIndex(1);
             Navigator.pushNamed(context, '/courseTeachers');
           },
-          child: const ServiceCard(
+          child: ServiceCard(
             imagePath: 'assets/icon/services/courses2.png',
-            title: 'Corsi',
+            title: AppLocalizations.of(context).translate('courses_prof'),
             description:
-                'È possibile visualizzare i propri corsi dell\'anno accademico.',
+                AppLocalizations.of(context).translate('courses_prof_dsc'),
           ),
         ),
       ],
@@ -293,11 +291,10 @@ class _ServiceGroupProfCardState extends State<ServiceGroupProfCard> {
             StudentUtils.allEvents(context);
             Navigator.pushNamed(context, '/eventsTeachers');
           },
-          child: const ServiceCard(
+          child: ServiceCard(
             imagePath: 'assets/icon/services/events2.png',
-            title: 'Eventi',
-            description:
-                'Qui puoi visualizzare gli eventi che sono stati organizzati.',
+            title: AppLocalizations.of(context).translate('events'),
+            description: AppLocalizations.of(context).translate('events_dsc'),
           ),
         ),
         GestureDetector(
@@ -305,11 +302,10 @@ class _ServiceGroupProfCardState extends State<ServiceGroupProfCard> {
             WeatherFunctions.getWeather(context);
             Navigator.pushNamed(context, '/watherPage');
           },
-          child: const ServiceCard(
+          child: ServiceCard(
             imagePath: 'assets/icon/services/weather2.png',
-            title: 'Meteo',
-            description:
-                'Puoi utilizzare il servizio meteo dell\'Università Parthenope.',
+            title: AppLocalizations.of(context).translate('weather'),
+            description: AppLocalizations.of(context).translate('weather_dsc'),
           ),
         ),
       ],

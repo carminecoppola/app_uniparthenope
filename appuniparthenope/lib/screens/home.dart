@@ -4,6 +4,7 @@ import 'package:appuniparthenope/widget/ServicesWidget/CalendarWidget/calendarCa
 import 'package:appuniparthenope/widget/alertDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../app_localizations.dart';
 import '../provider/auth_provider.dart';
 import '../utilityFunctions/authUtilsFunction.dart';
 import '../utilityFunctions/studentUtilsFunction.dart';
@@ -44,11 +45,11 @@ class _HomePageState extends State<HomePage> {
         await StudentUtils.anagrafeUser(context, authenticatedUser.user);
       } else {
         if (!mounted) return;
-        const CustomAlertDialog(
-            title: 'Errore Anagrafica',
-            content:
-                'Si è verificato un errore nel caricamento dei tuoi dati personali, ci scusiamo.',
-            buttonText: 'Chiudi',
+        CustomAlertDialog(
+            title: AppLocalizations.of(context).translate('error_anagrafic'),
+            content: AppLocalizations.of(context)
+                .translate('error_loading_anagrafic'),
+            buttonText: AppLocalizations.of(context).translate('close'),
             color: AppColors.errorColor);
       }
     }
@@ -84,32 +85,35 @@ class _HomePageState extends State<HomePage> {
                     Navigator.pushReplacementNamed(context, '/profileStudent',
                         arguments: anagrafeUser);
                   } else {
-                    const CustomLoadingIndicator(
-                      text: 'Caricamento dei tuoi dati personali',
+                    CustomLoadingIndicator(
+                      text: AppLocalizations.of(context)
+                          .translate('loading_personal_date'),
                       myColor: AppColors.primaryColor,
                     );
                   }
-                                },
+                },
                 firstName: authenticatedUser.user.firstName ?? '',
                 lastName: authenticatedUser.user.lastName ?? '',
-                identificativoLabel: 'Matricola:',
+                identificativoLabel:
+                    '${AppLocalizations.of(context).translate('studentid')}:',
                 id: authenticatedUser.user.trattiCarriera[0].matricola
                     .toString(),
                 profileImage: profileImage,
               ),
               const SizedBox(height: 20),
-              const SectionTitle(title: 'Prenotazioni'),
+              SectionTitle(
+                  title: AppLocalizations.of(context).translate('reservation')),
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(context, '/reservationStudent');
                   },
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      'Mostra tutte',
-                      style: TextStyle(
+                      AppLocalizations.of(context).translate('showall'),
+                      style: const TextStyle(
                           color: AppColors.primaryColor,
                           decoration: TextDecoration.underline,
                           decorationColor: AppColors.primaryColor,
@@ -121,7 +125,8 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 10),
               const HomeAppointmentsCard(),
               const SizedBox(height: 20),
-              const SectionTitle(title: 'Servizi'),
+              SectionTitle(
+                  title: AppLocalizations.of(context).translate('services')),
               ServiceGroupStudentCard(
                 authenticatedUser: authenticatedUser,
               ),
@@ -135,24 +140,28 @@ class _HomePageState extends State<HomePage> {
                     Navigator.pushReplacementNamed(context, '/profileStudent',
                         arguments: anagrafeUser);
                   } else {
-                    const CustomLoadingIndicator(
-                        text: 'Caricamento dei tuoi dati personali',
+                    CustomLoadingIndicator(
+                        text: AppLocalizations.of(context)
+                            .translate('loading_personal_date'),
                         myColor: AppColors.primaryColor);
                   }
-                                },
+                },
                 firstName: authenticatedUser.user.firstName ?? '',
                 lastName: authenticatedUser.user.lastName ?? '',
-                identificativoLabel: 'Id Docente:',
+                identificativoLabel:
+                    '${AppLocalizations.of(context).translate('profid')}:',
                 id: authenticatedUser.user.docenteId != null
                     ? authenticatedUser.user.docenteId.toString()
                     : 'N/A',
                 profileImage: profileImage,
               ),
               const SizedBox(height: 20),
-              const SectionTitle(title: 'Calendario'),
+              SectionTitle(
+                  title: AppLocalizations.of(context).translate('calendar')),
               const CalendarCard(),
               const SizedBox(height: 20),
-              const SectionTitle(title: 'Servizi'),
+              SectionTitle(
+                  title: AppLocalizations.of(context).translate('services')),
               ServiceGroupProfCard(
                 authenticatedUser: authenticatedUser,
               ),
