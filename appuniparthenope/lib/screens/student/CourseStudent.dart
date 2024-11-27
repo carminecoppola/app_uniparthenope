@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +30,7 @@ class _CourseStudentState extends State<CourseStudentPage> {
 
   List<String> getTabTitles(BuildContext context) {
     final examProvider = Provider.of<ExamDataProvider>(context, listen: false);
-    final userProvider = Provider.of<AuthProvider>(context, listen: false);
+    Provider.of<AuthProvider>(context, listen: false);
     final selectedCareer =
         Provider.of<AuthProvider>(context, listen: false).selectedCareer;
 
@@ -80,21 +81,22 @@ class _CourseStudentState extends State<CourseStudentPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   elevation: 5,
-                  child: const Padding(
-                    padding: EdgeInsets.all(20),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.menu_book,
                           size: 50,
                           color: Colors.orangeAccent,
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
                         Text(
-                          'Siamo spiacenti, al momento stiamo riscontrando problemi nel recuperare i tuoi corsi.',
+                          AppLocalizations.of(context)
+                              .translate('error_loading_courses'),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: AppColors.detailsColor,
@@ -159,14 +161,14 @@ class _CourseStudentState extends State<CourseStudentPage> {
               },
               child: Container(
                   padding: const EdgeInsets.all(20),
-                  child: const Row(
+                  child: Row(
                     children: [
-                      Icon(Icons.legend_toggle_sharp,
+                      const Icon(Icons.legend_toggle_sharp,
                           color: AppColors.detailsColor),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       Text(
-                        'Legenda Stato',
-                        style: TextStyle(
+                        AppLocalizations.of(context).translate('state_legend'),
+                        style: const TextStyle(
                           color: AppColors.detailsColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 17,
@@ -196,7 +198,8 @@ class _CourseStudentState extends State<CourseStudentPage> {
                           final status = allStatusCoursesMap[course.codice]
                                   ?.stato
                                   .toString() ??
-                              'Stato non disponibile';
+                              AppLocalizations.of(context)
+                                  .translate('state_not_available');
 
                           return SingleCourseCard(
                             index: index,
@@ -221,7 +224,7 @@ class _CourseStudentState extends State<CourseStudentPage> {
                             ),
                             const SizedBox(height: 15),
                             Text(
-                              'Non sono visualizzabili gli esami del ${_selectedIndex + 1}° anno accademico.',
+                              '${AppLocalizations.of(context).translate('courses_not_available')} ${_selectedIndex + 1}° ${AppLocalizations.of(context).translate('course_year')}.',
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 fontSize: 18,
@@ -234,9 +237,10 @@ class _CourseStudentState extends State<CourseStudentPage> {
                       )),
               )
             else
-              const Center(
+              Center(
                 child: CustomLoadingIndicator(
-                  text: 'Caricamento dei tuoi corsi...',
+                  text:
+                      AppLocalizations.of(context).translate('loading_courses'),
                   myColor: AppColors.primaryColor,
                 ),
               ),
@@ -245,8 +249,9 @@ class _CourseStudentState extends State<CourseStudentPage> {
         bottomNavigationBar: const BottomNavBarComponent(),
       );
     }
-    return const Center(
-      child: Text("Nessuna carriera selezionata"),
+    return Center(
+      child:
+          Text(AppLocalizations.of(context).translate('not_selected_career')),
     );
   }
 }

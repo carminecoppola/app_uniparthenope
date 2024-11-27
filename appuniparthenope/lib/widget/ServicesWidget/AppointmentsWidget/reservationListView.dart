@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/AppointmentsWidget/singlAppointmentCard.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -59,10 +60,10 @@ class ReservationListWidget extends StatelessWidget {
     String emptyMessage = '';
     IconData emptyIcon;
     if (filterType == FilterType.past) {
-      emptyMessage = 'Non abbiamo trovato prenotazioni passate';
+      emptyMessage = AppLocalizations.of(context).translate('no_past_reservations');
       emptyIcon = Icons.history;
     } else {
-      emptyMessage = 'Non sono state effettuate prossime prenotazioni';
+      emptyMessage = AppLocalizations.of(context).translate('no_upcoming_reservations');
       emptyIcon = Icons.event;
     }
 

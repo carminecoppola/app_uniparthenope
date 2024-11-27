@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/auth_provider.dart';
@@ -26,9 +27,9 @@ class WeatherUniPage extends StatelessWidget {
             const SizedBox(
               height: 40,
             ),
-            const Text(
-              'Meteo',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context).translate('weather'),
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: AppColors.primaryColor,

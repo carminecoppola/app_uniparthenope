@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:flutter/material.dart';
 
@@ -75,14 +76,14 @@ class SingleCourseCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        '- Codice: $codiceCorso',
+                        '- ${AppLocalizations.of(context).translate('code')}: $codiceCorso',
                         style: const TextStyle(
                           color: Colors.white70,
                           fontSize: 14,
                         ),
                       ),
                       Text(
-                        '- Anno Accademico: $annoAccademico',
+                        '- ${toCamelCase(AppLocalizations.of(context).translate('course_year'))}: $annoAccademico',
                         style: const TextStyle(
                           color: Colors.white70,
                           fontSize: 14,
@@ -95,9 +96,9 @@ class SingleCourseCard extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      'Stato',
-                      style: TextStyle(
+                    Text(
+                      AppLocalizations.of(context).translate('state'),
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
                         color: Colors.white,

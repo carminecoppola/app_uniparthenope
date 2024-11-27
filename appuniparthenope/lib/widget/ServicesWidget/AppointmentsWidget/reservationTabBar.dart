@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 
@@ -32,13 +33,13 @@ class ReservationTabBar extends StatelessWidget {
         indicatorWeight: 3.0,
         labelColor: Colors.white,
         unselectedLabelColor: Colors.grey,
-        tabs: const [
+        tabs: [
           Tab(
-            text: 'Scadute',
+            text: AppLocalizations.of(context).translate('overdue'),
             icon: Icon(Icons.history),
           ),
           Tab(
-            text: 'Prossimamente',
+            text: AppLocalizations.of(context).translate('upcoming'),
             icon: Icon(Icons.upcoming),
           ),
         ],

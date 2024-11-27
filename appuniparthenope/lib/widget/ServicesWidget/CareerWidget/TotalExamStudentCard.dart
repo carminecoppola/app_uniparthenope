@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:appuniparthenope/main.dart';
@@ -63,9 +64,9 @@ class TotalExamStudentCard extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Media P.',
-                    style: TextStyle(
+                  Text(
+                    AppLocalizations.of(context).translate('avg_weight'),
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
@@ -84,7 +85,7 @@ class TotalExamStudentCard extends StatelessWidget {
                         '/$totTrentesimi',
                         style: const TextStyle(
                           fontSize: 13,
-                          color: Colors.black,
+                          color: AppColors.textColor,
                           fontWeight: FontWeight.w800,
                         ),
                       ),
@@ -105,7 +106,7 @@ class TotalExamStudentCard extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w800,
-                          color: Colors.black,
+                          color: AppColors.textColor,
                         ),
                       ),
                     ],

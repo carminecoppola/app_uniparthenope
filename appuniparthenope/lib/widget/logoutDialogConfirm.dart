@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/auth_provider.dart';
@@ -14,7 +15,7 @@ class LogoutConfirmationDialog extends StatelessWidget {
         size: 40,
       ),
       iconColor: AppColors.detailsColor,
-      content: const Text('Sei sicuro di voler effettuare il logout?'),
+      content: Text(AppLocalizations.of(context).translate('logout_message')),
       actions: <Widget>[
         OutlinedButton(
           onPressed: () {
@@ -23,9 +24,9 @@ class LogoutConfirmationDialog extends StatelessWidget {
           style: OutlinedButton.styleFrom(
             side: const BorderSide(color: AppColors.lightGray),
           ),
-          child: const Text(
-            'No',
-            style: TextStyle(color: AppColors.lightGray),
+          child: Text(
+            AppLocalizations.of(context).translate('no'),
+            style: const TextStyle(color: AppColors.lightGray),
           ),
         ),
         OutlinedButton(
@@ -44,9 +45,9 @@ class LogoutConfirmationDialog extends StatelessWidget {
           style: OutlinedButton.styleFrom(
             side: const BorderSide(color: AppColors.detailsColor),
           ),
-          child: const Text(
-            'Si',
-            style: TextStyle(
+          child: Text(
+            AppLocalizations.of(context).translate('yes'),
+            style: const TextStyle(
                 color: AppColors.detailsColor, fontWeight: FontWeight.bold),
           ),
         ),

@@ -46,7 +46,7 @@ class _ClassroomTeacherPageState extends State<ClassroomTeacherPage> {
             children: [
               const SizedBox(height: 20),
               const Text(
-                'Aule Universitari',
+                'Aule Universitarie',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,

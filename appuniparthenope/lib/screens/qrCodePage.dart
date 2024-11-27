@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../main.dart';
@@ -236,9 +237,10 @@ class QRCodePage extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 15),
-                        const Text(
-                          'Click per ingrandire',
-                          style: TextStyle(color: AppColors.lightGray),
+                        Text(
+                          AppLocalizations.of(context)
+                              .translate('click_to_big_image'),
+                          style: const TextStyle(color: AppColors.lightGray),
                         )
                       ],
                     ),

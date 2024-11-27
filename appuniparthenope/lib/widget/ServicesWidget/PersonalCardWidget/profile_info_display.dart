@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +36,9 @@ class ProfileInfoDisplay extends StatelessWidget {
             ),
             const SizedBox(width: 10),
             Text(
-              index == 0 ? 'Personali' : 'Accademiche',
+              index == 0
+                  ? AppLocalizations.of(context).translate('personal_label')
+                  : AppLocalizations.of(context).translate('career_label'),
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -49,82 +52,96 @@ class ProfileInfoDisplay extends StatelessWidget {
         if (userAnagrafe != null && authenticatedUser != null) ...[
           if (index == 0) ...[
             ProfileInfoWidget(
-              label: 'Nome:',
+              label: '${AppLocalizations.of(context).translate('name_label')}:',
               value: toCamelCase(userAnagrafe.nome),
             ),
             ProfileInfoWidget(
-              label: 'Cognome:',
+              label:
+                  '${AppLocalizations.of(context).translate('surname_label')}:',
               value: toCamelCase(userAnagrafe.cognome),
             ),
             ProfileInfoWidget(
-              label: 'CF:',
+              label: '${AppLocalizations.of(context).translate('cf_label')}:',
               value: userAnagrafe.codFis,
             ),
             ProfileInfoWidget(
-              label: 'Nazionalità:',
+              label:
+                  '${AppLocalizations.of(context).translate('nationality_label')}:',
               value: toCamelCase(userAnagrafe.desCittadinanza ?? ''),
             ),
             ProfileInfoWidget(
-              label: 'Data di Nascita:',
+              label: '${AppLocalizations.of(context).translate('dob_label')}:',
               value: userAnagrafe.dataNascita!.split(" ")[0],
             ),
             ProfileInfoWidget(
-              label: 'Sesso:',
-              value: getGenderDescription(userAnagrafe.sesso),
+              label:
+                  '${AppLocalizations.of(context).translate('gender_label')}:',
+              value: getGenderDescription(userAnagrafe.sesso, context),
             ),
             ProfileInfoWidget(
-              label: 'Cellulare:',
+              label:
+                  '${AppLocalizations.of(context).translate('phone_label')}:',
               value: userAnagrafe.telRes,
             ),
             ProfileInfoWidget(
-              label: 'E-mail:',
+              label:
+                  '${AppLocalizations.of(context).translate('email_label')}:',
               value: userAnagrafe.email ?? '',
             ),
           ],
           // Blocco Universitario
           if (index == 1) ...[
             ProfileInfoWidget(
-              label: 'Username:',
+              label:
+                  '${AppLocalizations.of(context).translate('username_label')}:',
               value: authenticatedUser.user.userId,
             ),
             ProfileInfoWidget(
-              label: 'Ruolo:',
+              label: '${AppLocalizations.of(context).translate('role_label')}:',
               value: role == 'Studenti' ? role : userAnagrafe.ruolo,
             ),
             if (role == 'Studenti' && carriera != null) ...[
               ProfileInfoWidget(
-                label: 'Matricola:',
+                label:
+                    '${AppLocalizations.of(context).translate('student_id_label')}:',
                 value: carriera.matricola,
               ),
               ProfileInfoWidget(
-                label: 'Corso di studi:',
+                label:
+                    '${AppLocalizations.of(context).translate('course_label')}:',
                 value: toCamelCase(carriera.cdsDes),
               ),
               ProfileInfoWidget(
-                label: 'Id Corso:',
+                label:
+                    '${AppLocalizations.of(context).translate('course_id_label')}:',
                 value: carriera.cdsId.toString(),
               ),
               ProfileInfoWidget(
-                label: 'Immatricolazione:',
+                label:
+                    '${AppLocalizations.of(context).translate('enrollment_label')}:',
                 value: carriera.dettaglioTratto.aaRegId.toString(),
               ),
               ProfileInfoWidget(
-                label: 'Anno Accademico:',
+                label:
+                    '${AppLocalizations.of(context).translate('academic_year_label')}:',
                 value: carriera.dettaglioTratto.aaIscrId.toString(),
               ),
             ],
             if (role == 'Docenti') ...[
               ProfileInfoWidget(
-                label: 'Id Docente:',
+                label:
+                    '${AppLocalizations.of(context).translate('teacher_id_label')}:',
                 value: authenticatedUser.user.docenteId.toString(),
               ),
               ProfileInfoWidget(
-                label: 'Settore:',
+                label:
+                    '${AppLocalizations.of(context).translate('sector_label')}:',
                 value: toCamelCase(userAnagrafe.settore.toString()),
               ),
             ],
             ProfileInfoWidget(
-              label: 'E-mail Ateneo:',
+              label:
+                  '${AppLocalizations.of(context).translate('university_email_label')}:',
               value: userAnagrafe.emailAte,
             ),
           ],
@@ -133,13 +150,13 @@ class ProfileInfoDisplay extends StatelessWidget {
     );
   }
 
-  String getGenderDescription(String? gender) {
+  String getGenderDescription(String? gender, context) {
     if (gender == 'M') {
-      return 'Maschile';
+      return AppLocalizations.of(context).translate('male_label');
     } else if (gender == 'F') {
-      return 'Femminile';
+      return AppLocalizations.of(context).translate('female_label');
     } else {
-      return 'Non definito';
+      return AppLocalizations.of(context).translate('undefined_gender_label');
     }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,7 @@ class BannerWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Situazione attuale: ${getStatus(allTaxesInfo?.semaforo)}', // Modificato qui
+            '${AppLocalizations.of(context).translate('actual_situation')}: ${getStatus(allTaxesInfo?.semaforo, context)}', // Modificato qui
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -36,16 +37,16 @@ class BannerWidget extends StatelessWidget {
     );
   }
 
-  String getStatus(String? status) {
+  String getStatus(String? status,context) {
     // Modificato qui
     if (status == 'ROSSO') {
-      return 'Scadute';
+      return AppLocalizations.of(context).translate('not_regular');
     } else if (status == 'GIALLO') {
-      return 'Da pagare';
+      return AppLocalizations.of(context).translate('not_paid');
     } else if (status == 'VERDE') {
-      return 'Regolare';
+      return AppLocalizations.of(context).translate('regular');
     } else {
-      return 'Non definita';
+      return AppLocalizations.of(context).translate('not_available');
     }
   }
 

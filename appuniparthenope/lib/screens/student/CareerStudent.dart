@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/CareerWidget/TotalExamStudentCard.dart';
@@ -44,9 +45,9 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
         return Scaffold(
           appBar:
               NavbarComponent(role: authenticatedUser!.user.grpDes.toString()),
-          body: const Center(
+          body: Center(
             child: CustomLoadingIndicator(
-              text: 'Caricamento carriera...',
+              text: AppLocalizations.of(context).translate('loading_career'),
               myColor: AppColors.primaryColor,
             ),
           ),
@@ -66,21 +67,21 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   elevation: 5,
-                  child: const Padding(
-                    padding: EdgeInsets.all(20),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.school,
                           size: 50,
                           color: Colors.orangeAccent,
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
                         Text(
-                          'Al momento, non risultano esami nel tuo percorso accademico.',
+                          AppLocalizations.of(context).translate('empty_exam'),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: AppColors.detailsColor,
@@ -104,7 +105,9 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
               const SizedBox(height: 10),
               Center(
                 child: TotalExamStudentCard(
-                  mediaTrentesimi: weightedAverageStats!.trenta.toString(),
+                  mediaTrentesimi: (weightedAverageStats!.trenta
+                        ..toStringAsFixed(1))
+                      .toString(),
                   mediaCentesimi: weightedAverageStats.centodieci.toString(),
                   totTrentesimi: weightedAverageStats.baseTrenta.toString(),
                   totCentesimi: weightedAverageStats.baseCentodieci.toString(),
@@ -135,7 +138,7 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
                       cfuExam: singleExam.cfu!.toInt().toString(),
                       titleExam: singleExam.nome.toString(),
                       dateExam: singleExam.status.data != ""
-                          ? '- Superato: ${singleExam.status.data!.toString().split(" ")[0]}'
+                          ? '- ${AppLocalizations.of(context).translate('completed')}: ${singleExam.status.data!.toString().split(" ")[0]}'
                           : "",
                       voteExam: voteExam,
                       colorCard: colorCard,
@@ -155,6 +158,7 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
 }
 
 enum CareerState { loading, empty, populated }
+
 CareerState checkCareerState({
   required totalExamStats,
   required aritmeticAverageStats,
@@ -165,17 +169,19 @@ CareerState checkCareerState({
   print('aritmeticAverageStats: $aritmeticAverageStats');
   print('weightedAverageStats: $weightedAverageStats');
   print('allExamInfo: $totalExamStats');
-  
+
   // Se i dati non sono ancora caricati
   if (totalExamStats == null || allExamInfo == null) {
     return CareerState.loading;
   }
-  
+
   // Se la lista degli esami è vuota oppure se le medie sono nulle o pari a 0
-  if (allExamInfo.isEmpty || 
+  if (allExamInfo.isEmpty ||
       (aritmeticAverageStats == null && weightedAverageStats == null) ||
-      (aritmeticAverageStats != null && aritmeticAverageStats.trenta == 0 && 
-       weightedAverageStats != null && weightedAverageStats.trenta == 0)) {
+      (aritmeticAverageStats != null &&
+          aritmeticAverageStats.trenta == 0 &&
+          weightedAverageStats != null &&
+          weightedAverageStats.trenta == 0)) {
     return CareerState.empty;
   }
 

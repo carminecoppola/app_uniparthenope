@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/taxes_provider.dart';
@@ -53,21 +54,23 @@ class _FeesStudentState extends State<FeesStudent>
                                 children: allTaxesInfo.toPay.isEmpty
                                     ? [
                                         const SizedBox(height: 30),
-                                        const Center(
+                                        Center(
                                           child: Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              Icon(
+                                              const Icon(
                                                 Icons.check_circle_outline,
                                                 size: 64,
                                                 color:
                                                     AppColors.backgroundColor,
                                               ),
-                                              SizedBox(height: 16),
+                                              const SizedBox(height: 16),
                                               Text(
-                                                'Non ci sono tasse da pagare',
-                                                style: TextStyle(
+                                                AppLocalizations.of(context)
+                                                    .translate(
+                                                        'empty_paid_fees'),
+                                                style: const TextStyle(
                                                   color:
                                                       AppColors.backgroundColor,
                                                   fontSize: 18,
@@ -143,9 +146,9 @@ class _FeesStudentState extends State<FeesStudent>
                 ),
               ],
             )
-          : const Center(
+          : Center(
               child: CustomLoadingIndicator(
-                text: 'Caricamento delle tue tasse...',
+                text: AppLocalizations.of(context).translate('loading_fees'),
                 myColor: AppColors.primaryColor,
               ),
             ), // Mostra un CircularProgressIndicator se allTaxesInfo è null

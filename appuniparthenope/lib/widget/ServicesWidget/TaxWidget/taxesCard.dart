@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 
@@ -131,8 +132,10 @@ class TaxStudentCard extends StatelessWidget {
               children: <Widget>[
                 _buildDetailRow('Cod. Invoice', codInvoice),
                 _buildDetailRow('IUR', codIUR.toUpperCase(), isValueLong: true),
-                _buildDetailRow('Data', date),
-                _buildDetailRow('Prezzo', amount),
+                _buildDetailRow(
+                    AppLocalizations.of(context).translate('date'), date),
+                _buildDetailRow(
+                    AppLocalizations.of(context).translate('price'), amount),
               ],
             ),
           ),
@@ -144,9 +147,9 @@ class TaxStudentCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: const Text(
-                'Chiudi',
-                style: TextStyle(
+              child: Text(
+                AppLocalizations.of(context).translate('close'),
+                style: const TextStyle(
                   color: AppColors.primaryColor,
                   fontWeight: FontWeight.bold,
                 ),

@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 
@@ -32,14 +33,14 @@ class CustomTaxTabBar extends StatelessWidget {
         indicatorWeight: 3.0,
         labelColor: Colors.white,
         unselectedLabelColor: Colors.grey,
-        tabs: const [
+        tabs: [
           Tab(
-            text: 'Da pagare',
-            icon: Icon(Icons.payment),
+            text: AppLocalizations.of(context).translate('not_paid'),
+            icon: const Icon(Icons.payment),
           ),
           Tab(
-            text: 'Pagate',
-            icon: Icon(Icons.check),
+            text: AppLocalizations.of(context).translate('paid'),
+            icon: const Icon(Icons.check),
           ),
         ],
       ),

@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 
@@ -40,7 +41,7 @@ class CustomTabBar extends StatelessWidget {
                       : Colors.transparent,
                 ),
                 child: Text(
-                  'Personali',
+                  AppLocalizations.of(context).translate('personal_label'),
                   style: TextStyle(
                     color:
                         selectedIndex == 0 ? Colors.white : AppColors.lightGray,
@@ -67,7 +68,7 @@ class CustomTabBar extends StatelessWidget {
                       : Colors.transparent,
                 ),
                 child: Text(
-                  'Accademiche',
+                  AppLocalizations.of(context).translate('career_label'),
                   style: TextStyle(
                     color:
                         selectedIndex == 1 ? Colors.white : AppColors.lightGray,

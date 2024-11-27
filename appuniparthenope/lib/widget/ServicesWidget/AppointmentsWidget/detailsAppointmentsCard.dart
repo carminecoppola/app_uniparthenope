@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/model/studentService/reservation_data.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
@@ -67,11 +68,11 @@ class DetailsAppointmentCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Row(
+                  Row(
                     children: [
                       Text(
-                        'Data Prenotazione',
-                        style: TextStyle(
+                        AppLocalizations.of(context).translate('date'),
+                        style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -177,7 +178,7 @@ class DetailsAppointmentCard extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                           Text(
-                            'Aula: $room',
+                            '${AppLocalizations.of(context).translate('reservation_room')}: $room',
                             style: const TextStyle(
                               fontSize: 14,
                               color: AppColors.lightGray,
@@ -197,7 +198,7 @@ class DetailsAppointmentCard extends StatelessWidget {
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: Text(
-                  'Prenotati: ${reservation.numIscritti}',
+                  '${AppLocalizations.of(context).translate('reservation_number')}: ${reservation.numIscritti}',
                   style: const TextStyle(
                     fontSize: 14,
                     color: AppColors.primaryColor,

@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/WeatherWidget/singleWeatherCard.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -49,9 +50,9 @@ class _CarouselCardState extends State<CarouselCard> {
                 final timeSeriesList = weatherDataProvider.timeSeriesList;
 
                 if (timeSeriesList.isEmpty) {
-                  return const Center(
+                  return  Center(
                     child: CustomLoadingIndicator(
-                      text: 'Caricamento\ninformazioni meteo',
+                      text: AppLocalizations.of(context).translate('loading_weather'),
                       myColor: AppColors.detailsColor,
                     ),
                   );

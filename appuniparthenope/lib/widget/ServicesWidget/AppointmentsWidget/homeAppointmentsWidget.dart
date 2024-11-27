@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/widget/CustomLoadingIndicator.dart';
 import 'package:appuniparthenope/main.dart';
@@ -56,9 +57,9 @@ class _HomeAppointmentsCardState extends State<HomeAppointmentsCard> {
 
     // Se i dati sono ancora in caricamento e non è scaduto il timeout, mostra il caricamento
     if (reservationExam == null && !_isLoadingTimedOut) {
-      return const Center(
+      return Center(
         child: CustomLoadingIndicator(
-          text: 'Caricamento ultime prenotazioni...',
+          text: AppLocalizations.of(context).translate('loading_reservation'),
           myColor: AppColors.primaryColor,
         ),
       );
@@ -66,22 +67,23 @@ class _HomeAppointmentsCardState extends State<HomeAppointmentsCard> {
 
     // Mostra il messaggio di timeout se i dati non sono disponibili e il timeout è scaduto
     if (reservationExam == null && _isLoadingTimedOut) {
-      return const Center(
+      return Center(
         child: Padding(
-          padding: EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.error_outline,
                 color: AppColors.detailsColor,
                 size: 40,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
-                'Al momento non è stato possibile visualizzate le tue prenotazioni.',
+                AppLocalizations.of(context)
+                    .translate('error_loading_reservation'),
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   color: AppColors.lightGray,
                 ),
@@ -93,13 +95,13 @@ class _HomeAppointmentsCardState extends State<HomeAppointmentsCard> {
     }
 
     if (reservationExam != null && reservationExam.isEmpty) {
-      return const Center(
+      return Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 50.0),
+          padding: const EdgeInsets.symmetric(vertical: 50.0),
           child: Text(
-            'Non ci sono prenotazioni al momento',
+            AppLocalizations.of(context).translate('empty_reservation'),
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
               color: AppColors.lightGray,
             ),

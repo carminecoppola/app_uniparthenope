@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -36,23 +37,24 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
       return Scaffold(
         body: Container(
           color: AppColors.backgroundColor,
-          child: const Center(
-            child: Text("User not authenticated"),
+          child: Center(
+            child: Text(AppLocalizations.of(context).translate('not_auth')),
           ),
         ),
       );
     }
 
     final trattiCarriera = authenticatedUser.user.trattiCarriera;
-    final identificativo = trattiCarriera.isNotEmpty
-        ? trattiCarriera[0].matricola
-        : 'N/A';
+    final identificativo =
+        trattiCarriera.isNotEmpty ? trattiCarriera[0].matricola : 'N/A';
     final identificativoProf = authenticatedUser.user.docenteId;
     final facCod = trattiCarriera.isNotEmpty
         ? trattiCarriera[0].dettaglioTratto.facCod
         : null;
     final role = authenticatedUser.user.grpDes;
-    final identificativoLabel = role == 'Docenti' ? 'ID Docente' : 'Matricola';
+    final identificativoLabel = role == 'Docenti'
+        ? AppLocalizations.of(context).translate('profid')
+        : AppLocalizations.of(context).translate('studentid');
 
     final String backgroundConfig = facCod != null
         ? _chooseBackground(facCod)
@@ -104,8 +106,8 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
                     ] else ...[
                       const Center(
                         child: PersonalCardWidget(
-                          nome: 'Nome non disponibile',
-                          cognome: 'Cognome non disponibile',
+                          nome: 'N/A',
+                          cognome: 'N/A',
                           identificativoLabel: 'N/A',
                           identificativo: 'N/A',
                         ),

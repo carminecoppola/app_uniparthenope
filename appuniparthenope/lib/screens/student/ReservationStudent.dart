@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/AppointmentsWidget/reservationTabBar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -50,12 +51,13 @@ class _ReservationPageState extends State<ReservationPage>
     return Scaffold(
       appBar: const NavbarComponent(),
       body: reservations == null
-          ? const Center(
+          ? Center(
               child: SizedBox(
                 width: 200,
                 height: 200,
                 child: CustomLoadingIndicator(
-                  text: 'Caricamento prenotazioni in corso...',
+                  text: AppLocalizations.of(context)
+                      .translate('loading_reservation'),
                   myColor: AppColors.primaryColor,
                 ),
               ),
@@ -66,9 +68,9 @@ class _ReservationPageState extends State<ReservationPage>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 20),
-                  const Text(
-                    'Prenotazioni',
-                    style: TextStyle(
+                  Text(
+                    AppLocalizations.of(context).translate('reservation'),
+                    style: const TextStyle(
                       color: AppColors.primaryColor,
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
@@ -96,7 +98,7 @@ class _ReservationPageState extends State<ReservationPage>
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          'Trovate ${filteredReservations.length} corrispondenze',
+                          '${AppLocalizations.of(context).translate('reservation_string_1')} ${filteredReservations.length} ${AppLocalizations.of(context).translate('reservation_string_2')}',
                           style: const TextStyle(
                             color: Colors.grey,
                             fontSize: 12,

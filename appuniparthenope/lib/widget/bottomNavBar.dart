@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
@@ -67,7 +68,8 @@ class BottomNavBarComponent extends StatelessWidget {
                         arguments: anagrafeUser);
                   },
                   icon: Icons.person,
-                  text: 'Personal Card',
+                  text: AppLocalizations.of(context)
+                      .translate('personal_profile'),
                 ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
@@ -75,7 +77,7 @@ class BottomNavBarComponent extends StatelessWidget {
                     Navigator.pushNamed(context, '/qrCodePage');
                   },
                   icon: Icons.qr_code,
-                  text: 'QR-Code',
+                  text: AppLocalizations.of(context).translate('qr_code'),
                 ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
@@ -84,7 +86,7 @@ class BottomNavBarComponent extends StatelessWidget {
                     Navigator.pushNamed(context, '/carrerStudent');
                   },
                   icon: Icons.school,
-                  text: 'Carriera',
+                  text: AppLocalizations.of(context).translate('career'),
                 ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
@@ -93,7 +95,7 @@ class BottomNavBarComponent extends StatelessWidget {
                     Navigator.pushNamed(context, '/reservationStudent');
                   },
                   icon: Icons.calendar_month,
-                  text: 'Prenotazioni',
+                  text: AppLocalizations.of(context).translate('reservation'),
                 ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
@@ -102,7 +104,7 @@ class BottomNavBarComponent extends StatelessWidget {
                     Navigator.pushNamed(context, '/courseStudent');
                   },
                   icon: Icons.book,
-                  text: 'Corsi',
+                  text: AppLocalizations.of(context).translate('courses'),
                 ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
@@ -110,7 +112,7 @@ class BottomNavBarComponent extends StatelessWidget {
                     Navigator.pushNamed(context, '/feesStudent');
                   },
                   icon: Icons.attach_money_outlined,
-                  text: 'Tasse Universitarie',
+                  text: AppLocalizations.of(context).translate('fees_uni'),
                 ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
@@ -118,14 +120,14 @@ class BottomNavBarComponent extends StatelessWidget {
                     Navigator.pushNamed(context, '/watherPage');
                   },
                   icon: Icons.wb_cloudy,
-                  text: 'Meteo UniParthenope',
+                  text: AppLocalizations.of(context).translate('weather_uni'),
                 ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
                     Navigator.pushNamed(context, '/infoAppPage');
                   },
                   icon: Icons.info,
-                  text: 'Info',
+                  text: AppLocalizations.of(context).translate('info_app'),
                 ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
@@ -133,7 +135,7 @@ class BottomNavBarComponent extends StatelessWidget {
                     examDataProvider.clearReservations();
                   },
                   icon: Icons.logout,
-                  text: 'Logout',
+                  text: AppLocalizations.of(context).translate('logout'),
                 ),
               ],
             );
@@ -144,16 +146,16 @@ class BottomNavBarComponent extends StatelessWidget {
       selectedItemColor: Colors.white,
       unselectedItemColor: AppColors.lightGray,
       selectedLabelStyle: const TextStyle(color: Colors.white),
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
+      items: <BottomNavigationBarItem>[
+        const BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.school),
-          label: 'Carriera',
+          icon: const Icon(Icons.school),
+          label: AppLocalizations.of(context).translate('career'),
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.menu),
           label: 'Menu',
         ),

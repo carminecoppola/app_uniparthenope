@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../main.dart';
@@ -20,7 +21,7 @@ class SearchBarReservationWidget extends StatelessWidget {
         controller: controller,
         onChanged: onChanged,
         decoration: InputDecoration(
-          labelText: 'Cerca prenotazione...',
+          labelText: AppLocalizations.of(context).translate('find_reservation'),
           labelStyle: const TextStyle(
             color: AppColors.primaryColor,
           ),

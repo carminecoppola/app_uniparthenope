@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:flutter/material.dart';
 
@@ -6,10 +7,10 @@ void showLegendDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Center(
+        title: Center(
           child: Text(
-            'Legenda Stato',
-            style: TextStyle(
+            AppLocalizations.of(context).translate('state_legend'),
+            style: const TextStyle(
               color: AppColors.detailsColor,
               fontWeight: FontWeight.bold,
             ),
@@ -24,13 +25,21 @@ void showLegendDialog(BuildContext context) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _legendItem(
-                      'Attività Didattica Pianificata', AppColors.detailsColor),
-                  _legendItem('Attività Didattica Non frequentata',
+                      AppLocalizations.of(context)
+                          .translate('planned_teaching_activity'),
+                      AppColors.detailsColor),
+                  _legendItem(
+                      AppLocalizations.of(context)
+                          .translate('unattended_teaching_activity'),
                       AppColors.lightGray),
                   _legendItem(
-                      'Attività Didattica Frequentata', AppColors.accentColor),
+                      AppLocalizations.of(context)
+                          .translate('attended_teaching_activity'),
+                      AppColors.accentColor),
                   _legendItem(
-                      'Riconosciuta intera Attività', AppColors.successColor),
+                      AppLocalizations.of(context)
+                          .translate('recognized_entire_activity'),
+                      AppColors.successColor),
                 ],
               ),
             ),
@@ -41,9 +50,9 @@ void showLegendDialog(BuildContext context) {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: const Text(
-              'Chiudi',
-              style: TextStyle(
+            child: Text(
+              AppLocalizations.of(context).translate('close'),
+              style: const TextStyle(
                   color: AppColors.detailsColor, fontWeight: FontWeight.bold),
             ),
           ),

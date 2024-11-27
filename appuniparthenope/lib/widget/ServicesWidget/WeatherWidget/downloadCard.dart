@@ -1,7 +1,8 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../main.dart'; // Aggiungi questa importazione
+import '../../../main.dart';
 
 class DownloadCard extends StatelessWidget {
   const DownloadCard({super.key});
@@ -43,10 +44,10 @@ class DownloadCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 20),
-                const Expanded(
+                Expanded(
                   child: Text(
-                    "Scarica la nostra app",
-                    style: TextStyle(
+                    AppLocalizations.of(context).translate('download_weather'),
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
