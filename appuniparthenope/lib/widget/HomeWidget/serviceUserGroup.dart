@@ -139,7 +139,7 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
           child: ServiceCard(
             imagePath: 'assets/icon/services/courses2.png',
             title: AppLocalizations.of(context).translate('courses'),
-            description: AppLocalizations.of(context).translate('couses_dsc'),
+            description: AppLocalizations.of(context).translate('courses_dsc'),
           ),
         ),
       ],
@@ -164,6 +164,31 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
             imagePath: 'assets/icon/services/weather2.png',
             title: AppLocalizations.of(context).translate('weather'),
             description: AppLocalizations.of(context).translate('weather_dsc'),
+          ),
+        ),
+      ],
+      [
+        GestureDetector(
+          onTap: () {
+            StudentUtils.allRooms(context);
+            Navigator.pushNamed(context, '/classroomTeachers');
+          },
+          child: ServiceCard(
+            imagePath: 'assets/icon/services/classroom3.png',
+            title: AppLocalizations.of(context).translate('classroom'),
+            description:
+                AppLocalizations.of(context).translate('classroom_dsc'),
+          ),
+        ),
+        GestureDetector(
+          onTap: () {
+            StudentUtils.allEvents(context);
+            Navigator.pushNamed(context, '/eventsTeachers');
+          },
+          child: ServiceCard(
+            imagePath: 'assets/icon/services/events2.png',
+            title: AppLocalizations.of(context).translate('events'),
+            description: AppLocalizations.of(context).translate('events_dsc'),
           ),
         ),
       ],

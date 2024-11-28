@@ -2,6 +2,8 @@ import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:flutter/material.dart';
 
+import '../../../app_localizations.dart';
+
 class RegistrationForm extends StatefulWidget {
   const RegistrationForm({super.key});
 
@@ -15,13 +17,15 @@ class _RegistrationFormState extends State<RegistrationForm> {
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _matricolaController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  String _selectedDocumentType = 'Carta d\'identità';
+  String _selectedDocumentType = '';
 
-  final List<String> _documentTypes = [
-    'Carta d\'identità',
-    'Patente',
-    'Passaporto'
-  ];
+  late List<String> _documentTypes;
+
+  @override
+  void initState() {
+    super.initState();
+    // _documentTypes = [...] // Moved to build() method
+  }
 
   bool get _isFormValid {
     return _nameController.text.isNotEmpty &&
@@ -31,14 +35,24 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
   void _showWarning(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Per favore, compila tutti i campi obbligatori.'),
+      SnackBar(
+        content: Text(
+          AppLocalizations.of(context).translate('registration_warning'),
+        ),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    // Load the localized strings in build() method instead of initState
+    _documentTypes = [
+      AppLocalizations.of(context).translate('document_type_identity_card'),
+      AppLocalizations.of(context).translate('document_type_driver_license'),
+      AppLocalizations.of(context).translate('document_type_passport'),
+    ];
+    _selectedDocumentType = _documentTypes.first;
+
     return Scaffold(
       appBar: const NavbarComponent(
         role: 'PTA',
@@ -63,10 +77,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   height: 70,
                 ),
                 const SizedBox(height: 5),
-                const Center(
+                Center(
                   child: Text(
-                    'Registrazione',
-                    style: TextStyle(
+                    AppLocalizations.of(context)
+                        .translate('registration_title'),
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: AppColors.primaryColor,
@@ -76,7 +91,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _nameController,
-                  decoration: _buildInputDecoration('Nome'),
+                  decoration: _buildInputDecoration(
+                    AppLocalizations.of(context)
+                        .translate('registration_name_label'),
+                  ),
                   onChanged: (value) {
                     setState(() {
                       _nameController.value = _nameController.value.copyWith(
@@ -92,7 +110,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 const SizedBox(height: 10),
                 TextFormField(
                   controller: _surnameController,
-                  decoration: _buildInputDecoration('Cognome'),
+                  decoration: _buildInputDecoration(
+                    AppLocalizations.of(context)
+                        .translate('registration_surname_label'),
+                  ),
                   onChanged: (value) {
                     setState(() {
                       _surnameController.value =
@@ -109,7 +130,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 const SizedBox(height: 10),
                 DropdownButtonFormField<String>(
                   value: _selectedDocumentType,
-                  decoration: _buildInputDecoration('Tipo Documento'),
+                  decoration: _buildInputDecoration(
+                    AppLocalizations.of(context)
+                        .translate('registration_document_type_label'),
+                  ),
                   items: _documentTypes.map((String type) {
                     return DropdownMenuItem<String>(
                       value: type,
@@ -125,7 +149,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 const SizedBox(height: 10),
                 TextFormField(
                   controller: _idController,
-                  decoration: _buildInputDecoration('DOCUMENTO IDENTITÀ'),
+                  decoration: _buildInputDecoration(
+                    AppLocalizations.of(context)
+                        .translate('registration_document_id_label'),
+                  ),
                   textCapitalization: TextCapitalization.characters,
                   onChanged: (value) {
                     setState(() {
@@ -142,12 +169,18 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 const SizedBox(height: 10),
                 TextFormField(
                   controller: _matricolaController,
-                  decoration: _buildInputDecoration('Matricola (opzionale)'),
+                  decoration: _buildInputDecoration(
+                    AppLocalizations.of(context)
+                        .translate('registration_matricola_label'),
+                  ),
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
                   controller: _phoneController,
-                  decoration: _buildInputDecoration('Cellulare (opzionale)'),
+                  decoration: _buildInputDecoration(
+                    AppLocalizations.of(context)
+                        .translate('registration_phone_label'),
+                  ),
                 ),
                 const SizedBox(height: 40),
                 ElevatedButton(
@@ -162,9 +195,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                     backgroundColor:
                         _isFormValid ? AppColors.primaryColor : Colors.grey,
                   ),
-                  child: const Text(
-                    'Registra Utente',
-                    style: TextStyle(color: Colors.white),
+                  child: Text(
+                    AppLocalizations.of(context)
+                        .translate('registration_button'),
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ),
               ],
@@ -180,7 +214,6 @@ class _RegistrationFormState extends State<RegistrationForm> {
     return value[0].toUpperCase() + value.substring(1);
   }
 
-  // Metodo per generare la decorazione desiderata
   InputDecoration _buildInputDecoration(String labelText) {
     return InputDecoration(
       labelText: labelText,

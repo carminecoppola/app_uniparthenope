@@ -2,6 +2,8 @@ import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:flutter/material.dart';
 
+import '../../../app_localizations.dart';
+
 class AccessLogsTable extends StatelessWidget {
   const AccessLogsTable({super.key});
 
@@ -22,9 +24,9 @@ class AccessLogsTable extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Accessi alla Biblioteca',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context).translate('access_logs_title'),
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: AppColors.primaryColor,
@@ -37,17 +39,19 @@ class AccessLogsTable extends StatelessWidget {
               ),
               dataRowColor:
                   WidgetStateColor.resolveWith((states) => Colors.grey[200]!),
-              columns: const [
+              columns: [
                 DataColumn(
-                    label: Text(
-                  'Nome',
-                  style: TextStyle(color: AppColors.primaryColor),
-                )),
+                  label: Text(
+                    AppLocalizations.of(context).translate('name_column'),
+                    style: const TextStyle(color: AppColors.primaryColor),
+                  ),
+                ),
                 DataColumn(
-                    label: Text(
-                  'Orario di Entrata',
-                  style: TextStyle(color: AppColors.primaryColor),
-                )),
+                  label: Text(
+                    AppLocalizations.of(context).translate('entry_time_column'),
+                    style: const TextStyle(color: AppColors.primaryColor),
+                  ),
+                ),
               ],
               rows: accessLogs
                   .map(

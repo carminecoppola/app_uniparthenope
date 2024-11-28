@@ -29,13 +29,17 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // Ottieni la lingua del dispositivo
+    String locale = Localizations.localeOf(context)
+        .toString(); // Esempio: "it_IT" o "en_US"
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(10),
       child: SizedBox(
         width: 350,
         height: 355,
         child: TableCalendar(
-          locale: 'it_IT', // Imposta il calendario in italiano
+          locale: locale, // Usa la lingua del dispositivo
           firstDay: DateTime.utc(2023, 1, 1),
           lastDay: DateTime.utc(2040, 12, 31),
           focusedDay: _focusedDay,

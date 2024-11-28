@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:flutter/material.dart';
 
@@ -25,8 +26,7 @@ class _UniversitySliderWidgetState extends State<UniversitySliderWidget> {
     final List<UniversityInfo> sedeInfo = [
       UniversityInfo(
         nome: 'Monte S. Angelo',
-        descrizione:
-            'Il Palazzo Pacanowski è situato a Napoli, in Via Generale Parisi n. 13, nelle adiacenze della Scuola Militare Nunziatella. L’edificio, espressione tipica dell’architettura italiana degli anni ‘50, presenta una struttura a forma di U, con una corte rivolta a sud, che si apre in direzione del mare. Particolarmente caratteristici sono i giardini del palazzo, attraversati da viali alberati con piante di alto fusto.\n\nIl Palazzo costituisce la sede della Scuola Economico Giuridica cui afferiscono i seguenti Dipartimenti:\n\n- Dipartimento di Giurisprudenza\n- Dipartimento di Studi Aziendali ed Economici\n- Dipartimento di Studi Aziendali e Quantitativi\n- Dipartimento di Studi Economici e Giuridici',
+        descrizione: AppLocalizations.of(context).translate('monte_s_angelo'),
         indirizzo: 'Via Generale Parisi, 13, 80132 Napoli NA',
         immagini: [
           'assets/university/uni_monte.jpg',
@@ -42,7 +42,7 @@ class _UniversitySliderWidgetState extends State<UniversitySliderWidget> {
       UniversityInfo(
         nome: 'Centro Direzionale',
         descrizione:
-            'Il Centro Direzionale ospita il Dipartimento di Ingegneria e del Dipartimento di Scienze e Tecnologie. La struttura, che sorge a ridosso della stazione di Napoli Centrale, è costituita da un insieme di moderni grattacieli, che rientrano all’interno di un più ampio complesso urbano, progettato dall’architetto giapponese Kenzō Tange.',
+            AppLocalizations.of(context).translate('centro_direzionale'),
         indirizzo: 'Centro Direzionale ISOLA C4, 80133 Napoli',
         immagini: [
           'assets/university/caroselloSedi/SedeCD0.png',
@@ -59,8 +59,7 @@ class _UniversitySliderWidgetState extends State<UniversitySliderWidget> {
       ),
       UniversityInfo(
         nome: 'Sede Centrale',
-        descrizione:
-            'La sede centrale dell’Università degli Studi di Napoli “Parthenope” è collocata in Via Ammiraglio Ferdinando Acton n. 38 e consiste di un complesso monumentale storico risalente al XVI secolo, la “Palazzina Spagnola”, e di un un fabbricato più moderno realizzato alla fine degli anni ’60.',
+        descrizione: AppLocalizations.of(context).translate('sede_centrale'),
         indirizzo: 'Via Ammiraglio Ferdinando Acton, 38, 80133 Napoli NA',
         immagini: [
           'assets/university/caroselloSedi/SedeC1.jpg',
@@ -73,15 +72,7 @@ class _UniversitySliderWidgetState extends State<UniversitySliderWidget> {
       ),
       UniversityInfo(
         nome: 'Villa Doria',
-        descrizione: '''
-Villa Doria d’Angri è una delle più importanti ville neoclassiche italiane.
-
-La villa, che si erge maestosa su uno sperone tufaceo della collina di Posillipo, fu costruita per volere del principe Marcantonio Doria d’Angri, ultimo esponente di spicco della nobile famiglia di origine genovese. All’interno di un vasto appezzamento di terreno, in parte ripido e scosceso, in parte dolcemente degradante lungo il crinale, la dimora di svago doveva avere un carattere aulico, consono al ruolo di prestigio che il principe rivestiva in quegli anni a corte.
-
-La proprietà dei Doria si estendeva lungo il crinale della collina e arrivava alla spiaggia di Mergellina con terrazzamenti di vigneti ed alberi da frutto. La tenuta era pervenuta alla nobile famiglia nel 1592 per donazione di Vittoria Carafa, fu trasformata da masseria in residenza principesca neoclassica per opera dell’architetto Bartolomeo Grasso e completata nel 1833. Rappresenta, inoltre, un segno tangibile del rango che avevano i Doria e delle loro tradizioni marinaresche.
-
-Dopo la morte del principe Marcantonio nel 1837 venne ceduta in fitto e, successivamente, nel 1857, venduta alla nobile inglese Ellinor Giovanna Susanna Maitland. L’edificio fa parte dal 1998 del patrimonio immobiliare dell’Università degli Studi di Napoli Parthenope ed è destinata all’alta formazione, ai convegni scientifici nazionali ed internazionali, agli incontri culturali. Inoltre, è sede della preziosa collezione di modelli statici di navi e parti di imbarcazioni mercantili e militari, strumenti nautici e attrezzature conservate all’interno del Museo Navale.
-  ''',
+        descrizione: AppLocalizations.of(context).translate('villa_doria'),
         indirizzo: 'Via Francesco Petrarca, 80, 80123 Napoli NA',
         immagini: [
           'assets/university/caroselloSedi/SedeVDA0.png',
@@ -96,8 +87,7 @@ Dopo la morte del principe Marcantonio nel 1837 venne ceduta in fitto e, success
       ),
       UniversityInfo(
         nome: 'Via Medina',
-        descrizione:
-            'In Via Medina, in un fabbricato dell’inizio degli anni ’50 ad angolo con Piazza Municipio, ha sede il Dipartimento di scienze motorie e del benessere.',
+        descrizione: AppLocalizations.of(context).translate('monte_s_angelo'),
         indirizzo: 'Via Medina, 40, 80133 Napoli NA',
         immagini: [
           'assets/university/caroselloSedi/SedeMed0.png',
@@ -107,8 +97,7 @@ Dopo la morte del principe Marcantonio nel 1837 venne ceduta in fitto e, success
       ),
       UniversityInfo(
         nome: 'Nola',
-        descrizione:
-            'Il campus di Nola ospita tre corsi di laurea triennale in “Economia & Management”, “Ingegneria e Scienze Informatiche per la Cybersecurity” e “Scienze Motorie” e un corso di laurea magistrale a ciclo unico in “Giurisprudenza”.',
+        descrizione: AppLocalizations.of(context).translate('nola'),
         indirizzo: 'Via Guglielmo Pepe, Nola (NA)',
         immagini: [
           'assets/university/uni_nola.jpeg',

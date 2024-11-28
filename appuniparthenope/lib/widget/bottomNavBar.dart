@@ -61,23 +61,23 @@ class BottomNavBarComponent extends StatelessWidget {
               context: context,
               position: position,
               items: [
-                CustomPopupMenuItemBuilder.buildMenuItem(
-                  onTap: () {
-                    StudentUtils.anagrafeUser(context, authenticatedUser!.user);
-                    Navigator.pushReplacementNamed(context, '/profileStudent',
-                        arguments: anagrafeUser);
-                  },
-                  icon: Icons.person,
-                  text: AppLocalizations.of(context)
-                      .translate('personal_profile'),
-                ),
+                // CustomPopupMenuItemBuilder.buildMenuItem(
+                //   onTap: () {
+                //     StudentUtils.anagrafeUser(context, authenticatedUser!.user);
+                //     Navigator.pushReplacementNamed(context, '/profileStudent',
+                //         arguments: anagrafeUser);
+                //   },
+                //   icon: Icons.person,
+                //   text: AppLocalizations.of(context)
+                //       .translate('personal_profile'),
+                // ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
                     AuthUtilsFunction.qrCodeImg(context);
                     Navigator.pushNamed(context, '/qrCodePage');
                   },
                   icon: Icons.qr_code,
-                  text: AppLocalizations.of(context).translate('qr_code'),
+                  text: AppLocalizations.of(context).translate('uniCard'),
                 ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {

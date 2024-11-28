@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 import '../../../model/user_data_login.dart';
@@ -76,7 +77,8 @@ class PtaCard extends StatelessWidget {
                 // Ruolo con testo in grassetto e diverso colore
                 RichText(
                   text: TextSpan(
-                    text: 'Ruolo: ',
+                    text:
+                        '${AppLocalizations.of(context).translate('role_label')}: ',
                     style: const TextStyle(
                       fontSize: 16.0,
                       color: AppColors.lightGray,
@@ -84,7 +86,7 @@ class PtaCard extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: user.grpDes == 'PTA'
-                            ? 'Personale Tecnico'
+                            ? AppLocalizations.of(context).translate('pta')
                             : user.grpDes,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,

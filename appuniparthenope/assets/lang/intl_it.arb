@@ -44,6 +44,7 @@
   "male_label": "Maschile",
   "female_label": "Femminile",
   "undefined_gender_label": "Non definito",
+  "pta":"Personale Tecnico",
 
   "error_anagrafic":"Errore anagrafica",
   "error_loading_anagrafic": "Si è verificato un errore nel caricamento dei tuoi dati personali, ci scusiamo.",
@@ -87,6 +88,8 @@
   "events_dsc":"Qui puoi visualizzare gli eventi che sono stati organizzati.",
   "classroom":"Aule",
   "classroom_dsc":"Qui puoi visualizzare le aule disponibili per le lezioni.",
+  "library":"Biblioteca",
+  "library_dsc":"Qui puoi visualizzare e registrare gli accessi alle biblioteche dell'ateneo.",
 
 
   "completed":"Superato",
@@ -124,8 +127,8 @@
   
   "click_to_big_image": "Clicca per ingrandire ",
   "personal_profile": "Profilo Personale",
-  "qr_code": "Carta Studente",
-  "qr_code2": "Carta Docente",
+  
+  "uniCard": "UniParthenope Card",
   "fees_uni": "Tasse Universitarie",
   "weather_uni": "meteo@uniparthope",
   "info_app": "Informazioni App",
@@ -171,7 +174,33 @@
   "our_uni":"Qui puoi visualizzare le sedi del nostro ateneo con l'opportunità di conoscere meglio ciascuna di esse.",
   "who_are":"Chi siamo...",
 
-  
-  
+  "library_registration_title": "Registrazione Utente",
+  "library_registration_subtitle": "Qui puoi registrare un nuovo utente",
+  "library_daily_entries_title": "Ingressi giornalieri",
+  "library_daily_entries_subtitle": "Visualizza gli accessi giornalieri degli utenti nella biblioteca"
+
+  "registration_title": "Registrazione",
+  "registration_name_label": "Nome",
+  "registration_surname_label": "Cognome",
+  "registration_document_type_label": "Tipo Documento",
+  "registration_document_id_label": "Documento Identità",
+  "registration_matricola_label": "Matricola (opzionale)",
+  "registration_phone_label": "Cellulare (opzionale)",
+  "registration_button": "Registra Utente",
+  "registration_warning": "Per favore, compila tutti i campi obbligatori.",
+  "document_type_identity_card": "Carta d'identità",
+  "document_type_driver_license": "Patente",
+  "document_type_passport": "Passaporto"
+
+  "access_logs_title": "Accessi alla Biblioteca",
+  "name_column": "Nome",
+  "entry_time_column": "Orario di Entrata",
+
+  "monte_s_angelo": "Il Palazzo Pacanowski si trova a Napoli, in Via Generale Parisi n. 13, nei pressi della Scuola Militare Nunziatella. L'edificio, esempio tipico dell'architettura italiana degli anni '50, ha una struttura a forma di U con un cortile rivolto a sud, che si apre verso il mare. I giardini del palazzo sono particolarmente caratteristici, attraversati da viali alberati con alberi ad alto fusto.\n\nIl Palazzo ospita la Scuola di Studi Economici e Giuridici, che include i seguenti Dipartimenti:\n\n- Dipartimento di Giurisprudenza\n- Dipartimento di Studi Aziendali e Economici\n- Dipartimento di Studi Aziendali e Quantitativi\n- Dipartimento di Studi Economici e Giuridici",
+  "centro_direzionale": "Il Centro Direzionale ospita il Dipartimento di Ingegneria e il Dipartimento di Scienze e Tecnologie. La struttura, situata nei pressi della Stazione Centrale di Napoli, è costituita da un insieme di moderni grattacieli, che fanno parte di un più ampio complesso urbano progettato dall'architetto giapponese Kenzō Tange.",
+  "sede_centrale": "La sede centrale dell'Università di Napoli 'Parthenope' si trova in Via Ammiraglio Ferdinando Acton n. 38. Essa è composta da un complesso monumentale storico risalente al XVI secolo, la 'Palazzina Spagnola', e da un edificio più moderno costruito alla fine degli anni '60.",
+  "villa_doria": "Villa Doria d'Angri è una delle più importanti ville neoclassiche d'Italia. La villa, situata maestosamente su uno sperone di tufo sul colle di Posillipo, fu costruita dal principe Marcantonio Doria d'Angri, ultimo rappresentante di spicco della nobile famiglia genovese. Fu progettata con un carattere grandioso e aristocratico, adatto al ruolo prestigioso del principe alla corte.\n\nIl possedimento dei Doria si estendeva lungo la cresta del colle fino alla spiaggia di Mergellina, con vigneti terrazzati e alberi da frutto. La proprietà entrò in possesso della famiglia Doria nel 1592 grazie a una donazione di Vittoria Carafa e fu trasformata da azienda agricola in residenza principesca neoclassica dall'architetto Bartolomeo Grasso, completata nel 1833.\n\nDopo la morte del principe Marcantonio nel 1837, la villa venne affittata e successivamente, nel 1857, venduta alla nobile inglese Ellinor Giovanna Susanna Maitland. L'edificio divenne parte del patrimonio immobiliare dell'Università di Napoli Parthenope nel 1998 e oggi viene utilizzato per la formazione avanzata, conferenze scientifiche nazionali e internazionali ed eventi culturali. Ospita anche la preziosa collezione di modelli statici di navi e parti di imbarcazioni mercantili e militari, strumenti nautici e attrezzature conservati nel Museo Navale.",
+  "via_medina": "Situato in Via Medina, in un edificio degli anni '50 all'angolo con Piazza Municipio, questo sito ospita il Dipartimento di Scienze Motorie e del Benessere.",
+  "nola": "Il campus di Nola offre tre corsi di laurea triennale in 'Economia e Management', 'Ingegneria e Informatica per la Cybersecurity' e 'Scienze Motorie', oltre a un corso di laurea magistrale a ciclo unico in 'Giurisprudenza'."
 
 }

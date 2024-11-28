@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:flutter/material.dart';
@@ -27,15 +28,15 @@ class _PTAHomePageState extends State<PTAHomePage> {
     final authenticatedUser = authProvider.authenticatedUser;
 
     if (authenticatedUser == null) {
-      return const Scaffold(
-        appBar: NavbarComponent(
+      return Scaffold(
+        appBar: const NavbarComponent(
           role: 'PTA',
           showBackButton: false,
         ),
         body: Center(
           child: Text(
-            'Nessun utente autenticato',
-            style: TextStyle(
+            AppLocalizations.of(context).translate('not_auth'),
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: AppColors.errorColor,
@@ -52,21 +53,21 @@ class _PTAHomePageState extends State<PTAHomePage> {
             StudentUtils.allRooms(context);
             Navigator.pushNamed(context, '/classroomTeachers');
           },
-          child: const ServiceCard(
+          child: ServiceCard(
             imagePath: 'assets/icon/services/classroom3.png',
-            title: 'Aule',
-            description: 'Qui è possibile visualizzare e prenotare le aule.',
+            title: AppLocalizations.of(context).translate('classroom'),
+            description:
+                AppLocalizations.of(context).translate('classroom_dsc'),
           ),
         ),
         GestureDetector(
           onTap: () {
             Navigator.pushNamed(context, '/libraryPage');
           },
-          child: const ServiceCard(
+          child: ServiceCard(
             imagePath: 'assets/icon/services/libraryService.png',
-            title: 'Biblioteca',
-            description:
-                'Qui puoi visualizzare e registrare gli accessi alle biblioteche dell\'ateneo.',
+            title: AppLocalizations.of(context).translate('library'),
+            description: AppLocalizations.of(context).translate('library_dsc'),
           ),
         ),
       ],
@@ -76,11 +77,10 @@ class _PTAHomePageState extends State<PTAHomePage> {
             StudentUtils.allEvents(context);
             Navigator.pushNamed(context, '/eventsTeachers');
           },
-          child: const ServiceCard(
+          child: ServiceCard(
             imagePath: 'assets/icon/services/events2.png',
-            title: 'Eventi',
-            description:
-                'Qui puoi visualizzare gli eventi che sono stati organizzati.',
+            title: AppLocalizations.of(context).translate('events'),
+            description: AppLocalizations.of(context).translate('events_dsc'),
           ),
         ),
       ],
@@ -102,7 +102,8 @@ class _PTAHomePageState extends State<PTAHomePage> {
             const SizedBox(height: 20),
             PtaCard(user: authenticatedUser.user, fotoUrl: 'assets/pta.png'),
             const SizedBox(height: 50),
-            const SectionTitle(title: 'Servizi'),
+            SectionTitle(
+                title: AppLocalizations.of(context).translate('services')),
             const SizedBox(height: 10),
             // PageView con le card e i pallini di navigazione
             SizedBox(
