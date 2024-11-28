@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -132,10 +133,10 @@ class InfoAppPage extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 10),
-                        const Text(
-                          'Contatta gli sviluppatori se hai notato\nun problema nell\'applicazione',
+                        Text(
+                          AppLocalizations.of(context).translate('contact'),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             color: Colors.black87,
                           ),

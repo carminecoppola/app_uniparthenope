@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:flutter/material.dart';
@@ -42,11 +43,12 @@ class _HomeGuestPageState extends State<HomeGuestPage> {
                     ),
                     const SizedBox(height: 8),
                     if (showDescription)
-                      const Align(
+                      Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          'La nostra Storia',
-                          style: TextStyle(
+                          AppLocalizations.of(context)
+                              .translate('our_history_label'),
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: AppColors.primaryColor,
@@ -57,13 +59,10 @@ class _HomeGuestPageState extends State<HomeGuestPage> {
                     if (showDescription)
                       RichText(
                         textAlign: TextAlign.justify,
-                        text: const TextSpan(
-                          text:
-                              'Dal 1919, il nostro Ateneo abbraccia con passione il compito di guidare i giovani verso il successo. \n'
-                              'Con oltre 15.000 studenti, 320 docenti e 250 membri del personale, offriamo un\'istruzione solida e flessibile, con uno sguardo internazionale.\n'
-                              ' Mettiamo gli studenti al centro, preparandoli per ruoli di leadership. La nostra tradizione centenaria si fonde con l\'innovazione, espandendo le nostre aree di eccellenza in economia, legge, ingegneria e benessere.\n'
-                              ' La ricerca multidisciplinare e internazionale è il nostro contributo al progresso del sapere, in dialogo costante con il mondo del lavoro e delle imprese.',
-                          style: TextStyle(
+                        text: TextSpan(
+                          text: AppLocalizations.of(context)
+                              .translate('our_history'),
+                          style: const TextStyle(
                             fontSize: 14,
                             color: AppColors.lightGray,
                           ),
@@ -76,9 +75,9 @@ class _HomeGuestPageState extends State<HomeGuestPage> {
                             showDescription = !showDescription;
                           });
                         },
-                        child: const Text(
-                          'Chi siamo...',
-                          style: TextStyle(
+                        child: Text(
+                          AppLocalizations.of(context).translate('who_are'),
+                          style: const TextStyle(
                               fontSize: 14,
                               decoration: TextDecoration.underline,
                               decorationColor: AppColors.primaryColor,
@@ -88,29 +87,29 @@ class _HomeGuestPageState extends State<HomeGuestPage> {
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(16.0),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Le nostre sedi',
-                      style: TextStyle(
+                      AppLocalizations.of(context).translate('our_uni_label'),
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: AppColors.primaryColor,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     Text(
-                      'Qui puoi visualizzare le sedi del nostro ateneo con l\'opportunità di conoscere meglio ciascuna di esse.',
-                      style: TextStyle(
+                      AppLocalizations.of(context).translate('our_uni'),
+                      style: const TextStyle(
                         fontSize: 14,
                         color: AppColors.lightGray,
                       ),
                     ),
-                    SizedBox(height: 15),
-                    UniversitySliderWidget(),
+                    const SizedBox(height: 15),
+                    const UniversitySliderWidget(),
                   ],
                 ),
               ),

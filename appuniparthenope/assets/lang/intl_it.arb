@@ -6,13 +6,17 @@
 
   "loginguest": "Accedi come ospite",
   "loading": "Autenticazione in corso, per favore attendi...",
-  "loading_personal_date": "Caricamento dei tuoi dati personali",
-  "loading_career": "Caricamento della tua carriera",
-  "loading_courses": "Caricamento dei tuoi corsi",
-  "loading_fees": "Caricamento delle tue tasse",
-  "loading_weather": "Caricamento delle informazioni meteo",
-  "loading_service": "Caricamento dei tuoi servizi",
-  "loading_reservation": "Caricamento delle tue prenotazioni",
+  "loading_personal_date": "Caricamento dei tuoi dati personali...",
+  "loading_career": "Caricamento della tua carriera...",
+  "loading_courses": "Caricamento dei tuoi corsi...",
+  "loading_fees": "Caricamento delle tue tasse...",
+  "loading_weather": "Caricamento delle informazioni meteo...",
+  "loading_service": "Caricamento dei tuoi servizi...",
+  "loading_reservation": "Caricamento delle tue prenotazioni...",
+  "loading_classroom": "Caricamento informazioni aule...",
+  "loading_courses_prof":"Caricamento della sessione del professore...",
+  "loading_events": "Caricamento eventi...",
+  "loading_exams": "Caricamento appelli...",
   "close": "Chiudi",
 
 
@@ -50,6 +54,9 @@
   "error_loading_courses": "Si è verificato un errore nel caricamento dei tuoi corsi, ci scusiamo.",
   "error_loading_fees": "Si è verificato un errore nel caricamento delle tue tasse, ci scusiamo.",
   "not_selected_career":"Carriera non selezionata",
+  "error_loading_classrooms": "Si è verificato un errore durante il caricamento delle aule, ci scusiamo.",
+  "error_loading_courses_prof":"Si è verificato un errore durante il caricamento dei corsi, ci scusiamo."
+
 
 
   "empty_exam":"Al momento, non risultano esami nel tuo percorso accademico",
@@ -118,6 +125,7 @@
   "click_to_big_image": "Clicca per ingrandire ",
   "personal_profile": "Profilo Personale",
   "qr_code": "Carta Studente",
+  "qr_code2": "Carta Docente",
   "fees_uni": "Tasse Universitarie",
   "weather_uni": "meteo@uniparthope",
   "info_app": "Informazioni App",
@@ -125,6 +133,45 @@
   "contact": "Contatta il team di sviluppo se hai notato un problema nell'applicazione",
   "logout_message": "Sei sicuro di voler uscire?",
   "yes": "Sì",
-  "no": "No"
+  "no": "No",
+
+
+  "classroom_label":"Aule Universitarie",
+  "select_classroom_label":"Scegli un ateneo per visualizzare le aule.",
+  "select_menu_classroom":"...seleziona ateneo...",
+  "prof_label":"Prof",
+  "profssa_label":"Prof.ssa",
+  "today":"Oggi",
+  "today2":"In giornata",
+  "tomorrow":"Domani",
+  "not_reserved_rooms":"Nessuna aula è stata prenotata per questo ateneo oggi",
+  "not_selected_rooms":"Non hai selezionato nessun Ateneo...",
+
+  "courses_prof_label":"I miei corsi",
+  "exams_prof_label": "Appelli d'esame",
+  "no_exams_prof":"Non ci sono date di esame",
+
+  "events_label":"Eventi Parthenope",
+  "search_events_label":"Cerca eventi",
+  "find_string":"Trovate",
+  "find_string2":"corrispondenze",
+  "no_events_found":"Non è programmato nessun evento.",
+  "no_events_found2":"Nessun evento.",
+  "no_dsc":"Nessuna descrizione",
+  "no_rooms":"Aula non disponibile",
+  "rooms":"Aula",
+
+
+  "our_history_label":"La nostra storia",
+  "our_history":"Dal 1919, il nostro Ateneo abbraccia con passione il compito di guidare i giovani verso il successo.
+                Con oltre 15.000 studenti, 320 docenti e 250 membri del personale, offriamo un'istruzione solida e flessibile, con uno sguardo internazionale.
+                Mettiamo gli studenti al centro, preparandoli per ruoli di leadership. La nostra tradizione centenaria si fonde con l'innovazione, espandendo le nostre aree di eccellenza in economia, legge, ingegneria e benessere.
+                La ricerca multidisciplinare e internazionale è il nostro contributo al progresso del sapere, in dialogo costante con il mondo del lavoro e delle imprese."
+  "our_uni_label":"Le nostre sedi",
+  "our_uni":"Qui puoi visualizzare le sedi del nostro ateneo con l'opportunità di conoscere meglio ciascuna di esse.",
+  "who_are":"Chi siamo...",
+
+  
+  
 
 }

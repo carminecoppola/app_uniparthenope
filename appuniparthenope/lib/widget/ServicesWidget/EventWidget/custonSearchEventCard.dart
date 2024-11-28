@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../main.dart';
@@ -20,7 +21,7 @@ class SearchBarEvent extends StatelessWidget {
         controller: controller,
         onChanged: onChanged,
         decoration: InputDecoration(
-          labelText: 'Cerca eventi',
+          labelText: AppLocalizations.of(context).translate('search_events_label'),
           labelStyle: const TextStyle(
             color: AppColors.primaryColor,
           ),

@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 
@@ -30,10 +31,13 @@ class AreaDropdown extends StatelessWidget {
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           value: selectedArea.isNotEmpty &&
-                  selectedArea != '...seleziona Ateneo...'
+                  selectedArea !=
+                      AppLocalizations.of(context)
+                          .translate('select_menu_classroom')
               ? selectedArea
               : null,
-          hint: const Text('...seleziona Ateneo...'),
+          hint: Text(
+              AppLocalizations.of(context).translate('select_menu_classroom')),
           onChanged: onChanged,
           alignment: AlignmentDirectional.center,
           style: const TextStyle(color: AppColors.primaryColor),

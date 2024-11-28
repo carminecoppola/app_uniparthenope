@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../main.dart';
@@ -23,9 +24,10 @@ class CourseListProfessorWidget extends StatelessWidget {
       child: Consumer<SessionProfessorInfo?>(
         builder: (context, session, child) {
           if (session == null) {
-            return const Center(
+            return Center(
               child: CustomLoadingIndicator(
-                text: 'Caricamento della sessione del professore...',
+                text: AppLocalizations.of(context)
+                    .translate('loading_courses_prof'),
                 myColor: AppColors.primaryColor,
               ),
             );
@@ -36,28 +38,30 @@ class CourseListProfessorWidget extends StatelessWidget {
                 .getAllCourse(professor, session.aaId!, context),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
+                return Center(
                   child: CustomLoadingIndicator(
-                    text: 'Caricamento dei corsi...',
+                    text: AppLocalizations.of(context)
+                        .translate('loading_courses'),
                     myColor: AppColors.primaryColor,
                   ),
                 );
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return const Center(
+                return Center(
                   child: Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.error,
                           color: AppColors.detailsColor,
                           size: 48.0,
                         ),
-                        SizedBox(height: 8.0),
+                        const SizedBox(height: 8.0),
                         Text(
-                          'Attualmente non è possibile visualizzare i corsi disponibili',
-                          style: TextStyle(
+                          AppLocalizations.of(context)
+                              .translate('error_loading_courses_prof'),
+                          style: const TextStyle(
                             color: AppColors.detailsColor,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

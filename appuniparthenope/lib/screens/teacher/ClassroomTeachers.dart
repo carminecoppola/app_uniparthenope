@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../provider/auth_provider.dart';
@@ -45,9 +46,9 @@ class _ClassroomTeacherPageState extends State<ClassroomTeacherPage> {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              const Text(
-                'Aule Universitarie',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context).translate('classroom_label'),
+                style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: AppColors.primaryColor,
@@ -73,8 +74,9 @@ class _ClassroomTeacherPageState extends State<ClassroomTeacherPage> {
               const SizedBox(height: 15),
               Expanded(
                 child: _isLoading
-                    ? const CustomLoadingIndicator(
-                        text: 'Caricamento informazioni aule',
+                    ? CustomLoadingIndicator(
+                        text: AppLocalizations.of(context)
+                            .translate('loading_classroom'),
                         myColor: AppColors.primaryColor,
                       )
                     : _isFilterSelected
@@ -82,11 +84,12 @@ class _ClassroomTeacherPageState extends State<ClassroomTeacherPage> {
                             rooms: _filteredRooms!,
                             selectedArea: _selectedArea,
                           )
-                        : const Padding(
-                            padding: EdgeInsets.all(25.0),
+                        : Padding(
+                            padding: const EdgeInsets.all(25.0),
                             child: Text(
-                              'Scegli un ateneo per visualizzare le aule.',
-                              style: TextStyle(
+                              AppLocalizations.of(context)
+                                  .translate('select_classroom_label'),
+                              style: const TextStyle(
                                 color: AppColors.primaryColor,
                                 fontSize: 16,
                               ),
@@ -116,7 +119,8 @@ class _ClassroomTeacherPageState extends State<ClassroomTeacherPage> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Errore durante il caricamento delle aule: $error'),
+          content: Text(
+              '${AppLocalizations.of(context).translate('error_loading_classrooms')}: $error'),
         ),
       );
     }

@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/EventWidget/custonSearchEventCard.dart';
 import 'package:flutter/material.dart';
@@ -75,10 +76,10 @@ class _EventsTeachersPageState extends State<EventsTeachersPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const SizedBox(height: 25, width: 30),
-          const Center(
+          Center(
             child: Text(
-              'Eventi Parthenope',
-              style: TextStyle(
+              AppLocalizations.of(context).translate('events_label'),
+              style: const TextStyle(
                   color: AppColors.primaryColor,
                   fontSize: 25,
                   fontWeight: FontWeight.bold),
@@ -109,7 +110,7 @@ class _EventsTeachersPageState extends State<EventsTeachersPage> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Trovate ${filteredEvents.length} corrispondenze',
+                  '${AppLocalizations.of(context).translate('find_string')} ${filteredEvents.length} ${AppLocalizations.of(context).translate('find_string2')}',
                   style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 12,
@@ -138,7 +139,9 @@ class _EventsTeachersPageState extends State<EventsTeachersPage> {
                         descrizioneAula: event.room.description,
                         dateI: startDateString,
                         timeI: startTime,
-                        dateF: isSameDay ? 'In giornata' : endDateString,
+                        dateF: isSameDay
+                            ? AppLocalizations.of(context).translate('today2')
+                            : endDateString,
                         timeF: endTime,
                         totalSeats: event.room.capacity.toInt(),
                         occupiedSeats: event.room.availability.toInt(),
@@ -146,21 +149,23 @@ class _EventsTeachersPageState extends State<EventsTeachersPage> {
                     },
                   )
                 : filteredEvents != null && filteredEvents.isEmpty
-                    ? const Center(
+                    ? Center(
                         child: Text(
-                          'Non è disponibile nessun evento.',
-                          style: TextStyle(
+                          AppLocalizations.of(context)
+                              .translate('no_events_found'),
+                          style: const TextStyle(
                               color: AppColors.primaryColor,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
                       )
-                    : const Center(
+                    : Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CustomLoadingIndicator(
-                              text: 'Caricamento eventi...',
+                              text: AppLocalizations.of(context)
+                                  .translate('loading_events'),
                               myColor: AppColors.primaryColor,
                             ),
                           ],

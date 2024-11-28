@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/provider/professor_provider.dart';
 import 'package:appuniparthenope/utilityFunctions/professorUtilsFunction.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class SingleProfessorCourseCard extends StatelessWidget {
           context: context,
           barrierDismissible: false,
           builder: (BuildContext context) {
-            return const Dialog(
+            return Dialog(
               backgroundColor: Colors.transparent,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -31,7 +32,7 @@ class SingleProfessorCourseCard extends StatelessWidget {
                   ),
                   SizedBox(height: 15),
                   Text(
-                    'Caricamento appelli...',
+                    AppLocalizations.of(context).translate('loading_exam_info'),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,

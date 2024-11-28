@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,10 +25,10 @@ class SessionsAvailableProfessorCourses extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 25),
-            const Center(
+            Center(
               child: Text(
-                'Appelli Esame',
-                style: TextStyle(
+                AppLocalizations.of(context).translate('exams_prof_label'),
+                style: const TextStyle(
                   color: AppColors.primaryColor,
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
@@ -68,10 +69,10 @@ class SessionsAvailableProfessorCourses extends StatelessWidget {
                 },
               ))
             ] else ...[
-              const Center(
+              Center(
                 child: Text(
-                  'Nessun appello disponibile.',
-                  style: TextStyle(
+                  AppLocalizations.of(context).translate('no_exams_prof'),
+                  style: const TextStyle(
                     color: AppColors.primaryColor,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,

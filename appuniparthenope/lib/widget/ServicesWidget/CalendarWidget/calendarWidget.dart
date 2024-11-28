@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart'; // Importa questa libreria
@@ -99,8 +100,11 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   void _showEventDialog(DateTime selectedDay) {
     Event? event = _events.firstWhere(
       (event) => isSameDay(event.date, selectedDay),
-      orElse: () => Event(DateTime.now(), "Nessun evento",
-          'Nessuna descrizione', 'Aula non disponibile'),
+      orElse: () => Event(
+          DateTime.now(),
+          AppLocalizations.of(context).translate('no_events_found2'),
+          AppLocalizations.of(context).translate('no_dsc'),
+          AppLocalizations.of(context).translate('no_rooms')),
     );
 
     // Formatta la data nel formato desiderato
@@ -165,7 +169,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      '\u2022 Aula: ${event.aula}',
+                      '\u2022 ${AppLocalizations.of(context).translate('rooms')}: ${event.aula}',
                       style: const TextStyle(
                         color: AppColors.primaryColor,
                         fontSize: 17,
@@ -173,7 +177,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      '\u2022 Data: $formattedDate',
+                      '\u2022 ${AppLocalizations.of(context).translate('date')}: $formattedDate',
                       style: const TextStyle(
                         color: AppColors.primaryColor,
                         fontSize: 17,
@@ -196,9 +200,9 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: const Text(
-                      'Chiudi',
-                      style: TextStyle(
+                    child: Text(
+                      AppLocalizations.of(context).translate('close'),
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

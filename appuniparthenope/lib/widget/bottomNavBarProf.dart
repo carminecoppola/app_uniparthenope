@@ -5,6 +5,7 @@ import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:appuniparthenope/widget/logoutDialogConfirm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../app_localizations.dart';
 import '../provider/auth_provider.dart';
 import '../utilityFunctions/authUtilsFunction.dart';
 import '../utilityFunctions/weatherFunction.dart';
@@ -68,7 +69,8 @@ class BottomNavBarProfComponent extends StatelessWidget {
                         arguments: anagrafeUser);
                   },
                   icon: Icons.person,
-                  text: 'Personal Card',
+                  text: AppLocalizations.of(context)
+                      .translate('personal_profile'),
                 ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
@@ -76,7 +78,7 @@ class BottomNavBarProfComponent extends StatelessWidget {
                     Navigator.pushNamed(context, '/qrCodePage');
                   },
                   icon: Icons.qr_code,
-                  text: 'QR-Code',
+                  text: AppLocalizations.of(context).translate('qr_code2'),
                 ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
@@ -84,7 +86,7 @@ class BottomNavBarProfComponent extends StatelessWidget {
                     Navigator.pushNamed(context, '/classroomsTeachers');
                   },
                   icon: Icons.school_sharp,
-                  text: 'Aule',
+                  text: AppLocalizations.of(context).translate('classroom'),
                 ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
@@ -97,7 +99,7 @@ class BottomNavBarProfComponent extends StatelessWidget {
                     Navigator.pushNamed(context, '/courseTeachers');
                   },
                   icon: Icons.book,
-                  text: 'Corsi',
+                  text: AppLocalizations.of(context).translate('courses'),
                 ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
@@ -105,7 +107,7 @@ class BottomNavBarProfComponent extends StatelessWidget {
                     Navigator.pushNamed(context, '/eventsTeachers');
                   },
                   icon: Icons.event,
-                  text: 'Eventi',
+                  text: AppLocalizations.of(context).translate('events'),
                 ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
@@ -113,14 +115,14 @@ class BottomNavBarProfComponent extends StatelessWidget {
                     Navigator.pushNamed(context, '/watherPage');
                   },
                   icon: Icons.wb_cloudy,
-                  text: 'Meteo UniParthenope',
+                  text: AppLocalizations.of(context).translate('weather_uni'),
                 ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
                     Navigator.pushNamed(context, '/infoAppPage');
                   },
                   icon: Icons.info,
-                  text: 'Info',
+                  text: AppLocalizations.of(context).translate('info_app'),
                 ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
@@ -128,7 +130,7 @@ class BottomNavBarProfComponent extends StatelessWidget {
                     examDataProvider.clearReservations();
                   },
                   icon: Icons.logout,
-                  text: 'Logout',
+                  text: AppLocalizations.of(context).translate('logout'),
                 ),
               ],
             );
@@ -139,16 +141,16 @@ class BottomNavBarProfComponent extends StatelessWidget {
       selectedItemColor: Colors.white,
       unselectedItemColor: AppColors.lightGray,
       selectedLabelStyle: const TextStyle(color: Colors.white),
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
+      items: <BottomNavigationBarItem>[
+        const BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.class_),
-          label: 'Corsi',
+          icon: const Icon(Icons.class_),
+          label: AppLocalizations.of(context).translate('courses'),
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.menu),
           label: 'Menu',
         ),

@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../main.dart';
@@ -26,10 +27,10 @@ class _CoursesTeachersPageState extends State<CoursesTeachersPage> {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            const Center(
+            Center(
               child: Text(
-                'Corsi Assegnati',
-                style: TextStyle(
+                AppLocalizations.of(context).translate('courses_prof_label'),
+                style: const TextStyle(
                     color: AppColors.primaryColor,
                     fontSize: 25,
                     fontWeight: FontWeight.bold),
