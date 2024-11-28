@@ -36,11 +36,11 @@ class ReservationTabBar extends StatelessWidget {
         tabs: [
           Tab(
             text: AppLocalizations.of(context).translate('overdue'),
-            icon: Icon(Icons.history),
+            icon: const Icon(Icons.history),
           ),
           Tab(
             text: AppLocalizations.of(context).translate('upcoming'),
-            icon: Icon(Icons.upcoming),
+            icon: const Icon(Icons.upcoming),
           ),
         ],
       ),
