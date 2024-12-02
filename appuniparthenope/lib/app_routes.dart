@@ -1,5 +1,6 @@
 import 'package:appuniparthenope/screens/InfoAppPage.dart';
 import 'package:appuniparthenope/screens/dottorandi/homePhD.dart';
+import 'package:appuniparthenope/screens/personalCardPage.dart';
 import 'package:appuniparthenope/screens/pta/libraryHome.dart';
 import 'package:appuniparthenope/screens/home.dart';
 import 'package:appuniparthenope/screens/pta/homePTA.dart';
@@ -55,7 +56,8 @@ class AppRoutes {
   static final Map<String, WidgetBuilder> routes = {
     loginPage: (context) => const LoginForm(),
     infoAppPage: (context) => const InfoAppPage(),
-    qrCodePage: (context) => const QRCodePage(),
+    //qrCodePage: (context) => const QRCodePage(),
+    qrCodePage: (context) => const PersonalCardPage(),
 
     //Role
     home: (context) => const HomePage(),

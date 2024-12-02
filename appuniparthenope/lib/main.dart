@@ -37,22 +37,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      locale: const Locale('en'), // Puoi anche usare il Locale salvato
-      supportedLocales: const [
-        Locale('en'), // Inglese
-        Locale('it'), // Italiano
-      ],
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      home: const LoginForm(),
-      theme: ThemeData.light(),
-      routes: AppRoutes.routes,
-      initialRoute: '/',
-    );
+        locale: const Locale('en'), // Puoi anche usare il Locale salvato
+        supportedLocales: const [
+          Locale('en'), // Inglese
+          Locale('it'), // Italiano
+        ],
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        home: const LoginForm(),
+        theme: ThemeData.light(),
+        routes: AppRoutes.routes,
+        initialRoute: '/',
+        debugShowCheckedModeBanner: false);
   }
 }
 

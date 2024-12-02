@@ -6,6 +6,7 @@
   "loginguest": "Login as guest",
   "loading": "Authenticating, please wait...",
   "loading_personal_date": "Loading your personal data...",
+  "loading_personal_card": "Loading your personal card...",
   "loading_career": "Loading your career...",
   "loading_courses": "Loading your courses...",
   "loading_fees": "Loading your fees...",
@@ -17,6 +18,10 @@
   "loading_events": "Loading events...",
   "loading_exams": "Loading exams...",
   "close": "Close",
+
+  "no_bioauth_saved": "You do not have saved credentials for biometric authentication, log in for the first time.",
+  "insert_credentials": "Insert username e password",
+
   
   "not_auth": "Not authenticated",
   "personal_label": "Personal",
@@ -42,6 +47,8 @@
   "male_label": "Male",
   "female_label": "Female",
   "undefined_gender_label": "Undefined",
+  "student_role": "Student",
+  "teacher_role": "Professor",
   "pta": "Technical Staff",
   
   "error_anagrafic": "Personal data error",

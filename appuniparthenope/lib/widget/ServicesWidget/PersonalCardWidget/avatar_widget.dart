@@ -6,7 +6,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AvatarWidget extends StatelessWidget {
-  const AvatarWidget({super.key});
+  final size;
+  const AvatarWidget({super.key, this.size});
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +28,11 @@ class AvatarWidget extends StatelessWidget {
           shape: BoxShape.circle,
           border: Border.all(
             color: AppColors.detailsColor,
-            width: 3,
+            width: 6,
           ),
         ),
         child: CircleAvatar(
-          radius: 50,
+          radius: size,
           backgroundColor: Colors.transparent,
           backgroundImage: backgroundImage,
         ),

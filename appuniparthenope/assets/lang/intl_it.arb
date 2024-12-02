@@ -7,6 +7,7 @@
   "loginguest": "Accedi come ospite",
   "loading": "Autenticazione in corso, per favore attendi...",
   "loading_personal_date": "Caricamento dei tuoi dati personali...",
+  "loading_personal_card": "Caricamento della tua carta personale...",
   "loading_career": "Caricamento della tua carriera...",
   "loading_courses": "Caricamento dei tuoi corsi...",
   "loading_fees": "Caricamento delle tue tasse...",
@@ -19,6 +20,8 @@
   "loading_exams": "Caricamento appelli...",
   "close": "Chiudi",
 
+  "no_bioauth_saved": "Non hai credenziali salvate per l'autenticazione biometrica, effettua il primo accesso.",
+  "insert_credentials": "Inserisci username e password",
 
   "not_auth": "Non autenticato",
   "personal_label": "Personali",
@@ -44,6 +47,8 @@
   "male_label": "Maschile",
   "female_label": "Femminile",
   "undefined_gender_label": "Non definito",
+  "student_role": "Studente",
+  "teacher_role": "Professore",
   "pta":"Personale Tecnico",
 
   "error_anagrafic":"Errore anagrafica",

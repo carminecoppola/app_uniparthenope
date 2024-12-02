@@ -10,6 +10,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../app_localizations.dart';
 import '../main.dart';
+import '../widget/waveWidget.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -100,11 +101,11 @@ class _LoginFormState extends State<LoginForm> {
 
     if (savedUsername == null || savedPassword == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: AppColors.detailsColor,
-          content: Text(
-              'Non hai credenziali salvate per l\'autenticazione biometrica, effettua il primo accesso.'),
-        ),
+        SnackBar(
+            backgroundColor: AppColors.detailsColor,
+            content: Text(
+              AppLocalizations.of(context).translate('no_bioauth_saved'),
+            )),
       );
       return;
     }
@@ -134,9 +135,10 @@ class _LoginFormState extends State<LoginForm> {
 
     if (username.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           backgroundColor: AppColors.detailsColor,
-          content: Text('Inserisci username e password'),
+          content: Text(
+              AppLocalizations.of(context).translate('insert_credentials')),
         ),
       );
       return;
@@ -176,11 +178,23 @@ class _LoginFormState extends State<LoginForm> {
                     bottomLeft: Radius.circular(40),
                     bottomRight: Radius.circular(40),
                   ),
-                  child: Image.asset(
-                    currentImage,
-                    height: kIsWeb ? 400 : 250,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+                  child: AnimatedSwitcher(
+                    duration: const Duration(seconds: 1),
+                    transitionBuilder:
+                        (Widget child, Animation<double> animation) {
+                      // Tipo di animazione
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+                    child: Image.asset(
+                      currentImage,
+                      key: ValueKey<String>(currentImage),
+                      height: kIsWeb ? 400 : 250,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 CircleAvatar(
@@ -354,6 +368,7 @@ class _LoginFormState extends State<LoginForm> {
               ],
             ),
           ),
+          // Aggiungi CustomPaint per disegnare l'onda inferiore senza bord
           // Dialogo di caricamento
           if (_loading)
             Container(
@@ -378,6 +393,11 @@ class _LoginFormState extends State<LoginForm> {
             ),
         ],
       ),
+      // bottomNavigationBar: CustomPaint(
+      //   size: Size(MediaQuery.of(context).size.width,
+      //       MediaQuery.of(context).size.height * 0.1), // Altezza dell'onda
+      //   painter: BottomWavePainter(),
+      // ),
     );
   }
 }
