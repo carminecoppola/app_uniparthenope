@@ -37,7 +37,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        locale: const Locale('en'), // Puoi anche usare il Locale salvato
         supportedLocales: const [
           Locale('en'), // Inglese
           Locale('it'), // Italiano
@@ -66,6 +65,43 @@ class AppColors {
   static const Color textColor = Colors.black;
   static const Color lightGray = Colors.grey;
   static const Color backgroundColor = Colors.white;
+
+  Widget gradientText(String text, TextStyle style, bool isBold) {
+    if (isBold) {
+      return ShaderMask(
+        shaderCallback: (bounds) => const LinearGradient(
+          colors: [
+            AppColors.detailsColor,
+            Color.fromARGB(255, 153, 117, 35),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ).createShader(bounds),
+        child: Text(
+          text,
+          style: style.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      );
+    }
+
+    return ShaderMask(
+      shaderCallback: (bounds) => const LinearGradient(
+        colors: [
+          Color.fromARGB(255, 98, 160, 193),
+          Color.fromARGB(255, 20, 94, 129)
+        ],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ).createShader(bounds),
+      child: Text(
+        text,
+        style: style.copyWith(color: Colors.white),
+      ),
+    );
+  }
 }
 
 String toCamelCase(String? text) {

@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'screens/guest/homeGuest.dart';
 import 'screens/loginpage.dart';
 import 'screens/personalProfile.dart';
-import 'screens/qrCodePage.dart';
 import 'screens/student/FeesStudent.dart';
 import 'screens/teacher/ClassroomTeachers.dart';
 import 'screens/teacher/CourseTeachers.dart';

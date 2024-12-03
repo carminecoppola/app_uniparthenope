@@ -20,9 +20,8 @@
   "close": "Close",
 
   "no_bioauth_saved": "You do not have saved credentials for biometric authentication, log in for the first time.",
-  "insert_credentials": "Insert username e password",
+  "insert_credentials": "Insert username, and password",
 
-  
   "not_auth": "Not authenticated",
   "personal_label": "Personal",
   "career_label": "Academic",
@@ -95,7 +94,7 @@
   "library_dsc": "Here you can view and register access to the university libraries.",
   
   "completed": "Completed",
-  "avg_weight": "Average Weight",
+  "avg_weight": "Average W.",
   "state_legend": "State Legend",
   "state_not_available": "State not available",
   "code": "Code",
@@ -130,7 +129,8 @@
   "click_to_big_image": "Click to enlarge",
   "personal_profile": "Personal Profile",
   
-  "uniCard": "UniParthenope Card",
+  "uniCardStudent": "Student Card",
+  "uniCardProf": "Faculty Card",
   "fees_uni": "University Fees",
   "weather_uni": "meteo@uniparthenope",
   "info_app": "App Information",
@@ -191,14 +191,12 @@
   
   "access_logs_title": "Library Access Logs",
   "name_column": "Name",
-  "entry_time_column": "Entry Time",
-
-  "monte_s_angelo": "The Pacanowski Palace is located in Naples, at Via Generale Parisi n. 13, near the Military School Nunziatella. The building, a typical example of Italian architecture from the 1950s, has a U-shaped structure with a courtyard facing south, opening towards the sea. The palace's gardens are particularly characteristic, crossed by tree-lined avenues with tall trees.\n\nThe Palace houses the School of Economic and Legal Studies, which includes the following Departments:\n\n- Department of Law\n- Department of Business and Economic Studies\n- Department of Business and Quantitative Studies\n- Department of Economic and Legal Studies",
-  "centro_direzionale": "The Centro Direzionale hosts the Department of Engineering and the Department of Sciences and Technologies. The structure, located near the Naples Central Station, consists of a set of modern skyscrapers, which are part of a larger urban complex designed by the Japanese architect Kenzō Tange.",
-  "sede_centrale": "The central headquarters of the University of Naples 'Parthenope' is located at Via Ammiraglio Ferdinando Acton n. 38. It consists of a historical monumental complex dating back to the 16th century, the 'Palazzina Spagnola', and a more modern building constructed in the late 1960s.",
-  "villa_doria": "Villa Doria d'Angri is one of the most important neoclassical villas in Italy. The villa, majestically located on a tufa spur on the Posillipo hill, was built by the prince Marcantonio Doria d'Angri, the last prominent representative of the noble Genoese family. It was designed with a grand and aristocratic character, fitting the prince's prestigious role at court.\n\nThe Doria estate extended along the hill’s crest down to the Mergellina beach, with terraced vineyards and fruit trees. The property came into the Doria family’s possession in 1592 by donation from Vittoria Carafa, and it was transformed from a farm into a neoclassical princely residence by architect Bartolomeo Grasso and completed in 1833.\n\nAfter Prince Marcantonio's death in 1837, it was rented out and later, in 1857, sold to the noble Englishwoman Ellinor Giovanna Susanna Maitland. The building became part of the University of Naples Parthenope’s real estate in 1998 and is now used for advanced education, national and international scientific conferences, and cultural events. It also houses the valuable collection of static models of ships and parts of merchant and military vessels, nautical instruments, and equipment preserved in the Naval Museum.",
-  "via_medina": "Located at Via Medina, in a 1950s building at the corner with Piazza Municipio, this site hosts the Department of Motor Sciences and Well-being.",
-  "nola": "The Nola campus offers three Bachelor's degree programs in 'Economics & Management', 'Engineering and Computer Science for Cybersecurity', and 'Motor Sciences', as well as a single-cycle Master's degree in 'Law'."
-
+  "document_column": "Document",
+  "matricola_column": "Matricola",
+  "access_time_column": "Access Time",
   
+  "select_course": "Select a course",
+  "select_year": "Select an academic year",
+  "course_not_found": "Course not found",
+  "exam_not_found": "Exam not found"
 }

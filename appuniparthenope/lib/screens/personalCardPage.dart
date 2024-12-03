@@ -19,7 +19,6 @@ class PersonalCardPage extends StatelessWidget {
     final authProvider = Provider.of<AuthProvider>(context);
     final authenticatedUser = authProvider.authenticatedUser;
     final user = authenticatedUser?.user;
-    final selectedCareer = authProvider.selectedCareer;
     final trattiCarriera = user?.trattiCarriera.isNotEmpty == true
         ? user!.trattiCarriera[0]
         : null;
@@ -105,7 +104,7 @@ class PersonalCardPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 // Nome e cognome con sfumatura
-                _gradientText(
+                AppColors().gradientText(
                     '${userAnagrafe.nome} ${userAnagrafe.cognome}',
                     const TextStyle(
                       fontSize: 22,
@@ -114,7 +113,7 @@ class PersonalCardPage extends StatelessWidget {
                     false),
                 const SizedBox(height: 10),
                 // Ruolo con sfumatura
-                _gradientText(
+                AppColors().gradientText(
                     getRole(user.grpDes, context),
                     const TextStyle(
                       fontSize: 18,
@@ -210,7 +209,7 @@ class PersonalCardPage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
         children: [
-          _gradientText(
+          AppColors().gradientText(
               '$label: ',
               const TextStyle(
                 fontSize: 17,
@@ -218,7 +217,7 @@ class PersonalCardPage extends StatelessWidget {
               ),
               false),
           Flexible(
-            child: _gradientText(
+            child: AppColors().gradientText(
               value ?? "-",
               const TextStyle(
                 fontSize: 16,
@@ -228,40 +227,6 @@ class PersonalCardPage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _gradientText(String text, TextStyle style, bool isBold) {
-    if (isBold) {
-      return ShaderMask(
-        shaderCallback: (bounds) => const LinearGradient(
-          colors: [AppColors.detailsColor, Color.fromARGB(255, 153, 117, 35)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ).createShader(bounds),
-        child: Text(
-          text,
-          style: style.copyWith(
-            color: Colors.white,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      );
-    }
-
-    return ShaderMask(
-      shaderCallback: (bounds) => const LinearGradient(
-        colors: [
-          Color.fromARGB(255, 98, 160, 193),
-          Color.fromARGB(255, 20, 94, 129)
-        ],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ).createShader(bounds),
-      child: Text(
-        text,
-        style: style.copyWith(color: Colors.white),
       ),
     );
   }
