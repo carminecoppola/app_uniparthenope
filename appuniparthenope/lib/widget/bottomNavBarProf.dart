@@ -1,15 +1,14 @@
-import 'package:appuniparthenope/provider/exam_provider.dart';
-import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:appuniparthenope/widget/logoutDialogConfirm.dart';
+import 'package:appuniparthenope/widget/popupMenuItem.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../app_localizations.dart';
 import '../provider/auth_provider.dart';
+import '../provider/exam_provider.dart';
 import '../utilityFunctions/authUtilsFunction.dart';
 import '../utilityFunctions/weatherFunction.dart';
-import 'popupMenuItem.dart';
 
 class BottomNavBarProfComponent extends StatelessWidget {
   const BottomNavBarProfComponent({super.key});
@@ -19,140 +18,181 @@ class BottomNavBarProfComponent extends StatelessWidget {
     final navigationProvider = Provider.of<BottomNavBarProvider>(context);
     final authenticatedUser =
         Provider.of<AuthProvider>(context).authenticatedUser;
-    final anagrafeUser = Provider.of<AuthProvider>(context).anagrafeUser;
     final examDataProvider =
         Provider.of<ExamDataProvider>(context, listen: false);
+    final currentIndex = navigationProvider.currentIndex;
 
-    return BottomNavigationBar(
-      currentIndex: navigationProvider.currentIndex,
-      onTap: (index) {
-        navigationProvider.updateIndex(index);
-        switch (index) {
-          case 0:
+    final items = [
+      'assets/icon/services/courses.png', // Corsi
+      'assets/icon/homeIcon.png', // Home
+      'assets/icon/menubarIcon.png', // Menu
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Container(
+        height: 70,
+        width: MediaQuery.of(context).size.width - 32,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(50),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              spreadRadius: 2,
+            ),
+          ],
+        ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            // Animazione focus sugli elementi della bottom bar
+            if (currentIndex != 3)
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                left: (currentIndex *
+                        (MediaQuery.of(context).size.width - 64) /
+                        items.length) +
+                    30,
+                child: Container(
+                  width:
+                      (MediaQuery.of(context).size.width - 64) / items.length -
+                          32,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryColor,
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                ),
+              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: List.generate(items.length, (index) {
+                final isSelected = index == currentIndex;
+                return GestureDetector(
+                  onTap: () {
+                    navigationProvider.updateIndex(index);
+                    _handleNavigation(
+                        context, index, authenticatedUser, examDataProvider);
+                  },
+                  child: Image.asset(
+                    items[index],
+                    width: isSelected ? 35 : 30,
+                    height: isSelected ? 35 : 30,
+                    color: isSelected ? Colors.white : Colors.grey[300],
+                  ),
+                );
+              }),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _handleNavigation(BuildContext context, int index,
+      dynamic authenticatedUser, ExamDataProvider examDataProvider) {
+    switch (index) {
+      case 0:
+        Navigator.pushReplacementNamed(context, '/courseTeachers');
+        break;
+      case 1:
+        Navigator.pushReplacementNamed(context, '/homePage');
+        break;
+      case 2:
+        _showMenu(context, authenticatedUser, examDataProvider);
+        break;
+      case 3:
+        // Nessuna azione e nessun focus
+        break;
+    }
+  }
+
+  void _showMenu(BuildContext context, dynamic authenticatedUser,
+      ExamDataProvider examDataProvider) {
+    showMenu(
+      elevation: 10,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      shadowColor: AppColors.lightGray,
+      context: context,
+      position: RelativeRect.fromLTRB(
+        MediaQuery.of(context).size.width - 250, // Menu si apre a destra
+        600,
+        20,
+        0,
+      ),
+      items: [
+        CustomPopupMenuItemBuilder.buildMenuItem(
+          onTap: () {
+            AuthUtilsFunction.qrCodeImg(context);
+            final bottomNavBarProvider =
+                Provider.of<BottomNavBarProvider>(context, listen: false);
+            bottomNavBarProvider.updateIndex(3);
+            Navigator.pushNamed(context, '/qrCodePage');
+          },
+          icon: Icons.qr_code,
+          text: AppLocalizations.of(context).translate('uniCardProf'),
+        ),
+        CustomPopupMenuItemBuilder.buildMenuItem(
+          onTap: () {
+            final bottomNavBarProvider =
+                Provider.of<BottomNavBarProvider>(context, listen: false);
+            bottomNavBarProvider.updateIndex(3);
+            Navigator.pushReplacementNamed(context, '/classroomsTeachers');
+          },
+          icon: Icons.school_sharp,
+          text: AppLocalizations.of(context).translate('classroom'),
+        ),
+        CustomPopupMenuItemBuilder.buildMenuItem(
+          onTap: () {
             final bottomNavBarProvider =
                 Provider.of<BottomNavBarProvider>(context, listen: false);
             bottomNavBarProvider.updateIndex(0);
-            Navigator.pushNamed(context, '/homePage');
-            break;
-          case 1:
+            Navigator.pushReplacementNamed(context, '/courseTeachers');
+          },
+          icon: Icons.book,
+          text: AppLocalizations.of(context).translate('courses'),
+        ),
+        CustomPopupMenuItemBuilder.buildMenuItem(
+          onTap: () {
             final bottomNavBarProvider =
                 Provider.of<BottomNavBarProvider>(context, listen: false);
-            bottomNavBarProvider.updateIndex(1);
-            Navigator.pushNamed(context, '/courseTeachers');
-            break;
-          case 2:
-            // Mostra il menu quando viene premuto l'elemento 2 del BottomNavigationBar
-            final RenderBox overlay =
-                Overlay.of(context).context.findRenderObject() as RenderBox;
-            final RenderBox button = context.findRenderObject() as RenderBox;
-            final RelativeRect position = RelativeRect.fromRect(
-              Rect.fromPoints(
-                button.localToGlobal(Offset.fromDirection(5.0),
-                    ancestor: overlay),
-                button.localToGlobal(button.size.bottomRight(Offset.zero),
-                    ancestor: overlay),
-              ),
-              Offset.zero & overlay.size,
-            );
-            showMenu(
-              elevation: 10,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0)),
-              shadowColor: AppColors.lightGray,
-              context: context,
-              position: position,
-              items: [
-                // CustomPopupMenuItemBuilder.buildMenuItem(
-                //   onTap: () {
-                //     StudentUtils.anagrafeUser(context, authenticatedUser!.user);
-                //     Navigator.pushReplacementNamed(context, '/profileStudent',
-                //         arguments: anagrafeUser);
-                //   },
-                //   icon: Icons.person,
-                //   text: AppLocalizations.of(context)
-                //       .translate('personal_profile'),
-                // ),
-                CustomPopupMenuItemBuilder.buildMenuItem(
-                  onTap: () {
-                    AuthUtilsFunction.qrCodeImg(context);
-                    Navigator.pushNamed(context, '/qrCodePage');
-                  },
-                  icon: Icons.qr_code,
-                  text: AppLocalizations.of(context).translate('uniCardProf'),
-                ),
-                CustomPopupMenuItemBuilder.buildMenuItem(
-                  onTap: () {
-                    StudentUtils.allRooms(context);
-                    Navigator.pushNamed(context, '/classroomsTeachers');
-                  },
-                  icon: Icons.school_sharp,
-                  text: AppLocalizations.of(context).translate('classroom'),
-                ),
-                CustomPopupMenuItemBuilder.buildMenuItem(
-                  onTap: () {
-                    StudentUtils.allCourseStudent(
-                        context, authenticatedUser!.user);
-                    final bottomNavBarProvider =
-                        Provider.of<BottomNavBarProvider>(context,
-                            listen: false);
-                    bottomNavBarProvider.updateIndex(1);
-                    Navigator.pushNamed(context, '/courseTeachers');
-                  },
-                  icon: Icons.book,
-                  text: AppLocalizations.of(context).translate('courses'),
-                ),
-                CustomPopupMenuItemBuilder.buildMenuItem(
-                  onTap: () {
-                    StudentUtils.allEvents(context);
-                    Navigator.pushNamed(context, '/eventsTeachers');
-                  },
-                  icon: Icons.event,
-                  text: AppLocalizations.of(context).translate('events'),
-                ),
-                CustomPopupMenuItemBuilder.buildMenuItem(
-                  onTap: () {
-                    WeatherFunctions.getWeather(context);
-                    Navigator.pushNamed(context, '/watherPage');
-                  },
-                  icon: Icons.wb_cloudy,
-                  text: AppLocalizations.of(context).translate('weather_uni'),
-                ),
-                CustomPopupMenuItemBuilder.buildMenuItem(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/infoAppPage');
-                  },
-                  icon: Icons.info,
-                  text: AppLocalizations.of(context).translate('info_app'),
-                ),
-                CustomPopupMenuItemBuilder.buildMenuItem(
-                  onTap: () {
-                    _showLogoutConfirmationDialog(context);
-                    examDataProvider.clearReservations();
-                  },
-                  icon: Icons.logout,
-                  text: AppLocalizations.of(context).translate('logout'),
-                ),
-              ],
-            );
-            break;
-        }
-      },
-      backgroundColor: AppColors.primaryColor,
-      selectedItemColor: Colors.white,
-      unselectedItemColor: AppColors.lightGray,
-      selectedLabelStyle: const TextStyle(color: Colors.white),
-      items: <BottomNavigationBarItem>[
-        const BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
+            bottomNavBarProvider.updateIndex(3);
+            Navigator.pushReplacementNamed(context, '/eventsTeachers');
+          },
+          icon: Icons.event,
+          text: AppLocalizations.of(context).translate('events'),
         ),
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.class_),
-          label: AppLocalizations.of(context).translate('courses'),
+        CustomPopupMenuItemBuilder.buildMenuItem(
+          onTap: () {
+            WeatherFunctions.getWeather(context);
+            final bottomNavBarProvider =
+                Provider.of<BottomNavBarProvider>(context, listen: false);
+            bottomNavBarProvider.updateIndex(3);
+            Navigator.pushReplacementNamed(context, '/weatherPage');
+          },
+          icon: Icons.wb_cloudy,
+          text: AppLocalizations.of(context).translate('weather_uni'),
         ),
-        const BottomNavigationBarItem(
-          icon: Icon(Icons.menu),
-          label: 'Menu',
+        CustomPopupMenuItemBuilder.buildMenuItem(
+          onTap: () {
+            final bottomNavBarProvider =
+                Provider.of<BottomNavBarProvider>(context, listen: false);
+            bottomNavBarProvider.updateIndex(3);
+            Navigator.pushReplacementNamed(context, '/infoAppPage');
+          },
+          icon: Icons.info,
+          text: AppLocalizations.of(context).translate('info_app'),
+        ),
+        CustomPopupMenuItemBuilder.buildMenuItem(
+          onTap: () {
+            _showLogoutConfirmationDialog(context);
+            examDataProvider.clearReservations();
+          },
+          icon: Icons.logout,
+          text: AppLocalizations.of(context).translate('logout'),
         ),
       ],
     );

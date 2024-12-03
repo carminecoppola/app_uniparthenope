@@ -55,7 +55,6 @@ class AppRoutes {
   static final Map<String, WidgetBuilder> routes = {
     loginPage: (context) => const LoginForm(),
     infoAppPage: (context) => const InfoAppPage(),
-    //qrCodePage: (context) => const QRCodePage(),
     qrCodePage: (context) => const PersonalCardPage(),
 
     //Role

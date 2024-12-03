@@ -30,6 +30,20 @@ class _HomePageState extends State<HomePage> {
     _loadData();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _setNavBarIndex();
+  }
+
+  void _setNavBarIndex() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final bottomNavBarProvider =
+          Provider.of<BottomNavBarProvider>(context, listen: false);
+      bottomNavBarProvider.updateIndex(1);
+    });
+  }
+
   Future<void> _loadData() async {
     final authenticatedUser =
         Provider.of<AuthProvider>(context, listen: false).authenticatedUser;
@@ -47,11 +61,12 @@ class _HomePageState extends State<HomePage> {
       } else {
         if (!mounted) return;
         CustomAlertDialog(
-            title: AppLocalizations.of(context).translate('error_anagrafic'),
-            content: AppLocalizations.of(context)
-                .translate('error_loading_anagrafic'),
-            buttonText: AppLocalizations.of(context).translate('close'),
-            color: AppColors.errorColor);
+          title: AppLocalizations.of(context).translate('error_anagrafic'),
+          content:
+              AppLocalizations.of(context).translate('error_loading_anagrafic'),
+          buttonText: AppLocalizations.of(context).translate('close'),
+          color: AppColors.errorColor,
+        );
       }
     }
   }
@@ -62,10 +77,8 @@ class _HomePageState extends State<HomePage> {
         Provider.of<AuthProvider>(context).authenticatedUser;
     final anagrafeUser = Provider.of<AuthProvider>(context).anagrafeUser;
     final profileImage = Provider.of<AuthProvider>(context).profileImage;
-
-    final bottomNavBarProvider =
-        Provider.of<BottomNavBarProvider>(context, listen: false);
-    bottomNavBarProvider.updateIndex(1);
+    final selectedCareer =
+        Provider.of<AuthProvider>(context, listen: false).selectedCareer;
 
     if (authenticatedUser == null) {
       return Scaffold(
@@ -101,8 +114,7 @@ class _HomePageState extends State<HomePage> {
                 lastName: authenticatedUser.user.lastName ?? '',
                 identificativoLabel:
                     '${AppLocalizations.of(context).translate('studentid')}:',
-                id: authenticatedUser.user.trattiCarriera[0].matricola
-                    .toString(),
+                id: selectedCareer!['matricola'].toString(),
                 profileImage: profileImage,
               ),
               const SizedBox(height: 20),
