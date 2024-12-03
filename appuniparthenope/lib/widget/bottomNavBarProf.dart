@@ -78,7 +78,7 @@ class BottomNavBarProfComponent extends StatelessWidget {
                     Navigator.pushNamed(context, '/qrCodePage');
                   },
                   icon: Icons.qr_code,
-                  text: AppLocalizations.of(context).translate('uniCard'),
+                  text: AppLocalizations.of(context).translate('uniCardProf'),
                 ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {

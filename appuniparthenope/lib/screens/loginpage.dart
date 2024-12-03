@@ -373,6 +373,7 @@ class _LoginFormState extends State<LoginForm> {
           if (_loading)
             Container(
               color: Colors.black.withOpacity(0.5),
+              height: double.infinity,
               child: Center(
                 child: Container(
                   width: 300,
@@ -393,11 +394,11 @@ class _LoginFormState extends State<LoginForm> {
             ),
         ],
       ),
-      // bottomNavigationBar: CustomPaint(
-      //   size: Size(MediaQuery.of(context).size.width,
-      //       MediaQuery.of(context).size.height * 0.1), // Altezza dell'onda
-      //   painter: BottomWavePainter(),
-      // ),
+      bottomNavigationBar: CustomPaint(
+        size: Size(MediaQuery.of(context).size.width,
+            MediaQuery.of(context).size.height * 0.0), // Altezza dell'onda
+        painter: BottomWavePainter(),
+      ),
     );
   }
 }

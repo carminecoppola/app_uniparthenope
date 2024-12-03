@@ -19,7 +19,6 @@ class BottomNavBarComponent extends StatelessWidget {
     final navigationProvider = Provider.of<BottomNavBarProvider>(context);
     final authenticatedUser =
         Provider.of<AuthProvider>(context).authenticatedUser;
-    final anagrafeUser = Provider.of<AuthProvider>(context).anagrafeUser;
     final examDataProvider =
         Provider.of<ExamDataProvider>(context, listen: false);
 
@@ -61,23 +60,14 @@ class BottomNavBarComponent extends StatelessWidget {
               context: context,
               position: position,
               items: [
-                // CustomPopupMenuItemBuilder.buildMenuItem(
-                //   onTap: () {
-                //     StudentUtils.anagrafeUser(context, authenticatedUser!.user);
-                //     Navigator.pushReplacementNamed(context, '/profileStudent',
-                //         arguments: anagrafeUser);
-                //   },
-                //   icon: Icons.person,
-                //   text: AppLocalizations.of(context)
-                //       .translate('personal_profile'),
-                // ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {
                     AuthUtilsFunction.qrCodeImg(context);
                     Navigator.pushNamed(context, '/qrCodePage');
                   },
                   icon: Icons.qr_code,
-                  text: AppLocalizations.of(context).translate('uniCard'),
+                  text:
+                      AppLocalizations.of(context).translate('uniCardStudent'),
                 ),
                 CustomPopupMenuItemBuilder.buildMenuItem(
                   onTap: () {

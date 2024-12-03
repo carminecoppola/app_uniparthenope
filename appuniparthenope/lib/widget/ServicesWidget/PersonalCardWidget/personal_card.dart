@@ -37,7 +37,7 @@ class PersonalCardWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(width: 50),
-                  const AvatarWidget(),
+                  const AvatarWidget(size: 40.0),
                   const SizedBox(width: 5),
                   IconButton(
                     icon: const Icon(
