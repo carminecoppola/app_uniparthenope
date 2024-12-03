@@ -119,7 +119,7 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
                 context, widget.authenticatedUser.user);
             final bottomNavBarProvider =
                 Provider.of<BottomNavBarProvider>(context, listen: false);
-            bottomNavBarProvider.updateIndex(1);
+            bottomNavBarProvider.updateIndex(0);
             Navigator.pushNamed(context, '/carrerStudent');
           },
           child: ServiceCard(

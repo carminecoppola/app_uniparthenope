@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../app_localizations.dart';
 import '../provider/auth_provider.dart';
+import '../provider/bottomNavBar_provider.dart';
 import '../utilityFunctions/authUtilsFunction.dart';
 import '../utilityFunctions/studentUtilsFunction.dart';
 import '../widget/HomeWidget/sectionTitle.dart';
@@ -61,6 +62,10 @@ class _HomePageState extends State<HomePage> {
         Provider.of<AuthProvider>(context).authenticatedUser;
     final anagrafeUser = Provider.of<AuthProvider>(context).anagrafeUser;
     final profileImage = Provider.of<AuthProvider>(context).profileImage;
+
+    final bottomNavBarProvider =
+        Provider.of<BottomNavBarProvider>(context, listen: false);
+    bottomNavBarProvider.updateIndex(1);
 
     if (authenticatedUser == null) {
       return Scaffold(

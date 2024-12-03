@@ -98,6 +98,9 @@ flutter:
     - assets/icon/discussionIcon.png
     - assets/icon/practicalTest.png
     - assets/icon/services/libraryService.png
+    - assets/icon/careerIcon.png
+    - assets/icon/homeIcon.png
+    - assets/icon/menubarIcon.png
 
     # Icon Student Service Image:
     - assets/icon/services/careerStudent.png
