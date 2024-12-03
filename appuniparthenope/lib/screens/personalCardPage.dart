@@ -22,14 +22,14 @@ class PersonalCardPage extends StatelessWidget {
     final trattiCarriera = user?.trattiCarriera.isNotEmpty == true
         ? user!.trattiCarriera[0]
         : null;
+    final selectedCareer =
+        Provider.of<AuthProvider>(context, listen: false).selectedCareer;
+
     final userAnagrafe = authProvider.anagrafeUser;
     final profileImage = authProvider.profileImage;
 
     // Controllo generale per dati null
-    if (authenticatedUser == null ||
-        user == null ||
-        trattiCarriera == null ||
-        userAnagrafe == null) {
+    if (authenticatedUser == null || user == null || userAnagrafe == null) {
       return Scaffold(
         body: Center(
           child: Column(
@@ -140,10 +140,13 @@ class PersonalCardPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildField(
-                          "\u2022 University ID",
-                          authenticatedUser.user.trattiCarriera[0].matricola
-                              .toString()),
+                      if (user.grpDes == 'Studenti') ...[
+                        _buildField("\u2022 University ID",
+                            selectedCareer!['matricola'].toString().toString()),
+                      ] else if (user.grpDes == 'Docenti') ...[
+                        _buildField("\u2022 University ID",
+                            authenticatedUser.user.docenteId.toString()),
+                      ],
                       _buildField("\u2022 CF", userAnagrafe.codFis),
                       _buildField("\u2022 DoB",
                           userAnagrafe.dataNascita!.split(" ")[0]),

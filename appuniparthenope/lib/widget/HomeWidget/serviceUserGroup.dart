@@ -119,7 +119,7 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
                 context, widget.authenticatedUser.user);
             final bottomNavBarProvider =
                 Provider.of<BottomNavBarProvider>(context, listen: false);
-            bottomNavBarProvider.updateIndex(1);
+            bottomNavBarProvider.updateIndex(0);
             Navigator.pushNamed(context, '/carrerStudent');
           },
           child: ServiceCard(
@@ -134,6 +134,9 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
                 context, widget.authenticatedUser.user);
             await StudentUtils.allReservationStudent(
                 context, widget.authenticatedUser.user);
+            final bottomNavBarProvider =
+                Provider.of<BottomNavBarProvider>(context, listen: false);
+            bottomNavBarProvider.updateIndex(3);
             Navigator.pushNamed(context, '/courseStudent');
           },
           child: ServiceCard(
@@ -147,6 +150,9 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
         GestureDetector(
           onTap: () {
             StudentUtils.taxesStudent(context, widget.authenticatedUser.user);
+            final bottomNavBarProvider =
+                Provider.of<BottomNavBarProvider>(context, listen: false);
+            bottomNavBarProvider.updateIndex(3);
             Navigator.pushNamed(context, '/feesStudent');
           },
           child: ServiceCard(
@@ -158,6 +164,9 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
         GestureDetector(
           onTap: () {
             WeatherFunctions.getWeather(context);
+            final bottomNavBarProvider =
+                Provider.of<BottomNavBarProvider>(context, listen: false);
+            bottomNavBarProvider.updateIndex(3);
             Navigator.pushNamed(context, '/watherPage');
           },
           child: ServiceCard(
@@ -166,32 +175,7 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
             description: AppLocalizations.of(context).translate('weather_dsc'),
           ),
         ),
-      ],
-      [
-        GestureDetector(
-          onTap: () {
-            StudentUtils.allRooms(context);
-            Navigator.pushNamed(context, '/classroomTeachers');
-          },
-          child: ServiceCard(
-            imagePath: 'assets/icon/services/classroom3.png',
-            title: AppLocalizations.of(context).translate('classroom'),
-            description:
-                AppLocalizations.of(context).translate('classroom_dsc'),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            StudentUtils.allEvents(context);
-            Navigator.pushNamed(context, '/eventsTeachers');
-          },
-          child: ServiceCard(
-            imagePath: 'assets/icon/services/events2.png',
-            title: AppLocalizations.of(context).translate('events'),
-            description: AppLocalizations.of(context).translate('events_dsc'),
-          ),
-        ),
-      ],
+      ]
     ];
 
     return Container(
@@ -284,6 +268,9 @@ class _ServiceGroupProfCardState extends State<ServiceGroupProfCard> {
         GestureDetector(
           onTap: () {
             StudentUtils.allRooms(context);
+            final bottomNavBarProvider =
+                Provider.of<BottomNavBarProvider>(context, listen: false);
+            bottomNavBarProvider.updateIndex(3);
             Navigator.pushNamed(context, '/classroomTeachers');
           },
           child: ServiceCard(
@@ -299,7 +286,7 @@ class _ServiceGroupProfCardState extends State<ServiceGroupProfCard> {
                 context, widget.authenticatedUser.user);
             final bottomNavBarProvider =
                 Provider.of<BottomNavBarProvider>(context, listen: false);
-            bottomNavBarProvider.updateIndex(1);
+            bottomNavBarProvider.updateIndex(0);
             Navigator.pushNamed(context, '/courseTeachers');
           },
           child: ServiceCard(
@@ -314,6 +301,9 @@ class _ServiceGroupProfCardState extends State<ServiceGroupProfCard> {
         GestureDetector(
           onTap: () {
             StudentUtils.allEvents(context);
+            final bottomNavBarProvider =
+                Provider.of<BottomNavBarProvider>(context, listen: false);
+            bottomNavBarProvider.updateIndex(3);
             Navigator.pushNamed(context, '/eventsTeachers');
           },
           child: ServiceCard(
@@ -325,6 +315,9 @@ class _ServiceGroupProfCardState extends State<ServiceGroupProfCard> {
         GestureDetector(
           onTap: () {
             WeatherFunctions.getWeather(context);
+            final bottomNavBarProvider =
+                Provider.of<BottomNavBarProvider>(context, listen: false);
+            bottomNavBarProvider.updateIndex(3);
             Navigator.pushNamed(context, '/watherPage');
           },
           child: ServiceCard(

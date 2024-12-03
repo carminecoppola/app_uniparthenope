@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class BottomNavBarProvider with ChangeNotifier {
-  int _currentIndex = 0;
-  int _selectedIndex = 0;
+  int _currentIndex = 1;
+  int _selectedIndex = 1;
 
   int get selectedIndex => _selectedIndex;
   int get currentIndex => _currentIndex;

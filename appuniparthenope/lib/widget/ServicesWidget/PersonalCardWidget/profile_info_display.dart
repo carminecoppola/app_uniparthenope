@@ -15,6 +15,8 @@ class ProfileInfoDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final authenticatedUser =
         Provider.of<AuthProvider>(context).authenticatedUser;
+    final selectedCareer =
+        Provider.of<AuthProvider>(context, listen: false).selectedCareer;
     final userAnagrafe = Provider.of<AuthProvider>(context).anagrafeUser;
     final role = authenticatedUser?.user.grpDes;
     final trattiCarriera = authenticatedUser?.user.trattiCarriera;
@@ -100,31 +102,31 @@ class ProfileInfoDisplay extends StatelessWidget {
               label: '${AppLocalizations.of(context).translate('role_label')}:',
               value: role == 'Studenti' ? role : userAnagrafe.ruolo,
             ),
-            if (role == 'Studenti' && carriera != null) ...[
+            if (role == 'Studenti' && selectedCareer != null) ...[
               ProfileInfoWidget(
                 label:
                     '${AppLocalizations.of(context).translate('student_id_label')}:',
-                value: carriera.matricola,
+                value: selectedCareer['matricola'],
               ),
               ProfileInfoWidget(
                 label:
                     '${AppLocalizations.of(context).translate('course_label')}:',
-                value: toCamelCase(carriera.cdsDes),
+                value: toCamelCase(selectedCareer['cdsDes']),
               ),
               ProfileInfoWidget(
                 label:
                     '${AppLocalizations.of(context).translate('course_id_label')}:',
-                value: carriera.cdsId.toString(),
+                value: selectedCareer['cdsId'].toString(),
               ),
               ProfileInfoWidget(
                 label:
                     '${AppLocalizations.of(context).translate('enrollment_label')}:',
-                value: carriera.dettaglioTratto.aaRegId.toString(),
+                value: selectedCareer['dettaglioTratto']['aaRegId'].toString(),
               ),
               ProfileInfoWidget(
                 label:
                     '${AppLocalizations.of(context).translate('academic_year_label')}:',
-                value: carriera.dettaglioTratto.aaIscrId.toString(),
+                value: selectedCareer['dettaglioTratto']['aaIscrId'].toString(),
               ),
             ],
             if (role == 'Docenti') ...[
