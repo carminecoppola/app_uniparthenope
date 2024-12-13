@@ -48,7 +48,15 @@ class MyApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         home: const LoginForm(),
-        theme: ThemeData.light(),
+        theme: ThemeData(
+          textSelectionTheme: TextSelectionThemeData(
+            cursorColor: AppColors.primaryColor, // Cambia il colore del cursore
+            selectionColor: AppColors.primaryColor
+                .withOpacity(0.5), // Cambia colore selezione
+            selectionHandleColor: AppColors
+                .primaryColor, // Cambia colore delle maniglie di selezione
+          ),
+        ),
         routes: AppRoutes.routes,
         initialRoute: '/',
         debugShowCheckedModeBanner: false);

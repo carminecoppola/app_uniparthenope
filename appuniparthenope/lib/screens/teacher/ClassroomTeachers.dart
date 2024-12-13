@@ -1,4 +1,5 @@
 import 'package:appuniparthenope/app_localizations.dart';
+import 'package:appuniparthenope/widget/bottomNavBarPta.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../provider/auth_provider.dart';
@@ -101,9 +102,9 @@ class _ClassroomTeacherPageState extends State<ClassroomTeacherPage> {
           ),
         ),
       ),
-      bottomNavigationBar: authenticatedUser.user.grpDes == 'Studenti'
-          ? const BottomNavBarComponent()
-          : const BottomNavBarProfComponent(),
+      bottomNavigationBar: authenticatedUser.user.grpDes == 'Docenti'
+          ? const BottomNavBarProfComponent()
+          : const BottomNavBarPTAComponent(),
     );
   }
 

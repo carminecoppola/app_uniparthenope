@@ -12,6 +12,7 @@ import '../../provider/auth_provider.dart';
 import '../../provider/exam_provider.dart';
 import '../../widget/CustomLoadingIndicator.dart';
 import '../../widget/bottomNavBar.dart';
+import '../../widget/bottomNavBarPta.dart';
 
 class EventsTeachersPage extends StatefulWidget {
   const EventsTeachersPage({super.key});
@@ -175,9 +176,9 @@ class _EventsTeachersPageState extends State<EventsTeachersPage> {
           ),
         ],
       ),
-      bottomNavigationBar: authenticatedUser.user.grpDes == 'Studenti'
-          ? const BottomNavBarComponent()
-          : const BottomNavBarProfComponent(),
+      bottomNavigationBar: authenticatedUser.user.grpDes == 'Docenti'
+          ? const BottomNavBarProfComponent()
+          : const BottomNavBarPTAComponent(),
     );
   }
 }

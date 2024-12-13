@@ -32,7 +32,7 @@ class SingleProfessorCourseCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 15),
                   Text(
-                    AppLocalizations.of(context).translate('loading_exam_info'),
+                    AppLocalizations.of(context).translate('loading_exams'),
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,

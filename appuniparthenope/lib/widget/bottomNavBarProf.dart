@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../provider/auth_provider.dart';
 import '../provider/exam_provider.dart';
 import '../utilityFunctions/authUtilsFunction.dart';
+import '../utilityFunctions/studentUtilsFunction.dart';
 import '../utilityFunctions/weatherFunction.dart';
 
 class BottomNavBarProfComponent extends StatelessWidget {
@@ -140,7 +141,8 @@ class BottomNavBarProfComponent extends StatelessWidget {
             final bottomNavBarProvider =
                 Provider.of<BottomNavBarProvider>(context, listen: false);
             bottomNavBarProvider.updateIndex(3);
-            Navigator.pushReplacementNamed(context, '/classroomsTeachers');
+            Navigator.pushNamed(context, '/classroomTeachers',
+                arguments: StudentUtils.allRooms(context));
           },
           icon: Icons.school_sharp,
           text: AppLocalizations.of(context).translate('classroom'),

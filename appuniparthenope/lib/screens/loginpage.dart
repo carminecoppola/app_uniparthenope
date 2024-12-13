@@ -175,8 +175,8 @@ class _LoginFormState extends State<LoginForm> {
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(40),
-                    bottomRight: Radius.circular(40),
+                    bottomLeft: Radius.circular(50),
+                    bottomRight: Radius.circular(50),
                   ),
                   child: AnimatedSwitcher(
                     duration: const Duration(seconds: 1),
@@ -229,8 +229,10 @@ class _LoginFormState extends State<LoginForm> {
                     child: Column(
                       children: [
                         TextFormField(
+                          cursorColor: AppColors.primaryColor,
                           controller: _usernameController,
                           decoration: InputDecoration(
+                            
                             labelText: AppLocalizations.of(context)
                                 .translate('username'),
                             labelStyle: const TextStyle(
@@ -368,8 +370,6 @@ class _LoginFormState extends State<LoginForm> {
               ],
             ),
           ),
-          // Aggiungi CustomPaint per disegnare l'onda inferiore senza bord
-          // Dialogo di caricamento
           if (_loading)
             Container(
               color: Colors.black.withOpacity(0.5),

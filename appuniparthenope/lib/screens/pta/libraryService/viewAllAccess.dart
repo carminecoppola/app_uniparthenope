@@ -48,7 +48,7 @@ class AccessLogsTable extends StatelessWidget {
                 ),
                 DataColumn(
                   label: Text(
-                    AppLocalizations.of(context).translate('entry_time_column'),
+                    AppLocalizations.of(context).translate('time_colum'),
                     style: const TextStyle(color: AppColors.primaryColor),
                   ),
                 ),

@@ -164,7 +164,7 @@ class InfoAppPage extends StatelessWidget {
   List<Widget> _buildDeveloperInfoList() {
     final developers = [
       {
-        'name': 'Raffaele Montela',
+        'name': 'Raffaele Montella',
         'asset': 'assets/team/team_leader.jpg',
         'role': 'Team leader'
       },

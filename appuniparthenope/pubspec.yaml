@@ -101,6 +101,7 @@ flutter:
     - assets/icon/careerIcon.png
     - assets/icon/homeIcon.png
     - assets/icon/menubarIcon.png
+    - assets/icon/logoutIcon.png
 
     # Icon Student Service Image:
     - assets/icon/services/careerStudent.png

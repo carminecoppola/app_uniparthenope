@@ -14,37 +14,84 @@ class BottomNavBarPTAComponent extends StatelessWidget {
     final examDataProvider =
         Provider.of<ExamDataProvider>(context, listen: false);
 
-    return BottomNavigationBar(
-      currentIndex: navigationProvider.currentIndex,
-      onTap: (index) {
-        navigationProvider.updateIndex(index);
-        switch (index) {
-          case 0:
-            final bottomNavBarProvider =
-                Provider.of<BottomNavBarProvider>(context, listen: false);
-            bottomNavBarProvider.updateIndex(0);
-            Navigator.pushNamed(context, '/homePTA');
-            break;
-          case 1:
-            _showLogoutConfirmationDialog(context);
-            examDataProvider.clearReservations();
-            break;
-        }
-      },
-      backgroundColor: AppColors.primaryColor,
-      selectedItemColor: Colors.white,
-      unselectedItemColor: AppColors.lightGray,
-      selectedLabelStyle: const TextStyle(color: Colors.white),
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Container(
+        height: 70,
+        width: MediaQuery.of(context).size.width - 32,
+        padding: const EdgeInsets.symmetric(horizontal: 40),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(25.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              blurRadius: 10,
+              spreadRadius: 2,
+            ),
+          ],
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.logout),
-          label: 'Logout',
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _buildNavItem(
+              context: context,
+              index: 0,
+              assetPath: 'assets/icon/homeIcon.png',
+              label: 'Home',
+              isSelected: navigationProvider.currentIndex == 0,
+              onTap: () {
+                navigationProvider.updateIndex(0);
+                Navigator.pushNamed(context, '/homePTA');
+              },
+            ),
+            _buildNavItem(
+              context: context,
+              index: 1,
+              assetPath: 'assets/icon/logoutIcon.png',
+              label: 'Logout',
+              isSelected: navigationProvider.currentIndex == 1,
+              onTap: () {
+                _showLogoutConfirmationDialog(context);
+                examDataProvider.clearReservations();
+              },
+            ),
+          ],
         ),
-      ],
+      ),
+    );
+  }
+
+  Widget _buildNavItem({
+    required BuildContext context,
+    required int index,
+    required String assetPath,
+    required String label,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            assetPath,
+            width: isSelected ? 35 : 27,
+            height: isSelected ? 35 : 27,
+            color: isSelected ? AppColors.primaryColor : AppColors.lightGray,
+          ),
+          const SizedBox(height: 5),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: isSelected ? AppColors.primaryColor : AppColors.lightGray,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
