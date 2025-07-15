@@ -37,7 +37,7 @@ class PersonalCardWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(width: 50),
-                  const AvatarWidget(size: 40.0),
+                  const AvatarWidget(size: 45.0),
                   const SizedBox(width: 5),
                   IconButton(
                     icon: const Icon(
@@ -64,7 +64,7 @@ class PersonalCardWidget extends StatelessWidget {
             Text(
               identificativo!,
               style: const TextStyle(
-                fontSize: 12,
+                fontSize: 13,
                 color: AppColors.detailsColor,
                 fontWeight: FontWeight.bold,
               ),

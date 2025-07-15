@@ -74,6 +74,8 @@
     "career_dsc": "Qui puoi visualizzare i dettagli relativi agli esami che hai superato",
     "courses": "Corsi",
     "courses_dsc": "Puoi visualizzare i corsi da seguire per ogni anno accademico previsti",
+    "book_exam": "Appelli",
+    "book_exam_dsc": "Consulta e prenota i prossimi appelli d'esame disponibili per i tuoi corsi.",
     "fees": "Tasse",
     "fees_dsc": "Puoi tenere sotto controllo la situazione delle tasse universitarie.",
     "weather": "Meteo",

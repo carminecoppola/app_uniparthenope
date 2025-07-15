@@ -13,7 +13,7 @@ class ExamDataProvider extends ChangeNotifier {
   AverageInfo? _aritmeticAverageStatsStudent;
   AverageInfo? _weightedAverageStatsStudent;
   List<ExamData>? _allExamStudent;
-  List<CourseInfo>? _allCourseStudent;
+  List<CourseInfo>? _allCourseStudent; //this is the list of courses
   List<StatusCourse>? _allStatusCourses;
   Map<String, StatusCourse>? _statusCoursesMap;
   List<EventsInfo>? _allEvents;

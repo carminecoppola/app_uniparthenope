@@ -7,6 +7,7 @@ import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:appuniparthenope/service/api_student_service.dart';
 import 'package:flutter/material.dart';
 
+import '../model/studentService/check_appello_data.dart';
 import '../model/studentService/taxes_data.dart';
 
 class StudentController {

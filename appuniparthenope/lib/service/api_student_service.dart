@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:provider/provider.dart';
 
+import '../model/studentService/check_appello_data.dart';
 import '../model/studentService/reservation_data.dart';
 import '../provider/exam_provider.dart';
 

@@ -108,6 +108,7 @@ flutter:
     - assets/icon/services/courses2.png
     - assets/icon/services/tax2.png
     - assets/icon/services/weather2.png
+    - assets/icon/services/checkExam.png
 
 
     # Icon Prof Service Image:

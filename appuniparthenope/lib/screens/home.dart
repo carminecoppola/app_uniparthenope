@@ -1,10 +1,12 @@
 import 'package:appuniparthenope/main.dart';
+import 'package:appuniparthenope/screens/student/CheckAppello.dart';
 import 'package:appuniparthenope/widget/CustomLoadingIndicator.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/CalendarWidget/calendarCard.dart';
 import 'package:appuniparthenope/widget/alertDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../app_localizations.dart';
+import '../model/studentService/check_appello_data.dart';
 import '../provider/auth_provider.dart';
 import '../provider/bottomNavBar_provider.dart';
 import '../utilityFunctions/authUtilsFunction.dart';

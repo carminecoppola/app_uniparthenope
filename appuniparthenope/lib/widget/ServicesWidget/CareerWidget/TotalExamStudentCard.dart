@@ -56,105 +56,121 @@ class TotalExamStudentCard extends StatelessWidget {
           ],
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(6.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    AppLocalizations.of(context).translate('avg_weight'),
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+            // Colonna media pesata, centrale!
+            Expanded(
+              flex: 4,
+              child: Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context).translate('avg_weight'),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        mediaTrentesimi,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: textColor,
-                          fontWeight: FontWeight.w800,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          mediaTrentesimi,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: textColor,
+                            fontWeight: FontWeight.w800,
+                          ),
                         ),
-                      ),
-                      Text(
-                        '/$totTrentesimi',
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: AppColors.textColor,
-                          fontWeight: FontWeight.w800,
+                        Text(
+                          '/$totTrentesimi',
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: AppColors.textColor,
+                            fontWeight: FontWeight.w800,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        mediaCentesimi,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w800,
-                          color: textColor,
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          mediaCentesimi,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w800,
+                            color: textColor,
+                          ),
                         ),
-                      ),
-                      Text(
-                        '/$totCentesimi',
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.textColor,
+                        Text(
+                          '/$totCentesimi',
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.textColor,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-            const Spacer(),
-            // Widget Spacer per spaziare il testo dal cerchio
-            ProgressCircleCounter(
-              totalCount: examTotali,
-              completedExams: examSuperati,
-              textColor: textColor,
+            // Cerchio centrale
+            Expanded(
+              flex: 3,
+              child: Center(
+                child: ProgressCircleCounter(
+                  totalCount: examTotali,
+                  completedExams: examSuperati,
+                  textColor: textColor,
+                ),
+              ),
             ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'CFU',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+            // Colonna CFU, centrale!
+            Expanded(
+              flex: 4,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'CFU',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        '$cfuPar/',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w800,
-                          color: textColor,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '$cfuPar/',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w800,
+                            color: textColor,
+                          ),
                         ),
-                      ),
-                      Text(
-                        formattedCfuTot,
-                        style: const TextStyle(
-                          fontSize: 15,
-                          color: AppColors.textColor,
-                          fontWeight: FontWeight.w800,
+                        Text(
+                          formattedCfuTot,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            color: AppColors.textColor,
+                            fontWeight: FontWeight.w800,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

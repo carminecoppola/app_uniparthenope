@@ -11,6 +11,8 @@ import 'package:appuniparthenope/provider/taxes_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../provider/check_exam_provider.dart';
+
 /// Classe di utility per le operazioni legate agli studenti.
 class StudentUtils {
   /// Ottiene e imposta i dati dell'anagrafe dell'utente autenticato.

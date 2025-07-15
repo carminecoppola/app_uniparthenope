@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/model/studentService/check_appello_data.dart';
 import 'package:appuniparthenope/screens/InfoAppPage.dart';
 import 'package:appuniparthenope/screens/dottorandi/homePhD.dart';
 import 'package:appuniparthenope/screens/personalCardPage.dart';
@@ -7,6 +8,7 @@ import 'package:appuniparthenope/screens/pta/homePTA.dart';
 import 'package:appuniparthenope/screens/pta/libraryService/registrationForm.dart';
 import 'package:appuniparthenope/screens/pta/libraryService/viewAllAccess.dart';
 import 'package:appuniparthenope/screens/resturant/homeResturant.dart';
+import 'package:appuniparthenope/screens/student/CheckAppello.dart';
 import 'package:appuniparthenope/screens/student/CourseStudent.dart';
 import 'package:appuniparthenope/screens/WeatherPage.dart';
 import 'package:appuniparthenope/screens/student/CareerStudent.dart';
@@ -40,6 +42,7 @@ class AppRoutes {
   static const String courseStudent = '/courseStudent';
   static const String feesStudent = '/feesStudent';
   static const String reservationStudent = '/reservationStudent';
+  static const String checkappelloStudent = '/checkappelloStudent';
 
   //Teachers roots
   static const String classroomTeachers = '/classroomTeachers';
@@ -68,6 +71,7 @@ class AppRoutes {
     profileStudent: (context) => const PersonalProfilePage(),
     carrerStudent: (context) => const StudentCarrerPage(),
     reservationStudent: (context) => const ReservationPage(),
+    checkappelloStudent: (context) => const CheckAppelloPage(),
     courseStudent: (context) => const CourseStudentPage(),
     feesStudent: (context) => const FeesUniStudentPage(),
     watherPage: (context) => const WeatherUniPage(),

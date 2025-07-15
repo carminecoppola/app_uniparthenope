@@ -74,6 +74,8 @@
     "career_dsc": "Here you can view details related to the exams you have passed.",
     "courses": "Courses",
     "courses_dsc": "You can view the courses to follow for each academic year.",
+    "book_exam": "Exam Booking",
+    "book_exam_dsc": "View and book available exam sessions for your courses.",
     "fees": "Fees",
     "fees_dsc": "You can keep track of your university fees.",
     "weather": "Weather",

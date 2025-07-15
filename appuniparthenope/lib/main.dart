@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:appuniparthenope/app_routes.dart';
 import 'package:provider/provider.dart';
 
+import 'provider/check_exam_provider.dart';
 import 'provider/rooms_provider.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -20,6 +21,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => ExamDataProvider()),
+        ChangeNotifierProvider(create: (context) => CheckDateExamProvider()),
         ChangeNotifierProvider(create: (context) => ProfessorDataProvider()),
         ChangeNotifierProvider(create: (context) => WeatherDataProvider()),
         ChangeNotifierProvider(create: (context) => TaxesDataProvider()),
