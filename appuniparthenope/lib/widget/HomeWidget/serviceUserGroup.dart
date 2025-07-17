@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
 import 'package:appuniparthenope/utilityFunctions/weatherFunction.dart';
 import '../../provider/bottomNavBar_provider.dart';
-import '../../utilityFunctions/examUtilsFunction.dart';
 import '../../utilityFunctions/professorUtilsFunction.dart';
 
 class ServiceCard extends StatelessWidget {
@@ -149,24 +148,6 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
       ],
       [
         GestureDetector(
-          onTap: () async {
-            //WeatherFunctions.getWeather(context);
-            //final bottomNavBarProvider = Provider.of<BottomNavBarProvider>(context, listen: false);
-            //bottomNavBarProvider.updateIndex(3);
-            await StudentUtils.allCourseStudent(
-                context, widget.authenticatedUser.user);
-            await CheckExamUtils.allAppelliStudent(
-                context, widget.authenticatedUser.user);
-            Navigator.pushNamed(context, '/checkappelloStudent');
-          },
-          child: ServiceCard(
-            imagePath: 'assets/icon/services/checkExam.png',
-            title: AppLocalizations.of(context).translate('book_exam'),
-            description:
-                AppLocalizations.of(context).translate('book_exam_dsc'),
-          ),
-        ),
-        GestureDetector(
           onTap: () {
             StudentUtils.taxesStudent(context, widget.authenticatedUser.user);
             final bottomNavBarProvider =
@@ -180,8 +161,6 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
             description: AppLocalizations.of(context).translate('fees_dsc'),
           ),
         ),
-      ],
-      [
         GestureDetector(
           onTap: () {
             WeatherFunctions.getWeather(context);
@@ -196,7 +175,7 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
             description: AppLocalizations.of(context).translate('weather_dsc'),
           ),
         ),
-      ],
+      ]
     ];
 
     return Container(
@@ -355,28 +334,13 @@ class _ServiceGroupProfCardState extends State<ServiceGroupProfCard> {
       child: Column(
         children: [
           SizedBox(
-            height: 300,
+            height: 300, // Imposta l'altezza del PageView
             child: PageView.builder(
               controller: _pageController,
               itemCount: pages.length,
               itemBuilder: (context, index) {
-                final page = pages[index];
-                // Se la pagina ha solo una card: allineata a sinistra
-                if (page.length == 1) {
-                  return Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: SizedBox(
-                        width: 180,
-                        child: page.first,
-                      ),
-                    ),
-                  );
-                }
-                // Se più di una card: normale row espansa
                 return Row(
-                  children: page.map((card) {
+                  children: pages[index].map((card) {
                     return Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4.0),

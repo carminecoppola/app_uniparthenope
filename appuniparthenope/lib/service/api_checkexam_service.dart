@@ -63,36 +63,37 @@ class ApiCheckExamService {
     }
   }
 
-  Future<bool> bookExamAppello(BuildContext context, User student) async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final selectedCareer = authProvider.selectedCareer;
-    final password = authProvider.password;
-    final examProvider = Provider.of<ExamDataProvider>(context, listen: false);
-    final checkExamProvider = Provider.of<CheckDateExamProvider>(context, listen: false)
-        
-    if (selectedCareer == null) {
-      throw Exception('Nessuna carriera selezionata trovata');
-    }
-    String cdsId = selectedCareer['cdsId'].toString();
-    List<CheckAppello> listofAppelli = checkExamProvider.allAppelliStudent;
+  // Future<bool> bookExamAppello(BuildContext context, User student) async {
+  //   final authProvider = Provider.of<AuthProvider>(context, listen: false);
+  //   final selectedCareer = authProvider.selectedCareer;
+  //   final password = authProvider.password;
+  //   final examProvider = Provider.of<ExamDataProvider>(context, listen: false);
+  //   final checkExamProvider = Provider.of<CheckDateExamProvider>(context, listen: false);
+
+  //   if (selectedCareer == null) {
+  //     throw Exception('Nessuna carriera selezionata trovata');
+  //   }
+  //   String cdsId = selectedCareer['cdsId'].toString();
+  //   List<CheckAppello> listofAppelli = checkExamProvider.allAppelliStudent;
+    
     
 
-    final url = Uri.parse(
-        '$baseUrl/UniparthenopeApp/v1/students/bookExam/$cdsId/$adId/$appId');
+  //   final url = Uri.parse(
+  //       '$baseUrl/UniparthenopeApp/v1/students/bookExam/$cdsId/$adId/$appId');
 
-    final response = await http.post(url, headers: {
-      'Authorization':
-          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
-      'Content-Type': 'application/json', // metti comunque
-    });
+  //   final response = await http.post(url, headers: {
+  //     'Authorization':
+  //         'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
+  //     'Content-Type': 'application/json', // metti comunque
+  //   });
 
-    if (response.statusCode == 200) {
-      // Prenotazione avvenuta con successo
-      return true;
-    } else {
-      print('Errore POST prenotazione esame: status ${response.statusCode}');
-      print('Body: ${response.body}');
-      return false;
-    }
-  }
+  //   if (response.statusCode == 200) {
+  //     // Prenotazione avvenuta con successo
+  //     return true;
+  //   } else {
+  //     print('Errore POST prenotazione esame: status ${response.statusCode}');
+  //     print('Body: ${response.body}');
+  //     return false;
+  //   }
+  // }
 }

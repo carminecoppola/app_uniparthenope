@@ -25,7 +25,7 @@ class ProfileInfoDisplay extends StatelessWidget {
         : null;
 
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
+      scrollDirection: Axis.vertical,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(
           children: [
@@ -52,102 +52,84 @@ class ProfileInfoDisplay extends StatelessWidget {
         const SizedBox(height: 20),
         // Blocco Personale
         if (userAnagrafe != null && authenticatedUser != null) ...[
+          //Blocco Personale
           if (index == 0) ...[
-            ProfileInfoWidget(
-              label: '${AppLocalizations.of(context).translate('name_label')}:',
-              value: toCamelCase(userAnagrafe.nome),
+            ProfileDoubleInfoRow(
+              label1: AppLocalizations.of(context).translate('name_label'),
+              value1: toCamelCase(userAnagrafe.nome),
+              label2: AppLocalizations.of(context).translate('surname_label'),
+              value2: toCamelCase(userAnagrafe.cognome),
             ),
-            ProfileInfoWidget(
-              label:
-                  '${AppLocalizations.of(context).translate('surname_label')}:',
-              value: toCamelCase(userAnagrafe.cognome),
+            ProfileDoubleInfoRow(
+              label1: AppLocalizations.of(context).translate('cf_label'),
+              value1: userAnagrafe.codFis.toString(),
+              label2:
+                  AppLocalizations.of(context).translate('nationality_label'),
+              value2: toCamelCase(userAnagrafe.desCittadinanza ?? ''),
             ),
-            ProfileInfoWidget(
-              label: '${AppLocalizations.of(context).translate('cf_label')}:',
-              value: userAnagrafe.codFis,
+            ProfileDoubleInfoRow(
+              label1: AppLocalizations.of(context).translate('dob_label'),
+              value1: userAnagrafe.dataNascita!.split(" ")[0],
+              label2: AppLocalizations.of(context).translate('phone_label'),
+              value2: userAnagrafe.telRes.toString(),
             ),
-            ProfileInfoWidget(
-              label:
-                  '${AppLocalizations.of(context).translate('nationality_label')}:',
-              value: toCamelCase(userAnagrafe.desCittadinanza ?? ''),
-            ),
-            ProfileInfoWidget(
-              label: '${AppLocalizations.of(context).translate('dob_label')}:',
-              value: userAnagrafe.dataNascita!.split(" ")[0],
-            ),
-            ProfileInfoWidget(
-              label:
-                  '${AppLocalizations.of(context).translate('gender_label')}:',
-              value: getGenderDescription(userAnagrafe.sesso, context),
-            ),
-            ProfileInfoWidget(
-              label:
-                  '${AppLocalizations.of(context).translate('phone_label')}:',
-              value: userAnagrafe.telRes,
-            ),
-            ProfileInfoWidget(
-              label:
-                  '${AppLocalizations.of(context).translate('email_label')}:',
-              value: userAnagrafe.email ?? '',
-            ),
+            // ProfileDoubleInfoRow(
+            //   // label1: AppLocalizations.of(context).translate('phone_label'),
+            //   // value1: userAnagrafe.telRes.toString(),
+            //   // label2: AppLocalizations.of(context).translate('email_label'),
+            //   // value2: userAnagrafe.email ?? '',
+            // ),
           ],
           // Blocco Universitario
           if (index == 1) ...[
-            ProfileInfoWidget(
-              label:
-                  '${AppLocalizations.of(context).translate('username_label')}:',
-              value: authenticatedUser.user.userId,
-            ),
-            ProfileInfoWidget(
-              label: '${AppLocalizations.of(context).translate('role_label')}:',
-              value: role == 'Studenti' ? role : userAnagrafe.ruolo,
+            ProfileDoubleInfoRow(
+              label1: AppLocalizations.of(context).translate('username_label'),
+              value1: authenticatedUser.user.userId ?? '',
+              label2: AppLocalizations.of(context).translate('role_label'),
+              value2: role == 'Studenti' ? role : userAnagrafe.ruolo,
             ),
             if (role == 'Studenti' && selectedCareer != null) ...[
-              ProfileInfoWidget(
-                label:
-                    '${AppLocalizations.of(context).translate('student_id_label')}:',
-                value: selectedCareer['matricola'],
+              ProfileDoubleInfoRow(
+                label1:
+                    AppLocalizations.of(context).translate('student_id_label'),
+                value1: selectedCareer['matricola'] ?? '',
+                label2: AppLocalizations.of(context).translate('course_label'),
+                value2: toCamelCase(selectedCareer['cdsDes']),
               ),
-              ProfileInfoWidget(
-                label:
-                    '${AppLocalizations.of(context).translate('course_label')}:',
-                value: toCamelCase(selectedCareer['cdsDes']),
+              ProfileDoubleInfoRow(
+                label1:
+                    AppLocalizations.of(context).translate('course_id_label'),
+                value1: selectedCareer['cdsId'].toString(),
+                label2: AppLocalizations.of(context)
+                    .translate('university_email_label'),
+                value2: userAnagrafe.emailAte,
               ),
-              ProfileInfoWidget(
-                label:
-                    '${AppLocalizations.of(context).translate('course_id_label')}:',
-                value: selectedCareer['cdsId'].toString(),
-              ),
-              ProfileInfoWidget(
-                label:
-                    '${AppLocalizations.of(context).translate('enrollment_label')}:',
-                value: selectedCareer['dettaglioTratto']['aaRegId'].toString(),
-              ),
-              ProfileInfoWidget(
-                label:
-                    '${AppLocalizations.of(context).translate('academic_year_label')}:',
-                value: selectedCareer['dettaglioTratto']['aaIscrId'].toString(),
-              ),
+              // ProfileDoubleInfoRow(
+              //   label1: AppLocalizations.of(context)
+              //       .translate('academic_year_label'),
+              //   value1:
+              //       selectedCareer['dettaglioTratto']['aaIscrId'].toString(),
+              //   label2: AppLocalizations.of(context)
+              //       .translate('university_email_label'),
+              //   value2: userAnagrafe.emailAte,
+              // ),
             ],
             if (role == 'Docenti') ...[
-              ProfileInfoWidget(
-                label:
-                    '${AppLocalizations.of(context).translate('teacher_id_label')}:',
-                value: authenticatedUser.user.docenteId.toString(),
+              ProfileDoubleInfoRow(
+                label1:
+                    AppLocalizations.of(context).translate('teacher_id_label'),
+                value1: authenticatedUser.user.docenteId.toString(),
+                label2: AppLocalizations.of(context).translate('sector_label'),
+                value2: toCamelCase(userAnagrafe.settore.toString()),
               ),
-              ProfileInfoWidget(
-                label:
-                    '${AppLocalizations.of(context).translate('sector_label')}:',
-                value: toCamelCase(userAnagrafe.settore.toString()),
+              ProfileDoubleInfoRow(
+                label1: AppLocalizations.of(context)
+                    .translate('university_email_label'),
+                value1: userAnagrafe.emailAte ?? '',
               ),
             ],
-            ProfileInfoWidget(
-              label:
-                  '${AppLocalizations.of(context).translate('university_email_label')}:',
-              value: userAnagrafe.emailAte,
-            ),
           ],
-        ],
+        ]
       ]),
     );
   }

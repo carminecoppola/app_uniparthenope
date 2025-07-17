@@ -5,7 +5,7 @@ import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 
-import '../widget/ServicesWidget/PersonalCardWidget/personal_card.dart';
+import '../widget/ServicesWidget/PersonalCardWidget/minibox-personal-widget.dart';
 import '../widget/ServicesWidget/PersonalCardWidget/profile_info_display.dart';
 import '../widget/ServicesWidget/PersonalCardWidget/tabbar_custom.dart';
 import '../widget/bottomNavBarProf.dart';
@@ -89,14 +89,14 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
                   children: [
                     if (userAnagrafe != null) ...[
                       if (role == 'Studenti') ...[
-                        PersonalCardWidget(
+                        PersonalMiniBoxWidget(
                           nome: userAnagrafe.nome,
                           cognome: userAnagrafe.cognome,
                           identificativoLabel: identificativoLabel,
                           identificativo: idStud.toString(),
                         ),
                       ] else ...[
-                        PersonalCardWidget(
+                        PersonalMiniBoxWidget(
                             nome: userAnagrafe.nome,
                             cognome: userAnagrafe.cognome,
                             identificativoLabel: identificativoLabel,
@@ -104,7 +104,7 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
                       ],
                     ] else ...[
                       const Center(
-                        child: PersonalCardWidget(
+                        child: PersonalMiniBoxWidget(
                           nome: 'Nome non disponibile',
                           cognome: 'Cognome non disponibile',
                           identificativoLabel: 'N/A',

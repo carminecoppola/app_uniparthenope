@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/auth_provider.dart';
+import '../../provider/bottomNavBar_provider.dart';
 import '../../widget/CustomLoadingIndicator.dart';
 
 class StudentCarrerPage extends StatefulWidget {
@@ -30,6 +31,10 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
     final weightedAverageStats =
         Provider.of<ExamDataProvider>(context).weightedAverageStatsStudent;
     final allExamInfo = Provider.of<ExamDataProvider>(context).allExamStudent;
+
+    final bottomNavBarProvider =
+        Provider.of<BottomNavBarProvider>(context, listen: false);
+    bottomNavBarProvider.updateIndex(0);
 
     // Verifica lo stato della carriera
     CareerState careerState = checkCareerState(
@@ -97,6 +102,9 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
           bottomNavigationBar: const BottomNavBarComponent(),
         );
       case CareerState.populated:
+        final bottomNavBarProvider =
+            Provider.of<BottomNavBarProvider>(context, listen: false);
+        bottomNavBarProvider.updateIndex(0);
         return Scaffold(
           appBar: const NavbarComponent(),
           body: Column(

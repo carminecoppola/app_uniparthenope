@@ -30,7 +30,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace "com.example.appuniparthenope"
-    compileSdk 35
+    compileSdk 36
     ndkVersion "26.1.10909125"
 
     compileOptions {
@@ -53,8 +53,8 @@ android {
         targetSdk 35
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        versionCode 14
-        versionName '4.0.7'
+        versionCode 15
+        versionName '4.0.8'
     }
 
     signingConfigs {

@@ -3,13 +3,13 @@ import 'package:appuniparthenope/main.dart';
 import '../../../utilityFunctions/authUtilsFunction.dart';
 import 'avatar_widget.dart';
 
-class PersonalCardWidget extends StatelessWidget {
+class PersonalMiniBoxWidget extends StatelessWidget {
   final String? nome;
   final String? cognome;
   final String? identificativoLabel;
   final String? identificativo;
 
-  const PersonalCardWidget({
+  const PersonalMiniBoxWidget({
     super.key,
     required this.nome,
     required this.cognome,
@@ -37,7 +37,7 @@ class PersonalCardWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(width: 50),
-                  const AvatarWidget(size: 45.0),
+                  const AvatarWidget(size: 50.0),
                   const SizedBox(width: 5),
                   IconButton(
                     icon: const Icon(
