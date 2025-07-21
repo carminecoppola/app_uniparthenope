@@ -1,4 +1,3 @@
-import 'package:appuniparthenope/model/studentService/check_appello_data.dart';
 import 'package:appuniparthenope/screens/InfoAppPage.dart';
 import 'package:appuniparthenope/screens/dottorandi/homePhD.dart';
 import 'package:appuniparthenope/screens/personalCardPage.dart';

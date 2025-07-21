@@ -112,7 +112,7 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
                         ),
                       )
                     ],
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 10),
                     CustomTabBar(
                       selectedIndex: _selectedIndex,
                       onTabTapped: _onTabTapped,
