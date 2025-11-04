@@ -6,7 +6,6 @@ import '../../provider/auth_provider.dart';
 import '../../widget/CustomLoadingIndicator.dart';
 import '../../widget/ServicesWidget/RoomWidget/areaDropdown.dart';
 import '../../widget/ServicesWidget/RoomWidget/roomList.dart';
-import '../../widget/bottomNavBar.dart';
 import '../../widget/bottomNavBarProf.dart';
 import '../../widget/navbar.dart';
 import 'package:appuniparthenope/model/teacherService/room_data.dart';

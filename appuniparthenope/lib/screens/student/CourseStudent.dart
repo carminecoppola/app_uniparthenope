@@ -8,7 +8,6 @@ import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/CourseWidget/singleCourseCard.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
-import '../../provider/bottomNavBar_provider.dart';
 import '../../widget/CustomLoadingIndicator.dart';
 import '../../widget/ServicesWidget/CourseWidget/customTabBarCourse.dart';
 import '../../widget/ServicesWidget/CourseWidget/legendDialog.dart';

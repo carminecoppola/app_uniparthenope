@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/auth_provider.dart';
-import '../../provider/bottomNavBar_provider.dart';
 import '../../utilityFunctions/studentUtilsFunction.dart';
 import '../../widget/HomeWidget/sectionTitle.dart';
 import '../../widget/HomeWidget/serviceUserGroup.dart';

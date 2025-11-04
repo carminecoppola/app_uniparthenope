@@ -173,16 +173,6 @@ class InfoAppPage extends StatelessWidget {
         'asset': 'assets/team/cc.png',
         'role': 'Developer'
       },
-      {
-        'name': 'Ciro Giuseppe De Vita',
-        'asset': 'assets/team/cgdv.png',
-        'role': 'Developer'
-      },
-      {
-        'name': 'Gennaro Mellone',
-        'asset': 'assets/team/gm.jpg',
-        'role': 'Developer'
-      },
     ];
 
     List<Widget> developerInfoList = [];
@@ -216,13 +206,12 @@ class InfoAppPage extends StatelessWidget {
 
     if (Platform.isIOS) {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      dispositivo = iosInfo.name ?? 'Dispositivo iOS';
-      versioneOS = iosInfo.systemVersion ?? 'Versione iOS sconosciuta';
+      dispositivo = iosInfo.name;
+      versioneOS = iosInfo.systemVersion;
     } else if (Platform.isAndroid) {
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      dispositivo = androidInfo.model ?? 'Dispositivo Android';
-      versioneOS =
-          androidInfo.version.release ?? 'Versione Android sconosciuta';
+      dispositivo = androidInfo.model;
+      versioneOS = androidInfo.version.release;
     }
 
     final String body = '''

@@ -1,8 +1,6 @@
 import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'dart:io';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../main.dart';
 import '../provider/auth_provider.dart';
@@ -19,14 +17,10 @@ class PersonalCardPage extends StatelessWidget {
     final authProvider = Provider.of<AuthProvider>(context);
     final authenticatedUser = authProvider.authenticatedUser;
     final user = authenticatedUser?.user;
-    final trattiCarriera = user?.trattiCarriera.isNotEmpty == true
-        ? user!.trattiCarriera[0]
-        : null;
     final selectedCareer =
         Provider.of<AuthProvider>(context, listen: false).selectedCareer;
 
     final userAnagrafe = authProvider.anagrafeUser;
-    final profileImage = authProvider.profileImage;
 
     // Controllo generale per dati null
     if (authenticatedUser == null || user == null || userAnagrafe == null) {
@@ -48,20 +42,6 @@ class PersonalCardPage extends StatelessWidget {
           ),
         ),
       );
-    }
-
-    // Gestione immagine profilo
-    ImageProvider<Object>? profileImageProvider;
-
-    if (profileImage != null && profileImage.isNotEmpty) {
-      if (kIsWeb) {
-        profileImageProvider = NetworkImage(profileImage);
-      } else {
-        profileImageProvider = FileImage(File(profileImage));
-      }
-    } else {
-      profileImageProvider =
-          const AssetImage('assets/user_profile_default.jpg');
     }
 
     return Scaffold(

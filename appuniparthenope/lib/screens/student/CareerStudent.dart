@@ -21,6 +21,18 @@ class StudentCarrerPage extends StatefulWidget {
 
 class _StudentCarrerPageState extends State<StudentCarrerPage> {
   @override
+  void initState() {
+    super.initState();
+    // Aggiorna l'indice della bottom nav bar dopo il build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        Provider.of<BottomNavBarProvider>(context, listen: false)
+            .updateIndex(0);
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final authenticatedUser =
         Provider.of<AuthProvider>(context, listen: false).authenticatedUser;
@@ -31,10 +43,6 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
     final weightedAverageStats =
         Provider.of<ExamDataProvider>(context).weightedAverageStatsStudent;
     final allExamInfo = Provider.of<ExamDataProvider>(context).allExamStudent;
-
-    final bottomNavBarProvider =
-        Provider.of<BottomNavBarProvider>(context, listen: false);
-    bottomNavBarProvider.updateIndex(0);
 
     // Verifica lo stato della carriera
     CareerState careerState = checkCareerState(
@@ -102,9 +110,6 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
           bottomNavigationBar: const BottomNavBarComponent(),
         );
       case CareerState.populated:
-        final bottomNavBarProvider =
-            Provider.of<BottomNavBarProvider>(context, listen: false);
-        bottomNavBarProvider.updateIndex(0);
         return Scaffold(
           appBar: const NavbarComponent(),
           body: Column(
@@ -159,8 +164,6 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
           ),
           bottomNavigationBar: const BottomNavBarComponent(),
         );
-      default:
-        return const SizedBox.shrink();
     }
   }
 }

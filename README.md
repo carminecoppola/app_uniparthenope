@@ -63,8 +63,6 @@ The **app@uniparthenope** application was developed by a team of students from t
 |-----------------------|--------------|
 | **Raffaele Montela**   | Team leader  |
 | **Carmine Coppola**    | Developer    |
-| **Ciro Giuseppe De Vita** | Developer |
-| **Gennaro Mellone**    | Developer    |
 
 The team has worked with dedication to provide an innovative and accessible solution for the entire academic community.
 

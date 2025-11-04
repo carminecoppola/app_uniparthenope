@@ -1,4 +1,5 @@
 import 'package:appuniparthenope/app_localizations.dart';
+import 'package:appuniparthenope/core/service_locator.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
@@ -16,6 +17,9 @@ import 'provider/rooms_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
+  // Inizializza Dependency Injection prima di tutto
+  setupServiceLocator();
+
   runApp(
     MultiProvider(
       providers: [

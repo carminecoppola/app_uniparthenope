@@ -46,8 +46,6 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
     final trattiCarriera = authenticatedUser.user.trattiCarriera;
     final selectedCareer = Provider.of<AuthProvider>(context).selectedCareer;
     final idStud = selectedCareer != null ? selectedCareer['matricola'] : null;
-    final identificativo =
-        trattiCarriera.isNotEmpty ? trattiCarriera[0].matricola : 'N/A';
     final identificativoProf = authenticatedUser.user.docenteId;
     final facCod = trattiCarriera.isNotEmpty
         ? trattiCarriera[0].dettaglioTratto.facCod

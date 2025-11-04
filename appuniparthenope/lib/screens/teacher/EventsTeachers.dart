@@ -11,7 +11,6 @@ import '../../model/studentService/events_data.dart';
 import '../../provider/auth_provider.dart';
 import '../../provider/exam_provider.dart';
 import '../../widget/CustomLoadingIndicator.dart';
-import '../../widget/bottomNavBar.dart';
 import '../../widget/bottomNavBarPta.dart';
 
 class EventsTeachersPage extends StatefulWidget {

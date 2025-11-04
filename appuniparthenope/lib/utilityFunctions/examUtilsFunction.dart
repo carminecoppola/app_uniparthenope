@@ -1,29 +1,54 @@
+import 'package:appuniparthenope/core/logger.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../controller/checkexam_controller.dart';
+import '../provider/auth_provider.dart';
 import '../provider/check_exam_provider.dart';
+import '../provider/exam_provider.dart';
 
-/// Classe di utility per le operazioni legate agli studenti.
+/// Classe di utility per le operazioni legate agli appelli d'esame.
 class CheckExamUtils {
-  /// Ottiene e imposta tutti gli appelli disponibili per uno specifico esame.
+  /// Ottiene e imposta tutti gli appelli disponibili per lo studente.
+  ///
+  /// Ora usa direttamente il provider invece del controller rimosso
   static Future<void> allAppelliStudent(
       BuildContext context, User? authenticatedUser) async {
-    final CheckExamController checkExamController = CheckExamController();
     try {
       if (authenticatedUser == null) {
         throw Exception('Utente non autenticato');
       }
 
-      final allAppelliStudent = await checkExamController
-          .fetchAllAppelliStudent(authenticatedUser, context);
-
-      final examDataProvider =
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final examProvider =
+          Provider.of<ExamDataProvider>(context, listen: false);
+      final checkExamProvider =
           Provider.of<CheckDateExamProvider>(context, listen: false);
-      examDataProvider.setAllAppelliStudent(allAppelliStudent);
-    } catch (e) {
-      print('\nErrore durante allAppelliStudent() $e');
+
+      final password = authProvider.password;
+      final selectedCareer = authProvider.selectedCareer;
+      final courseList = examProvider.allCourseStudent;
+
+      if (password == null || selectedCareer == null) {
+        AppLogger.warning('Dati autenticazione mancanti');
+        return;
+      }
+
+      if (courseList == null || courseList.isEmpty) {
+        AppLogger.info('Nessun corso disponibile per caricare gli appelli');
+        checkExamProvider.setAllAppelliStudent([]);
+        return;
+      }
+
+      // Usa il provider direttamente invece del controller
+      await checkExamProvider.fetchAllAppelliStudent(
+        userId: authenticatedUser.userId!,
+        password: password,
+        cdsId: selectedCareer['cdsId'],
+        courseList: courseList,
+      );
+    } catch (e, stackTrace) {
+      AppLogger.error('Errore durante allAppelliStudent', e, stackTrace);
     }
   }
 }

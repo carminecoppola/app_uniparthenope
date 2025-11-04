@@ -1,7 +1,7 @@
 name: appuniparthenope
 description: "The official app of the University of Naples 'Parthenope,' developed by students, offers a tailored experience for the academic community. Whether you are a student, teacher, or part of the administrative staff, you will have quick and easy access to all essential university information. Explore the new minimalist interface inspired by our university's colors, designed to make navigation intuitive and enjoyable. Keep track of your academic activities, available rooms, and university events all in one place."
 
-version: 4.0.8
+version: 4.0.9+40009
 
 environment:
   sdk: '>=3.3.1 <4.0.0'
@@ -11,6 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.1.2
+  get_it: ^7.7.0
+  logger: ^2.4.0
   
   animated_notch_bottom_bar: ^1.0.0
 

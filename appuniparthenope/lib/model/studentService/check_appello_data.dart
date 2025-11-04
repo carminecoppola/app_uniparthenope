@@ -1,6 +1,7 @@
 class CheckAppello {
   String? esame;
   int? appId;
+  int? adId;
   String? stato;
   String? statoDes;
   String? docente;
@@ -15,6 +16,7 @@ class CheckAppello {
   CheckAppello(
       {this.esame,
       this.appId,
+      this.adId,
       this.stato,
       this.statoDes,
       this.docente,
@@ -29,6 +31,7 @@ class CheckAppello {
   CheckAppello.fromJson(Map<String, dynamic> json) {
     esame = json['esame'];
     appId = json['appId'];
+    adId = json['adId'];
     stato = json['stato'];
     statoDes = json['statoDes'];
     docente = json['docente'];
@@ -45,6 +48,7 @@ class CheckAppello {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['esame'] = esame;
     data['appId'] = appId;
+    data['adId'] = adId;
     data['stato'] = stato;
     data['statoDes'] = statoDes;
     data['docente'] = docente;

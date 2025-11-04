@@ -5,21 +5,36 @@ import 'appello_card.dart';
 
 class AppelloCardList extends StatelessWidget {
   final List<CheckAppello> appelli;
+  final Function(CheckAppello)? onPrenota;
 
-  const AppelloCardList({super.key, required this.appelli});
+  const AppelloCardList({
+    super.key,
+    required this.appelli,
+    this.onPrenota,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: appelli.map((a) => AppelloCard(appello: a)).toList(),
+      children: appelli
+          .map((a) => AppelloCard(
+                appello: a,
+                onPrenota: onPrenota != null ? () => onPrenota!(a) : null,
+              ))
+          .toList(),
     );
   }
 }
 
 class AppelloGroupList extends StatelessWidget {
   final Map<String, List<CheckAppello>> groupedAppelli;
+  final Function(CheckAppello)? onPrenota;
 
-  const AppelloGroupList({super.key, required this.groupedAppelli});
+  const AppelloGroupList({
+    super.key,
+    required this.groupedAppelli,
+    this.onPrenota,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +54,10 @@ class AppelloGroupList extends StatelessWidget {
               ),
             ),
           ),
-          AppelloCardList(appelli: appelliEsame),
+          AppelloCardList(
+            appelli: appelliEsame,
+            onPrenota: onPrenota,
+          ),
         ];
       }).toList(),
     );

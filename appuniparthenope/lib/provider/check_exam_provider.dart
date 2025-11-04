@@ -1,10 +1,102 @@
+import 'package:appuniparthenope/core/logger.dart';
+import 'package:appuniparthenope/core/result.dart';
+import 'package:appuniparthenope/core/service_locator.dart';
+import 'package:appuniparthenope/service/api_checkexam_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../model/studentService/check_appello_data.dart';
+import '../model/studentService/student_course_data.dart';
 
 class CheckDateExamProvider extends ChangeNotifier {
+  final ApiCheckExamService _apiService = getIt<ApiCheckExamService>();
+
   List<CheckAppello> _allAppelliStudent = [];
   List<CheckAppello> get allAppelliStudent => _allAppelliStudent;
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+  String? _errorMessage;
+  String? get errorMessage => _errorMessage;
+
+  /// Carica tutti gli appelli disponibili per lo studente
+  ///
+  /// Questo metodo sostituisce il controller eliminando il layer ridondante
+  Future<Result<List<CheckAppello>>> fetchAllAppelliStudent({
+    required String userId,
+    required String password,
+    required int cdsId,
+    required List<CourseInfo> courseList,
+  }) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final result = await _apiService.getAppelliStudent(
+        userId: userId,
+        password: password,
+        cdsId: cdsId,
+        courseList: courseList,
+      );
+
+      if (result.isSuccess) {
+        setAllAppelliStudent(result.data!);
+        _isLoading = false;
+        notifyListeners();
+        return Result.success(result.data!);
+      } else {
+        _errorMessage = result.errorMessage;
+        _isLoading = false;
+        notifyListeners();
+        return Result.failure(result.errorMessage!);
+      }
+    } catch (e) {
+      AppLogger.error('Errore in fetchAllAppelliStudent', e);
+      _errorMessage = 'Errore imprevisto: $e';
+      _isLoading = false;
+      notifyListeners();
+      return Result.failure(_errorMessage!);
+    }
+  }
+
+  /// Prenota un appello d'esame
+  ///
+  /// Gestisce anche il reload automatico degli appelli dopo la prenotazione
+  Future<Result<bool>> bookExamAppello({
+    required String userId,
+    required String password,
+    required int cdsId,
+    required int adId,
+    required int appId,
+    required List<CourseInfo> courseList,
+  }) async {
+    try {
+      final result = await _apiService.bookExamAppello(
+        userId: userId,
+        password: password,
+        cdsId: cdsId,
+        adId: adId,
+        appId: appId,
+      );
+
+      if (result.isSuccess) {
+        // Ricarica gli appelli dopo la prenotazione riuscita
+        AppLogger.info('Prenotazione riuscita, ricarico gli appelli...');
+        await fetchAllAppelliStudent(
+          userId: userId,
+          password: password,
+          cdsId: cdsId,
+          courseList: courseList,
+        );
+      }
+
+      return result;
+    } catch (e) {
+      AppLogger.error('Errore in bookExamAppello', e);
+      return Result.failure('Errore imprevisto: $e');
+    }
+  }
 
   void setAllAppelliStudent(List<CheckAppello> appelli) {
     _allAppelliStudent = appelli;
