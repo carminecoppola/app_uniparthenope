@@ -8,11 +8,29 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:yaml/yaml.dart';
 import '../main.dart';
 import '../provider/auth_provider.dart';
+import '../provider/bottomNavBar_provider.dart';
 import '../widget/bottomNavBar.dart';
 import '../widget/navbar.dart';
 
-class InfoAppPage extends StatelessWidget {
+class InfoAppPage extends StatefulWidget {
   const InfoAppPage({super.key});
+
+  @override
+  State<InfoAppPage> createState() => _InfoAppPageState();
+}
+
+class _InfoAppPageState extends State<InfoAppPage> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Nessun selettore attivo - pagina esterna alle 3 principali
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        Provider.of<BottomNavBarProvider>(context, listen: false)
+            .updateIndex(3); // Indice 3 = nessun selettore
+      }
+    });
+  }
 
   Future<String> _getAppVersion() async {
     try {
@@ -170,7 +188,7 @@ class InfoAppPage extends StatelessWidget {
       },
       {
         'name': 'Carmine Coppola',
-        'asset': 'assets/team/cc.png',
+        'asset': 'assets/team/cc.jpeg',
         'role': 'Developer'
       },
     ];

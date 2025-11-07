@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
+import 'package:provider/provider.dart';
+import '../../provider/bottomNavBar_provider.dart';
 import '../../widget/ServicesWidget/TaxWidget/bannerWidget.dart';
 import '../../widget/ServicesWidget/TaxWidget/studentFeesList.dart';
 
@@ -15,6 +17,18 @@ class FeesUniStudentPage extends StatefulWidget {
 
 class _FeesUniStudentState extends State<FeesUniStudentPage>
     with SingleTickerProviderStateMixin {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Nessun selettore attivo - pagina esterna alle 3 principali
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        Provider.of<BottomNavBarProvider>(context, listen: false)
+            .updateIndex(3); // Indice 3 = nessun selettore
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

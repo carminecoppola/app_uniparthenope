@@ -14,7 +14,7 @@ class LogoutConfirmationDialog extends StatelessWidget {
         Icons.logout,
         size: 40,
       ),
-      iconColor: AppColors.detailsColor,
+      iconColor: Colors.red, // Icona rossa
       content: Text(AppLocalizations.of(context).translate('logout_message')),
       actions: <Widget>[
         OutlinedButton(
@@ -43,12 +43,12 @@ class LogoutConfirmationDialog extends StatelessWidget {
             );
           },
           style: OutlinedButton.styleFrom(
-            side: const BorderSide(color: AppColors.detailsColor),
+            side: const BorderSide(color: Colors.red), // Bordo rosso
           ),
           child: Text(
             AppLocalizations.of(context).translate('yes'),
             style: const TextStyle(
-                color: AppColors.detailsColor, fontWeight: FontWeight.bold),
+                color: Colors.red, fontWeight: FontWeight.bold), // Testo rosso
           ),
         ),
       ],

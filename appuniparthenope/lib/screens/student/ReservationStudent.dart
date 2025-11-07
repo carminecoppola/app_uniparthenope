@@ -6,6 +6,7 @@ import 'package:appuniparthenope/widget/CustomLoadingIndicator.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 import '../../main.dart';
 import '../../provider/exam_provider.dart';
+import '../../provider/bottomNavBar_provider.dart';
 import '../../widget/ServicesWidget/AppointmentsWidget/reservationListView.dart';
 import '../../widget/ServicesWidget/AppointmentsWidget/searchBarReservation.dart';
 import '../../widget/bottomNavBar.dart';
@@ -29,6 +30,18 @@ class _ReservationPageState extends State<ReservationPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Nessun selettore attivo - pagina esterna alle 3 principali
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        Provider.of<BottomNavBarProvider>(context, listen: false)
+            .updateIndex(3); // Indice 3 = nessun selettore
+      }
+    });
   }
 
   @override

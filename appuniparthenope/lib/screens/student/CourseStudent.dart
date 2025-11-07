@@ -5,9 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:appuniparthenope/model/studentService/student_course_data.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
+import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/CourseWidget/singleCourseCard.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
+import '../../utilityFunctions/studentUtilsFunction.dart';
 import '../../widget/CustomLoadingIndicator.dart';
 import '../../widget/ServicesWidget/CourseWidget/customTabBarCourse.dart';
 import '../../widget/ServicesWidget/CourseWidget/legendDialog.dart';
@@ -21,6 +23,62 @@ class CourseStudentPage extends StatefulWidget {
 
 class _CourseStudentState extends State<CourseStudentPage> {
   int _selectedIndex = 0;
+  bool _isLoadingStatus = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Carica lo stato dei corsi quando la pagina viene inizializzata
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadCourseStatus();
+    });
+  }
+
+  Future<void> _loadCourseStatus() async {
+    if (_isLoadingStatus) return; // Evita chiamate multiple
+
+    setState(() {
+      _isLoadingStatus = true;
+    });
+
+    try {
+      final authenticatedUser =
+          Provider.of<AuthProvider>(context, listen: false).authenticatedUser;
+      final allCourseInfo =
+          Provider.of<ExamDataProvider>(context, listen: false)
+              .allCourseStudent;
+
+      if (authenticatedUser != null &&
+          allCourseInfo != null &&
+          allCourseInfo.isNotEmpty) {
+        await StudentUtils.allStatusCourse(
+          context,
+          authenticatedUser.user,
+          allCourseInfo,
+        );
+      }
+    } catch (e) {
+      print('Errore durante il caricamento dello stato dei corsi: $e');
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoadingStatus = false;
+        });
+      }
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Nessun selettore attivo - pagina esterna alle 3 principali
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        Provider.of<BottomNavBarProvider>(context, listen: false)
+            .updateIndex(3); // Indice 3 = nessun selettore
+      }
+    });
+  }
 
   void _onTabTapped(int index) {
     setState(() {

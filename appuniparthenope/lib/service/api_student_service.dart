@@ -16,96 +16,120 @@ class ApiStudentService {
 
   Future<Map<String, dynamic>> studentTotalExamsStats(
       User student, BuildContext context) async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final selectedCareer = authProvider.selectedCareer;
+    try {
+      // Salva i riferimenti SUBITO
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final selectedCareer = authProvider.selectedCareer;
 
-    if (selectedCareer == null) {
-      throw Exception('Nessuna carriera selezionata trovata');
-    }
+      if (selectedCareer == null) {
+        throw Exception('Nessuna carriera selezionata trovata');
+      }
 
-    String matId = selectedCareer['matId'].toString();
-    final String password = authProvider.password!;
+      // Salva in variabili locali
+      final String matId = selectedCareer['matId'].toString();
+      final String password = authProvider.password!;
+      final String userId = student.userId.toString();
 
-    final url =
-        Uri.parse('$baseUrl/UniparthenopeApp/v1/students/totalExams/$matId');
+      final url =
+          Uri.parse('$baseUrl/UniparthenopeApp/v1/students/totalExams/$matId');
 
-    final response = await http.get(url, headers: {
-      'Authorization':
-          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
-    });
+      final response = await http.get(url, headers: {
+        'Authorization':
+            'Basic ${base64Encode(utf8.encode("$userId:$password"))}',
+      });
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = json.decode(response.body);
-      return data;
-    } else if (response.statusCode == 500) {
-      throw Exception(
-          'Errore del server durante il caricamento delle statistiche dello studente');
-    } else {
-      throw Exception('Errore durante caricamento statistiche studente');
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        return data;
+      } else if (response.statusCode == 500) {
+        throw Exception(
+            'Errore del server durante il caricamento delle statistiche dello studente');
+      } else {
+        throw Exception('Errore durante caricamento statistiche studente');
+      }
+    } catch (e) {
+      print('Errore in studentTotalExamsStats: $e');
+      rethrow;
     }
   }
 
   Future<Map<String, dynamic>> studentAverage(
       BuildContext context, User student, String averageType) async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final selectedCareer = authProvider.selectedCareer;
+    try {
+      // Salva i riferimenti SUBITO
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final selectedCareer = authProvider.selectedCareer;
 
-    if (selectedCareer == null) {
-      throw Exception('Nessuna carriera selezionata trovata');
-    }
+      if (selectedCareer == null) {
+        throw Exception('Nessuna carriera selezionata trovata');
+      }
 
-    String matId = selectedCareer['matId'].toString();
-    final String password = authProvider.password!;
+      // Salva in variabili locali
+      final String matId = selectedCareer['matId'].toString();
+      final String password = authProvider.password!;
+      final String userId = student.userId.toString();
 
-    final url = Uri.parse(
-        '$baseUrl/UniparthenopeApp/v1/students/average/$matId/$averageType');
+      final url = Uri.parse(
+          '$baseUrl/UniparthenopeApp/v1/students/average/$matId/$averageType');
 
-    final response = await http.get(url, headers: {
-      'Authorization':
-          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
-    });
+      final response = await http.get(url, headers: {
+        'Authorization':
+            'Basic ${base64Encode(utf8.encode("$userId:$password"))}',
+      });
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = json.decode(response.body);
-      print('\n\n-API-Data Average $averageType: $data');
-      return data;
-    } else if (response.statusCode == 500) {
-      throw Exception(
-          'Errore del server durante il caricamento della media $averageType dello studente');
-    } else {
-      throw Exception('Errore durante caricamento della media studente');
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        print('\n\n-API-Data Average $averageType: $data');
+        return data;
+      } else if (response.statusCode == 500) {
+        throw Exception(
+            'Errore del server durante il caricamento della media $averageType dello studente');
+      } else {
+        throw Exception('Errore durante caricamento della media studente');
+      }
+    } catch (e) {
+      print('Errore in studentAverage: $e');
+      rethrow;
     }
   }
 
   Future<List<ExamData>> getStudentExams(
       User student, BuildContext context) async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final selectedCareer = authProvider.selectedCareer;
+    try {
+      // Salva i riferimenti SUBITO
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final selectedCareer = authProvider.selectedCareer;
 
-    if (selectedCareer == null) {
-      throw Exception('Nessuna carriera selezionata trovata');
-    }
+      if (selectedCareer == null) {
+        throw Exception('Nessuna carriera selezionata trovata');
+      }
 
-    String matId = selectedCareer['matId'].toString();
-    final String password = authProvider.password!;
+      // Salva in variabili locali
+      final String matId = selectedCareer['matId'].toString();
+      final String password = authProvider.password!;
+      final String userId = student.userId.toString();
 
-    final url =
-        Uri.parse('$baseUrl/UniparthenopeApp/v2/students/myExams/$matId');
+      final url =
+          Uri.parse('$baseUrl/UniparthenopeApp/v2/students/myExams/$matId');
 
-    final response = await http.get(url, headers: {
-      'Authorization':
-          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
-    });
+      final response = await http.get(url, headers: {
+        'Authorization':
+            'Basic ${base64Encode(utf8.encode("$userId:$password"))}',
+      });
 
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body) as List<dynamic>;
-      print('\nallExam:\n $jsonData');
-      return jsonData.map((data) => ExamData.fromJson(data)).toList();
-    } else if (response.statusCode == 500) {
-      throw Exception(
-          'Errore del SERVER durante il caricamento degli esami dello studente');
-    } else {
-      throw Exception('Errore durante caricamento esami dello studente');
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body) as List<dynamic>;
+        print('\nallExam:\n $jsonData');
+        return jsonData.map((data) => ExamData.fromJson(data)).toList();
+      } else if (response.statusCode == 500) {
+        throw Exception(
+            'Errore del SERVER durante il caricamento degli esami dello studente');
+      } else {
+        throw Exception('Errore durante caricamento esami dello studente');
+      }
+    } catch (e) {
+      print('Errore in getStudentExams: $e');
+      rethrow;
     }
   }
 
@@ -197,71 +221,89 @@ class ApiStudentService {
 
   Future<StatusCourse> getStatusExam(
       User student, CourseInfo course, BuildContext context) async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final selectedCareer = authProvider.selectedCareer;
+    try {
+      // Salva i riferimenti al provider SUBITO, prima di qualsiasi operazione
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final selectedCareer = authProvider.selectedCareer;
 
-    if (selectedCareer == null) {
-      throw Exception('Nessuna carriera selezionata trovata');
-    }
+      if (selectedCareer == null) {
+        throw Exception('Nessuna carriera selezionata trovata');
+      }
 
-    String matId = selectedCareer['matId'].toString();
-    final String adsceId = course.adsceId.toString();
-    final String password = authProvider.password!;
+      // Salva i valori in variabili locali
+      final String matId = selectedCareer['matId'].toString();
+      final String adsceId = course.adsceId.toString();
+      final String password = authProvider.password!;
+      final String userId = student.userId.toString();
 
-    final url = Uri.parse(
-        '$baseUrl/UniparthenopeApp/v1/students/checkExams/$matId/$adsceId');
+      final url = Uri.parse(
+          '$baseUrl/UniparthenopeApp/v1/students/checkExams/$matId/$adsceId');
 
-    final response = await http.get(url, headers: {
-      'Authorization':
-          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
-    });
+      final response = await http.get(url, headers: {
+        'Authorization':
+            'Basic ${base64Encode(utf8.encode("$userId:$password"))}',
+      });
 
-    if (response.statusCode == 200) {
-      final statusExamData = jsonDecode(response.body);
-      final statusCourse = StatusCourse.fromJson(statusExamData);
-      return statusCourse;
-    } else if (response.statusCode == 500) {
-      throw Exception(
-          'Errore del SERVER durante il caricamento dello status dell\'esame');
-    } else {
-      throw Exception('Errore durante caricamento del status esame');
+      if (response.statusCode == 200) {
+        final statusExamData = jsonDecode(response.body);
+        final statusCourse = StatusCourse.fromJson(statusExamData);
+        return statusCourse;
+      } else if (response.statusCode == 500) {
+        throw Exception(
+            'Errore del SERVER durante il caricamento dello status dell\'esame');
+      } else {
+        throw Exception('Errore durante caricamento del status esame');
+      }
+    } catch (e) {
+      print('Errore in getStatusExam: $e');
+      rethrow;
     }
   }
 
   Future<List<ReservationInfo>> getReservationStudents(
       User student, BuildContext context) async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final selectedCareer = authProvider.selectedCareer;
-    final password = authProvider.password;
+    try {
+      // Salva i riferimenti al provider SUBITO, prima di qualsiasi operazione
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final selectedCareer = authProvider.selectedCareer;
+      final password = authProvider.password;
 
-    // Aggiungi questi controlli per evitare che il codice tenti di accedere a variabili null
-    if (selectedCareer == null) {
-      throw Exception('Nessuna carriera selezionata trovata');
-    }
-    if (password == null) {
-      throw Exception('Password non trovata');
-    }
+      // Aggiungi questi controlli per evitare che il codice tenti di accedere a variabili null
+      if (selectedCareer == null) {
+        throw Exception('Nessuna carriera selezionata trovata');
+      }
+      if (password == null) {
+        throw Exception('Password non trovata');
+      }
 
-    String matId = selectedCareer['matId'].toString();
+      // Salva i valori in variabili locali
+      final String matId = selectedCareer['matId'].toString();
+      final String userId = student.userId.toString();
+      final String userPassword = password;
 
-    final url = Uri.parse(
-        '$baseUrl/UniparthenopeApp/v1/students/getReservations/$matId');
+      final url = Uri.parse(
+          '$baseUrl/UniparthenopeApp/v1/students/getReservations/$matId');
 
-    final response = await http.get(url, headers: {
-      'Authorization':
-          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
-    });
+      final response = await http.get(url, headers: {
+        'Authorization':
+            'Basic ${base64Encode(utf8.encode("$userId:$userPassword"))}',
+      });
 
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body) as List<dynamic>;
-      print('\n allReservation:\n $jsonData');
-      return jsonData.map((data) => ReservationInfo.fromJson(data)).toList();
-    } else if (response.statusCode == 500) {
-      throw Exception(
-          'Errore del SERVER durante il caricamento delle prenotazioni effettuate');
-    } else {
-      throw Exception(
-          'Errore durante caricamento delle prenotazioni effettuate dallo studente');
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body) as List<dynamic>;
+        print('\n allReservation:\n $jsonData');
+        return jsonData.map((data) => ReservationInfo.fromJson(data)).toList();
+      } else if (response.statusCode == 500) {
+        throw Exception(
+            'Errore del SERVER durante il caricamento delle prenotazioni effettuate');
+      } else {
+        throw Exception(
+            'Errore durante caricamento delle prenotazioni effettuate dallo studente');
+      }
+    } catch (e) {
+      // Cattura qualsiasi errore e lo rilancia
+      print('Errore in getReservationStudents: $e');
+      rethrow;
     }
   }
 

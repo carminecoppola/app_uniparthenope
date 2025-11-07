@@ -4,6 +4,7 @@ import 'package:appuniparthenope/widget/ServicesWidget/CalendarWidget/calendarCa
 import 'package:appuniparthenope/widget/alertDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:io' show Platform;
 import '../app_localizations.dart';
 import '../provider/auth_provider.dart';
 import '../provider/bottomNavBar_provider.dart';
@@ -14,6 +15,7 @@ import '../widget/ServicesWidget/AppointmentsWidget/homeAppointmentsWidget.dart'
 import '../widget/HomeWidget/personalHomeWidget.dart';
 import '../widget/HomeWidget/serviceUserGroup.dart';
 import '../widget/bottomNavBar.dart';
+import '../widget/bottomNavBarLiquidGlass.dart';
 import '../widget/bottomNavBarProf.dart';
 
 class HomePage extends StatefulWidget {
@@ -188,7 +190,9 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       bottomNavigationBar: authenticatedUser.user.grpDes == 'Studenti'
-          ? const BottomNavBarComponent()
+          ? (Platform.isIOS
+              ? const BottomNavBarLiquidGlassComponent() // iOS: Liquid Glass
+              : const BottomNavBarComponent()) // Android: Standard
           : const BottomNavBarProfComponent(),
     );
   }

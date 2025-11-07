@@ -183,11 +183,9 @@ flutter:
     - assets/icon/contact/youtube.png
     
     # Team Image:
-    - assets/team/gm.jpg
-    - assets/team/nn.jpg
     - assets/team/team_leader.jpg
     - assets/team/cc.png
-    - assets/team/cgdv.png
+    - assets/team/cc.jpeg
 
     # Card Image:
     - assets/scanCode.jpg

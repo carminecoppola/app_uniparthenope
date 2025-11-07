@@ -4,13 +4,31 @@ import 'package:provider/provider.dart';
 
 import '../main.dart';
 import '../provider/auth_provider.dart';
+import '../provider/bottomNavBar_provider.dart';
 import '../utilityFunctions/authUtilsFunction.dart';
 import '../widget/ServicesWidget/PersonalCardWidget/avatar_widget.dart';
 import '../widget/qrCode_widget.dart';
 import '../widget/waveWidget.dart';
 
-class PersonalCardPage extends StatelessWidget {
+class PersonalCardPage extends StatefulWidget {
   const PersonalCardPage({super.key});
+
+  @override
+  State<PersonalCardPage> createState() => _PersonalCardPageState();
+}
+
+class _PersonalCardPageState extends State<PersonalCardPage> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Nessun selettore attivo - pagina esterna alle 3 principali
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        Provider.of<BottomNavBarProvider>(context, listen: false)
+            .updateIndex(3); // Indice 3 = nessun selettore
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

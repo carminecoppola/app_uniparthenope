@@ -37,6 +37,8 @@
 	<string>Why is my app authenticating using face id?</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>We need your location to show local weather data.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We need your location to show local weather data.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need your location to show local weather data.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

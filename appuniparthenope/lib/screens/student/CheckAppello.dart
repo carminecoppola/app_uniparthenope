@@ -129,6 +129,41 @@ class CheckAppelloPage extends StatelessWidget {
 
     if (conferma != true) return;
 
+    // Log dettagliato prima della prenotazione
+    print('\n' + '=' * 80);
+    print('🎯 DATI PRENOTAZIONE ESAME');
+    print('=' * 80);
+    print('📋 Appello selezionato:');
+    print('   - Esame: ${appello.esame}');
+    print('   - Data: ${appello.dataEsame}');
+    print('   - adId: ${appello.adId}');
+    print('   - appId: ${appello.appId}');
+    print('   - stato: ${appello.stato}');
+    print('   - statoDes: ${appello.statoDes}');
+    print('👤 Dati utente:');
+    print('   - userId: ${user.userId}');
+    print('   - firstName: ${user.firstName}');
+    print('   - lastName: ${user.lastName}');
+    print('🎓 Carriera selezionata:');
+    print('   - cdsId: ${selectedCareer['cdsId']}');
+    print('   - matId: ${selectedCareer['matId']}');
+    print('   - stuId: ${selectedCareer['stuId']}');
+    print('   - aaIscrId: ${selectedCareer['aaIscrId']}');
+    print('   - aaRegId: ${selectedCareer['aaRegId']}');
+    print('   - iscrId: ${selectedCareer['iscrId']}');
+    print('   - annoCorso: ${selectedCareer['annoCorso']}');
+    print('   - matricola: ${selectedCareer['matricola']}');
+    print('   - Tutti i campi: $selectedCareer');
+    print('📚 Corsi disponibili: ${courseList.length} corsi');
+    print('\n📚 LISTA COMPLETA CORSI CON ADSCEID:');
+    for (var i = 0; i < courseList.length; i++) {
+      final c = courseList[i];
+      print('   ${i + 1}. ${c.nome}');
+      print(
+          '      adId: ${c.adId}, adsceId: ${c.adsceId}, annoId: ${c.annoId}');
+    }
+    print('=' * 80 + '\n');
+
     // Mostra loading
     showDialog(
       context: context,
@@ -145,6 +180,8 @@ class CheckAppelloPage extends StatelessWidget {
       cdsId: selectedCareer['cdsId'],
       adId: appello.adId!,
       appId: appello.appId!,
+      dettaglioTratto: selectedCareer[
+          'dettaglioTratto'], // Passa tutti i dati della carriera
       courseList: courseList,
     );
 

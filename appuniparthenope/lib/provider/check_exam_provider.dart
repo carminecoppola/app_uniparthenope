@@ -62,23 +62,52 @@ class CheckDateExamProvider extends ChangeNotifier {
 
   /// Prenota un appello d'esame
   ///
-  /// Gestisce anche il reload automatico degli appelli dopo la prenotazione
+  /// Passa tutti i dati necessari dal dettaglioTratto per calcolare l'anno di sessione
   Future<Result<bool>> bookExamAppello({
     required String userId,
     required String password,
     required int cdsId,
     required int adId,
     required int appId,
+    required Map<String, dynamic>
+        dettaglioTratto, // Dati completi della carriera
     required List<CourseInfo> courseList,
   }) async {
     try {
+      AppLogger.info('🔵 PROVIDER: bookExamAppello chiamato');
+      AppLogger.info('   - userId: $userId');
+      AppLogger.info('   - cdsId: $cdsId');
+      AppLogger.info('   - adId: $adId');
+      AppLogger.info('   - appId: $appId');
+      AppLogger.info('   - courseList length: ${courseList.length}');
+      AppLogger.info('   - dettaglioTratto keys: ${dettaglioTratto.keys}');
+
+      // Trova il corso corrispondente all'adId per ottenere l'adsceId
+      final course = courseList.firstWhere(
+        (c) => c.adId == adId,
+        orElse: () => throw Exception(
+            'Corso con adId=$adId non trovato nella lista corsi'),
+      );
+
+      AppLogger.info('🎓 Corso trovato:');
+      AppLogger.info('   - Nome: ${course.nome}');
+      AppLogger.info('   - adId: ${course.adId}');
+      AppLogger.info('   - adsceId: ${course.adsceId}');
+
       final result = await _apiService.bookExamAppello(
         userId: userId,
         password: password,
         cdsId: cdsId,
         adId: adId,
         appId: appId,
+        adsceId: course.adsceId,
+        dettaglioTratto: dettaglioTratto,
+        notaStu: "",
       );
+
+      AppLogger.info('🔵 PROVIDER: Risultato ricevuto dal service');
+      AppLogger.info('   - isSuccess: ${result.isSuccess}');
+      AppLogger.info('   - errorMessage: ${result.errorMessage}');
 
       if (result.isSuccess) {
         // Ricarica gli appelli dopo la prenotazione riuscita

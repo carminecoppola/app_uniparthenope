@@ -247,6 +247,16 @@ class BottomNavBarProfComponent extends StatelessWidget {
                 // Menu Items
                 _buildMenuItem(
                   context,
+                  icon: Icons.credit_card,
+                  title:
+                      AppLocalizations.of(context).translate('professorcard'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/qrCodePage');
+                  },
+                ),
+                _buildMenuItem(
+                  context,
                   icon: Icons.wb_sunny,
                   title: AppLocalizations.of(context).translate('weather_uni'),
                   onTap: () {
@@ -278,6 +288,8 @@ class BottomNavBarProfComponent extends StatelessWidget {
                     );
                   },
                   isLast: true,
+                  iconColor: Colors.red,
+                  showArrow: false,
                 ),
                 const SizedBox(height: 20),
               ],
@@ -294,7 +306,11 @@ class BottomNavBarProfComponent extends StatelessWidget {
     required String title,
     required VoidCallback onTap,
     bool isLast = false,
+    Color? iconColor,
+    bool showArrow = true,
   }) {
+    final displayIconColor = iconColor ?? AppColors.primaryColor;
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -316,12 +332,12 @@ class BottomNavBarProfComponent extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: AppColors.primaryColor.withOpacity(0.08),
+                  color: displayIconColor.withOpacity(0.08),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
                   icon,
-                  color: AppColors.primaryColor,
+                  color: displayIconColor,
                   size: 22,
                 ),
               ),
@@ -336,11 +352,12 @@ class BottomNavBarProfComponent extends StatelessWidget {
                   ),
                 ),
               ),
-              Icon(
-                Icons.arrow_forward_ios,
-                size: 16,
-                color: Colors.grey[400],
-              ),
+              if (showArrow)
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 16,
+                  color: Colors.grey[400],
+                ),
             ],
           ),
         ),

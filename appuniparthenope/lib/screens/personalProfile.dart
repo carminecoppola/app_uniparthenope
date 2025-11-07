@@ -2,6 +2,7 @@ import 'package:appuniparthenope/main.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
+import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:appuniparthenope/widget/bottomNavBar.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 
@@ -19,6 +20,18 @@ class PersonalProfilePage extends StatefulWidget {
 
 class _PersonalProfilePageState extends State<PersonalProfilePage> {
   int _selectedIndex = 0;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Nessun selettore attivo - pagina esterna alle 3 principali
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        Provider.of<BottomNavBarProvider>(context, listen: false)
+            .updateIndex(3); // Indice 3 = nessun selettore
+      }
+    });
+  }
 
   void _onTabTapped(int index) {
     setState(() {

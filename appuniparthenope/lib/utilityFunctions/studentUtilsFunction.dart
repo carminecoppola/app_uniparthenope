@@ -107,13 +107,15 @@ class StudentUtils {
       BuildContext context, User authenticatedUser) async {
     final StudentController totalExamController = StudentController();
     try {
+      // Salva il riferimento al provider PRIMA dell'operazione asincrona
+      final examDataProvider =
+          Provider.of<ExamDataProvider>(context, listen: false);
+
       // Ottiene tutti gli esami dello studente.
       final allExamStudent = await totalExamController.fetchAllExamStudent(
           authenticatedUser, context);
 
       // Aggiorna il provider con tutti gli esami dello studente.
-      final examDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
       examDataProvider.setAllExamStudent(allExamStudent);
     } catch (e) {
       print('\nErrore during _allExamStudent() $e');
@@ -125,17 +127,19 @@ class StudentUtils {
       BuildContext context, User? authenticatedUser) async {
     final StudentController totalExamController = StudentController();
     try {
+      // Salva il riferimento al provider PRIMA dell'operazione asincrona
+      final examDataProvider =
+          Provider.of<ExamDataProvider>(context, listen: false);
+
       // Ottiene tutti i corsi dello studente.
       final allCourseStudent = await totalExamController.fetchAllCourseStudent(
           authenticatedUser!, context);
 
       // Aggiorna il provider con tutti i corsi dello studente.
-      final examDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
       examDataProvider.setAllCoursesStudent(allCourseStudent);
 
-      // Ottiene e imposta lo stato di tutti i corsi dello studente.
-      allStatusCourse(context, authenticatedUser, allCourseStudent);
+      // NON chiamiamo allStatusCourse qui perché il context potrebbe essere deactivated
+      // Lo stato verrà caricato dalla pagina stessa quando necessario
     } catch (e) {
       print('\nErrore during _allCourseStudent() $e');
     }
@@ -146,9 +150,11 @@ class StudentUtils {
       User authenticatedUser, List<CourseInfo> allCourses) async {
     final StudentController totalExamController = StudentController();
     try {
-      // Ottiene lo stato di tutti i corsi dello studente.
+      // Salva il riferimento al provider PRIMA dell'operazione asincrona
       final examDataProvider =
           Provider.of<ExamDataProvider>(context, listen: false);
+
+      // Ottiene lo stato di tutti i corsi dello studente.
       Map<String, StatusCourse> statusCoursesMap = await totalExamController
           .fetchAllCourseStatus(authenticatedUser, allCourses, context);
 
@@ -165,13 +171,15 @@ class StudentUtils {
       BuildContext context, User authenticatedUser) async {
     final StudentController totalTaxesController = StudentController();
     try {
+      // Salva il riferimento al provider PRIMA dell'operazione asincrona
+      final taxesDataProvider =
+          Provider.of<TaxesDataProvider>(context, listen: false);
+
       // Ottiene e imposta le informazioni sulle tasse dello studente.
       final allTaxesStudent =
           await totalTaxesController.setTaxes(context, authenticatedUser);
 
       // Aggiorna il provider con le informazioni sulle tasse dello studente.
-      final taxesDataProvider =
-          Provider.of<TaxesDataProvider>(context, listen: false);
       taxesDataProvider.setTaxesInfo(allTaxesStudent);
     } catch (e) {
       print('\nError during _taxesStudent: $e');
@@ -183,12 +191,14 @@ class StudentUtils {
     final UniServiceController eventController = UniServiceController();
 
     try {
+      // Salva il riferimento al provider PRIMA dell'operazione asincrona
+      final eventsDataProvider =
+          Provider.of<ExamDataProvider>(context, listen: false);
+
       // Ottiene tutti gli eventi dell'università.
       final allEvents = await eventController.getAllEvents(context);
 
       // Aggiorna il provider con tutti gli eventi dell'università.
-      final eventsDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
       eventsDataProvider.setAllEvents(allEvents);
     } catch (e) {
       print('\nErrore during allEvents() $e');
@@ -200,12 +210,14 @@ class StudentUtils {
     final UniServiceController roomController = UniServiceController();
 
     try {
+      // Salva il riferimento al provider PRIMA dell'operazione asincrona
+      final roomsDataProvider =
+          Provider.of<RoomsProvider>(context, listen: false);
+
       // Ottiene tutte le stanze disponibili per oggi.
       final allrooms = await roomController.getAllTodayRoom(context);
 
       // Aggiorna il provider con tutte le stanze disponibili.
-      final roomsDataProvider =
-          Provider.of<RoomsProvider>(context, listen: false);
       roomsDataProvider.setAllTodayRooms(allrooms);
 
       return allrooms;
@@ -224,14 +236,20 @@ class StudentUtils {
         throw Exception('Utente non autenticato');
       }
 
+      // Salva TUTTI i riferimenti ai provider PRIMA delle operazioni asincrone
+      final examDataProvider =
+          Provider.of<ExamDataProvider>(context, listen: false);
+
+      // Ottiene le prenotazioni - il context viene usato dentro ma solo per accedere ai provider
+      // quindi salviamo i dati prima
       final allReservationStudent = await totalExamController
           .fetchAllReservationStudent(authenticatedUser, context);
 
-      final examDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
+      // Ora è sicuro aggiornare il provider anche se il context è deactivated
       examDataProvider.setAllReservationStudent(allReservationStudent);
     } catch (e) {
       print('\nErrore during _allReservationStudent() $e');
+      // Non rilanciare l'errore per evitare crash dell'app
     }
   }
 }

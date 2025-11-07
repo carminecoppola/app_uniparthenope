@@ -44,6 +44,9 @@ class CheckExamController {
   }
 
   /// Prenota un appello d'esame.
+  ///
+  /// DEPRECATO: Non usato, usare CheckDateExamProvider.bookExamAppello() invece
+  /* 
   Future<bool> bookExamAppello(
       BuildContext context, User student, int adId, int appId) async {
     try {
@@ -73,4 +76,5 @@ class CheckExamController {
       return false;
     }
   }
+  */
 }

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
 import 'package:appuniparthenope/utilityFunctions/weatherFunction.dart';
+// import 'package:appuniparthenope/utilityFunctions/examUtilsFunction.dart';
 import '../../provider/bottomNavBar_provider.dart';
 import '../../utilityFunctions/professorUtilsFunction.dart';
 
@@ -128,6 +129,26 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
             description: AppLocalizations.of(context).translate('career_dsc'),
           ),
         ),
+        // TEMPORANEAMENTE DISABILITATO - Prenotazione esami non funzionante
+        // GestureDetector(
+        //   onTap: () async {
+        //     // Carica i dati necessari per la prenotazione esami
+        //     await StudentUtils.allCourseStudent(
+        //         context, widget.authenticatedUser.user);
+        //     await CheckExamUtils.allAppelliStudent(
+        //         context, widget.authenticatedUser.user);
+        //     final bottomNavBarProvider =
+        //         Provider.of<BottomNavBarProvider>(context, listen: false);
+        //     bottomNavBarProvider.updateIndex(3);
+        //     Navigator.pushNamed(context, '/checkappelloStudent');
+        //   },
+        //   child: ServiceCard(
+        //     imagePath: 'assets/icon/services/courses2.png',
+        //     title: AppLocalizations.of(context).translate('exam_booking'),
+        //     description:
+        //         AppLocalizations.of(context).translate('exam_booking_dsc'),
+        //   ),
+        // ),
         GestureDetector(
           onTap: () async {
             await StudentUtils.allCourseStudent(
