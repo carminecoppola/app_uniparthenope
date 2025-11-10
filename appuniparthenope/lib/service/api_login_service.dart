@@ -116,6 +116,9 @@ class ApiService {
   }
 */
 
+  // RIMOSSO: Non servono permessi storage/foto per scaricare l'immagine profilo via HTTP
+  // L'immagine viene caricata direttamente in memoria come Uint8List
+  /*
   Future<void> requestPermissions() async {
     if (Platform.isAndroid) {
       // Controlla la versione di Android
@@ -137,11 +140,13 @@ class ApiService {
       }
     }
   }
+  */
 
   Future<String> userProfileImage(User user, BuildContext context) async {
-    if (Platform.isAndroid || Platform.isIOS) {
-      await requestPermissions();
-    }
+    // RIMOSSO: Non servono permessi per scaricare l'immagine via HTTP
+    // if (Platform.isAndroid || Platform.isIOS) {
+    //   await requestPermissions();
+    // }
 
     try {
       final String role = user.grpDes.toString();
