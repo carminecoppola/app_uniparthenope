@@ -9,7 +9,7 @@ import '../../provider/exam_provider.dart';
 import '../../provider/bottomNavBar_provider.dart';
 import '../../widget/ServicesWidget/AppointmentsWidget/reservationListView.dart';
 import '../../widget/ServicesWidget/AppointmentsWidget/searchBarReservation.dart';
-import '../../widget/bottomNavBar.dart';
+import '../../widget/bottom_nav_bar.dart';
 
 class ReservationPage extends StatefulWidget {
   const ReservationPage({

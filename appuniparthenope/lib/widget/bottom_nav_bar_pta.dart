@@ -1,7 +1,7 @@
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
-import 'package:appuniparthenope/widget/logoutDialogConfirm.dart';
+import 'package:appuniparthenope/widget/logout_dialog_confirm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:ui';
@@ -154,9 +154,13 @@ class BottomNavBarPTAComponent extends StatelessWidget {
 
   void _handleNavigation(
       BuildContext context, int index, ExamDataProvider examDataProvider) {
+    String? currentRoute = ModalRoute.of(context)?.settings.name;
+
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/homePTA');
+        if (currentRoute != '/homePTA') {
+          Navigator.pushReplacementNamed(context, '/homePTA');
+        }
         break;
       case 1:
         examDataProvider.clearReservations();

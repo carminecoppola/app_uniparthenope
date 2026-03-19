@@ -5,9 +5,9 @@ import '../provider/auth_provider.dart';
 import '../provider/bottomNavBar_provider.dart';
 import '../widget/ServicesWidget/WeatherWidget/carouselCard.dart';
 import '../widget/ServicesWidget/WeatherWidget/downloadCard.dart';
-import '../widget/bottomNavBarProf.dart';
+import '../widget/bottom_nav_bar_prof.dart';
 import '../widget/navbar.dart';
-import '../widget/bottomNavBar.dart';
+import '../widget/bottom_nav_bar.dart';
 import 'package:appuniparthenope/main.dart';
 
 class WeatherUniPage extends StatefulWidget {

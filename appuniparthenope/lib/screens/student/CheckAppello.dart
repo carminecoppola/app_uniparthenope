@@ -8,7 +8,7 @@ import '../../provider/check_exam_provider.dart';
 import '../../provider/exam_provider.dart';
 import '../../utilityFunctions/studentUtilsFunction.dart';
 import '../../widget/ServicesWidget/CheckExamWidget/appello_card_list.dart';
-import '../../widget/bottomNavBar.dart';
+import '../../widget/bottom_nav_bar.dart';
 import '../../model/studentService/check_appello_data.dart';
 
 class CheckAppelloPage extends StatelessWidget {

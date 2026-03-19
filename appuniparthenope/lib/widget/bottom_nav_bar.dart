@@ -2,19 +2,16 @@ import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/utilityFunctions/studentUtilsFunction.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
-import 'package:appuniparthenope/widget/logoutDialogConfirm.dart';
+import 'package:appuniparthenope/widget/logout_dialog_confirm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:ui';
-import 'dart:io' show Platform;
 import '../provider/auth_provider.dart';
 import '../provider/exam_provider.dart';
 import '../utilityFunctions/weatherFunction.dart';
 
-/// BottomNavBar con effetto Liquid Glass ispirato al design di Apple
-/// Disponibile solo su dispositivi iOS per un'esperienza ottimale
-class BottomNavBarLiquidGlassComponent extends StatelessWidget {
-  const BottomNavBarLiquidGlassComponent({super.key});
+class BottomNavBarComponent extends StatelessWidget {
+  const BottomNavBarComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,46 +29,33 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
     ];
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      margin: const EdgeInsets.all(16),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(40),
+        borderRadius: BorderRadius.circular(35),
         child: BackdropFilter(
-          // Blur ultra forte per effetto liquid glass iOS nativo
-          filter: ImageFilter.blur(sigmaX: 60, sigmaY: 60),
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
           child: Container(
-            height: 75,
+            height: 70,
             decoration: BoxDecoration(
-              // Effetto vibrancy - ultra trasparenza come iOS nativo
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Colors.white.withOpacity(0.02), // Ultra trasparente
-                  Colors.white.withOpacity(0.01),
-                  Colors.white.withOpacity(0.015),
+                  Colors.white.withOpacity(0.15),
+                  Colors.white.withOpacity(0.05),
                 ],
-                stops: const [0.0, 0.5, 1.0],
               ),
-              borderRadius: BorderRadius.circular(40),
-              // Bordo quasi invisibile come iOS
+              borderRadius: BorderRadius.circular(35),
               border: Border.all(
-                color: Colors.white.withOpacity(0.08),
-                width: 0.3,
+                color: Colors.white.withOpacity(0.2),
+                width: 1.5,
               ),
-              // Shadow sottile e diffusa
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.06),
-                  blurRadius: 50,
-                  spreadRadius: -8,
-                  offset: const Offset(0, 8),
-                ),
-                // Inner glow minimo
-                BoxShadow(
-                  color: Colors.white.withOpacity(0.02),
-                  blurRadius: 8,
-                  spreadRadius: -3,
-                  offset: const Offset(0, -1),
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 30,
+                  spreadRadius: 0,
+                  offset: const Offset(0, 10),
                 ),
               ],
             ),
@@ -91,62 +75,51 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
                       color: Colors.transparent,
                       child: Center(
                         child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 500),
+                          duration: const Duration(milliseconds: 400),
                           curve: Curves.easeInOutCubicEmphasized,
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 24, vertical: 10),
+                              horizontal: 20, vertical: 8),
                           decoration: BoxDecoration(
-                            // Effetto liquid glass per item selezionato - ultra trasparente
                             gradient: isSelected
                                 ? LinearGradient(
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
                                     colors: [
-                                      AppColors.primaryColor.withOpacity(0.12),
-                                      AppColors.primaryColor.withOpacity(0.08),
-                                      AppColors.primaryColor.withOpacity(0.10),
+                                      AppColors.primaryColor.withOpacity(0.3),
+                                      AppColors.primaryColor.withOpacity(0.2),
                                     ],
-                                    stops: const [0.0, 0.5, 1.0],
                                   )
                                 : null,
-                            borderRadius: BorderRadius.circular(30),
-                            // Bordo luminoso sottile quando selezionato
+                            borderRadius: BorderRadius.circular(25),
                             border: isSelected
                                 ? Border.all(
-                                    color: AppColors.primaryColor
-                                        .withOpacity(0.15),
-                                    width: 0.4,
+                                    color: Colors.white.withOpacity(0.4),
+                                    width: 1.5,
                                   )
                                 : null,
-                            // Shadow diffusa per item selezionato
                             boxShadow: isSelected
                                 ? [
                                     BoxShadow(
                                       color: AppColors.primaryColor
                                           .withOpacity(0.15),
-                                      blurRadius: 30,
+                                      blurRadius: 20,
                                       spreadRadius: 0,
-                                      offset: const Offset(0, 3),
+                                      offset: const Offset(0, 4),
                                     ),
                                   ]
                                 : null,
                           ),
                           child: AnimatedScale(
-                            scale: isSelected ? 1.0 : 0.88,
-                            duration: const Duration(milliseconds: 400),
-                            curve: Curves.easeInOutCubicEmphasized,
-                            child: AnimatedOpacity(
-                              opacity: isSelected ? 1.0 : 0.6,
-                              duration: const Duration(milliseconds: 300),
-                              child: Image.asset(
-                                items[index],
-                                width: 34,
-                                height: 34,
-                                color: isSelected
-                                    ? AppColors.primaryColor
-                                    : Colors.grey[400],
-                                colorBlendMode: BlendMode.srcIn,
-                              ),
+                            scale: isSelected ? 1.0 : 0.85,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOutCubic,
+                            child: Image.asset(
+                              items[index],
+                              width: 32,
+                              height: 32,
+                              color: isSelected
+                                  ? AppColors.primaryColor
+                                  : Colors.grey[400],
                             ),
                           ),
                         ),
@@ -166,9 +139,11 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
       dynamic authenticatedUser, ExamDataProvider examDataProvider) {
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/carrerStudent',
-            arguments: StudentUtils.fetchDataAndUpdateStats(
-                context, authenticatedUser.user));
+        if (ModalRoute.of(context)?.settings.name != '/carrerStudent') {
+          Navigator.pushReplacementNamed(context, '/carrerStudent',
+              arguments: StudentUtils.fetchDataAndUpdateStats(
+                  context, authenticatedUser.user));
+        }
         break;
       case 1:
         // Controlla se siamo già sulla home page
@@ -192,103 +167,88 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
       enableDrag: true,
       builder: (context) => ClipRRect(
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
         ),
         child: BackdropFilter(
-          // Blur forte per effetto liquid glass nel menu
-          filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
           child: Container(
             decoration: BoxDecoration(
-              // Effetto vibrancy ultra trasparente
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.white.withOpacity(0.75), // Molto più trasparente
-                  Colors.white.withOpacity(0.70),
-                  Colors.white.withOpacity(0.68),
+                  Colors.white.withOpacity(0.85),
+                  Colors.white.withOpacity(0.8),
                 ],
-                stops: const [0.0, 0.5, 1.0],
               ),
               border: Border(
                 top: BorderSide(
+                  color: Colors.white.withOpacity(0.4),
+                  width: 1.5,
+                ),
+                left: BorderSide(
                   color: Colors.white.withOpacity(0.2),
-                  width: 0.3,
+                  width: 1,
+                ),
+                right: BorderSide(
+                  color: Colors.white.withOpacity(0.2),
+                  width: 1,
                 ),
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.10),
-                  blurRadius: 50,
+                  color: Colors.black.withOpacity(0.08),
+                  blurRadius: 30,
                   spreadRadius: 0,
-                  offset: const Offset(0, -8),
+                  offset: const Offset(0, -10),
                 ),
               ],
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Handle bar più elegante
+                // Handle bar
                 Container(
-                  margin: const EdgeInsets.only(top: 14, bottom: 10),
-                  width: 38,
-                  height: 4.5,
+                  margin: const EdgeInsets.only(top: 12, bottom: 8),
+                  width: 40,
+                  height: 4,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.grey[300]!.withOpacity(0.6),
-                        Colors.grey[400]!.withOpacity(0.8),
-                        Colors.grey[300]!.withOpacity(0.6),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.circular(3),
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(2),
                   ),
                 ),
-                // Header con effetto liquid glass
+                // Header
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   child: Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              AppColors.primaryColor.withOpacity(0.12),
-                              AppColors.primaryColor.withOpacity(0.08),
-                            ],
-                          ),
-                          borderRadius: BorderRadius.circular(14),
-                          border: Border.all(
-                            color: AppColors.primaryColor.withOpacity(0.15),
-                            width: 0.5,
-                          ),
+                          color: AppColors.primaryColor.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(12),
                         ),
                         child: const Icon(
                           Icons.menu,
                           color: AppColors.primaryColor,
-                          size: 26,
+                          size: 24,
                         ),
                       ),
-                      const SizedBox(width: 14),
+                      const SizedBox(width: 12),
                       Text(
                         AppLocalizations.of(context).translate('menu'),
                         style: const TextStyle(
-                          fontSize: 22,
+                          fontSize: 20,
                           fontWeight: FontWeight.w600,
                           color: AppColors.primaryColor,
-                          letterSpacing: -0.5,
                         ),
                       ),
                     ],
                   ),
                 ),
-                Divider(
-                    height: 1,
-                    thickness: 0.5,
-                    color: Colors.grey[300]!.withOpacity(0.5)),
+                const Divider(height: 1, thickness: 1),
                 // Menu Items
                 _buildMenuItem(
                   context,
@@ -298,7 +258,10 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
                     Navigator.pop(context);
                     StudentUtils.fetchDataAndUpdateStats(
                         context, authenticatedUser.user);
-                    Navigator.pushNamed(context, '/carrerStudent');
+                    if (ModalRoute.of(context)?.settings.name !=
+                        '/carrerStudent') {
+                      Navigator.pushReplacementNamed(context, '/carrerStudent');
+                    }
                   },
                 ),
                 _buildMenuItem(
@@ -307,7 +270,10 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
                   title: AppLocalizations.of(context).translate('studentcard'),
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, '/qrCodePage');
+                    if (ModalRoute.of(context)?.settings.name !=
+                        '/qrCodePage') {
+                      Navigator.pushReplacementNamed(context, '/qrCodePage');
+                    }
                   },
                 ),
                 _buildMenuItem(
@@ -321,7 +287,10 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
                     // Poi chiudiamo il menu e navighiamo
                     if (context.mounted) {
                       Navigator.pop(context);
-                      Navigator.pushNamed(context, '/reservationStudent');
+                      if (ModalRoute.of(context)?.settings.name !=
+                          '/reservationStudent') {
+                        Navigator.pushReplacementNamed(context, '/reservationStudent');
+                      }
                     }
                   },
                 ),
@@ -340,7 +309,10 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
                     // Poi chiudiamo il menu e navighiamo
                     if (context.mounted) {
                       Navigator.pop(context);
-                      Navigator.pushNamed(context, '/courseStudent');
+                      if (ModalRoute.of(context)?.settings.name !=
+                          '/courseStudent') {
+                        Navigator.pushReplacementNamed(context, '/courseStudent');
+                      }
                     }
                   },
                 ),
@@ -355,7 +327,10 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
                     // Poi chiudiamo il menu e navighiamo
                     if (context.mounted) {
                       Navigator.pop(context);
-                      Navigator.pushNamed(context, '/feesStudent');
+                      if (ModalRoute.of(context)?.settings.name !=
+                          '/feesStudent') {
+                        Navigator.pushReplacementNamed(context, '/feesStudent');
+                      }
                     }
                   },
                 ),
@@ -366,7 +341,10 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
                   onTap: () {
                     Navigator.pop(context);
                     WeatherFunctions.getWeather(context);
-                    Navigator.pushNamed(context, '/watherPage');
+                    if (ModalRoute.of(context)?.settings.name !=
+                        '/watherPage') {
+                      Navigator.pushReplacementNamed(context, '/watherPage');
+                    }
                   },
                 ),
                 _buildMenuItem(
@@ -375,7 +353,10 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
                   title: AppLocalizations.of(context).translate('info_app'),
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, '/infoAppPage');
+                    if (ModalRoute.of(context)?.settings.name !=
+                        '/infoAppPage') {
+                      Navigator.pushReplacementNamed(context, '/infoAppPage');
+                    }
                   },
                 ),
                 _buildMenuItem(
@@ -395,7 +376,7 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
                   iconColor: Colors.red,
                   showArrow: false,
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -419,59 +400,47 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        splashColor: displayIconColor.withOpacity(0.05),
-        highlightColor: displayIconColor.withOpacity(0.03),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           decoration: BoxDecoration(
             border: isLast
                 ? null
                 : Border(
                     bottom: BorderSide(
-                      color: Colors.grey[200]!.withOpacity(0.5),
-                      width: 0.5,
+                      color: Colors.grey[200]!,
+                      width: 1,
                     ),
                   ),
           ),
           child: Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(11),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      displayIconColor.withOpacity(0.10),
-                      displayIconColor.withOpacity(0.06),
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(13),
-                  border: Border.all(
-                    color: displayIconColor.withOpacity(0.12),
-                    width: 0.5,
-                  ),
+                  color: displayIconColor.withOpacity(0.08),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
                   icon,
                   color: displayIconColor,
-                  size: 23,
+                  size: 22,
                 ),
               ),
-              const SizedBox(width: 18),
+              const SizedBox(width: 16),
               Expanded(
                 child: Text(
                   title,
                   style: const TextStyle(
-                    fontSize: 17,
+                    fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: Colors.black87,
-                    letterSpacing: -0.3,
                   ),
                 ),
               ),
               if (showArrow)
                 Icon(
                   Icons.arrow_forward_ios,
-                  size: 15,
+                  size: 16,
                   color: Colors.grey[400],
                 ),
             ],

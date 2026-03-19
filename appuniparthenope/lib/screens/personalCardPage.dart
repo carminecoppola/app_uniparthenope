@@ -7,8 +7,8 @@ import '../provider/auth_provider.dart';
 import '../provider/bottomNavBar_provider.dart';
 import '../utilityFunctions/authUtilsFunction.dart';
 import '../widget/ServicesWidget/PersonalCardWidget/avatar_widget.dart';
-import '../widget/qrCode_widget.dart';
-import '../widget/waveWidget.dart';
+import '../widget/qr_code_widget.dart';
+import '../widget/wave_widget.dart';
 
 class PersonalCardPage extends StatefulWidget {
   const PersonalCardPage({super.key});

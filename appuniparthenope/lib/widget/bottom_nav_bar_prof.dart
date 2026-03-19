@@ -1,7 +1,7 @@
 import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
-import 'package:appuniparthenope/widget/logoutDialogConfirm.dart';
+import 'package:appuniparthenope/widget/logout_dialog_confirm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:ui';
@@ -138,7 +138,9 @@ class BottomNavBarProfComponent extends StatelessWidget {
       dynamic authenticatedUser, ExamDataProvider examDataProvider) {
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/courseTeachers');
+        if (ModalRoute.of(context)?.settings.name != '/courseTeachers') {
+          Navigator.pushReplacementNamed(context, '/courseTeachers');
+        }
         break;
       case 1:
         // Controlla se siamo già sulla home page
@@ -252,7 +254,10 @@ class BottomNavBarProfComponent extends StatelessWidget {
                       AppLocalizations.of(context).translate('professorcard'),
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, '/qrCodePage');
+                    if (ModalRoute.of(context)?.settings.name !=
+                        '/qrCodePage') {
+                      Navigator.pushReplacementNamed(context, '/qrCodePage');
+                    }
                   },
                 ),
                 _buildMenuItem(
@@ -262,7 +267,10 @@ class BottomNavBarProfComponent extends StatelessWidget {
                   onTap: () {
                     Navigator.pop(context);
                     WeatherFunctions.getWeather(context);
-                    Navigator.pushNamed(context, '/watherPage');
+                    if (ModalRoute.of(context)?.settings.name !=
+                        '/watherPage') {
+                      Navigator.pushReplacementNamed(context, '/watherPage');
+                    }
                   },
                 ),
                 _buildMenuItem(
@@ -271,7 +279,10 @@ class BottomNavBarProfComponent extends StatelessWidget {
                   title: AppLocalizations.of(context).translate('info_app'),
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, '/infoAppPage');
+                    if (ModalRoute.of(context)?.settings.name !=
+                        '/infoAppPage') {
+                      Navigator.pushReplacementNamed(context, '/infoAppPage');
+                    }
                   },
                 ),
                 _buildMenuItem(

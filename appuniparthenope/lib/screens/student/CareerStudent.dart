@@ -3,7 +3,7 @@ import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/CareerWidget/TotalExamStudentCard.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/CareerWidget/singleExamCard.dart';
-import 'package:appuniparthenope/widget/bottomNavBar.dart';
+import 'package:appuniparthenope/widget/bottom_nav_bar.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

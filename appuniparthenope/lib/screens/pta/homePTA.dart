@@ -9,7 +9,7 @@ import '../../utilityFunctions/studentUtilsFunction.dart';
 import '../../widget/HomeWidget/sectionTitle.dart';
 import '../../widget/HomeWidget/serviceUserGroup.dart';
 import '../../widget/ServicesWidget/PTAWidget/ptaCard.dart';
-import '../../widget/bottomNavBarPTA.dart';
+import '../../widget/bottom_nav_bar_pta.dart';
 
 class PTAHomePage extends StatefulWidget {
   const PTAHomePage({super.key});

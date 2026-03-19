@@ -4,14 +4,14 @@ import 'package:appuniparthenope/widget/ServicesWidget/EventWidget/custonSearchE
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/EventWidget/eventsCard.dart';
-import 'package:appuniparthenope/widget/bottomNavBarProf.dart';
+import 'package:appuniparthenope/widget/bottom_nav_bar_prof.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import '../../model/studentService/events_data.dart';
 import '../../provider/auth_provider.dart';
 import '../../provider/exam_provider.dart';
 import '../../widget/CustomLoadingIndicator.dart';
-import '../../widget/bottomNavBarPta.dart';
+import '../../widget/bottom_nav_bar_pta.dart';
 
 class EventsTeachersPage extends StatefulWidget {
   const EventsTeachersPage({super.key});

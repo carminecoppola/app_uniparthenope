@@ -9,7 +9,7 @@ import 'package:yaml/yaml.dart';
 import '../main.dart';
 import '../provider/auth_provider.dart';
 import '../provider/bottomNavBar_provider.dart';
-import '../widget/bottomNavBar.dart';
+import '../widget/bottom_nav_bar.dart';
 import '../widget/navbar.dart';
 
 class InfoAppPage extends StatefulWidget {

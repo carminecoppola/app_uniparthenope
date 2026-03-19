@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../main.dart';
 import '../../provider/professor_provider.dart';
 import '../../widget/ServicesWidget/CourseWidget/professor/courseListView.dart';
-import '../../widget/bottomNavBarProf.dart';
+import '../../widget/bottom_nav_bar_prof.dart';
 import '../../widget/navbar.dart';
 
 class CoursesTeachersPage extends StatefulWidget {

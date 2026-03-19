@@ -7,7 +7,7 @@ import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/CourseWidget/singleCourseCard.dart';
-import 'package:appuniparthenope/widget/bottomNavBar.dart';
+import 'package:appuniparthenope/widget/bottom_nav_bar.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 import '../../utilityFunctions/studentUtilsFunction.dart';
 import '../../widget/CustomLoadingIndicator.dart';

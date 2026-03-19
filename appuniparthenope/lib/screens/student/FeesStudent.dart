@@ -1,7 +1,7 @@
 import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/main.dart';
-import 'package:appuniparthenope/widget/bottomNavBar.dart';
+import 'package:appuniparthenope/widget/bottom_nav_bar.dart';
 import 'package:appuniparthenope/widget/navbar.dart';
 import 'package:provider/provider.dart';
 import '../../provider/bottomNavBar_provider.dart';

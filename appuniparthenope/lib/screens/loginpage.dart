@@ -10,7 +10,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../app_localizations.dart';
 import '../main.dart';
-import '../widget/waveWidget.dart';
+import '../widget/wave_widget.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});

@@ -1,12 +1,12 @@
 import 'package:appuniparthenope/app_localizations.dart';
-import 'package:appuniparthenope/widget/bottomNavBarPta.dart';
+import 'package:appuniparthenope/widget/bottom_nav_bar_pta.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../provider/auth_provider.dart';
 import '../../widget/CustomLoadingIndicator.dart';
 import '../../widget/ServicesWidget/RoomWidget/areaDropdown.dart';
 import '../../widget/ServicesWidget/RoomWidget/roomList.dart';
-import '../../widget/bottomNavBarProf.dart';
+import '../../widget/bottom_nav_bar_prof.dart';
 import '../../widget/navbar.dart';
 import 'package:appuniparthenope/model/teacherService/room_data.dart';
 import '../../main.dart';

@@ -14,9 +14,9 @@ import '../widget/HomeWidget/sectionTitle.dart';
 import '../widget/ServicesWidget/AppointmentsWidget/homeAppointmentsWidget.dart';
 import '../widget/HomeWidget/personalHomeWidget.dart';
 import '../widget/HomeWidget/serviceUserGroup.dart';
-import '../widget/bottomNavBar.dart';
-import '../widget/bottomNavBarLiquidGlass.dart';
-import '../widget/bottomNavBarProf.dart';
+import '../widget/bottom_nav_bar.dart';
+import '../widget/bottom_nav_bar_liquid_glass.dart';
+import '../widget/bottom_nav_bar_prof.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
