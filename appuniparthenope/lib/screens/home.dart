@@ -2,12 +2,18 @@ import 'package:appuniparthenope/main.dart';
 import 'package:appuniparthenope/widget/CustomLoadingIndicator.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/CalendarWidget/calendarCard.dart';
 import 'package:appuniparthenope/widget/alertDialog.dart';
+import 'package:appuniparthenope/widget/update_dialog.dart';
+import 'package:appuniparthenope/provider/update_provider.dart';
+import 'package:appuniparthenope/service/notification_service.dart';
+import 'package:appuniparthenope/core/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:io' show Platform;
 import '../app_localizations.dart';
 import '../provider/auth_provider.dart';
 import '../provider/bottomNavBar_provider.dart';
+import '../provider/exam_provider.dart';
+import '../model/studentService/exam_data.dart';
 import '../utilityFunctions/authUtilsFunction.dart';
 import '../utilityFunctions/studentUtilsFunction.dart';
 import '../widget/HomeWidget/sectionTitle.dart';
@@ -30,6 +36,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _loadData();
+    _checkForUpdates();
+    _requestNotificationPermissions();
   }
 
   @override
@@ -37,6 +45,51 @@ class _HomePageState extends State<HomePage> {
     super.didChangeDependencies();
     _setNavBarIndex();
   }
+
+  /// Controlla se è disponibile un aggiornamento
+  Future<void> _checkForUpdates() async {
+    if (!mounted) return;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final updateProvider =
+          Provider.of<UpdateProvider>(context, listen: false);
+      updateProvider.checkForUpdate().then((_) {
+        if (mounted && updateProvider.hasUpdate) {
+          _showUpdateDialog(updateProvider);
+        }
+      });
+    });
+  }
+
+  /// Mostra il dialog di aggiornamento
+  void _showUpdateDialog(UpdateProvider updateProvider) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return UpdateDialog(
+          currentVersion: updateProvider.currentVersion,
+          newVersion: updateProvider.newVersion,
+          releaseNotes: updateProvider.releaseNotes,
+          downloadUrl: updateProvider.downloadUrl,
+          onDismiss: () {
+            updateProvider.reset();
+          },
+        );
+      },
+    );
+  }
+
+  /// Richiede i permessi per le notifiche
+  Future<void> _requestNotificationPermissions() async {
+    final notificationService = getIt<NotificationService>();
+    try {
+      await notificationService.requestPermissions();
+    } catch (e) {
+      print('Errore nella richiesta permessi notifiche: $e');
+    }
+  }
+
 
   void _setNavBarIndex() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -58,6 +111,10 @@ class _HomePageState extends State<HomePage> {
         if (!mounted) return;
         await StudentUtils.allReservationStudent(
             context, authenticatedUser.user);
+        
+        // 🔔 AUTOMATICO: Il check dei nuovi voti avviene dentro
+        // StudentUtils.allExamStudent() → ExamDataProvider.setAllExamStudent()
+        // che trigga automaticamente _checkAndNotifyNewGrades()
       } else if (authenticatedUser.user.grpDes == 'Docenti') {
         await StudentUtils.anagrafeUser(context, authenticatedUser.user);
       } else {

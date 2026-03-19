@@ -6,7 +6,9 @@ import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/provider/professor_provider.dart';
 import 'package:appuniparthenope/provider/taxes_provider.dart';
 import 'package:appuniparthenope/provider/weather_provider.dart';
+import 'package:appuniparthenope/provider/update_provider.dart';
 import 'package:appuniparthenope/screens/loginpage.dart';
+import 'package:appuniparthenope/service/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/app_routes.dart';
 import 'package:provider/provider.dart';
@@ -16,9 +18,19 @@ import 'provider/rooms_provider.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() {
-  // Inizializza Dependency Injection prima di tutto
+// 🧪 Per testare le notifiche, decommenta questa riga e usa TestGradesHelper nel terminale
+// import 'package:appuniparthenope/service/test_grades_helper.dart';
+
+void main() async {
+  // Inizializza i binding di Flutter PRIMA di tutto
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Inizializza Dependency Injection
   setupServiceLocator();
+
+  // Inizializza il servizio di notifiche
+  final notificationService = getIt<NotificationService>();
+  await notificationService.initialize();
 
   runApp(
     MultiProvider(
@@ -31,6 +43,7 @@ void main() {
         ChangeNotifierProvider(create: (context) => TaxesDataProvider()),
         ChangeNotifierProvider(create: (context) => RoomsProvider()),
         ChangeNotifierProvider(create: (context) => BottomNavBarProvider()),
+        ChangeNotifierProvider(create: (context) => UpdateProvider()),
       ],
       child: const MyApp(),
     ),
