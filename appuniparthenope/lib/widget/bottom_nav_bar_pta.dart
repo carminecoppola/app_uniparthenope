@@ -1,5 +1,5 @@
 import 'package:appuniparthenope/main.dart';
-import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
+import 'package:appuniparthenope/provider/bottom_nav_bar_provider.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/widget/logout_dialog_confirm.dart';
 import 'package:flutter/material.dart';

@@ -1,11 +1,11 @@
 import 'package:appuniparthenope/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
+import 'package:appuniparthenope/provider/bottom_nav_bar_provider.dart';
 import 'package:appuniparthenope/main.dart';
 
 import '../screens/loginpage.dart';
-import '../screens/pta/homePTA.dart';
+import '../screens/pta/home_pta.dart';
 
 class NavbarComponent extends StatelessWidget implements PreferredSizeWidget {
   const NavbarComponent({

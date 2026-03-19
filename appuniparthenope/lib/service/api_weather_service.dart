@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/weather_data.dart';
-import '../model/weather_timeSerys_data.dart';
+import '../model/weather_time_serys_data.dart';
 
 class ApiWeatherService {
   final String baseUrl = "https://api.meteo.uniparthenope.it";

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:appuniparthenope/service/api_login_service.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 
-import '../widget/alertDialog.dart';
+import '../widget/alert_dialog.dart';
 import '../widget/career_selector_dialog.dart';
 
 class AuthController {

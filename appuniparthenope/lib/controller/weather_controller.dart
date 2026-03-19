@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../model/weather_data.dart';
-import '../model/weather_timeSerys_data.dart';
+import '../model/weather_time_serys_data.dart';
 import '../provider/weather_provider.dart';
 import '../service/api_weather_service.dart';
 

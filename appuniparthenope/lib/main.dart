@@ -1,7 +1,7 @@
 import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/core/service_locator.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
-import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
+import 'package:appuniparthenope/provider/bottom_nav_bar_provider.dart';
 import 'package:appuniparthenope/provider/exam_provider.dart';
 import 'package:appuniparthenope/provider/professor_provider.dart';
 import 'package:appuniparthenope/provider/taxes_provider.dart';

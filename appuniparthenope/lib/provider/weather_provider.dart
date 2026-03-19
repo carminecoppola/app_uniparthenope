@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../model/weather_timeSerys_data.dart';
+import '../model/weather_time_serys_data.dart';
 
 class WeatherDataProvider extends ChangeNotifier {
   String _palceName = 'Napoli';

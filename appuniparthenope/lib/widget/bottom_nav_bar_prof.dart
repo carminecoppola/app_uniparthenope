@@ -1,13 +1,13 @@
 import 'package:appuniparthenope/app_localizations.dart';
 import 'package:appuniparthenope/main.dart';
-import 'package:appuniparthenope/provider/bottomNavBar_provider.dart';
+import 'package:appuniparthenope/provider/bottom_nav_bar_provider.dart';
 import 'package:appuniparthenope/widget/logout_dialog_confirm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:ui';
 import '../provider/auth_provider.dart';
 import '../provider/exam_provider.dart';
-import '../utilityFunctions/weatherFunction.dart';
+import '../utilityFunctions/weather_function.dart';
 
 class BottomNavBarProfComponent extends StatelessWidget {
   const BottomNavBarProfComponent({super.key});
