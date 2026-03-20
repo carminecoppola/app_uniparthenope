@@ -154,11 +154,10 @@ class BottomNavBarPTAComponent extends StatelessWidget {
 
   void _handleNavigation(
       BuildContext context, int index, ExamDataProvider examDataProvider) {
-    String? currentRoute = ModalRoute.of(context)?.settings.name;
 
     switch (index) {
       case 0:
-        if (currentRoute != '/homePTA') {
+        if (ModalRoute.of(context)?.settings.name != '/homePTA') {
           Navigator.pushReplacementNamed(context, '/homePTA');
         }
         break;
