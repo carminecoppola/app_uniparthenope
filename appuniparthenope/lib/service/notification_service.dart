@@ -25,7 +25,7 @@ class NotificationService {
       requestSoundPermission: true,
     );
 
-    final InitializationSettings initSettings = InitializationSettings(
+    final InitializationSettings initSettings = const InitializationSettings(
       android: androidInitSettings,
       iOS: iosInitSettings,
     );
@@ -71,7 +71,7 @@ class NotificationService {
       presentSound: true,
     );
 
-    final NotificationDetails notificationDetails = NotificationDetails(
+    final NotificationDetails notificationDetails = const NotificationDetails(
       android: androidNotificationDetails,
       iOS: iosNotificationDetails,
     );
@@ -108,7 +108,7 @@ class NotificationService {
       presentSound: true,
     );
 
-    final NotificationDetails notificationDetails = NotificationDetails(
+    final NotificationDetails notificationDetails = const NotificationDetails(
       android: androidNotificationDetails,
       iOS: iosNotificationDetails,
     );
@@ -136,7 +136,7 @@ class NotificationService {
       priority: Priority.high,
       enableVibration: true,
       enableLights: true,
-      color: const Color.fromARGB(255, 69, 139, 177),
+      color: Color.fromARGB(255, 69, 139, 177),
     );
 
     const DarwinNotificationDetails iosNotificationDetails =
@@ -146,7 +146,7 @@ class NotificationService {
       presentSound: true,
     );
 
-    final NotificationDetails notificationDetails = NotificationDetails(
+    final NotificationDetails notificationDetails = const NotificationDetails(
       android: androidNotificationDetails,
       iOS: iosNotificationDetails,
     );

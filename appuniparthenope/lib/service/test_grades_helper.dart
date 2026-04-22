@@ -12,10 +12,10 @@ class TestGradesHelper {
   static Future<void> addFakeGradeForTesting() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      const String _gradesKey = 'cached_student_grades';
+      const String gradesKey = 'cached_student_grades';
 
       // Carica i voti attuali salvati
-      final gradesJson = prefs.getString(_gradesKey);
+      final gradesJson = prefs.getString(gradesKey);
       final List<dynamic> gradesList =
           gradesJson != null ? jsonDecode(gradesJson) : [];
 
@@ -33,7 +33,7 @@ class TestGradesHelper {
       gradesList.add(fakeGrade);
 
       // Salva la lista aggiornata
-      await prefs.setString(_gradesKey, jsonEncode(gradesList));
+      await prefs.setString(gradesKey, jsonEncode(gradesList));
 
       print(
           '✅ Fake voto aggiunto: ${fakeGrade['nome']} - ${fakeGrade['voto']}/30');
@@ -53,10 +53,10 @@ class TestGradesHelper {
   static Future<void> addRealisticGradeForTesting() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      const String _gradesKey = 'cached_student_grades';
+      const String gradesKey = 'cached_student_grades';
 
       // Carica i voti attuali salvati
-      final gradesJson = prefs.getString(_gradesKey);
+      final gradesJson = prefs.getString(gradesKey);
       final List<dynamic> gradesList =
           gradesJson != null ? jsonDecode(gradesJson) : [];
 
@@ -74,7 +74,7 @@ class TestGradesHelper {
       gradesList.add(realisticGrade);
 
       // Salva la lista aggiornata
-      await prefs.setString(_gradesKey, jsonEncode(gradesList));
+      await prefs.setString(gradesKey, jsonEncode(gradesList));
 
       print(
           '✅ Voto realistico aggiunto: ${realisticGrade['nome']} - ${realisticGrade['voto']}/30');

@@ -6,7 +6,6 @@ import 'package:appuniparthenope/widget/logoutDialogConfirm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:ui';
-import 'dart:io' show Platform;
 import '../provider/auth_provider.dart';
 import '../provider/exam_provider.dart';
 import '../utilityFunctions/weatherFunction.dart';

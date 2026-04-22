@@ -9,13 +9,13 @@ class UpdateDialog extends StatelessWidget {
   final VoidCallback? onDismiss;
 
   const UpdateDialog({
-    Key? key,
+    super.key,
     required this.currentVersion,
     required this.newVersion,
     required this.releaseNotes,
     this.downloadUrl,
     this.onDismiss,
-  }) : super(key: key);
+  });
 
   Future<void> _launchUpdate() async {
     if (downloadUrl != null && downloadUrl!.isNotEmpty) {

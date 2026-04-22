@@ -130,7 +130,7 @@ class CheckAppelloPage extends StatelessWidget {
     if (conferma != true) return;
 
     // Log dettagliato prima della prenotazione
-    print('\n' + '=' * 80);
+    print('\n${'=' * 80}');
     print('🎯 DATI PRENOTAZIONE ESAME');
     print('=' * 80);
     print('📋 Appello selezionato:');

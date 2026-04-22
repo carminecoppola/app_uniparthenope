@@ -117,7 +117,7 @@ class ApiCheckExamService {
       final url = Uri.parse(
           '$baseUrl/UniparthenopeApp/v1/students/bookExam/$cdsId/$adId/$appId');
 
-      print('\n' + '=' * 100);
+      print('\n${'=' * 100}');
       print('🚀 CHIAMATA API PRENOTAZIONE ESAME');
       print('=' * 100);
       print('📍 URL COMPLETO: $url');
