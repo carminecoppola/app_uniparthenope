@@ -20,9 +20,9 @@ class UpdateService {
   Future<Map<String, dynamic>?> checkForUpdate() async {
     try {
       final response = await http.get(Uri.parse(_updateCheckUrl)).timeout(
-        const Duration(seconds: 10),
-        onTimeout: () => http.Response('', 500),
-      );
+            const Duration(seconds: 10),
+            onTimeout: () => http.Response('', 500),
+          );
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> remoteData = jsonDecode(response.body);

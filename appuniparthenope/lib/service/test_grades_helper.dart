@@ -13,15 +13,14 @@ class TestGradesHelper {
     try {
       final prefs = await SharedPreferences.getInstance();
       const String _gradesKey = 'cached_student_grades';
-      
+
       // Carica i voti attuali salvati
       final gradesJson = prefs.getString(_gradesKey);
-      final List<dynamic> gradesList = gradesJson != null 
-        ? jsonDecode(gradesJson) 
-        : [];
-      
+      final List<dynamic> gradesList =
+          gradesJson != null ? jsonDecode(gradesJson) : [];
+
       print('📊 Voti attuali salvati: ${gradesList.length}');
-      
+
       // Aggiungi un fake voto alla lista
       final fakeGrade = {
         'nome': 'TEST: Algoritmi e Strutture Dati',
@@ -30,13 +29,14 @@ class TestGradesHelper {
         'data': DateTime.now().toString().split(' ')[0],
         'esito': 'Superato',
       };
-      
+
       gradesList.add(fakeGrade);
-      
+
       // Salva la lista aggiornata
       await prefs.setString(_gradesKey, jsonEncode(gradesList));
-      
-      print('✅ Fake voto aggiunto: ${fakeGrade['nome']} - ${fakeGrade['voto']}/30');
+
+      print(
+          '✅ Fake voto aggiunto: ${fakeGrade['nome']} - ${fakeGrade['voto']}/30');
       print('📊 Nuovi voti salvati: ${gradesList.length}');
       print('\n🔔 Istruzioni per testare:');
       print('   1. Riavvia l\'app (premi R nel terminale)');
@@ -54,30 +54,30 @@ class TestGradesHelper {
     try {
       final prefs = await SharedPreferences.getInstance();
       const String _gradesKey = 'cached_student_grades';
-      
+
       // Carica i voti attuali salvati
       final gradesJson = prefs.getString(_gradesKey);
-      final List<dynamic> gradesList = gradesJson != null 
-        ? jsonDecode(gradesJson) 
-        : [];
-      
+      final List<dynamic> gradesList =
+          gradesJson != null ? jsonDecode(gradesJson) : [];
+
       print('📊 Voti attuali salvati: ${gradesList.length}');
-      
+
       // Aggiungi un voto REALISTA (senza "TEST:") - come se venisse dal server
       final realisticGrade = {
-        'nome': 'Algoritmi e Strutture Dati',  // Senza prefisso "TEST:"
+        'nome': 'Algoritmi e Strutture Dati', // Senza prefisso "TEST:"
         'codice': 'INF001',
         'voto': 27,
         'data': DateTime.now().toString().split(' ')[0],
         'esito': 'Superato',
       };
-      
+
       gradesList.add(realisticGrade);
-      
+
       // Salva la lista aggiornata
       await prefs.setString(_gradesKey, jsonEncode(gradesList));
-      
-      print('✅ Voto realistico aggiunto: ${realisticGrade['nome']} - ${realisticGrade['voto']}/30');
+
+      print(
+          '✅ Voto realistico aggiunto: ${realisticGrade['nome']} - ${realisticGrade['voto']}/30');
       print('📊 Nuovi voti salvati: ${gradesList.length}');
       print('\n🔔 Istruzioni per testare:');
       print('   1. Riavvia l\'app (premi R nel terminale)');
@@ -106,12 +106,12 @@ class TestGradesHelper {
     try {
       final prefs = await SharedPreferences.getInstance();
       final gradesJson = prefs.getString('cached_student_grades');
-      
+
       if (gradesJson == null) {
         print('📂 Nessun voto salvato localmente');
         return;
       }
-      
+
       final List<dynamic> gradesList = jsonDecode(gradesJson);
       print('\n📂 Voti salvati localmente (${gradesList.length}):');
       for (var grade in gradesList) {

@@ -64,10 +64,11 @@ class ExamDataProvider extends ChangeNotifier {
 
   // Metodo per impostare gli esami dell'utente
   void setAllExamStudent(List<ExamData> allExamStudent) {
-    print('🔍 [ExamProvider] setAllExamStudent chiamato con ${allExamStudent.length} voti');
+    print(
+        '🔍 [ExamProvider] setAllExamStudent chiamato con ${allExamStudent.length} voti');
     // Verifica e notifica nuovi voti PRIMA di aggiornare la lista
     _checkAndNotifyNewGradesAsync(allExamStudent);
-    
+
     _allExamStudent = allExamStudent;
     notifyListeners();
   }
@@ -82,20 +83,22 @@ class ExamDataProvider extends ChangeNotifier {
 
     try {
       // Confronta voti server con voti salvati localmente
-      final studentNewGrades = await localGradesService.checkForNewGrades(newGrades);
-      
+      final studentNewGrades =
+          await localGradesService.checkForNewGrades(newGrades);
+
       print('🔍 [ExamProvider] Voti trovati dal server: ${newGrades.length}');
-      print('🔍 [ExamProvider] Nuovi voti rilevati: ${studentNewGrades.length}');
+      print(
+          '🔍 [ExamProvider] Nuovi voti rilevati: ${studentNewGrades.length}');
 
       // Invia notifica per ogni nuovo voto
       for (var exam in studentNewGrades) {
         if (exam.status.voto == null) continue;
 
         final courseName = exam.nome ?? 'Insegnamento sconosciuto';
-        final grade = exam.status.voto != null 
-          ? '${exam.status.voto}/30' 
-          : 'N/A';
-        final date = exam.status.data ?? DateTime.now().toString().split(' ')[0];
+        final grade =
+            exam.status.voto != null ? '${exam.status.voto}/30' : 'N/A';
+        final date =
+            exam.status.data ?? DateTime.now().toString().split(' ')[0];
 
         print('🔔 [ExamProvider] Invio notifica: $courseName - $grade');
         notificationService.showGradeNotification(

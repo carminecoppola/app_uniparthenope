@@ -90,7 +90,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-
   void _setNavBarIndex() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final bottomNavBarProvider =
@@ -111,7 +110,7 @@ class _HomePageState extends State<HomePage> {
         if (!mounted) return;
         await StudentUtils.allReservationStudent(
             context, authenticatedUser.user);
-        
+
         // 🔔 AUTOMATICO: Il check dei nuovi voti avviene dentro
         // StudentUtils.allExamStudent() → ExamDataProvider.setAllExamStudent()
         // che trigga automaticamente _checkAndNotifyNewGrades()

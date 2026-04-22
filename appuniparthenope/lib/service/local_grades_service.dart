@@ -10,7 +10,7 @@ class LocalGradesService {
   Future<void> saveGrades(List<ExamData> grades) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      
+
       // Converti i voti in JSON per il salvataggio locale
       final gradesList = grades.map((g) {
         return {
@@ -21,10 +21,10 @@ class LocalGradesService {
           'esito': g.status.esito,
         };
       }).toList();
-      
+
       await prefs.setString(_gradesKey, jsonEncode(gradesList));
       await prefs.setString(_lastUpdateKey, DateTime.now().toIso8601String());
-      
+
       print('💾 Voti salvati localmente: ${grades.length} voti');
     } catch (e) {
       print('Errore nel salvataggio voti locali: $e');
@@ -36,17 +36,16 @@ class LocalGradesService {
     try {
       final prefs = await SharedPreferences.getInstance();
       final gradesJson = prefs.getString(_gradesKey);
-      
+
       if (gradesJson == null) {
         print('📂 Nessun voto salvato localmente');
         return [];
       }
-      
+
       final List<dynamic> decoded = jsonDecode(gradesJson);
       final result = List<Map<String, dynamic>>.from(
-        decoded.map((item) => Map<String, dynamic>.from(item as Map))
-      );
-      
+          decoded.map((item) => Map<String, dynamic>.from(item as Map)));
+
       print('📂 Voti caricati localmente: ${result.length} voti');
       return result;
     } catch (e) {
@@ -60,20 +59,19 @@ class LocalGradesService {
   Future<List<ExamData>> checkForNewGrades(List<ExamData> serverGrades) async {
     try {
       final localGrades = await getLocalGrades();
-      
+
       print('🔍 Confronto:');
       print('   Server: ${serverGrades.length} voti');
       print('   Local: ${localGrades.length} voti');
-      
+
       // Filtra solo i voti che are nel server ma NON nel local storage
       final newGrades = serverGrades.where((serverGrade) {
         return !localGrades.any((localGrade) =>
-          localGrade['nome'] == serverGrade.nome &&
-          localGrade['voto'] == serverGrade.status.voto &&
-          localGrade['data'] == serverGrade.status.data
-        );
+            localGrade['nome'] == serverGrade.nome &&
+            localGrade['voto'] == serverGrade.status.voto &&
+            localGrade['data'] == serverGrade.status.data);
       }).toList();
-      
+
       if (newGrades.isNotEmpty) {
         print('✅ Nuovi voti rilevati: ${newGrades.length}');
         for (var g in newGrades) {
@@ -82,7 +80,7 @@ class LocalGradesService {
       } else {
         print('ℹ️ Nessun nuovo voto');
       }
-      
+
       return newGrades;
     } catch (e) {
       print('Errore nel confronto voti: $e');
