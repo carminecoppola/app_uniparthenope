@@ -200,7 +200,8 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 20),
               // 📋 SEZIONE APPELLI DISPONIBILI
               SectionTitle(
-                  title: AppLocalizations.of(context).translate('examCalls') ?? 'Appelli'),
+                  title: AppLocalizations.of(context).translate('examCalls') ??
+                      'Appelli'),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: GestureDetector(

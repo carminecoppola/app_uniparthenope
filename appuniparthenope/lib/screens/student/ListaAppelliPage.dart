@@ -10,7 +10,7 @@ import '../../widget/navbar.dart';
 import '../../widget/bottomNavBar.dart';
 
 /// 📋 Schermata Semplificata per Visualizzare gli Appelli Disponibili
-/// 
+///
 /// Questa schermata mostra:
 /// - Lista di appelli disponibili per lo studente
 /// - Possibilità di prenotarsi a un appello
@@ -37,14 +37,15 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
   }
 
   /// Carica gli appelli dall'API
-  /// 
+  ///
   /// Recupera dati da AuthProvider e ExamProvider, quindi chiama il provider
   Future<void> _loadAppelli() async {
     if (_isInitialized) return;
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final examProvider = Provider.of<ExamDataProvider>(context, listen: false);
-    checkExamProvider = Provider.of<CheckDateExamProvider>(context, listen: false);
+    checkExamProvider =
+        Provider.of<CheckDateExamProvider>(context, listen: false);
 
     final user = authProvider.authenticatedUser?.user;
     final password = authProvider.password;
@@ -63,9 +64,9 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
         final updatedCourseList = examProvider.allCourseStudent;
         if (updatedCourseList != null && updatedCourseList.isNotEmpty) {
           _loadAppelliWithCourseList(
-            user, 
-            password, 
-            selectedCareer['cdsId'], 
+            user,
+            password,
+            selectedCareer['cdsId'],
             updatedCourseList,
           );
         }
@@ -75,7 +76,8 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
       return;
     }
 
-    _loadAppelliWithCourseList(user, password, selectedCareer['cdsId'], courseList);
+    _loadAppelliWithCourseList(
+        user, password, selectedCareer['cdsId'], courseList);
   }
 
   /// Carica gli appelli con lista corsi disponibile
@@ -92,7 +94,7 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
         cdsId: cdsId,
         courseList: courseList,
       );
-      
+
       if (mounted) {
         setState(() {
           _isInitialized = true;
@@ -210,10 +212,8 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (appello.esame != null)
-              Text('Esame: ${appello.esame}'),
-            if (appello.dataEsame != null)
-              Text('Data: ${appello.dataEsame}'),
+            if (appello.esame != null) Text('Esame: ${appello.esame}'),
+            if (appello.dataEsame != null) Text('Data: ${appello.dataEsame}'),
             if (appello.docenteCompleto != null)
               Text('Docente: ${appello.docenteCompleto}'),
             const SizedBox(height: 12),
@@ -308,7 +308,8 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
   }
 
   /// Costruisce il body della schermata
-  Widget _buildBody(List<CheckAppello> appelli, bool isLoading, String? errorMessage) {
+  Widget _buildBody(
+      List<CheckAppello> appelli, bool isLoading, String? errorMessage) {
     if (isLoading) {
       return const Center(
         child: CircularProgressIndicator(),
@@ -416,9 +417,9 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
               Text(
                 appello.esame!,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryColor,
-                ),
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryColor,
+                    ),
               ),
             const SizedBox(height: 12),
 
@@ -442,7 +443,8 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
             const SizedBox(height: 8),
 
             // Docente
-            if (appello.docenteCompleto != null && appello.docenteCompleto!.isNotEmpty)
+            if (appello.docenteCompleto != null &&
+                appello.docenteCompleto!.isNotEmpty)
               Row(
                 children: [
                   const Icon(
@@ -466,7 +468,8 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
             // Stato
             if (appello.statoDes != null && appello.statoDes!.isNotEmpty)
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
                   color: AppColors.primaryColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
@@ -474,9 +477,9 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
                 child: Text(
                   appello.statoDes!,
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: AppColors.primaryColor,
-                    fontWeight: FontWeight.bold,
-                  ),
+                        color: AppColors.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
               ),
 
@@ -492,8 +495,8 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
                     Text(
                       'Note:',
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
                     const SizedBox(height: 4),
                     Text(
