@@ -8,6 +8,7 @@ import '../../provider/exam_provider.dart';
 import '../../utilityFunctions/studentUtilsFunction.dart';
 import '../../widget/navbar.dart';
 import '../../widget/bottomNavBar.dart';
+import '../../widget/CustomLoadingIndicator.dart';
 
 /// 📋 Schermata Semplificata per Visualizzare gli Appelli Disponibili
 ///
@@ -149,7 +150,16 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
         context: context,
         barrierDismissible: false,
         builder: (context) => const Center(
-          child: CircularProgressIndicator(),
+          child: Material(
+            color: Colors.transparent,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 32),
+              child: CustomLoadingIndicator(
+                text: 'Prenotazione appello in corso...',
+                myColor: AppColors.primaryColor,
+              ),
+            ),
+          ),
         ),
       );
     }
@@ -297,22 +307,30 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
   Widget build(BuildContext context) {
     final checkExamProvider = Provider.of<CheckDateExamProvider>(context);
     final appelli = checkExamProvider.allAppelliStudent;
+    final groupedAppelli = checkExamProvider.groupedAppelliByExam;
     final isLoading = checkExamProvider.isLoading;
     final errorMessage = checkExamProvider.errorMessage;
 
     return Scaffold(
       appBar: const NavbarComponent(),
-      body: _buildBody(appelli, isLoading, errorMessage),
+      body: _buildBody(appelli, groupedAppelli, isLoading, errorMessage),
       bottomNavigationBar: const BottomNavBarComponent(),
     );
   }
 
   /// Costruisce il body della schermata
   Widget _buildBody(
-      List<CheckAppello> appelli, bool isLoading, String? errorMessage) {
+    List<CheckAppello> appelli,
+    Map<String, List<CheckAppello>> groupedAppelli,
+    bool isLoading,
+    String? errorMessage,
+  ) {
     if (isLoading) {
       return const Center(
-        child: CircularProgressIndicator(),
+        child: CustomLoadingIndicator(
+          text: 'Caricamento appelli in corso...',
+          myColor: AppColors.primaryColor,
+        ),
       );
     }
 
@@ -388,13 +406,46 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
         });
         return _loadAppelli();
       },
-      child: ListView.builder(
+      child: ListView(
         padding: const EdgeInsets.symmetric(vertical: 8),
-        itemCount: appelli.length,
-        itemBuilder: (context, index) {
-          final appello = appelli[index];
-          return _buildAppelloCard(appello);
-        },
+        children: groupedAppelli.entries
+            .map((entry) => _buildExamSection(entry.key, entry.value))
+            .toList(),
+      ),
+    );
+  }
+
+  Widget _buildExamSection(String examName, List<CheckAppello> appelliEsame) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  examName,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryColor,
+                      ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '${appelliEsame.length} appelli',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.grey[700],
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+              ],
+            ),
+          ),
+          ...appelliEsame.map(_buildAppelloCard),
+        ],
       ),
     );
   }
@@ -412,17 +463,6 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Nome esame
-            if (appello.esame != null)
-              Text(
-                appello.esame!,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryColor,
-                    ),
-              ),
-            const SizedBox(height: 12),
-
             // Data esame
             if (appello.dataEsame != null)
               Row(

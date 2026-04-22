@@ -289,17 +289,17 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
                     thickness: 0.5,
                     color: Colors.grey[300]!.withOpacity(0.5)),
                 // Menu Items
-                _buildMenuItem(
-                  context,
-                  icon: Icons.school,
-                  title: AppLocalizations.of(context).translate('career'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    StudentUtils.fetchDataAndUpdateStats(
-                        context, authenticatedUser.user);
-                    Navigator.pushNamed(context, '/carrerStudent');
-                  },
-                ),
+                // _buildMenuItem(
+                //   context,
+                //   icon: Icons.school,
+                //   title: AppLocalizations.of(context).translate('career'),
+                //   onTap: () {
+                //     Navigator.pop(context);
+                //     StudentUtils.fetchDataAndUpdateStats(
+                //         context, authenticatedUser.user);
+                //     Navigator.pushNamed(context, '/carrerStudent');
+                //   },
+                // ),
                 _buildMenuItem(
                   context,
                   icon: Icons.credit_card,
@@ -324,40 +324,40 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
                     }
                   },
                 ),
-                _buildMenuItem(
-                  context,
-                  icon: Icons.book,
-                  title: AppLocalizations.of(context).translate('courses'),
-                  onTap: () async {
-                    // Prima carichiamo i dati
-                    await StudentUtils.allCourseStudent(
-                        context, authenticatedUser.user);
-                    if (context.mounted) {
-                      await StudentUtils.allReservationStudent(
-                          context, authenticatedUser.user);
-                    }
-                    // Poi chiudiamo il menu e navighiamo
-                    if (context.mounted) {
-                      Navigator.pop(context);
-                      Navigator.pushNamed(context, '/courseStudent');
-                    }
-                  },
-                ),
-                _buildMenuItem(
-                  context,
-                  icon: Icons.account_balance,
-                  title: AppLocalizations.of(context).translate('fees_uni'),
-                  onTap: () async {
-                    // Prima carichiamo i dati
-                    await StudentUtils.taxesStudent(
-                        context, authenticatedUser.user);
-                    // Poi chiudiamo il menu e navighiamo
-                    if (context.mounted) {
-                      Navigator.pop(context);
-                      Navigator.pushNamed(context, '/feesStudent');
-                    }
-                  },
-                ),
+                // _buildMenuItem(
+                //   context,
+                //   icon: Icons.book,
+                //   title: AppLocalizations.of(context).translate('courses'),
+                //   onTap: () async {
+                //     // Prima carichiamo i dati
+                //     await StudentUtils.allCourseStudent(
+                //         context, authenticatedUser.user);
+                //     if (context.mounted) {
+                //       await StudentUtils.allReservationStudent(
+                //           context, authenticatedUser.user);
+                //     }
+                //     // Poi chiudiamo il menu e navighiamo
+                //     if (context.mounted) {
+                //       Navigator.pop(context);
+                //       Navigator.pushNamed(context, '/courseStudent');
+                //     }
+                //   },
+                // ),
+                // _buildMenuItem(
+                //   context,
+                //   icon: Icons.account_balance,
+                //   title: AppLocalizations.of(context).translate('fees_uni'),
+                //   onTap: () async {
+                //     // Prima carichiamo i dati
+                //     await StudentUtils.taxesStudent(
+                //         context, authenticatedUser.user);
+                //     // Poi chiudiamo il menu e navighiamo
+                //     if (context.mounted) {
+                //       Navigator.pop(context);
+                //       Navigator.pushNamed(context, '/feesStudent');
+                //     }
+                //   },
+                // ),
                 _buildMenuItem(
                   context,
                   icon: Icons.wb_sunny,

@@ -19,6 +19,20 @@ class CheckDateExamProvider extends ChangeNotifier {
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
+  Map<String, List<CheckAppello>> get groupedAppelliByExam {
+    final Map<String, List<CheckAppello>> grouped = {};
+
+    for (final appello in _allAppelliStudent) {
+      final examName = (appello.esame ?? 'Esame').trim();
+      grouped.putIfAbsent(examName, () => []).add(appello);
+    }
+
+    final sortedEntries = grouped.entries.toList()
+      ..sort((a, b) => a.key.toLowerCase().compareTo(b.key.toLowerCase()));
+
+    return Map<String, List<CheckAppello>>.fromEntries(sortedEntries);
+  }
+
   /// Carica tutti gli appelli disponibili per lo studente
   ///
   /// Questo metodo sostituisce il controller eliminando il layer ridondante

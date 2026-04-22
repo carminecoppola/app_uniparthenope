@@ -47,7 +47,7 @@ class PersonalCardUser extends StatelessWidget {
           //Card Studente
           padding: const EdgeInsets.all(20), // Padding interno
           decoration: BoxDecoration(
-            color: AppColors.primaryColor,
+            gradient: AppColors.blueGradient,
             borderRadius: BorderRadius.circular(30), // Bordi arrotondati
           ),
           child: Row(
