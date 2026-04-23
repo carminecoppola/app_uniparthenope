@@ -54,7 +54,6 @@ class ApiTeacherService {
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
-      print(jsonData); // Aggiungi questo per vedere i dati ricevuti
       return SessionProfessorInfo.fromJson(jsonData);
     } else if (response.statusCode == 401) {
       throw Exception('Unauthorized');
@@ -82,7 +81,6 @@ class ApiTeacherService {
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
-      print('\ngetDetailsCourse(): $jsonData');
       return DetailsCourseInfo.fromJson(jsonData);
     } else if (response.statusCode == 401) {
       throw Exception('Unauthorized');
@@ -134,12 +132,6 @@ class ApiTeacherService {
       'Authorization':
           'Basic ${base64Encode(utf8.encode("${professor.userId}:$password"))}',
     });
-
-    print('\n\n $url');
-
-    print('\n\n ${response.statusCode}');
-
-    print('\n\n ${response.body}');
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body) as List<dynamic>;

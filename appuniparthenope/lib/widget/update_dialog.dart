@@ -26,8 +26,8 @@ class UpdateDialog extends StatelessWidget {
             mode: LaunchMode.externalApplication,
           );
         }
-      } catch (e) {
-        print('Errore nell\'apertura URL: $e');
+      } catch (_) {
+        return;
       }
     }
   }

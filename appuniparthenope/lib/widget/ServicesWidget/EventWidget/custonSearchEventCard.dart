@@ -21,7 +21,8 @@ class SearchBarEvent extends StatelessWidget {
         controller: controller,
         onChanged: onChanged,
         decoration: InputDecoration(
-          labelText: AppLocalizations.of(context).translate('search_events_label'),
+          labelText:
+              AppLocalizations.of(context).translate('search_events_label'),
           labelStyle: const TextStyle(
             color: AppColors.primaryColor,
           ),

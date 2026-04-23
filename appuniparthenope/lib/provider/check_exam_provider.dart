@@ -141,6 +141,42 @@ class CheckDateExamProvider extends ChangeNotifier {
     }
   }
 
+  /// Cancella una prenotazione a un appello d'esame.
+  Future<Result<bool>> cancelExamReservation({
+    required String userId,
+    required String password,
+    required int cdsId,
+    required int adId,
+    required int appId,
+    required int stuId,
+    required Map<String, dynamic> dettaglioTratto,
+    required List<CourseInfo> courseList,
+  }) async {
+    try {
+      final course = courseList.firstWhere(
+        (c) => c.adId == adId,
+        orElse: () => throw Exception(
+            'Corso con adId=$adId non trovato nella lista corsi'),
+      );
+
+      final result = await _apiService.cancelExamReservation(
+        userId: userId,
+        password: password,
+        cdsId: cdsId,
+        adId: adId,
+        appId: appId,
+        stuId: stuId,
+        adsceId: course.adsceId,
+        dettaglioTratto: dettaglioTratto,
+      );
+
+      return result;
+    } catch (e) {
+      AppLogger.error('Errore in cancelExamReservation', e);
+      return Result.failure('Errore imprevisto: $e');
+    }
+  }
+
   void setAllAppelliStudent(List<CheckAppello> appelli) {
     _allAppelliStudent = appelli;
     _sortAppelliByDate();

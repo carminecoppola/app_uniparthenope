@@ -24,8 +24,8 @@ class UpdateProvider extends ChangeNotifier {
     try {
       _updateInfo = await _updateService.checkForUpdate();
       notifyListeners();
-    } catch (e) {
-      print('Errore nel controllo aggiornamenti: $e');
+    } catch (_) {
+      return;
     } finally {
       _checkingForUpdate = false;
       notifyListeners();

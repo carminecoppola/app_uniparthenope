@@ -32,6 +32,7 @@ class _FeesUniStudentState extends State<FeesUniStudentPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       appBar: const NavbarComponent(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

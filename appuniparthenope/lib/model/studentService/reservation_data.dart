@@ -5,6 +5,10 @@ import 'package:intl/intl.dart';
 class ReservationInfo {
   final int? adId;
   final int? appId;
+  final int? adsceId;
+  final int? appLogId;
+  final int? appListaId;
+  final int? cdsEsaId;
   final String? nomeAppello;
   final String? nomePres;
   final String? cognomePres;
@@ -25,6 +29,10 @@ class ReservationInfo {
   ReservationInfo({
     this.adId,
     this.appId,
+    this.adsceId,
+    this.appLogId,
+    this.appListaId,
+    this.cdsEsaId,
     this.nomeAppello,
     this.nomePres,
     this.cognomePres,
@@ -46,6 +54,10 @@ class ReservationInfo {
   ReservationInfo copyWith({
     int? adId,
     int? appId,
+    int? adsceId,
+    int? appLogId,
+    int? appListaId,
+    int? cdsEsaId,
     String? nomeAppello,
     String? nomePres,
     String? cognomePres,
@@ -66,6 +78,10 @@ class ReservationInfo {
       ReservationInfo(
         adId: adId ?? this.adId,
         appId: appId ?? this.appId,
+        adsceId: adsceId ?? this.adsceId,
+        appLogId: appLogId ?? this.appLogId,
+        appListaId: appListaId ?? this.appListaId,
+        cdsEsaId: cdsEsaId ?? this.cdsEsaId,
         nomeAppello: nomeAppello ?? this.nomeAppello,
         nomePres: nomePres ?? this.nomePres,
         cognomePres: cognomePres ?? this.cognomePres,
@@ -93,6 +109,10 @@ class ReservationInfo {
       ReservationInfo(
         adId: json["adId"] ?? 0,
         appId: json["appId"] ?? 0,
+        adsceId: _parseInt(json["adsceId"] ?? json["ADSCE_ID"]),
+        appLogId: _parseInt(json["appLogId"] ?? json["APP_LOG_ID"]),
+        appListaId: _parseInt(json["appListaId"] ?? json["APP_LISTA_ID"]),
+        cdsEsaId: _parseInt(json["cdsEsaId"] ?? json["CDS_ESA_ID"]),
         nomeAppello: json["nomeAppello"] ?? '',
         nomePres: json["nome_pres"] ?? '',
         cognomePres: json["cognome_pres"] ?? '',
@@ -120,6 +140,10 @@ class ReservationInfo {
   Map<String, dynamic> toJson() => {
         "adId": adId,
         "appId": appId,
+        "adsceId": adsceId,
+        "appLogId": appLogId,
+        "appListaId": appListaId,
+        "cdsEsaId": cdsEsaId,
         "nomeAppello": nomeAppello,
         "nome_pres": nomePres,
         "cognome_pres": cognomePres,
@@ -145,6 +169,44 @@ class ReservationInfo {
     }
     return null;
   }
+
+  Uri? buildEsse3CancellationUri({
+    required int fallbackCdsId,
+    required int fallbackAdsceId,
+  }) {
+    final appIdValue = appId;
+    final adIdValue = adId;
+    final appListaIdValue = appListaId;
+
+    if (appIdValue == null ||
+        adIdValue == null ||
+        appListaIdValue == null ||
+        appIdValue == 0 ||
+        adIdValue == 0 ||
+        appListaIdValue == 0) {
+      return null;
+    }
+
+    return Uri.https(
+      'uniparthenope.esse3.cineca.it',
+      '/auth/studente/Appelli/ConfermaCancellaAppello.do',
+      {
+        'APP_ID': appIdValue.toString(),
+        'CDS_ESA_ID': (cdsEsaId ?? fallbackCdsId).toString(),
+        'ATT_DID_ESA_ID': adIdValue.toString(),
+        'APP_LOG_ID': (appLogId ?? 1).toString(),
+        'ADSCE_ID': (adsceId ?? fallbackAdsceId).toString(),
+        'APP_LISTA_ID': appListaIdValue.toString(),
+        'return': 'BACHECA',
+      },
+    );
+  }
+}
+
+int? _parseInt(dynamic value) {
+  if (value == null) return null;
+  if (value is int) return value;
+  return int.tryParse(value.toString());
 }
 
 enum EdificioDes { CENTRO_DIREZIONALE, EMPTY, TRAMITE_MICROSOFT_TEAMS }

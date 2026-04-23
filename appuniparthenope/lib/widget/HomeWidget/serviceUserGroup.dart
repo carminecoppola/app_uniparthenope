@@ -139,7 +139,8 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
           child: ServiceCard(
             imagePath: 'assets/icon/services/bookExam.png',
             title: AppLocalizations.of(context).translate('exam_sessions'),
-            description: AppLocalizations.of(context).translate('exam_sessions_dsc'),
+            description:
+                AppLocalizations.of(context).translate('exam_sessions_dsc'),
           ),
         ),
       ],

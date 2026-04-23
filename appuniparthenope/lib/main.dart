@@ -68,6 +68,11 @@ class MyApp extends StatelessWidget {
         ],
         home: const LoginForm(),
         theme: ThemeData(
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(
+              foregroundColor: AppColors.primaryColor,
+            ),
+          ),
           textSelectionTheme: TextSelectionThemeData(
             cursorColor: AppColors.primaryColor, // Cambia il colore del cursore
             selectionColor: AppColors.primaryColor

@@ -24,10 +24,8 @@ class LocalGradesService {
 
       await prefs.setString(_gradesKey, jsonEncode(gradesList));
       await prefs.setString(_lastUpdateKey, DateTime.now().toIso8601String());
-
-      print('💾 Voti salvati localmente: ${grades.length} voti');
-    } catch (e) {
-      print('Errore nel salvataggio voti locali: $e');
+    } catch (_) {
+      return;
     }
   }
 
@@ -38,7 +36,6 @@ class LocalGradesService {
       final gradesJson = prefs.getString(_gradesKey);
 
       if (gradesJson == null) {
-        print('📂 Nessun voto salvato localmente');
         return [];
       }
 
@@ -46,10 +43,8 @@ class LocalGradesService {
       final result = List<Map<String, dynamic>>.from(
           decoded.map((item) => Map<String, dynamic>.from(item as Map)));
 
-      print('📂 Voti caricati localmente: ${result.length} voti');
       return result;
     } catch (e) {
-      print('Errore nel caricamento voti locali: $e');
       return [];
     }
   }
@@ -60,10 +55,6 @@ class LocalGradesService {
     try {
       final localGrades = await getLocalGrades();
 
-      print('🔍 Confronto:');
-      print('   Server: ${serverGrades.length} voti');
-      print('   Local: ${localGrades.length} voti');
-
       // Filtra solo i voti che are nel server ma NON nel local storage
       final newGrades = serverGrades.where((serverGrade) {
         return !localGrades.any((localGrade) =>
@@ -72,18 +63,8 @@ class LocalGradesService {
             localGrade['data'] == serverGrade.status.data);
       }).toList();
 
-      if (newGrades.isNotEmpty) {
-        print('✅ Nuovi voti rilevati: ${newGrades.length}');
-        for (var g in newGrades) {
-          print('   - ${g.nome}: ${g.status.voto}');
-        }
-      } else {
-        print('ℹ️ Nessun nuovo voto');
-      }
-
       return newGrades;
     } catch (e) {
-      print('Errore nel confronto voti: $e');
       return [];
     }
   }
@@ -94,9 +75,8 @@ class LocalGradesService {
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove(_gradesKey);
       await prefs.remove(_lastUpdateKey);
-      print('🗑️ Voti locali eliminati');
-    } catch (e) {
-      print('Errore nella pulizia: $e');
+    } catch (_) {
+      return;
     }
   }
 }

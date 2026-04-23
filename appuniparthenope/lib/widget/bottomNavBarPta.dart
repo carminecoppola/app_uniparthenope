@@ -156,7 +156,7 @@ class BottomNavBarPTAComponent extends StatelessWidget {
       BuildContext context, int index, ExamDataProvider examDataProvider) {
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/homePTA');
+        _replaceIfNeeded(context, '/homePTA');
         break;
       case 1:
         examDataProvider.clearReservations();
@@ -168,5 +168,13 @@ class BottomNavBarPTAComponent extends StatelessWidget {
         );
         break;
     }
+  }
+
+  void _replaceIfNeeded(BuildContext context, String routeName) {
+    if (ModalRoute.of(context)?.settings.name == routeName) {
+      return;
+    }
+
+    Navigator.pushReplacementNamed(context, routeName);
   }
 }

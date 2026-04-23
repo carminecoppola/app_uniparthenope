@@ -1,4 +1,3 @@
-
 class LecturesInfo {
   final String nomeLezione;
   final String dataLezione;
@@ -11,4 +10,3 @@ class LecturesInfo {
 
   static fromJson(data) {}
 }
-

@@ -26,8 +26,8 @@ class StudentUtils {
       // Aggiorna il provider con i dati dell'anagrafe dell'utente.
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       authProvider.setAnagrafeUser(anagrafeUser);
-    } catch (e) {
-      print('Error during _setAnagrafe: $e');
+    } catch (_) {
+      return;
     }
   }
 
@@ -38,8 +38,8 @@ class StudentUtils {
       await totalExamStats(context, authenticatedUser);
       await averageStats(context, authenticatedUser);
       await allExamStudent(context, authenticatedUser);
-    } catch (e) {
-      print('\nErrore during fetchDataAndUpdateStats() $e');
+    } catch (_) {
+      return;
     }
   }
 
@@ -56,8 +56,8 @@ class StudentUtils {
       final examDataProvider =
           Provider.of<ExamDataProvider>(context, listen: false);
       examDataProvider.setTotalStatsExamStudent(totalExamStudent);
-    } catch (e) {
-      print('\nErrore during _totalExamStats() $e');
+    } catch (_) {
+      return;
     }
   }
 
@@ -67,28 +67,23 @@ class StudentUtils {
     final StudentController totalExamController = StudentController();
     try {
       // Stampa un messaggio di avvio
-      print('Inizio il caricamento delle statistiche medie.');
 
       // Ottiene la media aritmetica degli esami dello studente.
       final aritmeticAverageStudent = await totalExamController.averageStudent(
           context, authenticatedUser, "A");
-      print('Risposta averageStudent(): $aritmeticAverageStudent');
 
       // Verifica se i dati della media sono validi
       if (aritmeticAverageStudent.trenta == 0 &&
           aritmeticAverageStudent.centodieci == 0) {
-        print('Nessun esame disponibile per calcolare la media aritmetica.');
         return; // Esci dal metodo se non ci sono dati
       }
 
       // Ottiene la media ponderata degli esami dello studente.
       final weightedAverageStudent = await totalExamController.averageStudent(
           context, authenticatedUser, "P");
-      print('Risposta weightedAverageStudent(): $weightedAverageStudent');
 
       if (weightedAverageStudent.trenta == 0 &&
           weightedAverageStudent.centodieci == 0) {
-        print('Nessun esame disponibile per calcolare la media ponderata.');
         return; // Esci dal metodo se non ci sono dati
       }
 
@@ -97,8 +92,8 @@ class StudentUtils {
           Provider.of<ExamDataProvider>(context, listen: false);
       examDataProvider.setTotalAverageExamStudent(
           aritmeticAverageStudent, weightedAverageStudent);
-    } catch (e) {
-      print('Errore durante _averageStats() $e');
+    } catch (_) {
+      return;
     }
   }
 
@@ -117,8 +112,8 @@ class StudentUtils {
 
       // Aggiorna il provider con tutti gli esami dello studente.
       examDataProvider.setAllExamStudent(allExamStudent);
-    } catch (e) {
-      print('\nErrore during _allExamStudent() $e');
+    } catch (_) {
+      return;
     }
   }
 
@@ -140,8 +135,8 @@ class StudentUtils {
 
       // NON chiamiamo allStatusCourse qui perché il context potrebbe essere deactivated
       // Lo stato verrà caricato dalla pagina stessa quando necessario
-    } catch (e) {
-      print('\nErrore during _allCourseStudent() $e');
+    } catch (_) {
+      return;
     }
   }
 
@@ -161,8 +156,8 @@ class StudentUtils {
       // Converte la mappa in una lista e aggiorna il provider con lo stato dei corsi.
       examDataProvider.setAllStatusCourses(statusCoursesMap.values.toList());
       examDataProvider.setStatusCoursesMap(statusCoursesMap);
-    } catch (e) {
-      print('\nErrore durante _allStatusCourse() $e');
+    } catch (_) {
+      return;
     }
   }
 
@@ -181,8 +176,8 @@ class StudentUtils {
 
       // Aggiorna il provider con le informazioni sulle tasse dello studente.
       taxesDataProvider.setTaxesInfo(allTaxesStudent);
-    } catch (e) {
-      print('\nError during _taxesStudent: $e');
+    } catch (_) {
+      return;
     }
   }
 
@@ -200,8 +195,8 @@ class StudentUtils {
 
       // Aggiorna il provider con tutti gli eventi dell'università.
       eventsDataProvider.setAllEvents(allEvents);
-    } catch (e) {
-      print('\nErrore during allEvents() $e');
+    } catch (_) {
+      return;
     }
   }
 
@@ -222,7 +217,6 @@ class StudentUtils {
 
       return allrooms;
     } catch (e) {
-      print('\nErrore durante allRooms() $e');
       rethrow; // Rilancia l'eccezione per gestirla ulteriormente se necessario.
     }
   }
@@ -248,7 +242,6 @@ class StudentUtils {
       // Ora è sicuro aggiornare il provider anche se il context è deactivated
       examDataProvider.setAllReservationStudent(allReservationStudent);
     } catch (e) {
-      print('\nErrore during _allReservationStudent() $e');
       // Non rilanciare l'errore per evitare crash dell'app
     }
   }

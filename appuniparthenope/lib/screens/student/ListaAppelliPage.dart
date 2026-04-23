@@ -1,3 +1,4 @@
+import 'package:appuniparthenope/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../main.dart';
@@ -9,6 +10,7 @@ import '../../utilityFunctions/studentUtilsFunction.dart';
 import '../../widget/navbar.dart';
 import '../../widget/bottomNavBar.dart';
 import '../../widget/CustomLoadingIndicator.dart';
+import '../../widget/compact_loading_dialog.dart';
 
 /// 📋 Schermata Semplificata per Visualizzare gli Appelli Disponibili
 ///
@@ -27,6 +29,7 @@ class ListaAppelliPage extends StatefulWidget {
 class _ListaAppelliPageState extends State<ListaAppelliPage> {
   late CheckDateExamProvider checkExamProvider;
   bool _isInitialized = false;
+  final Set<String> _expandedExams = {};
 
   @override
   void initState() {
@@ -54,7 +57,8 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
     final courseList = examProvider.allCourseStudent;
 
     if (user == null || password == null || selectedCareer == null) {
-      _showErrorSnapBar('Dati utente non disponibili');
+      _showErrorSnapBar(
+          AppLocalizations.of(context).translate('user_data_unavailable'));
       return;
     }
 
@@ -72,7 +76,8 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
           );
         }
       } catch (e) {
-        _showErrorSnapBar('Errore nel caricamento dei corsi: $e');
+        _showErrorSnapBar(
+            '${AppLocalizations.of(context).translate('error_loading_courses')}: $e');
       }
       return;
     }
@@ -102,7 +107,8 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
         });
       }
     } catch (e) {
-      _showErrorSnapBar('Errore nel caricamento degli appelli: $e');
+      _showErrorSnapBar(
+          '${AppLocalizations.of(context).translate('error_loading_exam_sessions')}: $e');
     }
   }
 
@@ -118,24 +124,24 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
 
     if (user == null || password == null || selectedCareer == null) {
       _showErrorDialog(
-        'Errore',
-        'Dati utente non disponibili',
+        AppLocalizations.of(context).translate('error'),
+        AppLocalizations.of(context).translate('user_data_unavailable'),
       );
       return;
     }
 
     if (appello.adId == null || appello.appId == null) {
       _showErrorDialog(
-        'Errore',
-        'Dati dell\'appello non validi',
+        AppLocalizations.of(context).translate('error'),
+        AppLocalizations.of(context).translate('invalid_exam_data'),
       );
       return;
     }
 
     if (courseList == null || courseList.isEmpty) {
       _showErrorDialog(
-        'Errore',
-        'Lista corsi non disponibile',
+        AppLocalizations.of(context).translate('error'),
+        AppLocalizations.of(context).translate('course_list_unavailable'),
       );
       return;
     }
@@ -146,21 +152,9 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
 
     // Mostra loading
     if (mounted) {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const Center(
-          child: Material(
-            color: Colors.transparent,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32),
-              child: CustomLoadingIndicator(
-                text: 'Prenotazione appello in corso...',
-                myColor: AppColors.primaryColor,
-              ),
-            ),
-          ),
-        ),
+      showCompactLoadingDialog(
+        context,
+        message: AppLocalizations.of(context).translate('booking_exam_loading'),
       );
     }
 
@@ -176,26 +170,30 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
         courseList: courseList,
       );
 
-      // Chiudi dialog loading
-      if (mounted) Navigator.of(context).pop();
-
       if (result.isSuccess) {
         // Ricarica le prenotazioni
         if (mounted) {
           await StudentUtils.allReservationStudent(context, user);
         }
 
+        // Chiudi il loading solo dopo il refresh, per non mostrare la lista
+        // mentre si aggiorna sotto al dialog.
+        if (mounted) Navigator.of(context).pop();
+
         if (mounted) {
           _showSuccessDialog(
-            'Successo',
-            'Prenotazione effettuata con successo!',
+            AppLocalizations.of(context).translate('success'),
+            AppLocalizations.of(context).translate('booking_exam_success'),
           );
         }
       } else {
+        if (mounted) Navigator.of(context).pop();
+
         if (mounted) {
           _showErrorDialog(
-            'Errore',
-            result.errorMessage ?? 'Impossibile completare la prenotazione',
+            AppLocalizations.of(context).translate('error'),
+            result.errorMessage ??
+                AppLocalizations.of(context).translate('booking_exam_error'),
           );
         }
       }
@@ -203,8 +201,8 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
       // Chiudi dialog loading
       if (mounted) Navigator.of(context).pop();
       _showErrorDialog(
-        'Errore',
-        'Errore imprevisto: $e',
+        AppLocalizations.of(context).translate('error'),
+        '${AppLocalizations.of(context).translate('unexpected_error')}: $e',
       );
     }
   }
@@ -214,21 +212,28 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text(
-          'Conferma Prenotazione',
-          style: TextStyle(color: AppColors.primaryColor),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        title: Text(
+          AppLocalizations.of(context).translate('booking_exam_confirm_title'),
+          style: const TextStyle(color: AppColors.primaryColor),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (appello.esame != null) Text('Esame: ${appello.esame}'),
-            if (appello.dataEsame != null) Text('Data: ${appello.dataEsame}'),
+            if (appello.esame != null)
+              Text(
+                  '${AppLocalizations.of(context).translate('exam_label')}: ${appello.esame}'),
+            if (appello.dataEsame != null)
+              Text(
+                  '${AppLocalizations.of(context).translate('date')}: ${appello.dataEsame}'),
             if (appello.docenteCompleto != null)
-              Text('Docente: ${appello.docenteCompleto}'),
+              Text(
+                  '${AppLocalizations.of(context).translate('teacher_label')}: ${appello.docenteCompleto}'),
             const SizedBox(height: 12),
             Text(
-              'Vuoi prenotare questo appello?',
+              AppLocalizations.of(context)
+                  .translate('booking_exam_confirm_message'),
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],
@@ -236,16 +241,16 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Annulla'),
+            child: Text(AppLocalizations.of(context).translate('cancel')),
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primaryColor,
             ),
-            child: const Text(
-              'Conferma',
-              style: TextStyle(color: Colors.white),
+            child: Text(
+              AppLocalizations.of(context).translate('confirm'),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ],
@@ -258,6 +263,7 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         title: Text(
           title,
           style: const TextStyle(color: AppColors.successColor),
@@ -266,7 +272,7 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
+            child: Text(AppLocalizations.of(context).translate('ok')),
           ),
         ],
       ),
@@ -278,15 +284,16 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         title: Text(
           title,
           style: const TextStyle(color: AppColors.errorColor),
         ),
-        content: Text(message),
+        content: _ScrollableDialogMessage(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
+            child: Text(AppLocalizations.of(context).translate('ok')),
           ),
         ],
       ),
@@ -325,10 +332,12 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
     bool isLoading,
     String? errorMessage,
   ) {
+    final localizations = AppLocalizations.of(context);
+
     if (isLoading) {
-      return const Center(
+      return Center(
         child: CustomLoadingIndicator(
-          text: 'Caricamento appelli in corso...',
+          text: localizations.translate('loading_exams'),
           myColor: AppColors.primaryColor,
         ),
       );
@@ -408,44 +417,99 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
       },
       child: ListView(
         padding: const EdgeInsets.symmetric(vertical: 8),
-        children: groupedAppelli.entries
-            .map((entry) => _buildExamSection(entry.key, entry.value))
-            .toList(),
+        children: [
+          const SizedBox(height: 8),
+          Center(
+            child: Text(
+              localizations.translate('exam_sessions_title'),
+              style: const TextStyle(
+                color: AppColors.primaryColor,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Center(
+            child: Text(
+              localizations.translate('exam_sessions_expand_hint'),
+              style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const SizedBox(height: 12),
+          ...groupedAppelli.entries
+              .map((entry) => _buildExamSection(entry.key, entry.value)),
+        ],
       ),
     );
   }
 
   Widget _buildExamSection(String examName, List<CheckAppello> appelliEsame) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  examName,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primaryColor,
-                      ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '${appelliEsame.length} appelli',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.grey[700],
-                        fontWeight: FontWeight.w600,
-                      ),
-                ),
-              ],
-            ),
+    final isExpanded = _expandedExams.contains(examName);
+
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          dividerColor: Colors.transparent,
+          splashColor: AppColors.primaryColor.withOpacity(0.08),
+          highlightColor: AppColors.primaryColor.withOpacity(0.04),
+        ),
+        child: ExpansionTile(
+          key: PageStorageKey<String>('appelli-$examName'),
+          initiallyExpanded: isExpanded,
+          tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+          childrenPadding: const EdgeInsets.only(bottom: 8),
+          iconColor: AppColors.primaryColor,
+          collapsedIconColor: AppColors.primaryColor,
+          onExpansionChanged: (expanded) {
+            setState(() {
+              if (expanded) {
+                _expandedExams.add(examName);
+              } else {
+                _expandedExams.remove(examName);
+              }
+            });
+          },
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                examName,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryColor,
+                    ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                '${appelliEsame.length} appelli',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Colors.grey[700],
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+            ],
           ),
-          ...appelliEsame.map(_buildAppelloCard),
-        ],
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: appelliEsame.map(_buildAppelloCard).toList(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -458,111 +522,257 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Data esame
-            if (appello.dataEsame != null)
-              Row(
-                children: [
-                  const Icon(
-                    Icons.calendar_today,
-                    size: 18,
-                    color: AppColors.primaryColor,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    appello.dataEsame!,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ],
-              ),
-
-            const SizedBox(height: 8),
-
-            // Docente
-            if (appello.docenteCompleto != null &&
-                appello.docenteCompleto!.isNotEmpty)
-              Row(
-                children: [
-                  const Icon(
-                    Icons.person,
-                    size: 18,
-                    color: AppColors.primaryColor,
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      appello.docenteCompleto!,
-                      style: Theme.of(context).textTheme.bodySmall,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
-
-            const SizedBox(height: 8),
-
-            // Stato
-            if (appello.statoDes != null && appello.statoDes!.isNotEmpty)
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: AppColors.primaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  appello.statoDes!,
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: AppColors.primaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-              ),
-
-            const SizedBox(height: 12),
-
-            // Note
-            if (appello.note != null && appello.note!.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () => _showAppelloDetails(appello),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Data esame
+              if (appello.dataEsame != null)
+                Row(
                   children: [
-                    Text(
-                      'Note:',
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                    const Icon(
+                      Icons.calendar_today,
+                      size: 18,
+                      color: AppColors.primaryColor,
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(width: 8),
                     Text(
-                      appello.note!,
-                      style: Theme.of(context).textTheme.bodySmall,
+                      appello.dataEsame!,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ],
                 ),
-              ),
 
-            // Bottone Prenota
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () => _handlePrenotazione(appello),
-                icon: const Icon(Icons.check_circle),
-                label: const Text('Prenota Appello'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+              const SizedBox(height: 8),
+
+              // Docente
+              if (appello.docenteCompleto != null &&
+                  appello.docenteCompleto!.isNotEmpty)
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.person,
+                      size: 18,
+                      color: AppColors.primaryColor,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        appello.docenteCompleto!,
+                        style: Theme.of(context).textTheme.bodySmall,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+
+              const SizedBox(height: 8),
+
+              // Stato
+              if (appello.statoDes != null && appello.statoDes!.isNotEmpty)
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryColor.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          appello.statoDes!,
+                          style:
+                              Theme.of(context).textTheme.labelSmall?.copyWith(
+                                    color: AppColors.primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    const Icon(
+                      Icons.info_outline,
+                      color: AppColors.primaryColor,
+                      size: 20,
+                    ),
+                  ],
+                ),
+
+              const SizedBox(height: 12),
+
+              // Note
+              if (appello.note != null && appello.note!.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Note:',
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        appello.note!,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
+                ),
+
+              // Bottone Prenota
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () => _handlePrenotazione(appello),
+                  icon: const Icon(Icons.check_circle),
+                  label: const Text('Prenota Appello'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryColor,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+      ),
+    );
+  }
+
+  void _showAppelloDetails(CheckAppello appello) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Container(
+                    width: 42,
+                    height: 4,
+                    margin: const EdgeInsets.only(bottom: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+                Text(
+                  appello.esame ?? 'Dettaglio appello',
+                  style: const TextStyle(
+                    color: AppColors.primaryColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                _buildDetailRow(
+                  icon: Icons.calendar_today_outlined,
+                  label: 'Data esame',
+                  value: appello.dataEsame,
+                ),
+                _buildDetailRow(
+                  icon: Icons.play_circle_outline,
+                  label: 'Apertura prenotazioni',
+                  value: appello.dataInizio,
+                ),
+                _buildDetailRow(
+                  icon: Icons.stop_circle_outlined,
+                  label: 'Chiusura prenotazioni',
+                  value: appello.dataFine,
+                ),
+                _buildDetailRow(
+                  icon: Icons.groups_outlined,
+                  label: 'Iscritti',
+                  value: appello.numIscritti?.toString(),
+                ),
+                _buildDetailRow(
+                  icon: Icons.description_outlined,
+                  label: 'Descrizione',
+                  value: appello.descrizione,
+                ),
+                _buildDetailRow(
+                  icon: Icons.notes_outlined,
+                  label: 'Note',
+                  value: appello.note,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildDetailRow({
+    required IconData icon,
+    required String label,
+    String? value,
+  }) {
+    final displayValue =
+        value == null || value.trim().isEmpty ? 'Non disponibile' : value;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, color: AppColors.primaryColor, size: 20),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: const TextStyle(
+                    color: AppColors.primaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                  ),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  displayValue,
+                  style: const TextStyle(fontSize: 14),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ScrollableDialogMessage extends StatelessWidget {
+  final String message;
+
+  const _ScrollableDialogMessage(this.message);
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxHeight: 220),
+      child: SingleChildScrollView(
+        child: Text(message),
       ),
     );
   }

@@ -52,7 +52,6 @@ class UpdateService {
 
       return null;
     } catch (e) {
-      print('Errore nel controllo aggiornamenti: $e');
       return null;
     }
   }
@@ -75,7 +74,6 @@ class UpdateService {
 
       return false;
     } catch (e) {
-      print('Errore nel confronto versioni: $e');
       return false;
     }
   }

@@ -90,54 +90,54 @@ class _PersonalProfilePageState extends State<PersonalProfilePage> {
               ),
             ),
           ),
-          SingleChildScrollView(
-            child: Center(
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                margin: const EdgeInsets.only(top: 70),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (userAnagrafe != null) ...[
-                      if (role == 'Studenti') ...[
-                        PersonalMiniBoxWidget(
-                          nome: userAnagrafe.nome,
-                          cognome: userAnagrafe.cognome,
-                          identificativoLabel: identificativoLabel,
-                          identificativo: idStud.toString(),
-                        ),
-                      ] else ...[
-                        PersonalMiniBoxWidget(
-                            nome: userAnagrafe.nome,
-                            cognome: userAnagrafe.cognome,
-                            identificativoLabel: identificativoLabel,
-                            identificativo: identificativoProf.toString()),
-                      ],
+          Positioned.fill(
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              margin: const EdgeInsets.only(top: 70),
+              child: Column(
+                children: [
+                  if (userAnagrafe != null) ...[
+                    if (role == 'Studenti') ...[
+                      PersonalMiniBoxWidget(
+                        nome: userAnagrafe.nome,
+                        cognome: userAnagrafe.cognome,
+                        identificativoLabel: identificativoLabel,
+                        identificativo: idStud.toString(),
+                      ),
                     ] else ...[
-                      const Center(
-                        child: PersonalMiniBoxWidget(
-                          nome: 'Nome non disponibile',
-                          cognome: 'Cognome non disponibile',
-                          identificativoLabel: 'N/A',
-                          identificativo: 'N/A',
-                        ),
-                      )
+                      PersonalMiniBoxWidget(
+                        nome: userAnagrafe.nome,
+                        cognome: userAnagrafe.cognome,
+                        identificativoLabel: identificativoLabel,
+                        identificativo: identificativoProf.toString(),
+                      ),
                     ],
-                    const SizedBox(height: 10),
-                    CustomTabBar(
-                      selectedIndex: _selectedIndex,
-                      onTabTapped: _onTabTapped,
-                    ),
-                    const SizedBox(height: 20),
-                    IndexedStack(
+                  ] else ...[
+                    const Center(
+                      child: PersonalMiniBoxWidget(
+                        nome: 'Nome non disponibile',
+                        cognome: 'Cognome non disponibile',
+                        identificativoLabel: 'N/A',
+                        identificativo: 'N/A',
+                      ),
+                    )
+                  ],
+                  const SizedBox(height: 10),
+                  CustomTabBar(
+                    selectedIndex: _selectedIndex,
+                    onTabTapped: _onTabTapped,
+                  ),
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: IndexedStack(
                       index: _selectedIndex,
                       children: const [
                         ProfileInfoDisplay(index: 0),
                         ProfileInfoDisplay(index: 1),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

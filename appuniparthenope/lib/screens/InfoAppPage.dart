@@ -41,7 +41,6 @@ class _InfoAppPageState extends State<InfoAppPage> {
       final versionWithoutBuildNumber = version.split('+')[0];
       return versionWithoutBuildNumber;
     } catch (e) {
-      print('Error loading app version: $e');
       return 'Unknown version';
     }
   }

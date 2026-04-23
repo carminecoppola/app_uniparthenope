@@ -83,8 +83,8 @@ class _HomePageState extends State<HomePage> {
     final notificationService = getIt<NotificationService>();
     try {
       await notificationService.requestPermissions();
-    } catch (e) {
-      print('Errore nella richiesta permessi notifiche: $e');
+    } catch (_) {
+      return;
     }
   }
 
@@ -198,83 +198,8 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 10),
               const HomeAppointmentsCard(),
               const SizedBox(height: 20),
-              // 📋 SEZIONE APPELLI DISPONIBILI
-              SectionTitle(
-                  title: AppLocalizations.of(context).translate('examCalls') ??
-                      'Appelli'),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/listaAppelliStudent');
-                  },
-                  child: Card(
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            AppColors.primaryColor.withOpacity(0.1),
-                            AppColors.primaryColor.withOpacity(0.05),
-                          ],
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: AppColors.primaryColor.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: const Icon(
-                              Icons.calendar_month,
-                              color: AppColors.primaryColor,
-                              size: 28,
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Appelli Disponibili',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColors.primaryColor,
-                                      ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'Visualizza gli appelli e prenota il tuo esame',
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                              ],
-                            ),
-                          ),
-                          const Icon(
-                            Icons.arrow_forward_ios,
-                            color: AppColors.primaryColor,
-                            size: 18,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
+              // 📋 SEZIONE APPELLI DISPONIBILI - RIMOSSA (ora nei servizi)
+              // La lista appelli è ora accessibile dalla card Servizi
               SectionTitle(
                   title: AppLocalizations.of(context).translate('services')),
               ServiceGroupStudentCard(

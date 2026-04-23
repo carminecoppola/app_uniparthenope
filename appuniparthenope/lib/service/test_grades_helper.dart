@@ -1,8 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import '../model/studentService/exam_data.dart';
-import '../provider/exam_provider.dart';
-import '../core/service_locator.dart';
 
 /// 🧪 UTILITY PER TESTARE LE NOTIFICHE
 /// Usa questa per simulare un nuovo voto senza aspettare il professore
@@ -19,8 +16,6 @@ class TestGradesHelper {
       final List<dynamic> gradesList =
           gradesJson != null ? jsonDecode(gradesJson) : [];
 
-      print('📊 Voti attuali salvati: ${gradesList.length}');
-
       // Aggiungi un fake voto alla lista
       final fakeGrade = {
         'nome': 'TEST: Algoritmi e Strutture Dati',
@@ -34,17 +29,8 @@ class TestGradesHelper {
 
       // Salva la lista aggiornata
       await prefs.setString(gradesKey, jsonEncode(gradesList));
-
-      print(
-          '✅ Fake voto aggiunto: ${fakeGrade['nome']} - ${fakeGrade['voto']}/30');
-      print('📊 Nuovi voti salvati: ${gradesList.length}');
-      print('\n🔔 Istruzioni per testare:');
-      print('   1. Riavvia l\'app (premi R nel terminale)');
-      print('   2. L\'app caricherà i voti dal server');
-      print('   3. Vedrà il nuovo voto e invierà una NOTIFICA DI SISTEMA');
-      print('   4. Guarda il Centro Notifiche (swipe dal top dello schermo)\n');
-    } catch (e) {
-      print('Errore nell\'aggiunta del fake voto: $e');
+    } catch (_) {
+      return;
     }
   }
 
@@ -60,8 +46,6 @@ class TestGradesHelper {
       final List<dynamic> gradesList =
           gradesJson != null ? jsonDecode(gradesJson) : [];
 
-      print('📊 Voti attuali salvati: ${gradesList.length}');
-
       // Aggiungi un voto REALISTA (senza "TEST:") - come se venisse dal server
       final realisticGrade = {
         'nome': 'Algoritmi e Strutture Dati', // Senza prefisso "TEST:"
@@ -75,17 +59,8 @@ class TestGradesHelper {
 
       // Salva la lista aggiornata
       await prefs.setString(gradesKey, jsonEncode(gradesList));
-
-      print(
-          '✅ Voto realistico aggiunto: ${realisticGrade['nome']} - ${realisticGrade['voto']}/30');
-      print('📊 Nuovi voti salvati: ${gradesList.length}');
-      print('\n🔔 Istruzioni per testare:');
-      print('   1. Riavvia l\'app (premi R nel terminale)');
-      print('   2. L\'app caricherà i voti dal server');
-      print('   3. Vedrà il nuovo voto e invierà una NOTIFICA DI SISTEMA');
-      print('   4. Guarda il Centro Notifiche (swipe dal top dello schermo)\n');
-    } catch (e) {
-      print('Errore nell\'aggiunta del voto realistico: $e');
+    } catch (_) {
+      return;
     }
   }
 
@@ -95,9 +70,8 @@ class TestGradesHelper {
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove('cached_student_grades');
       await prefs.remove('last_grades_update');
-      print('🗑️ Voti locali ripristinati - ricomincan da capo');
-    } catch (e) {
-      print('Errore nel reset: $e');
+    } catch (_) {
+      return;
     }
   }
 
@@ -108,18 +82,12 @@ class TestGradesHelper {
       final gradesJson = prefs.getString('cached_student_grades');
 
       if (gradesJson == null) {
-        print('📂 Nessun voto salvato localmente');
         return;
       }
 
-      final List<dynamic> gradesList = jsonDecode(gradesJson);
-      print('\n📂 Voti salvati localmente (${gradesList.length}):');
-      for (var grade in gradesList) {
-        print('   - ${grade['nome']}: ${grade['voto']}/30 (${grade['data']})');
-      }
-      print('');
-    } catch (e) {
-      print('Errore: $e');
+      jsonDecode(gradesJson);
+    } catch (_) {
+      return;
     }
   }
 }

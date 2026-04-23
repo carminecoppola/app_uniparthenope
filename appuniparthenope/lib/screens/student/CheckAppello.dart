@@ -11,6 +11,7 @@ import '../../widget/ServicesWidget/CheckExamWidget/appello_card_list.dart';
 import '../../widget/ServicesWidget/CheckExamWidget/appello_search_bar.dart';
 import '../../widget/bottomNavBar.dart';
 import '../../widget/CustomLoadingIndicator.dart';
+import '../../widget/compact_loading_dialog.dart';
 import '../../model/studentService/check_appello_data.dart';
 
 class CheckAppelloPage extends StatefulWidget {
@@ -67,8 +68,7 @@ class _CheckAppelloPageState extends State<CheckAppelloPage> {
       appBar: const NavbarComponent(),
       body: checkExamProvider.isLoading
           ? CustomLoadingIndicator(
-              text: AppLocalizations.of(context).translate('loading_exams') ?? 
-                  'Caricamento appelli in corso...',
+              text: AppLocalizations.of(context).translate('loading_exams'),
               myColor: AppColors.primaryColor,
             )
           : appelli.isEmpty
@@ -239,7 +239,7 @@ class _CheckAppelloPageState extends State<CheckAppelloPage> {
       _showErrorDialog(
         context,
         AppLocalizations.of(context).translate('error'),
-        'Dati utente non disponibili',
+        AppLocalizations.of(context).translate('user_data_unavailable'),
       );
       return;
     }
@@ -248,7 +248,7 @@ class _CheckAppelloPageState extends State<CheckAppelloPage> {
       _showErrorDialog(
         context,
         AppLocalizations.of(context).translate('error'),
-        'Dati dell\'appello non validi',
+        AppLocalizations.of(context).translate('invalid_exam_data'),
       );
       return;
     }
@@ -257,7 +257,7 @@ class _CheckAppelloPageState extends State<CheckAppelloPage> {
       _showErrorDialog(
         context,
         AppLocalizations.of(context).translate('error'),
-        'Lista corsi non disponibile',
+        AppLocalizations.of(context).translate('course_list_unavailable'),
       );
       return;
     }
@@ -266,26 +266,28 @@ class _CheckAppelloPageState extends State<CheckAppelloPage> {
     final conferma = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text(
-          'Conferma Prenotazione',
-          style: TextStyle(color: AppColors.primaryColor),
+        title: Text(
+          AppLocalizations.of(context).translate('booking_exam_confirm_title'),
+          style: const TextStyle(color: AppColors.primaryColor),
         ),
         content: Text(
-          'Vuoi prenotare l\'appello per:\n\n${appello.esame}\nData: ${appello.dataEsame}',
+          '${AppLocalizations.of(context).translate('booking_exam_confirm_details')}\n\n'
+          '${appello.esame}\n'
+          '${AppLocalizations.of(context).translate('date')}: ${appello.dataEsame}',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Annulla'),
+            child: Text(AppLocalizations.of(context).translate('cancel')),
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primaryColor,
             ),
-            child: const Text(
-              'Conferma',
-              style: TextStyle(color: Colors.white),
+            child: Text(
+              AppLocalizations.of(context).translate('confirm'),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ],
@@ -293,58 +295,12 @@ class _CheckAppelloPageState extends State<CheckAppelloPage> {
     );
 
     if (conferma != true) return;
-
-    // Log dettagliato prima della prenotazione
-    print('\n${'=' * 80}');
-    print('🎯 DATI PRENOTAZIONE ESAME');
-    print('=' * 80);
-    print('📋 Appello selezionato:');
-    print('   - Esame: ${appello.esame}');
-    print('   - Data: ${appello.dataEsame}');
-    print('   - adId: ${appello.adId}');
-    print('   - appId: ${appello.appId}');
-    print('   - stato: ${appello.stato}');
-    print('   - statoDes: ${appello.statoDes}');
-    print('👤 Dati utente:');
-    print('   - userId: ${user.userId}');
-    print('   - firstName: ${user.firstName}');
-    print('   - lastName: ${user.lastName}');
-    print('🎓 Carriera selezionata:');
-    print('   - cdsId: ${selectedCareer['cdsId']}');
-    print('   - matId: ${selectedCareer['matId']}');
-    print('   - stuId: ${selectedCareer['stuId']}');
-    print('   - aaIscrId: ${selectedCareer['aaIscrId']}');
-    print('   - aaRegId: ${selectedCareer['aaRegId']}');
-    print('   - iscrId: ${selectedCareer['iscrId']}');
-    print('   - annoCorso: ${selectedCareer['annoCorso']}');
-    print('   - matricola: ${selectedCareer['matricola']}');
-    print('   - Tutti i campi: $selectedCareer');
-    print('📚 Corsi disponibili: ${courseList.length} corsi');
-    print('\n📚 LISTA COMPLETA CORSI CON ADSCEID:');
-    for (var i = 0; i < courseList.length; i++) {
-      final c = courseList[i];
-      print('   ${i + 1}. ${c.nome}');
-      print(
-          '      adId: ${c.adId}, adsceId: ${c.adsceId}, annoId: ${c.annoId}');
-    }
-    print('=' * 80 + '\n');
+    if (!context.mounted) return;
 
     // Mostra loading
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(
-        child: Material(
-          color: Colors.transparent,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32),
-            child: CustomLoadingIndicator(
-              text: 'Prenotazione appello in corso...',
-              myColor: AppColors.primaryColor,
-            ),
-          ),
-        ),
-      ),
+    showCompactLoadingDialog(
+      context,
+      message: AppLocalizations.of(context).translate('booking_exam_loading'),
     );
 
     // Usa direttamente il provider invece del controller
@@ -359,28 +315,32 @@ class _CheckAppelloPageState extends State<CheckAppelloPage> {
       courseList: courseList,
     );
 
-    // Chiudi loading
-    if (context.mounted) Navigator.of(context).pop();
-
     if (result.isSuccess) {
       // Ricarica le prenotazioni
       if (context.mounted) {
         await StudentUtils.allReservationStudent(context, user);
       }
 
+      // Chiudi il loading solo dopo il refresh, per non mostrare la lista
+      // mentre si aggiorna sotto al dialog.
+      if (context.mounted) Navigator.of(context).pop();
+
       if (context.mounted) {
         _showSuccessDialog(
           context,
           AppLocalizations.of(context).translate('success'),
-          'Prenotazione effettuata con successo!',
+          AppLocalizations.of(context).translate('booking_exam_success'),
         );
       }
     } else {
+      if (context.mounted) Navigator.of(context).pop();
+
       if (context.mounted) {
         _showErrorDialog(
           context,
           AppLocalizations.of(context).translate('error'),
-          result.errorMessage ?? 'Impossibile completare la prenotazione',
+          result.errorMessage ??
+              AppLocalizations.of(context).translate('booking_exam_error'),
         );
       }
     }
@@ -390,12 +350,13 @@ class _CheckAppelloPageState extends State<CheckAppelloPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         title: Text(title, style: const TextStyle(color: AppColors.errorColor)),
-        content: Text(message),
+        content: _ScrollableDialogMessage(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
+            child: Text(AppLocalizations.of(context).translate('ok')),
           ),
         ],
       ),
@@ -406,15 +367,32 @@ class _CheckAppelloPageState extends State<CheckAppelloPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         title:
             Text(title, style: const TextStyle(color: AppColors.successColor)),
         content: Text(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
+            child: Text(AppLocalizations.of(context).translate('ok')),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _ScrollableDialogMessage extends StatelessWidget {
+  final String message;
+
+  const _ScrollableDialogMessage(this.message);
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxHeight: 220),
+      child: SingleChildScrollView(
+        child: Text(message),
       ),
     );
   }

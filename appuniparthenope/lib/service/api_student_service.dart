@@ -48,7 +48,6 @@ class ApiStudentService {
         throw Exception('Errore durante caricamento statistiche studente');
       }
     } catch (e) {
-      print('Errore in studentTotalExamsStats: $e');
       rethrow;
     }
   }
@@ -79,7 +78,6 @@ class ApiStudentService {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
-        print('\n\n-API-Data Average $averageType: $data');
         return data;
       } else if (response.statusCode == 500) {
         throw Exception(
@@ -88,7 +86,6 @@ class ApiStudentService {
         throw Exception('Errore durante caricamento della media studente');
       }
     } catch (e) {
-      print('Errore in studentAverage: $e');
       rethrow;
     }
   }
@@ -119,7 +116,6 @@ class ApiStudentService {
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body) as List<dynamic>;
-        print('\nallExam:\n $jsonData');
         return jsonData.map((data) => ExamData.fromJson(data)).toList();
       } else if (response.statusCode == 500) {
         throw Exception(
@@ -128,7 +124,6 @@ class ApiStudentService {
         throw Exception('Errore durante caricamento esami dello studente');
       }
     } catch (e) {
-      print('Errore in getStudentExams: $e');
       rethrow;
     }
   }
@@ -191,8 +186,6 @@ class ApiStudentService {
     final pianoId =
         pianoIdMap['pianoId']?.toString(); // Controlla se il pianoId è null
 
-    print('getAllCourse(): pianoId: $pianoId');
-
     if (pianoId == null) {
       throw Exception('Il pianoId non è disponibilie');
     }
@@ -205,11 +198,8 @@ class ApiStudentService {
           'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
     });
 
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body) as List<dynamic>;
-      print('\n allCourse:\n $jsonData');
       return jsonData.map((data) => CourseInfo.fromJson(data)).toList();
     } else if (response.statusCode == 500) {
       throw Exception(
@@ -255,7 +245,6 @@ class ApiStudentService {
         throw Exception('Errore durante caricamento del status esame');
       }
     } catch (e) {
-      print('Errore in getStatusExam: $e');
       rethrow;
     }
   }
@@ -291,7 +280,6 @@ class ApiStudentService {
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body) as List<dynamic>;
-        print('\n allReservation:\n $jsonData');
         return jsonData.map((data) => ReservationInfo.fromJson(data)).toList();
       } else if (response.statusCode == 500) {
         throw Exception(
@@ -302,7 +290,6 @@ class ApiStudentService {
       }
     } catch (e) {
       // Cattura qualsiasi errore e lo rilancia
-      print('Errore in getReservationStudents: $e');
       rethrow;
     }
   }
@@ -353,11 +340,8 @@ class ApiStudentService {
           'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
     });
 
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       final allTaxes = jsonDecode(response.body);
-      print('\n allTaxes:\n $allTaxes');
       return allTaxes;
     } else if (response.statusCode == 500) {
       throw Exception(

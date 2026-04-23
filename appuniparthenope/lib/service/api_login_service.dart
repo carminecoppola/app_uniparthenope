@@ -19,8 +19,6 @@ class ApiService {
       'Authorization':
           'Basic ${base64Encode(utf8.encode("$username:$password"))}',
     });
-    print('Stato: ${response.statusCode}');
-    print('Response API:${response.body}');
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
@@ -53,11 +51,8 @@ class ApiService {
           'Basic ${base64Encode(utf8.encode("$userId:$password"))}',
     });
 
-    print('Status:${response.statusCode}');
-
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(response.body);
-      print('\n\n-API-Data: $data');
       return data;
     } else if (response.statusCode == 500) {
       throw Exception(
@@ -94,7 +89,6 @@ class ApiService {
         },
       );
 
-      print('Status userProfileImage(): ${response.statusCode}');
 
       if (response.statusCode == 200) {
         Uint8List imageData = response.bodyBytes;
@@ -109,7 +103,6 @@ class ApiService {
             'Errore durante il recupero dell\'immagine: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error during userProfileImage: $e');
       throw Exception('Errore durante il recupero dell\'immagine di profilo');
     }
   }
@@ -125,17 +118,13 @@ class ApiService {
           await Permission.photos.request().isGranted ||
           await Permission.videos.request().isGranted ||
           await Permission.audio.request().isGranted) {
-        print('All permissions granted');
       } else {
-        print('Permission denied');
         // Gestione degli errori o richieste ripetute qui
       }
     } else if (Platform.isIOS) {
       PermissionStatus status = await Permission.photos.request();
       if (status.isGranted) {
-        print('Permission granted');
       } else {
-        print('Permission denied');
       }
     }
   }
@@ -172,29 +161,20 @@ class ApiService {
         },
       );
 
-      print('Status userProfileImage(): ${response.statusCode}');
-
       if (response.statusCode == 200) {
         Uint8List imageData = response.bodyBytes;
 
         if (Platform.isAndroid || Platform.isIOS) {
-          print('\n Platform: $Platform');
           Directory appDocDir = await getApplicationDocumentsDirectory();
-          print('\n appDocDir: $appDocDir');
           String filePath =
               '${appDocDir.path}/profile_image_${user.userId}.jpg';
-          print('Image file path: $filePath');
 
           File imageFile = File(filePath);
-          print('\n imageFile: $imageFile');
           await imageFile.writeAsBytes(imageData);
-          print('Image written to file');
 
           bool fileExists = await imageFile.exists();
-          print('File exists: $fileExists');
 
           if (fileExists) {
-            print('File exists: ${imageFile.path}');
             return imageFile.path;
           } else {
             throw Exception('File not found in specified path');
@@ -207,7 +187,6 @@ class ApiService {
         throw Exception('Error retrieving image: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error during userProfileImage: $e');
       throw Exception('Error retrieving profile image');
     }
   }
@@ -227,8 +206,6 @@ class ApiService {
         },
       );
 
-      print('Status userQRCode(): ${response.statusCode}');
-
       if (response.statusCode == 200) {
         Uint8List imageData = response.bodyBytes;
 
@@ -245,7 +222,6 @@ class ApiService {
             'Errore durante il recupero del QR-Code: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error during userQRCode: $e');
       throw Exception('Errore durante il recupero QR-Code personale');
     }
   }
@@ -258,10 +234,9 @@ class ApiService {
 
       if (await imageFile.exists()) {
         await imageFile.delete();
-        print('Profile image deleted');
       }
-    } catch (e) {
-      print('Error deleting profile image: $e');
+    } catch (_) {
+      return;
     }
   }
 }
