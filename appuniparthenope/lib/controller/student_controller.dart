@@ -19,7 +19,6 @@ class StudentController {
     try {
       final Map<String, dynamic> responseData =
           await apiService.studentTotalExamsStats(student, context);
-      print('Risposta TotalExamStudent: $responseData');
 
       final TotalExamStudent totStatsExam = TotalExamStudent(
           totAdSuperate: responseData['totAdSuperate'],
@@ -41,7 +40,6 @@ class StudentController {
     try {
       final Map<String, dynamic> responseData =
           await apiService.studentAverage(context, student, averageType);
-      print('Risposta averageStudent(): $responseData');
 
       final AverageInfo averageStats = AverageInfo(
           trenta: responseData['trenta'],
@@ -63,9 +61,7 @@ class StudentController {
       final List<ExamData> responseData =
           await apiService.getStudentExams(student, context);
 
-      if (responseData.isEmpty) {
-        print('\nfetchAllExamStudent(): la lista degli esami è vuota.');
-      }
+      if (responseData.isEmpty) {}
       return responseData;
     } catch (e) {
       throw Exception('Errore durante il caricamento degli esami: $e');
@@ -80,11 +76,7 @@ class StudentController {
       final List<CourseInfo> responseData =
           await apiService.getAllCourse(student, context);
 
-      print('Lunghezza lista corsi: ${responseData.length}');
-
-      if (responseData.isEmpty) {
-        print('\nErrore: la lista dei corsi è vuota.');
-      }
+      if (responseData.isEmpty) {}
 
       return responseData;
     } catch (e) {
@@ -135,7 +127,6 @@ class StudentController {
 
       return taxesInfo;
     } catch (e) {
-      print('Errore durante setTaxes: $e');
       throw Exception(
           'Errore durante il recupero delle informazioni sulle tasse');
     }
@@ -149,9 +140,7 @@ class StudentController {
       final List<LecturesInfo> responseData =
           await apiService.getLectures(student, context);
 
-      if (responseData.isEmpty) {
-        print('\nErrore: la lista delle lezioni è vuota.');
-      }
+      if (responseData.isEmpty) {}
 
       return responseData;
     } catch (e) {
@@ -168,11 +157,7 @@ class StudentController {
       final List<ReservationInfo> responseData =
           await apiService.getReservationStudents(student, context);
 
-      print('Lunghezza lista prenotazioni: ${responseData.length}');
-
-      if (responseData.isEmpty) {
-        print('\nErrore: la lista delle prenotazioni è vuota.');
-      }
+      if (responseData.isEmpty) {}
 
       return responseData;
     } catch (e) {

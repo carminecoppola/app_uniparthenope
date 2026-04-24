@@ -6,7 +6,6 @@ import 'package:appuniparthenope/widget/logoutDialogConfirm.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:ui';
-import 'dart:io' show Platform;
 import '../provider/auth_provider.dart';
 import '../provider/exam_provider.dart';
 import '../utilityFunctions/weatherFunction.dart';
@@ -166,15 +165,11 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
       dynamic authenticatedUser, ExamDataProvider examDataProvider) {
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/carrerStudent',
-            arguments: StudentUtils.fetchDataAndUpdateStats(
-                context, authenticatedUser.user));
+        StudentUtils.fetchDataAndUpdateStats(context, authenticatedUser.user);
+        _pushIfNeeded(context, '/carrerStudent');
         break;
       case 1:
-        // Controlla se siamo già sulla home page
-        if (ModalRoute.of(context)?.settings.name != '/homePage') {
-          Navigator.pushReplacementNamed(context, '/homePage');
-        }
+        _replaceIfNeeded(context, '/homePage');
         break;
       case 2:
         _showMenu(context, authenticatedUser, examDataProvider);
@@ -184,8 +179,10 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
 
   void _showMenu(BuildContext context, dynamic authenticatedUser,
       ExamDataProvider examDataProvider) {
+    final pageContext = context;
+
     showModalBottomSheet(
-      context: context,
+      context: pageContext,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       isDismissible: true,
@@ -290,24 +287,24 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
                     thickness: 0.5,
                     color: Colors.grey[300]!.withOpacity(0.5)),
                 // Menu Items
-                _buildMenuItem(
-                  context,
-                  icon: Icons.school,
-                  title: AppLocalizations.of(context).translate('career'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    StudentUtils.fetchDataAndUpdateStats(
-                        context, authenticatedUser.user);
-                    Navigator.pushNamed(context, '/carrerStudent');
-                  },
-                ),
+                // _buildMenuItem(
+                //   context,
+                //   icon: Icons.school,
+                //   title: AppLocalizations.of(context).translate('career'),
+                //   onTap: () {
+                //     Navigator.pop(context);
+                //     StudentUtils.fetchDataAndUpdateStats(
+                //         context, authenticatedUser.user);
+                //     Navigator.pushNamed(context, '/carrerStudent');
+                //   },
+                // ),
                 _buildMenuItem(
                   context,
                   icon: Icons.credit_card,
                   title: AppLocalizations.of(context).translate('studentcard'),
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, '/qrCodePage');
+                    _pushIfNeeded(pageContext, '/qrCodePage');
                   },
                 ),
                 _buildMenuItem(
@@ -317,56 +314,56 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
                   onTap: () async {
                     // Prima carichiamo i dati
                     await StudentUtils.allReservationStudent(
-                        context, authenticatedUser.user);
+                        pageContext, authenticatedUser.user);
                     // Poi chiudiamo il menu e navighiamo
-                    if (context.mounted) {
+                    if (pageContext.mounted) {
                       Navigator.pop(context);
-                      Navigator.pushNamed(context, '/reservationStudent');
+                      _pushIfNeeded(pageContext, '/reservationStudent');
                     }
                   },
                 ),
-                _buildMenuItem(
-                  context,
-                  icon: Icons.book,
-                  title: AppLocalizations.of(context).translate('courses'),
-                  onTap: () async {
-                    // Prima carichiamo i dati
-                    await StudentUtils.allCourseStudent(
-                        context, authenticatedUser.user);
-                    if (context.mounted) {
-                      await StudentUtils.allReservationStudent(
-                          context, authenticatedUser.user);
-                    }
-                    // Poi chiudiamo il menu e navighiamo
-                    if (context.mounted) {
-                      Navigator.pop(context);
-                      Navigator.pushNamed(context, '/courseStudent');
-                    }
-                  },
-                ),
-                _buildMenuItem(
-                  context,
-                  icon: Icons.account_balance,
-                  title: AppLocalizations.of(context).translate('fees_uni'),
-                  onTap: () async {
-                    // Prima carichiamo i dati
-                    await StudentUtils.taxesStudent(
-                        context, authenticatedUser.user);
-                    // Poi chiudiamo il menu e navighiamo
-                    if (context.mounted) {
-                      Navigator.pop(context);
-                      Navigator.pushNamed(context, '/feesStudent');
-                    }
-                  },
-                ),
+                // _buildMenuItem(
+                //   context,
+                //   icon: Icons.book,
+                //   title: AppLocalizations.of(context).translate('courses'),
+                //   onTap: () async {
+                //     // Prima carichiamo i dati
+                //     await StudentUtils.allCourseStudent(
+                //         context, authenticatedUser.user);
+                //     if (context.mounted) {
+                //       await StudentUtils.allReservationStudent(
+                //           context, authenticatedUser.user);
+                //     }
+                //     // Poi chiudiamo il menu e navighiamo
+                //     if (context.mounted) {
+                //       Navigator.pop(context);
+                //       Navigator.pushNamed(context, '/courseStudent');
+                //     }
+                //   },
+                // ),
+                // _buildMenuItem(
+                //   context,
+                //   icon: Icons.account_balance,
+                //   title: AppLocalizations.of(context).translate('fees_uni'),
+                //   onTap: () async {
+                //     // Prima carichiamo i dati
+                //     await StudentUtils.taxesStudent(
+                //         context, authenticatedUser.user);
+                //     // Poi chiudiamo il menu e navighiamo
+                //     if (context.mounted) {
+                //       Navigator.pop(context);
+                //       Navigator.pushNamed(context, '/feesStudent');
+                //     }
+                //   },
+                // ),
                 _buildMenuItem(
                   context,
                   icon: Icons.wb_sunny,
                   title: AppLocalizations.of(context).translate('weather_uni'),
                   onTap: () {
                     Navigator.pop(context);
-                    WeatherFunctions.getWeather(context);
-                    Navigator.pushNamed(context, '/watherPage');
+                    WeatherFunctions.getWeather(pageContext);
+                    _pushIfNeeded(pageContext, '/watherPage');
                   },
                 ),
                 _buildMenuItem(
@@ -375,7 +372,7 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
                   title: AppLocalizations.of(context).translate('info_app'),
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, '/infoAppPage');
+                    _pushIfNeeded(pageContext, '/infoAppPage');
                   },
                 ),
                 _buildMenuItem(
@@ -402,6 +399,22 @@ class BottomNavBarLiquidGlassComponent extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _pushIfNeeded(BuildContext context, String routeName) {
+    if (ModalRoute.of(context)?.settings.name == routeName) {
+      return;
+    }
+
+    Navigator.pushNamed(context, routeName);
+  }
+
+  void _replaceIfNeeded(BuildContext context, String routeName) {
+    if (ModalRoute.of(context)?.settings.name == routeName) {
+      return;
+    }
+
+    Navigator.pushReplacementNamed(context, routeName);
   }
 
   Widget _buildMenuItem(

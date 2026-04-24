@@ -140,7 +140,6 @@ class AuthController {
 
       return userAnagrafe;
     } catch (e) {
-      print('Error during controller setAnagrafe: $e');
       throw Exception('Errore nella fase di acquisizione dei dati anagrafici');
     }
   }
@@ -154,7 +153,6 @@ class AuthController {
 
       return profileImage;
     } catch (e) {
-      print('Error during getUserProfileImage$e');
       throw Exception('Errore durante il recupero dell\'immagine di profilo');
     }
   }
@@ -167,7 +165,6 @@ class AuthController {
 
       return qrCode;
     } catch (e) {
-      print('\nError during getUserQRCode(): $e');
       throw Exception('\nErrore durante il recupero del QR-Code');
     }
   }

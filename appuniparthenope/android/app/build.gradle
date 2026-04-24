@@ -14,12 +14,12 @@ if (localPropertiesFile.exists()) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '4'
+    flutterVersionCode = '35'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '4.0.1'
+    flutterVersionName = '4.1.0'
 }
 
 def keystoreProperties = new Properties()
@@ -53,8 +53,8 @@ android {
         targetSdk 35
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        versionCode 34
-        versionName '4.1.0'
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
     }
 
     signingConfigs {

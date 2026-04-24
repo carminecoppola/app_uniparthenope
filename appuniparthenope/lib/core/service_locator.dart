@@ -5,6 +5,8 @@ import '../service/api_student_service.dart';
 import '../service/api_teacher_service.dart';
 import '../service/api_weather_service.dart';
 import '../service/api_univerisity_service.dart';
+import '../service/notification_service.dart';
+import '../service/update_service.dart';
 
 /// Service Locator globale per Dependency Injection
 final getIt = GetIt.instance;
@@ -21,6 +23,10 @@ void setupServiceLocator() {
   getIt.registerLazySingleton<ApiWeatherService>(() => ApiWeatherService());
   getIt.registerLazySingleton<ApiUniversityService>(
       () => ApiUniversityService());
+
+  // Servizi di notifiche e aggiornamenti
+  getIt.registerLazySingleton<NotificationService>(() => NotificationService());
+  getIt.registerLazySingleton<UpdateService>(() => UpdateService());
 
   // I provider continuano ad essere gestiti da Provider/MultiProvider in main.dart
   // Non li mettiamo in GetIt per evitare conflitti con il sistema Provider esistente

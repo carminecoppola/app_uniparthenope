@@ -60,10 +60,12 @@ class ReservationListWidget extends StatelessWidget {
     String emptyMessage = '';
     IconData emptyIcon;
     if (filterType == FilterType.past) {
-      emptyMessage = AppLocalizations.of(context).translate('no_past_reservations');
+      emptyMessage =
+          AppLocalizations.of(context).translate('no_past_reservations');
       emptyIcon = Icons.history;
     } else {
-      emptyMessage = AppLocalizations.of(context).translate('no_upcoming_reservations');
+      emptyMessage =
+          AppLocalizations.of(context).translate('no_upcoming_reservations');
       emptyIcon = Icons.event;
     }
 
@@ -109,6 +111,7 @@ class ReservationListWidget extends StatelessWidget {
               ),
             )
           : ListView(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 110),
               // Aggiungi ListView per rendere la lista verticale scorrevole
               children: [
                 // Mappa ogni prenotazione filtrata a un widget di visualizzazione
@@ -119,6 +122,7 @@ class ReservationListWidget extends StatelessWidget {
                     child: SingleAppointmentCard(
                       iconData: Icons.school,
                       reservation: reservation,
+                      canCancel: filterType == FilterType.upcoming,
                     ),
                   );
                 }),

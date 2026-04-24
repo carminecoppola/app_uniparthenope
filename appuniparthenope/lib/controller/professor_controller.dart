@@ -17,11 +17,7 @@ class ProfessorController {
       final List<CourseProfessorInfo> responseData =
           await apiService.getAllCourse(professor, aaId!, context);
 
-      print('\nLunghezza lista: ${responseData.length}');
-
-      if (responseData.isEmpty) {
-        print('\nErrore: la lista dei corsi dei professori è vuota.');
-      }
+      if (responseData.isEmpty) {}
 
       return responseData;
     } catch (e) {

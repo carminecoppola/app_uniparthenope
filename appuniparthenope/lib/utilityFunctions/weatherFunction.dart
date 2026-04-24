@@ -29,11 +29,9 @@ class WeatherFunctions {
         final weatherDataProvider =
             Provider.of<WeatherDataProvider>(context, listen: false);
         weatherDataProvider.setWeatherInfo(allTimeSeries);
-      } else {
-        print('Location data is null');
-      }
-    } catch (e) {
-      print('Error during getWeather(): $e');
+      } else {}
+    } catch (_) {
+      return;
     }
   }
 

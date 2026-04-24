@@ -20,6 +20,8 @@ class InfoAppPage extends StatefulWidget {
 }
 
 class _InfoAppPageState extends State<InfoAppPage> {
+  static const String _supportEmail = 'developer@uniparthenope.it';
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -41,7 +43,6 @@ class _InfoAppPageState extends State<InfoAppPage> {
       final versionWithoutBuildNumber = version.split('+')[0];
       return versionWithoutBuildNumber;
     } catch (e) {
-      print('Error loading app version: $e');
       return 'Unknown version';
     }
   }
@@ -143,9 +144,8 @@ class _InfoAppPageState extends State<InfoAppPage> {
                           icon: const Icon(Icons.email,
                               color: AppColors.primaryColor, size: 30),
                           onPressed: () {
-                            _sendEmail(
-                              authenticatedUser.firstName,
-                              authenticatedUser.lastName,
+                            _openIssueReportSheet(
+                              authenticatedUser,
                               versionApp,
                             );
                           },
@@ -217,42 +217,415 @@ class _InfoAppPageState extends State<InfoAppPage> {
     return developerInfoList;
   }
 
-  void _sendEmail(String? nome, String? cognome, String versioneApp) async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    String dispositivo = '';
-    String versioneOS = '';
+  Future<void> _openIssueReportSheet(
+      dynamic authenticatedUser, String versioneApp) async {
+    final localizations = AppLocalizations.of(context);
+    final titleController = TextEditingController();
+    final descriptionController = TextEditingController();
+    final expectedBehaviorController = TextEditingController();
+    final actualBehaviorController = TextEditingController();
+    String severity = 'medium';
+    bool includeTechnicalDetails = true;
+
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheetContext) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Padding(
+              padding: EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 16,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+              ),
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 640),
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        localizations.translate('report_problem_title'),
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.primaryColor,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        localizations.translate('report_problem_subtitle'),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: AppColors.textColor,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      _buildReportField(
+                        controller: titleController,
+                        label: localizations.translate('problem_title_label'),
+                        minLines: 1,
+                        maxLines: 2,
+                      ),
+                      const SizedBox(height: 14),
+                      _buildReportField(
+                        controller: descriptionController,
+                        label: localizations
+                            .translate('problem_description_label'),
+                        minLines: 4,
+                        maxLines: 6,
+                      ),
+                      const SizedBox(height: 14),
+                      _buildReportField(
+                        controller: expectedBehaviorController,
+                        label:
+                            localizations.translate('expected_behavior_label'),
+                        minLines: 2,
+                        maxLines: 4,
+                      ),
+                      const SizedBox(height: 14),
+                      _buildReportField(
+                        controller: actualBehaviorController,
+                        label: localizations.translate('actual_behavior_label'),
+                        minLines: 2,
+                        maxLines: 4,
+                      ),
+                      const SizedBox(height: 14),
+                      DropdownButtonFormField<String>(
+                        initialValue: severity,
+                        decoration: _reportDecoration(
+                          context,
+                          localizations.translate('severity_label'),
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        items: [
+                          DropdownMenuItem(
+                            value: 'low',
+                            child: Text(
+                              localizations.translate('severity_low'),
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: 'medium',
+                            child: Text(
+                              localizations.translate('severity_medium'),
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: 'high',
+                            child: Text(
+                              localizations.translate('severity_high'),
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: 'blocking',
+                            child: Text(
+                              localizations.translate('severity_blocking'),
+                            ),
+                          ),
+                        ],
+                        onChanged: (value) {
+                          if (value != null) {
+                            setModalState(() => severity = value);
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 6),
+                      SwitchListTile.adaptive(
+                        contentPadding: EdgeInsets.zero,
+                        activeThumbColor: AppColors.primaryColor,
+                        title: Text(
+                          localizations.translate('include_technical_details'),
+                        ),
+                        value: includeTechnicalDetails,
+                        onChanged: (value) {
+                          setModalState(
+                            () => includeTechnicalDetails = value,
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            onPressed: () => Navigator.of(sheetContext).pop(),
+                            child: Text(
+                              localizations.translate('cancel'),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primaryColor,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 18,
+                                vertical: 12,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                            ),
+                            onPressed: () async {
+                              if (titleController.text.trim().isEmpty ||
+                                  descriptionController.text.trim().isEmpty) {
+                                ScaffoldMessenger.of(this.context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      localizations.translate(
+                                        'fill_required_fields',
+                                      ),
+                                    ),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              await _sendIssueEmail(
+                                authenticatedUser: authenticatedUser,
+                                versioneApp: versioneApp,
+                                title: titleController.text.trim(),
+                                description: descriptionController.text.trim(),
+                                expectedBehavior:
+                                    expectedBehaviorController.text.trim(),
+                                actualBehavior:
+                                    actualBehaviorController.text.trim(),
+                                severity: severity,
+                                includeTechnicalDetails:
+                                    includeTechnicalDetails,
+                              );
+
+                              if (mounted && sheetContext.mounted) {
+                                Navigator.of(sheetContext).pop();
+                              }
+                            },
+                            child: Text(
+                              localizations.translate('send_report'),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+
+    titleController.dispose();
+    descriptionController.dispose();
+    expectedBehaviorController.dispose();
+    actualBehaviorController.dispose();
+  }
+
+  InputDecoration _reportDecoration(BuildContext context, String label) {
+    return InputDecoration(
+      labelText: label,
+      labelStyle: const TextStyle(color: AppColors.primaryColor),
+      filled: true,
+      fillColor: Colors.grey.shade50,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: Colors.grey.shade300),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide(color: Colors.grey.shade300),
+      ),
+      focusedBorder: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(16)),
+        borderSide: BorderSide(color: AppColors.primaryColor, width: 1.4),
+      ),
+    );
+  }
+
+  Widget _buildReportField({
+    required TextEditingController controller,
+    required String label,
+    required int minLines,
+    required int maxLines,
+  }) {
+    return TextField(
+      controller: controller,
+      minLines: minLines,
+      maxLines: maxLines,
+      decoration: _reportDecoration(context, label),
+    );
+  }
+
+  Future<Map<String, String>> _getTechnicalDetails(
+      dynamic authenticatedUser, String versioneApp) async {
+    final locale = Localizations.localeOf(context);
+    final routeName = ModalRoute.of(context)?.settings.name;
+    final deviceInfo = DeviceInfoPlugin();
+
+    String platformName = Platform.operatingSystem;
+    String deviceName = 'Unknown';
+    String osVersion = Platform.operatingSystemVersion;
 
     if (Platform.isIOS) {
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      dispositivo = iosInfo.name;
-      versioneOS = iosInfo.systemVersion;
+      final iosInfo = await deviceInfo.iosInfo;
+      platformName = 'iOS';
+      deviceName = iosInfo.name;
+      osVersion = iosInfo.systemVersion;
     } else if (Platform.isAndroid) {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      dispositivo = androidInfo.model;
-      versioneOS = androidInfo.version.release;
+      final androidInfo = await deviceInfo.androidInfo;
+      platformName = 'Android';
+      deviceName = androidInfo.model;
+      osVersion = androidInfo.version.release;
     }
 
-    final String body = '''
-Descrizione Problema: ...
+    final firstName = authenticatedUser.firstName?.toString() ?? '';
+    final lastName = authenticatedUser.lastName?.toString() ?? '';
+    final userName = authenticatedUser.user?.toString() ?? '';
 
-Dispositivo Utilizzato: $dispositivo (Versione OS: $versioneOS)
+    return {
+      'appVersion': versioneApp,
+      'platform': platformName,
+      'osVersion': osVersion,
+      'device': deviceName,
+      'locale': locale.languageCode,
+      'screen': routeName?.isNotEmpty == true
+          ? routeName!
+          : widget.runtimeType.toString(),
+      'timestamp': DateTime.now().toIso8601String(),
+      'role': authenticatedUser.grpDes?.toString() ?? '',
+      'userName': userName,
+      'fullName': '$firstName $lastName'.trim(),
+    };
+  }
 
-Utente: $nome $cognome
+  Future<void> _sendIssueEmail({
+    required dynamic authenticatedUser,
+    required String versioneApp,
+    required String title,
+    required String description,
+    required String expectedBehavior,
+    required String actualBehavior,
+    required String severity,
+    required bool includeTechnicalDetails,
+  }) async {
+    final localizations = AppLocalizations.of(context);
+    final technicalDetails =
+        await _getTechnicalDetails(authenticatedUser, versioneApp);
 
-Versione App: $versioneApp
-  ''';
+    final buffer = StringBuffer()
+      ..writeln(
+        '${localizations.translate('problem_title_label')}: $title',
+      )
+      ..writeln()
+      ..writeln(
+        '${localizations.translate('severity_label')}: ${_localizedSeverity(severity)}',
+      )
+      ..writeln()
+      ..writeln(
+        '${localizations.translate('problem_description_label')}:',
+      )
+      ..writeln(description);
 
-    final Uri emailUri = Uri(
+    if (expectedBehavior.isNotEmpty) {
+      buffer
+        ..writeln()
+        ..writeln('${localizations.translate('expected_behavior_label')}:')
+        ..writeln(expectedBehavior);
+    }
+
+    if (actualBehavior.isNotEmpty) {
+      buffer
+        ..writeln()
+        ..writeln('${localizations.translate('actual_behavior_label')}:')
+        ..writeln(actualBehavior);
+    }
+
+    if (includeTechnicalDetails) {
+      buffer
+        ..writeln()
+        ..writeln(localizations.translate('technical_details'))
+        ..writeln(
+          '${localizations.translate('app_version_label')}: ${technicalDetails['appVersion']}',
+        )
+        ..writeln(
+          '${localizations.translate('platform_label')}: ${technicalDetails['platform']}',
+        )
+        ..writeln(
+          '${localizations.translate('os_version_label')}: ${technicalDetails['osVersion']}',
+        )
+        ..writeln(
+          '${localizations.translate('device_label')}: ${technicalDetails['device']}',
+        )
+        ..writeln(
+          '${localizations.translate('language_label')}: ${technicalDetails['locale']}',
+        )
+        ..writeln(
+          '${localizations.translate('current_screen_label')}: ${technicalDetails['screen']}',
+        )
+        ..writeln(
+          '${localizations.translate('user_label')}: ${technicalDetails['fullName']}',
+        )
+        ..writeln(
+          '${localizations.translate('username_label')}: ${technicalDetails['userName']}',
+        )
+        ..writeln(
+          '${localizations.translate('role_label')}: ${technicalDetails['role']}',
+        )
+        ..writeln(
+          '${localizations.translate('report_date_label')}: ${technicalDetails['timestamp']}',
+        );
+    }
+
+    final subject =
+        '${localizations.translate('report_subject_prefix')}: $title';
+
+    final emailUri = Uri(
       scheme: 'mailto',
-      path: 'developer@uniparthenope.it',
+      path: _supportEmail,
       query:
-          'subject=${Uri.encodeComponent('Errore: ...')}&body=${Uri.encodeComponent(body)}',
+          'subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(buffer.toString())}',
     );
 
     if (await canLaunchUrl(emailUri)) {
       await launchUrl(emailUri);
-    } else {
-      throw 'Could not launch $emailUri';
+      return;
+    }
+
+    if (!mounted) {
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          localizations.translate('unable_to_open_email_client'),
+        ),
+      ),
+    );
+  }
+
+  String _localizedSeverity(String value) {
+    final localizations = AppLocalizations.of(context);
+    switch (value) {
+      case 'low':
+        return localizations.translate('severity_low');
+      case 'high':
+        return localizations.translate('severity_high');
+      case 'blocking':
+        return localizations.translate('severity_blocking');
+      case 'medium':
+      default:
+        return localizations.translate('severity_medium');
     }
   }
 }

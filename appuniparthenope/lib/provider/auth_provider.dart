@@ -43,7 +43,6 @@ class AuthProvider with ChangeNotifier {
 
   // Metodo per impostare l'utente autenticato e il token di autenticazione
   void setAuthenticatedUser(UserInfo user, String myPassword) {
-    print('Print User$user');
     _authenticatedUser = user;
     _password = myPassword;
     notifyListeners();

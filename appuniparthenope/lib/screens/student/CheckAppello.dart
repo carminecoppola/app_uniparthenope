@@ -8,53 +8,218 @@ import '../../provider/check_exam_provider.dart';
 import '../../provider/exam_provider.dart';
 import '../../utilityFunctions/studentUtilsFunction.dart';
 import '../../widget/ServicesWidget/CheckExamWidget/appello_card_list.dart';
+import '../../widget/ServicesWidget/CheckExamWidget/appello_search_bar.dart';
 import '../../widget/bottomNavBar.dart';
+import '../../widget/CustomLoadingIndicator.dart';
+import '../../widget/compact_loading_dialog.dart';
 import '../../model/studentService/check_appello_data.dart';
 
-class CheckAppelloPage extends StatelessWidget {
+class CheckAppelloPage extends StatefulWidget {
   const CheckAppelloPage({super.key});
+
+  @override
+  State<CheckAppelloPage> createState() => _CheckAppelloPageState();
+}
+
+class _CheckAppelloPageState extends State<CheckAppelloPage> {
+  String searchQuery = '';
+  bool showOnlyOpen = true;
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  List<CheckAppello> _filterAppelli(List<CheckAppello> appelli) {
+    var filtered = appelli;
+
+    if (showOnlyOpen) {
+      filtered = filtered.where((appello) => appello.stato == 'P').toList();
+    }
+
+    if (searchQuery.isNotEmpty) {
+      filtered = filtered
+          .where((appello) =>
+              appello.esame!.toLowerCase().contains(searchQuery.toLowerCase()))
+          .toList();
+    }
+
+    return filtered;
+  }
+
+  Map<String, List<CheckAppello>> _getGroupedAndFiltered(
+      List<CheckAppello> appelli) {
+    final filteredAppelli = _filterAppelli(appelli);
+    final grouped = groupAppelliByNome(filteredAppelli);
+    final sortedEntries = grouped.entries.toList()
+      ..sort((a, b) => a.key.toLowerCase().compareTo(b.key.toLowerCase()));
+    return Map.fromEntries(sortedEntries);
+  }
 
   @override
   Widget build(BuildContext context) {
     final checkExamProvider = Provider.of<CheckDateExamProvider>(context);
     final appelli = checkExamProvider.allAppelliStudent;
-
-    final groupedAppelli = groupAppelliByNome(appelli);
+    final groupedAppelli = _getGroupedAndFiltered(appelli);
 
     return Scaffold(
       appBar: const NavbarComponent(),
       body: checkExamProvider.isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? CustomLoadingIndicator(
+              text: AppLocalizations.of(context).translate('loading_exams'),
+              myColor: AppColors.primaryColor,
+            )
           : appelli.isEmpty
-              ? const Center(child: Text('Nessun appello disponibile.'))
-              : Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    const Text(
-                      "Appelli disponibili",
-                      style: TextStyle(
-                        color: AppColors.primaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.event_busy,
+                        size: 64,
+                        color: AppColors.primaryColor.withOpacity(0.5),
                       ),
-                    ),
-                    const Divider(
-                      color: AppColors.primaryColor,
-                      indent: 100,
-                      endIndent: 100,
-                      thickness: 2,
-                    ),
-                    const SizedBox(height: 16),
-                    Expanded(
-                      child: AppelloGroupList(
-                        groupedAppelli: groupedAppelli,
-                        onPrenota: (appello) =>
-                            _handlePrenotazione(context, appello),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Nessun appello disponibile',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primaryColor,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Ritorna più tardi per controllare gli appelli disponibili.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : _buildEsameList(groupedAppelli),
       bottomNavigationBar: const BottomNavBarComponent(),
+    );
+  }
+
+  Widget _buildEsameList(Map<String, List<CheckAppello>> groupedAppelli) {
+    return Column(
+      children: [
+        const SizedBox(height: 16),
+        const Center(
+          child: Text(
+            "Lista Appelli",
+            style: TextStyle(
+              color: AppColors.primaryColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        AppelloSearchBar(
+          controller: _searchController,
+          onChanged: (value) {
+            setState(() {
+              searchQuery = value;
+            });
+          },
+          onClear: () {
+            _searchController.clear();
+            setState(() {
+              searchQuery = '';
+            });
+          },
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Mostra solo aperti',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey[700],
+                ),
+              ),
+              Switch(
+                value: showOnlyOpen,
+                onChanged: (value) {
+                  setState(() {
+                    showOnlyOpen = value;
+                  });
+                },
+                activeThumbColor: AppColors.primaryColor,
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 8),
+        if (groupedAppelli.isEmpty && searchQuery.isNotEmpty)
+          Expanded(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.search_off,
+                    size: 48,
+                    color: AppColors.primaryColor.withOpacity(0.5),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Nessun esame trovato per "$searchQuery"',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[600],
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+          )
+        else if (groupedAppelli.isEmpty)
+          Expanded(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.event_busy,
+                    size: 48,
+                    color: AppColors.primaryColor.withOpacity(0.5),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    showOnlyOpen
+                        ? 'Nessun appello aperto disponibile'
+                        : 'Nessun appello disponibile',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[600],
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+          )
+        else
+          Expanded(
+            child: AppelloGroupList(
+              groupedAppelli: groupedAppelli,
+              onPrenota: (appello) => _handlePrenotazione(context, appello),
+            ),
+          ),
+      ],
     );
   }
 
@@ -74,7 +239,7 @@ class CheckAppelloPage extends StatelessWidget {
       _showErrorDialog(
         context,
         AppLocalizations.of(context).translate('error'),
-        'Dati utente non disponibili',
+        AppLocalizations.of(context).translate('user_data_unavailable'),
       );
       return;
     }
@@ -83,7 +248,7 @@ class CheckAppelloPage extends StatelessWidget {
       _showErrorDialog(
         context,
         AppLocalizations.of(context).translate('error'),
-        'Dati dell\'appello non validi',
+        AppLocalizations.of(context).translate('invalid_exam_data'),
       );
       return;
     }
@@ -92,7 +257,7 @@ class CheckAppelloPage extends StatelessWidget {
       _showErrorDialog(
         context,
         AppLocalizations.of(context).translate('error'),
-        'Lista corsi non disponibile',
+        AppLocalizations.of(context).translate('course_list_unavailable'),
       );
       return;
     }
@@ -101,26 +266,28 @@ class CheckAppelloPage extends StatelessWidget {
     final conferma = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text(
-          'Conferma Prenotazione',
-          style: TextStyle(color: AppColors.primaryColor),
+        title: Text(
+          AppLocalizations.of(context).translate('booking_exam_confirm_title'),
+          style: const TextStyle(color: AppColors.primaryColor),
         ),
         content: Text(
-          'Vuoi prenotare l\'appello per:\n\n${appello.esame}\nData: ${appello.dataEsame}',
+          '${AppLocalizations.of(context).translate('booking_exam_confirm_details')}\n\n'
+          '${appello.esame}\n'
+          '${AppLocalizations.of(context).translate('date')}: ${appello.dataEsame}',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Annulla'),
+            child: Text(AppLocalizations.of(context).translate('cancel')),
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primaryColor,
             ),
-            child: const Text(
-              'Conferma',
-              style: TextStyle(color: Colors.white),
+            child: Text(
+              AppLocalizations.of(context).translate('confirm'),
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ],
@@ -128,49 +295,12 @@ class CheckAppelloPage extends StatelessWidget {
     );
 
     if (conferma != true) return;
-
-    // Log dettagliato prima della prenotazione
-    print('\n' + '=' * 80);
-    print('🎯 DATI PRENOTAZIONE ESAME');
-    print('=' * 80);
-    print('📋 Appello selezionato:');
-    print('   - Esame: ${appello.esame}');
-    print('   - Data: ${appello.dataEsame}');
-    print('   - adId: ${appello.adId}');
-    print('   - appId: ${appello.appId}');
-    print('   - stato: ${appello.stato}');
-    print('   - statoDes: ${appello.statoDes}');
-    print('👤 Dati utente:');
-    print('   - userId: ${user.userId}');
-    print('   - firstName: ${user.firstName}');
-    print('   - lastName: ${user.lastName}');
-    print('🎓 Carriera selezionata:');
-    print('   - cdsId: ${selectedCareer['cdsId']}');
-    print('   - matId: ${selectedCareer['matId']}');
-    print('   - stuId: ${selectedCareer['stuId']}');
-    print('   - aaIscrId: ${selectedCareer['aaIscrId']}');
-    print('   - aaRegId: ${selectedCareer['aaRegId']}');
-    print('   - iscrId: ${selectedCareer['iscrId']}');
-    print('   - annoCorso: ${selectedCareer['annoCorso']}');
-    print('   - matricola: ${selectedCareer['matricola']}');
-    print('   - Tutti i campi: $selectedCareer');
-    print('📚 Corsi disponibili: ${courseList.length} corsi');
-    print('\n📚 LISTA COMPLETA CORSI CON ADSCEID:');
-    for (var i = 0; i < courseList.length; i++) {
-      final c = courseList[i];
-      print('   ${i + 1}. ${c.nome}');
-      print(
-          '      adId: ${c.adId}, adsceId: ${c.adsceId}, annoId: ${c.annoId}');
-    }
-    print('=' * 80 + '\n');
+    if (!context.mounted) return;
 
     // Mostra loading
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(
-        child: CircularProgressIndicator(),
-      ),
+    showCompactLoadingDialog(
+      context,
+      message: AppLocalizations.of(context).translate('booking_exam_loading'),
     );
 
     // Usa direttamente il provider invece del controller
@@ -185,28 +315,32 @@ class CheckAppelloPage extends StatelessWidget {
       courseList: courseList,
     );
 
-    // Chiudi loading
-    if (context.mounted) Navigator.of(context).pop();
-
     if (result.isSuccess) {
       // Ricarica le prenotazioni
       if (context.mounted) {
         await StudentUtils.allReservationStudent(context, user);
       }
 
+      // Chiudi il loading solo dopo il refresh, per non mostrare la lista
+      // mentre si aggiorna sotto al dialog.
+      if (context.mounted) Navigator.of(context).pop();
+
       if (context.mounted) {
         _showSuccessDialog(
           context,
           AppLocalizations.of(context).translate('success'),
-          'Prenotazione effettuata con successo!',
+          AppLocalizations.of(context).translate('booking_exam_success'),
         );
       }
     } else {
+      if (context.mounted) Navigator.of(context).pop();
+
       if (context.mounted) {
         _showErrorDialog(
           context,
           AppLocalizations.of(context).translate('error'),
-          result.errorMessage ?? 'Impossibile completare la prenotazione',
+          result.errorMessage ??
+              AppLocalizations.of(context).translate('booking_exam_error'),
         );
       }
     }
@@ -216,12 +350,13 @@ class CheckAppelloPage extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         title: Text(title, style: const TextStyle(color: AppColors.errorColor)),
-        content: Text(message),
+        content: _ScrollableDialogMessage(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
+            child: Text(AppLocalizations.of(context).translate('ok')),
           ),
         ],
       ),
@@ -232,15 +367,32 @@ class CheckAppelloPage extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         title:
             Text(title, style: const TextStyle(color: AppColors.successColor)),
         content: Text(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
+            child: Text(AppLocalizations.of(context).translate('ok')),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _ScrollableDialogMessage extends StatelessWidget {
+  final String message;
+
+  const _ScrollableDialogMessage(this.message);
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxHeight: 220),
+      child: SingleChildScrollView(
+        child: Text(message),
       ),
     );
   }
@@ -250,7 +402,7 @@ class CheckAppelloPage extends StatelessWidget {
 Map<String, List<CheckAppello>> groupAppelliByNome(List<CheckAppello> appelli) {
   final Map<String, List<CheckAppello>> grouped = {};
   for (final appello in appelli) {
-    final nome = (appello.esame ?? 'ESAME').toUpperCase();
+    final nome = (appello.esame ?? 'Esame').trim();
     if (!grouped.containsKey(nome)) {
       grouped[nome] = [];
     }

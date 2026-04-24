@@ -18,6 +18,8 @@ class PersonalCardPage extends StatefulWidget {
 }
 
 class _PersonalCardPageState extends State<PersonalCardPage> {
+  bool _qrCodeRequested = false;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -28,6 +30,15 @@ class _PersonalCardPageState extends State<PersonalCardPage> {
             .updateIndex(3); // Indice 3 = nessun selettore
       }
     });
+
+    if (!_qrCodeRequested) {
+      _qrCodeRequested = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          AuthUtilsFunction.qrCodeImg(context);
+        }
+      });
+    }
   }
 
   @override

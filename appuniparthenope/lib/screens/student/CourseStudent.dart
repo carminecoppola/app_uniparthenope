@@ -57,8 +57,8 @@ class _CourseStudentState extends State<CourseStudentPage> {
           allCourseInfo,
         );
       }
-    } catch (e) {
-      print('Errore durante il caricamento dello stato dei corsi: $e');
+    } catch (_) {
+      return;
     } finally {
       if (mounted) {
         setState(() {

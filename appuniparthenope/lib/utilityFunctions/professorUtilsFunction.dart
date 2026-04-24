@@ -29,8 +29,8 @@ class ProfessorUtils {
       final courseDataProvider =
           Provider.of<ProfessorDataProvider>(context, listen: false);
       courseDataProvider.setAllCoursesProfessor(allCourseProfessor);
-    } catch (e) {
-      print('\nErrore durante allCourseProfessor() $e');
+    } catch (_) {
+      return;
     }
   }
 
@@ -48,8 +48,6 @@ class ProfessorUtils {
 
       return session;
     } catch (e) {
-      print(
-          '\nErrore durante il caricamento della sessione del professore: $e');
       return null;
     }
   }
@@ -72,8 +70,6 @@ class ProfessorUtils {
 
       return session;
     } catch (e) {
-      print(
-          '\nErrore durante il caricamento delle info sui corsi dei professore: $e');
       return null;
     }
   }
@@ -93,9 +89,8 @@ class ProfessorUtils {
       // Aggiorna il provider con le informazioni sugli esami del professore.
       Provider.of<ProfessorDataProvider>(context, listen: false)
           .setAllExamInfoProfessor(session);
-    } catch (e) {
-      print(
-          '\nErrore durante il caricamento delle info sugli esami dei corsi dei professore: $e');
+    } catch (_) {
+      return;
     }
   }
 
@@ -111,14 +106,11 @@ class ProfessorUtils {
       final session = await controller.allStudentListForExam(
           professor, cdsId, aaId, appId, context);
 
-      print('\n\n allStudentListExam: $session');
-
       // Aggiorna il provider con la lista di tutti gli studenti per l'esame.
       Provider.of<ProfessorDataProvider>(context, listen: false)
           .setAllStudentListExam(session);
-    } catch (e) {
-      print(
-          '\nErrore durante il caricamento della lista degli studenti per l\'esame del professore: $e');
+    } catch (_) {
+      return;
     }
   }
 }

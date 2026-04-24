@@ -232,7 +232,6 @@ class _LoginFormState extends State<LoginForm> {
                           cursorColor: AppColors.primaryColor,
                           controller: _usernameController,
                           decoration: InputDecoration(
-                            
                             labelText: AppLocalizations.of(context)
                                 .translate('username'),
                             labelStyle: const TextStyle(

@@ -29,7 +29,7 @@ class _ReservationPageState extends State<ReservationPage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 2, vsync: this, initialIndex: 1);
   }
 
   @override
@@ -62,6 +62,7 @@ class _ReservationPageState extends State<ReservationPage>
     }).toList();
 
     return Scaffold(
+      extendBody: true,
       appBar: const NavbarComponent(),
       body: reservations == null
           ? Center(

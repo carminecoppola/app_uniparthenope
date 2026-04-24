@@ -44,14 +44,12 @@ class ServiceCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 5),
-            Text(
+            AppColors().gradientBlueText(
               title,
-              style: const TextStyle(
+              const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: AppColors.primaryColor,
               ),
-              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 5),
             SizedBox(
@@ -129,26 +127,24 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
             description: AppLocalizations.of(context).translate('career_dsc'),
           ),
         ),
-        // TEMPORANEAMENTE DISABILITATO - Prenotazione esami non funzionante
-        // GestureDetector(
-        //   onTap: () async {
-        //     // Carica i dati necessari per la prenotazione esami
-        //     await StudentUtils.allCourseStudent(
-        //         context, widget.authenticatedUser.user);
-        //     await CheckExamUtils.allAppelliStudent(
-        //         context, widget.authenticatedUser.user);
-        //     final bottomNavBarProvider =
-        //         Provider.of<BottomNavBarProvider>(context, listen: false);
-        //     bottomNavBarProvider.updateIndex(3);
-        //     Navigator.pushNamed(context, '/checkappelloStudent');
-        //   },
-        //   child: ServiceCard(
-        //     imagePath: 'assets/icon/services/courses2.png',
-        //     title: AppLocalizations.of(context).translate('exam_booking'),
-        //     description:
-        //         AppLocalizations.of(context).translate('exam_booking_dsc'),
-        //   ),
-        // ),
+        GestureDetector(
+          onTap: () async {
+            await StudentUtils.allCourseStudent(
+                context, widget.authenticatedUser.user);
+            final bottomNavBarProvider =
+                Provider.of<BottomNavBarProvider>(context, listen: false);
+            bottomNavBarProvider.updateIndex(3);
+            Navigator.pushNamed(context, '/listaAppelliStudent');
+          },
+          child: ServiceCard(
+            imagePath: 'assets/icon/services/bookExam.png',
+            title: AppLocalizations.of(context).translate('exam_sessions'),
+            description:
+                AppLocalizations.of(context).translate('exam_sessions_dsc'),
+          ),
+        ),
+      ],
+      [
         GestureDetector(
           onTap: () async {
             await StudentUtils.allCourseStudent(
@@ -166,8 +162,6 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
             description: AppLocalizations.of(context).translate('courses_dsc'),
           ),
         ),
-      ],
-      [
         GestureDetector(
           onTap: () {
             StudentUtils.taxesStudent(context, widget.authenticatedUser.user);
@@ -180,20 +174,6 @@ class _ServiceGroupStudentCardState extends State<ServiceGroupStudentCard> {
             imagePath: 'assets/icon/services/tax2.png',
             title: AppLocalizations.of(context).translate('fees'),
             description: AppLocalizations.of(context).translate('fees_dsc'),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            WeatherFunctions.getWeather(context);
-            final bottomNavBarProvider =
-                Provider.of<BottomNavBarProvider>(context, listen: false);
-            bottomNavBarProvider.updateIndex(3);
-            Navigator.pushNamed(context, '/watherPage');
-          },
-          child: ServiceCard(
-            imagePath: 'assets/icon/services/weather2.png',
-            title: AppLocalizations.of(context).translate('weather'),
-            description: AppLocalizations.of(context).translate('weather_dsc'),
           ),
         ),
       ]

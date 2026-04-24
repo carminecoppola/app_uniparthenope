@@ -13,14 +13,12 @@ class SectionTitle extends StatelessWidget {
       padding: const EdgeInsets.only(left: 20),
       child: Align(
         alignment: Alignment.centerLeft,
-        child: Text(
+        child: AppColors().gradientBlueText(
           title,
-          style: const TextStyle(
+          const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 25,
-            color: AppColors.primaryColor,
           ),
-          textAlign: TextAlign.left,
         ),
       ),
     );

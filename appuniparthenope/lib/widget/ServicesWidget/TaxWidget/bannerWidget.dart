@@ -37,7 +37,7 @@ class BannerWidget extends StatelessWidget {
     );
   }
 
-  String getStatus(String? status,context) {
+  String getStatus(String? status, context) {
     // Modificato qui
     if (status == 'ROSSO') {
       return AppLocalizations.of(context).translate('not_regular');

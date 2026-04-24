@@ -30,6 +30,7 @@ class _FeesStudentState extends State<FeesStudent>
     final allTaxesInfo = Provider.of<TaxesDataProvider>(context).allTaxesInfo;
 
     return Scaffold(
+      extendBody: true,
       body: allTaxesInfo != null
           ? Column(
               children: [
@@ -51,6 +52,8 @@ class _FeesStudentState extends State<FeesStudent>
                             Container(
                               color: AppColors.primaryColor,
                               child: ListView(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 0, 110),
                                 children: allTaxesInfo.toPay.isEmpty
                                     ? [
                                         const SizedBox(height: 30),
@@ -113,6 +116,8 @@ class _FeesStudentState extends State<FeesStudent>
                             Container(
                               color: AppColors.primaryColor,
                               child: ListView(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 0, 0, 110),
                                 children: [
                                   const SizedBox(height: 30),
                                   Center(

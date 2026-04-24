@@ -50,9 +50,10 @@ class _CarouselCardState extends State<CarouselCard> {
                 final timeSeriesList = weatherDataProvider.timeSeriesList;
 
                 if (timeSeriesList.isEmpty) {
-                  return  Center(
+                  return Center(
                     child: CustomLoadingIndicator(
-                      text: AppLocalizations.of(context).translate('loading_weather'),
+                      text: AppLocalizations.of(context)
+                          .translate('loading_weather'),
                       myColor: AppColors.detailsColor,
                     ),
                   );
@@ -95,8 +96,6 @@ class _CarouselCardState extends State<CarouselCard> {
     final truncatedPlaceName = placeName.replaceAll('Comune di ', '');
 
     // Debug prints
-    print('DateTime: ${timeSeries.dateTime}');
-    print('PlaceName: $truncatedPlaceName');
 
     return Padding(
       padding: const EdgeInsets.all(20.0),

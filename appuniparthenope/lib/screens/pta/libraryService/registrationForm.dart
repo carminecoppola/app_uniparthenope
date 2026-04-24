@@ -129,7 +129,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 ),
                 const SizedBox(height: 10),
                 DropdownButtonFormField<String>(
-                  value: _selectedDocumentType,
+                  initialValue: _selectedDocumentType,
                   decoration: _buildInputDecoration(
                     AppLocalizations.of(context)
                         .translate('registration_document_type_label'),

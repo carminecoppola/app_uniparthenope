@@ -30,10 +30,7 @@ class CheckExamController {
       );
 
       if (result.isSuccess) {
-        print('Lunghezza lista appelli: ${result.data!.length}');
-        if (result.data!.isEmpty) {
-          print('\nWarning: la lista degli appelli è vuota.');
-        }
+        if (result.data!.isEmpty) {}
         return result.data!;
       } else {
         throw Exception(result.errorMessage);
@@ -68,11 +65,9 @@ class CheckExamController {
       if (result.isSuccess) {
         return result.data!;
       } else {
-        print('Errore prenotazione: ${result.errorMessage}');
         return false;
       }
     } catch (e) {
-      print('Errore durante la prenotazione dell\'appello: $e');
       return false;
     }
   }

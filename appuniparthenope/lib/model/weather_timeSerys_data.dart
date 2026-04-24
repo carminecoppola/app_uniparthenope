@@ -296,14 +296,12 @@ class TextInfo {
 
   factory TextInfo.fromRawJson(String str) {
     final jsonData = json.decode(str);
-    print('Raw JSON: $jsonData'); // Debugging
     return TextInfo.fromJson(jsonData);
   }
 
   String toRawJson() => json.encode(toJson());
 
   factory TextInfo.fromJson(Map<String, dynamic> json) {
-    print('Parsing JSON: $json'); // Debugging
     return TextInfo(
       en: json["en-US"]?.toString(),
       it: json["it-IT"]?.toString(),

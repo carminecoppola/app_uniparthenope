@@ -20,104 +20,128 @@ class ProfileInfoDisplay extends StatelessWidget {
         Provider.of<AuthProvider>(context, listen: false).selectedCareer;
     final userAnagrafe = Provider.of<AuthProvider>(context).anagrafeUser;
     final role = authenticatedUser?.user.grpDes;
+    final localizations = AppLocalizations.of(context);
+    final title = index == 0
+        ? localizations.translate('personal_label')
+        : localizations.translate('career_label');
 
     return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(
-                index == 0
-                    ? FontAwesomeIcons.person
-                    : FontAwesomeIcons.university,
-                color: AppColors.primaryColor,
-                size: 30,
-              ),
-              const SizedBox(width: 10),
-              Text(
-                index == 0
-                    ? AppLocalizations.of(context).translate('personal_label')
-                    : AppLocalizations.of(context).translate('career_label'),
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryColor,
+      padding: const EdgeInsets.only(bottom: 18),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF7F9FB),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 42,
+                  height: 42,
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(
+                    index == 0
+                        ? FontAwesomeIcons.idCard
+                        : FontAwesomeIcons.graduationCap,
+                    color: Colors.white,
+                    size: 18,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          if (userAnagrafe != null && authenticatedUser != null) ...[
-            // --- PERSONAL INFO ---
-            if (index == 0) ...[
-              ProfileSingleInfoRow(
-                label: AppLocalizations.of(context).translate('cf_label'),
-                value: userAnagrafe.codFis.toString(),
-              ),
-              ProfileSingleInfoRow(
-                label: AppLocalizations.of(context).translate('dob_label'),
-                value: userAnagrafe.dataNascita!.split(" ")[0],
-              ),
-              ProfileSingleInfoRow(
-                label:
-                    AppLocalizations.of(context).translate('nationality_label'),
-                value: toCamelCase(userAnagrafe.desCittadinanza ?? ''),
-              ),
-              ProfileSingleInfoRow(
-                label: AppLocalizations.of(context).translate('phone_label'),
-                value: userAnagrafe.telRes.toString(),
-              ),
-            ],
-
-            // --- UNIVERSITY INFO ---
-            if (index == 1) ...[
-              ProfileSingleInfoRow(
-                label: AppLocalizations.of(context).translate('username_label'),
-                value: authenticatedUser.user.userId ?? '',
-              ),
-              ProfileSingleInfoRow(
-                label: AppLocalizations.of(context).translate('role_label'),
-                value: role == 'Studenti'
-                    ? (role ?? '')
-                    : (userAnagrafe.ruolo ?? ''),
-              ),
-              if (role == 'Studenti' && selectedCareer != null) ...[
-                ProfileSingleInfoRow(
-                  label:
-                      AppLocalizations.of(context).translate('course_id_label'),
-                  value: selectedCareer['cdsId'].toString(),
-                ),
-                ProfileSingleInfoRow(
-                  label: AppLocalizations.of(context).translate('course_label'),
-                  value: toCamelCase(selectedCareer['cdsDes']),
-                ),
-                ProfileSingleInfoRow(
-                  label: AppLocalizations.of(context)
-                      .translate('university_email_label'),
-                  value: userAnagrafe.emailAte ?? '',
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryDarkColor,
+                    ),
+                  ),
                 ),
               ],
-              if (role == 'Docenti') ...[
+            ),
+            const SizedBox(height: 16),
+            if (userAnagrafe != null && authenticatedUser != null) ...[
+              if (index == 0) ...[
                 ProfileSingleInfoRow(
-                  label: AppLocalizations.of(context)
-                      .translate('teacher_id_label'),
-                  value: authenticatedUser.user.docenteId.toString(),
+                  icon: FontAwesomeIcons.fingerprint,
+                  label: localizations.translate('cf_label'),
+                  value: userAnagrafe.codFis.toString(),
                 ),
                 ProfileSingleInfoRow(
-                  label: AppLocalizations.of(context).translate('sector_label'),
-                  value: toCamelCase(userAnagrafe.settore.toString()),
+                  icon: FontAwesomeIcons.calendarDay,
+                  label: localizations.translate('dob_label'),
+                  value: userAnagrafe.dataNascita!.split(" ")[0],
                 ),
                 ProfileSingleInfoRow(
-                  label: AppLocalizations.of(context)
-                      .translate('university_email_label'),
-                  value: userAnagrafe.emailAte ?? '',
+                  icon: FontAwesomeIcons.flag,
+                  label: localizations.translate('nationality_label'),
+                  value: toCamelCase(userAnagrafe.desCittadinanza ?? ''),
                 ),
+                ProfileSingleInfoRow(
+                  icon: FontAwesomeIcons.phone,
+                  label: localizations.translate('phone_label'),
+                  value: userAnagrafe.telRes.toString(),
+                ),
+              ],
+              if (index == 1) ...[
+                ProfileSingleInfoRow(
+                  icon: FontAwesomeIcons.user,
+                  label: localizations.translate('username_label'),
+                  value: authenticatedUser.user.userId ?? '',
+                ),
+                ProfileSingleInfoRow(
+                  icon: FontAwesomeIcons.userTag,
+                  label: localizations.translate('role_label'),
+                  value: role == 'Studenti'
+                      ? (role ?? '')
+                      : (userAnagrafe.ruolo ?? ''),
+                ),
+                if (role == 'Studenti' && selectedCareer != null) ...[
+                  ProfileSingleInfoRow(
+                    icon: FontAwesomeIcons.hashtag,
+                    label: localizations.translate('course_id_label'),
+                    value: selectedCareer['cdsId'].toString(),
+                  ),
+                  ProfileSingleInfoRow(
+                    icon: FontAwesomeIcons.bookOpen,
+                    label: localizations.translate('course_label'),
+                    value: toCamelCase(selectedCareer['cdsDes']),
+                  ),
+                  ProfileSingleInfoRow(
+                    icon: FontAwesomeIcons.envelope,
+                    label: localizations.translate('university_email_label'),
+                    value: userAnagrafe.emailAte ?? '',
+                  ),
+                ],
+                if (role == 'Docenti') ...[
+                  ProfileSingleInfoRow(
+                    icon: FontAwesomeIcons.chalkboardUser,
+                    label: localizations.translate('teacher_id_label'),
+                    value: authenticatedUser.user.docenteId.toString(),
+                  ),
+                  ProfileSingleInfoRow(
+                    icon: FontAwesomeIcons.layerGroup,
+                    label: localizations.translate('sector_label'),
+                    value: toCamelCase(userAnagrafe.settore.toString()),
+                  ),
+                  ProfileSingleInfoRow(
+                    icon: FontAwesomeIcons.envelope,
+                    label: localizations.translate('university_email_label'),
+                    value: userAnagrafe.emailAte ?? '',
+                  ),
+                ],
               ],
             ],
           ],
-        ],
+        ),
       ),
     );
   }

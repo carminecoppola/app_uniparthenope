@@ -14,70 +14,93 @@ class CustomTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+
     return Material(
-      elevation: 8,
-      shadowColor: AppColors.lightGray,
-      borderRadius: BorderRadius.circular(20),
+      elevation: 4,
+      shadowColor: Colors.black.withOpacity(0.12),
+      borderRadius: BorderRadius.circular(8),
       child: Container(
-        width: 290,
-        height: 50,
+        width: 310,
+        height: 48,
+        padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
-          color: const Color.fromRGBO(178, 177, 175, 100),
-          borderRadius: BorderRadius.circular(20),
+          color: const Color(0xFFF1F4F7),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: AppColors.primaryColor.withOpacity(0.12),
+          ),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            GestureDetector(
+            _ProfileTabButton(
+              text: localizations.translate('personal_label'),
+              icon: Icons.person_outline,
+              selected: selectedIndex == 0,
               onTap: () => onTabTapped(0),
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: selectedIndex == 0
-                      ? AppColors.primaryColor
-                      : Colors.transparent,
-                ),
-                child: Text(
-                  AppLocalizations.of(context).translate('personal_label'),
-                  style: TextStyle(
-                    color:
-                        selectedIndex == 0 ? Colors.white : AppColors.lightGray,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
             ),
-            const Spacer(), // Spazio flessibile per centrare la linea divisoria
-            Container(
-              width: 1,
-              color: Colors.white,
-            ),
-            const Spacer(), // Spazio flessibile per centrare la linea divisoria
-            GestureDetector(
+            const SizedBox(width: 4),
+            _ProfileTabButton(
+              text: localizations.translate('career_label'),
+              icon: Icons.school_outlined,
+              selected: selectedIndex == 1,
               onTap: () => onTabTapped(1),
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: selectedIndex == 1
-                      ? AppColors.primaryColor
-                      : Colors.transparent,
-                ),
-                child: Text(
-                  AppLocalizations.of(context).translate('career_label'),
-                  style: TextStyle(
-                    color:
-                        selectedIndex == 1 ? Colors.white : AppColors.lightGray,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ProfileTabButton extends StatelessWidget {
+  final String text;
+  final IconData icon;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _ProfileTabButton({
+    required this.text,
+    required this.icon,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(6),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: selected ? AppColors.primaryColor : Colors.transparent,
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 17,
+                color: selected ? Colors.white : AppColors.primaryColor,
+              ),
+              const SizedBox(width: 6),
+              Flexible(
+                child: Text(
+                  text,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: selected ? Colors.white : AppColors.primaryColor,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

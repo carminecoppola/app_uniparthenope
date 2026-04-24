@@ -176,11 +176,6 @@ CareerState checkCareerState({
   required weightedAverageStats,
   required allExamInfo,
 }) {
-  print('Dati checkCareerState():\n\ntotalExamStats: $totalExamStats');
-  print('aritmeticAverageStats: $aritmeticAverageStats');
-  print('weightedAverageStats: $weightedAverageStats');
-  print('allExamInfo: $totalExamStats');
-
   // Se i dati non sono ancora caricati
   if (totalExamStats == null || allExamInfo == null) {
     return CareerState.loading;

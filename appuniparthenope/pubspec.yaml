@@ -1,7 +1,7 @@
 name: appuniparthenope
 description: "The official app of the University of Naples 'Parthenope,' developed by students, offers a tailored experience for the academic community. Whether you are a student, teacher, or part of the administrative staff, you will have quick and easy access to all essential university information. Explore the new minimalist interface inspired by our university's colors, designed to make navigation intuitive and enjoyable. Keep track of your academic activities, available rooms, and university events all in one place."
 
-version: 4.0.9+40009
+version: 4.1.0+35
 
 environment:
   sdk: '>=3.3.1 <4.0.0'
@@ -25,7 +25,7 @@ dependencies:
   path_provider: ^2.1.3
   flutter_svg: ^2.0.10+1
   easy_search_bar: ^2.5.0
-  intl: ^0.19.0  
+  intl: ^0.20.2  
   url_launcher: ^6.2.6
   font_awesome_flutter: ^10.7.0
   geolocator: ^12.0.0
@@ -37,6 +37,7 @@ dependencies:
   package_info_plus: ^8.0.2
   device_info_plus: ^10.1.2
   yaml: ^3.1.2
+  flutter_local_notifications: ^17.1.2
   flutter_localizations:
     sdk: flutter
 
@@ -107,6 +108,7 @@ flutter:
 
     # Icon Student Service Image:
     - assets/icon/services/careerStudent.png
+    - assets/icon/services/bookExam.png
     - assets/icon/services/courses2.png
     - assets/icon/services/tax2.png
     - assets/icon/services/weather2.png
@@ -219,5 +221,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-
 

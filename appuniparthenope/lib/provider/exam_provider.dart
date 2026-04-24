@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../model/studentService/events_data.dart';
+import '../service/notification_service.dart';
+import '../service/local_grades_service.dart';
+import '../core/service_locator.dart';
 
 class ExamDataProvider extends ChangeNotifier {
   String? _pianoId;
@@ -61,8 +64,46 @@ class ExamDataProvider extends ChangeNotifier {
 
   // Metodo per impostare gli esami dell'utente
   void setAllExamStudent(List<ExamData> allExamStudent) {
+    // Verifica e notifica nuovi voti PRIMA di aggiornare la lista
+    _checkAndNotifyNewGradesAsync(allExamStudent);
+
     _allExamStudent = allExamStudent;
     notifyListeners();
+  }
+
+  /// 🔔 CONTROLLO AUTOMATICO NUOVI VOTI (Con Local Storage)
+  /// Confronta i voti dal server con quelli salvati localmente
+  void _checkAndNotifyNewGradesAsync(List<ExamData> newGrades) async {
+    final localGradesService = LocalGradesService();
+    final notificationService = getIt<NotificationService>();
+
+    try {
+      // Confronta voti server con voti salvati localmente
+      final studentNewGrades =
+          await localGradesService.checkForNewGrades(newGrades);
+
+      // Invia notifica per ogni nuovo voto
+      for (var exam in studentNewGrades) {
+        if (exam.status.voto == null) continue;
+
+        final courseName = exam.nome ?? 'Insegnamento sconosciuto';
+        final grade =
+            exam.status.voto != null ? '${exam.status.voto}/30' : 'N/A';
+        final date =
+            exam.status.data ?? DateTime.now().toString().split(' ')[0];
+
+        notificationService.showGradeNotification(
+          courseName: courseName,
+          grade: grade,
+          date: date,
+        );
+      }
+
+      // Salva i voti attuali nel local storage per il prossimo confronto
+      await localGradesService.saveGrades(newGrades);
+    } catch (_) {
+      return;
+    }
   }
 
   // Metodo per impostare i corsi dell'utente

@@ -23,8 +23,6 @@ class AuthUtilsFunction {
       authProvider.setAuthenticatedUser(authenticatedUser, password);
       authProvider.setAuthToken(authenticatedUser.authToken);
 
-      print('Prova ruolo${authenticatedUser.user}');
-
       // Se l'utente non è un docente, imposta la carriera selezionata.
       if (authenticatedUser.user.grpDes == 'Studenti') {
         authProvider.setSelectedCareer(authenticatedUser.selectedCareer!);
@@ -32,8 +30,6 @@ class AuthUtilsFunction {
 
       // Carica l'immagine dell'utente per la homepage.
       await AuthUtilsFunction.userImg(context);
-
-      print('Prova ruolo${authenticatedUser.user.grpDes}');
 
       // Naviga alla homepage dopo l'autenticazione.
       if (authenticatedUser.user.grpDes == 'PTA') {
@@ -58,8 +54,8 @@ class AuthUtilsFunction {
       } else {
         Navigator.pushReplacementNamed(context, '/homePage');
       }
-    } catch (e) {
-      print('Errore durante l\'autenticazione: $e');
+    } catch (_) {
+      return;
     }
   }
 
@@ -82,11 +78,9 @@ class AuthUtilsFunction {
               Provider.of<AuthProvider>(context, listen: false);
           authProvider.setProfileImage(profileImage);
         }
-      } else {
-        print('Authenticated user is null');
-      }
-    } catch (e) {
-      print('\nError during userImg(): $e');
+      } else {}
+    } catch (_) {
+      return;
     }
   }
 
@@ -106,11 +100,9 @@ class AuthUtilsFunction {
         // Aggiorna il codice QR nel provider.
         final authProvider = Provider.of<AuthProvider>(context, listen: false);
         authProvider.setQRCode(qrCode);
-      } else {
-        print('Authenticated user is null');
-      }
-    } catch (e) {
-      print('\nError during qrCodeImg(): $e');
+      } else {}
+    } catch (_) {
+      return;
     }
   }
 }

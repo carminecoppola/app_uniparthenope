@@ -19,6 +19,20 @@ class CheckDateExamProvider extends ChangeNotifier {
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
+  Map<String, List<CheckAppello>> get groupedAppelliByExam {
+    final Map<String, List<CheckAppello>> grouped = {};
+
+    for (final appello in _allAppelliStudent) {
+      final examName = (appello.esame ?? 'Esame').trim();
+      grouped.putIfAbsent(examName, () => []).add(appello);
+    }
+
+    final sortedEntries = grouped.entries.toList()
+      ..sort((a, b) => a.key.toLowerCase().compareTo(b.key.toLowerCase()));
+
+    return Map<String, List<CheckAppello>>.fromEntries(sortedEntries);
+  }
+
   /// Carica tutti gli appelli disponibili per lo studente
   ///
   /// Questo metodo sostituisce il controller eliminando il layer ridondante
@@ -123,6 +137,42 @@ class CheckDateExamProvider extends ChangeNotifier {
       return result;
     } catch (e) {
       AppLogger.error('Errore in bookExamAppello', e);
+      return Result.failure('Errore imprevisto: $e');
+    }
+  }
+
+  /// Cancella una prenotazione a un appello d'esame.
+  Future<Result<bool>> cancelExamReservation({
+    required String userId,
+    required String password,
+    required int cdsId,
+    required int adId,
+    required int appId,
+    required int stuId,
+    required Map<String, dynamic> dettaglioTratto,
+    required List<CourseInfo> courseList,
+  }) async {
+    try {
+      final course = courseList.firstWhere(
+        (c) => c.adId == adId,
+        orElse: () => throw Exception(
+            'Corso con adId=$adId non trovato nella lista corsi'),
+      );
+
+      final result = await _apiService.cancelExamReservation(
+        userId: userId,
+        password: password,
+        cdsId: cdsId,
+        adId: adId,
+        appId: appId,
+        stuId: stuId,
+        adsceId: course.adsceId,
+        dettaglioTratto: dettaglioTratto,
+      );
+
+      return result;
+    } catch (e) {
+      AppLogger.error('Errore in cancelExamReservation', e);
       return Result.failure('Errore imprevisto: $e');
     }
   }

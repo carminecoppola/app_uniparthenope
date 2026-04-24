@@ -13,14 +13,11 @@ class WeatherController {
   Future<List<Timesery>> getAllWeatherTime(
       BuildContext context, double latitude, double longitude) async {
     try {
-      print('--- Inizio recupero dati meteo ---');
       List<PlacesInfo> allPlaces = await apiWeatherService.getWeatherPlaces(
           context, latitude, longitude);
-      print('Numero di luoghi trovati: ${allPlaces.length}');
 
       PlacesInfo selectedPlace = await _fetchValidPlace(context, allPlaces);
       String placeName = _formatPlaceName(selectedPlace.longName.it);
-      print('Luogo selezionato: $placeName');
 
       Provider.of<WeatherDataProvider>(context, listen: false)
           .setPlaceName(placeName);
@@ -30,7 +27,6 @@ class WeatherController {
       // Invia tutti i dati, inclusi quelli per i giorni successivi
       return allTimeSeries;
     } catch (e) {
-      print('Errore durante il recupero dei dati meteo: $e');
       return [];
     }
   }
@@ -39,8 +35,6 @@ class WeatherController {
       BuildContext context, PlacesInfo selectedPlace) async {
     List<Timesery>? timeSeries =
         await apiWeatherService.getWeatherTimeSeries(context, selectedPlace);
-    print(
-        'Dati meteo ricevuti per il luogo: ${timeSeries.length} elementi trovati.');
 
     List<Timesery> allTimeSeries = [];
     DateTime today = DateTime.now();
@@ -68,11 +62,9 @@ class WeatherController {
     for (var place in allPlaces) {
       try {
         await apiWeatherService.getWeatherTimeSeries(context, place);
-        print('Dati meteo ottenuti per il luogo: ${place.longName.it}');
         return place;
-      } catch (e) {
-        print(
-            'Errore con il luogo ${place.longName.it}, prova con il successivo: $e');
+      } catch (_) {
+        continue;
       }
     }
     throw Exception('Nessun luogo valido trovato');

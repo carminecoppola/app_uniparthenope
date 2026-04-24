@@ -18,7 +18,6 @@ class ApiUniversityService {
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
-      print('\n\njsonData: $jsonData');
 
       return jsonData.map((data) => EventsInfo.fromJson(data)).toList();
     } else if (response.statusCode == 500) {
@@ -42,7 +41,6 @@ class ApiUniversityService {
 
     if (response.statusCode == 200) {
       final List<dynamic> jsonData = json.decode(response.body);
-      print('\n\njsonData: $jsonData');
 
       return jsonData.map((data) => AllTodayRooms.fromJson(data)).toList();
     } else if (response.statusCode == 500) {
