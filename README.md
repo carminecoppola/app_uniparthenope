@@ -66,7 +66,6 @@ The **app@uniparthenope** application was developed by a team of students from t
 
 The team has worked with dedication to provide an innovative and accessible solution for the entire academic community.
 
-
 ## Contributing
 
 Contributions, bug reports, and feature requests are welcome!
