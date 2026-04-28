@@ -30,8 +30,8 @@ class CheckExamController {
       );
 
       if (result.isSuccess) {
-        if (result.data!.isEmpty) {}
-        return result.data!;
+        final response = result.data!;
+        return response.appelli;
       } else {
         throw Exception(result.errorMessage);
       }

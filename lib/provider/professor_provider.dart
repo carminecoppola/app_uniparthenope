@@ -58,6 +58,16 @@ class ProfessorDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearProfessorData() {
+    _allCourseProfessor = null;
+    _selectedCourse = null;
+    _profSession = null;
+    _detailsCourse = null;
+    _allExamInfoProfessor = null;
+    _allStudentListExam = null;
+    notifyListeners();
+  }
+
   String _convertToDate(String? dateStr) {
     // Converte la data nel formato "dd/MM/yyyy" in "yyyy-MM-dd" per il corretto ordinamento
     if (dateStr != null && dateStr.isNotEmpty) {

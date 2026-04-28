@@ -33,13 +33,12 @@ class LogoutConfirmationDialog extends StatelessWidget {
           onPressed: () async {
             final authProvider =
                 Provider.of<AuthProvider>(context, listen: false);
-            authProvider.logout(context);
-            Navigator.pushNamed(
-              context,
+            await authProvider.logout(context);
+            if (!context.mounted) return;
+            Navigator.of(context).pushNamedAndRemoveUntil(
               '/loginPage',
-              arguments: {
-                'transition': true,
-              },
+              (route) => false,
+              arguments: {'transition': true},
             );
           },
           style: OutlinedButton.styleFrom(

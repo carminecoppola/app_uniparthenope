@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'dart:convert';
+import 'dart:io' show Platform;
 
 class UpdateService {
   static final UpdateService _instance = UpdateService._internal();
@@ -31,7 +32,7 @@ class UpdateService {
         final String currentVersion = packageInfo.version;
         final String remoteVersion = remoteData['version'] ?? '';
         final String releaseNotes = remoteData['releaseNotes'] ?? '';
-        final String downloadUrl = remoteData['downloadUrl'] ?? '';
+        final String downloadUrl = _resolveDownloadUrl(remoteData, packageInfo);
 
         // Confronta le versioni
         if (_isNewerVersion(remoteVersion, currentVersion)) {
@@ -64,10 +65,15 @@ class UpdateService {
       final List<int> currentParts =
           currentVersion.split('.').map(int.parse).toList();
 
-      for (int i = 0; i < remoteParts.length; i++) {
-        if (remoteParts[i] > currentParts[i]) {
+      final maxLength =
+          remoteParts.length > currentParts.length ? remoteParts.length : currentParts.length;
+
+      for (int i = 0; i < maxLength; i++) {
+        final remote = i < remoteParts.length ? remoteParts[i] : 0;
+        final current = i < currentParts.length ? currentParts[i] : 0;
+        if (remote > current) {
           return true;
-        } else if (remoteParts[i] < currentParts[i]) {
+        } else if (remote < current) {
           return false;
         }
       }
@@ -82,5 +88,31 @@ class UpdateService {
   Future<String> getCurrentVersion() async {
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
     return packageInfo.version;
+  }
+
+  String _resolveDownloadUrl(
+    Map<String, dynamic> remoteData,
+    PackageInfo packageInfo,
+  ) {
+    final genericUrl = (remoteData['downloadUrl'] ?? '').toString();
+    final androidUrl = (remoteData['androidUrl'] ?? '').toString();
+    final iosUrl = (remoteData['iosUrl'] ?? '').toString();
+    final appStoreId = (remoteData['appStoreId'] ?? '').toString();
+
+    if (Platform.isAndroid) {
+      if (androidUrl.isNotEmpty) return androidUrl;
+      if (genericUrl.isNotEmpty) return genericUrl;
+      return 'https://play.google.com/store/apps/details?id=${packageInfo.packageName}';
+    }
+
+    if (Platform.isIOS) {
+      if (iosUrl.isNotEmpty) return iosUrl;
+      if (appStoreId.isNotEmpty) {
+        return 'https://apps.apple.com/app/id$appStoreId';
+      }
+      return genericUrl;
+    }
+
+    return genericUrl;
   }
 }

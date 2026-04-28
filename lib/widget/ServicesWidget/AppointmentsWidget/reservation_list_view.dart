@@ -8,6 +8,7 @@ import '../../../provider/exam_provider.dart';
 enum FilterType { past, upcoming }
 
 class ReservationListWidget extends StatelessWidget {
+  static const bool _useModernReservationListUi = true;
   final String searchQuery;
   final FilterType filterType;
 
@@ -70,6 +71,65 @@ class ReservationListWidget extends StatelessWidget {
     }
 
     // Restituisce il widget principale, decorato e contenente la lista di prenotazioni filtrate
+    if (!_useModernReservationListUi) {
+      return _buildLegacyList(context, filteredReservations, emptyMessage, emptyIcon);
+    }
+
+    return Container(
+      color: const Color(0xFFF4F8FC),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      child: filteredReservations.isEmpty
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    emptyIcon,
+                    size: 44,
+                    color: AppColors.primaryColor,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    emptyMessage,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primaryDarkColor,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            )
+          : ListView(
+              padding: EdgeInsets.fromLTRB(
+                0,
+                4,
+                0,
+                MediaQuery.paddingOf(context).bottom + 112,
+              ),
+              children: [
+                ...filteredReservations.map((reservation) {
+                  return Container(
+                    margin: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 6),
+                    child: SingleAppointmentCard(
+                      iconData: Icons.school,
+                      reservation: reservation,
+                      canCancel: filterType == FilterType.upcoming,
+                    ),
+                  );
+                }),
+              ],
+            ),
+    );
+  }
+
+  Widget _buildLegacyList(
+    BuildContext context,
+    List<dynamic> filteredReservations,
+    String emptyMessage,
+    IconData emptyIcon,
+  ) {
     return Container(
       decoration: const BoxDecoration(
         gradient: AppColors.blueGradient,

@@ -311,33 +311,55 @@ class _InfoAppPageState extends State<InfoAppPage> {
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(28),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.primaryDarkColor.withValues(alpha: 0.18),
+                      blurRadius: 28,
+                      offset: const Offset(0, 14),
+                    ),
+                  ],
                 ),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        localizations.translate('report_problem_title'),
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.primaryColor,
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          gradient: AppColors.blueGradient,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              localizations.translate('report_problem_title'),
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
+                              localizations.translate('report_problem_subtitle'),
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.white.withValues(alpha: 0.9),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Text(
-                        localizations.translate('report_problem_subtitle'),
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: AppColors.textColor,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 12),
                       _buildReportField(
                         controller: titleController,
                         label: localizations.translate('problem_title_label'),
+                        icon: Icons.title_rounded,
                         minLines: 1,
                         maxLines: 2,
                       ),
@@ -346,6 +368,7 @@ class _InfoAppPageState extends State<InfoAppPage> {
                         controller: descriptionController,
                         label: localizations
                             .translate('problem_description_label'),
+                        icon: Icons.description_outlined,
                         minLines: 4,
                         maxLines: 6,
                       ),
@@ -354,6 +377,7 @@ class _InfoAppPageState extends State<InfoAppPage> {
                         controller: expectedBehaviorController,
                         label:
                             localizations.translate('expected_behavior_label'),
+                        icon: Icons.check_circle_outline_rounded,
                         minLines: 2,
                         maxLines: 4,
                       ),
@@ -361,6 +385,7 @@ class _InfoAppPageState extends State<InfoAppPage> {
                       _buildReportField(
                         controller: actualBehaviorController,
                         label: localizations.translate('actual_behavior_label'),
+                        icon: Icons.error_outline_rounded,
                         minLines: 2,
                         maxLines: 4,
                       ),
@@ -370,6 +395,7 @@ class _InfoAppPageState extends State<InfoAppPage> {
                         decoration: _reportDecoration(
                           context,
                           localizations.translate('severity_label'),
+                          icon: Icons.flag_outlined,
                         ),
                         borderRadius: BorderRadius.circular(16),
                         items: [
@@ -406,7 +432,11 @@ class _InfoAppPageState extends State<InfoAppPage> {
                       ),
                       const SizedBox(height: 6),
                       SwitchListTile.adaptive(
-                        contentPadding: EdgeInsets.zero,
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 4),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
                         activeThumbColor: AppColors.primaryColor,
                         title: Text(
                           localizations.translate('include_technical_details'),
@@ -496,19 +526,24 @@ class _InfoAppPageState extends State<InfoAppPage> {
     actualBehaviorController.dispose();
   }
 
-  InputDecoration _reportDecoration(BuildContext context, String label) {
+  InputDecoration _reportDecoration(
+    BuildContext context,
+    String label, {
+    IconData? icon,
+  }) {
     return InputDecoration(
       labelText: label,
       labelStyle: const TextStyle(color: AppColors.primaryColor),
+      prefixIcon: icon == null ? null : Icon(icon, color: AppColors.primaryColor),
       filled: true,
-      fillColor: Colors.grey.shade50,
+      fillColor: const Color(0xFFF6FAFF),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: Colors.grey.shade300),
+        borderSide: BorderSide(color: AppColors.primaryColor.withValues(alpha: 0.14)),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: Colors.grey.shade300),
+        borderSide: BorderSide(color: AppColors.primaryColor.withValues(alpha: 0.14)),
       ),
       focusedBorder: const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -520,6 +555,7 @@ class _InfoAppPageState extends State<InfoAppPage> {
   Widget _buildReportField({
     required TextEditingController controller,
     required String label,
+    IconData? icon,
     required int minLines,
     required int maxLines,
   }) {
@@ -527,7 +563,7 @@ class _InfoAppPageState extends State<InfoAppPage> {
       controller: controller,
       minLines: minLines,
       maxLines: maxLines,
-      decoration: _reportDecoration(context, label),
+      decoration: _reportDecoration(context, label, icon: icon),
     );
   }
 

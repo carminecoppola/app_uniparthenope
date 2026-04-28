@@ -16,4 +16,10 @@ class BottomNavBarProvider with ChangeNotifier {
     _selectedIndex = index;
     notifyListeners();
   }
+
+  void reset() {
+    _currentIndex = 1;
+    _selectedIndex = 1;
+    notifyListeners();
+  }
 }

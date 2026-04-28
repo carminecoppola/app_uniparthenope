@@ -11,4 +11,9 @@ class TaxesDataProvider extends ChangeNotifier {
     _taxesInfo = taxesInfo;
     notifyListeners();
   }
+
+  void clearTaxes() {
+    _taxesInfo = null;
+    notifyListeners();
+  }
 }

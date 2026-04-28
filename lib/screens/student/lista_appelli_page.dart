@@ -26,6 +26,7 @@ class ListaAppelliPage extends StatefulWidget {
 }
 
 class _ListaAppelliPageState extends State<ListaAppelliPage> {
+  static const bool _useModernExamSessionsUi = true;
   late CheckDateExamProvider checkExamProvider;
   bool _isInitialized = false;
   final Set<String> _expandedExams = {};
@@ -440,10 +441,17 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
     final groupedAppelli = checkExamProvider.groupedAppelliByExam;
     final isLoading = checkExamProvider.isLoading;
     final errorMessage = checkExamProvider.errorMessage;
+    final warningMessage = checkExamProvider.warningMessage;
 
     return Scaffold(
       appBar: const NavbarComponent(),
-      body: _buildBody(appelli, groupedAppelli, isLoading, errorMessage),
+      body: _buildBody(
+        appelli,
+        groupedAppelli,
+        isLoading,
+        errorMessage,
+        warningMessage,
+      ),
       bottomNavigationBar: const BottomNavBarComponent(),
     );
   }
@@ -454,6 +462,7 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
     Map<String, List<CheckAppello>> groupedAppelli,
     bool isLoading,
     String? errorMessage,
+    String? warningMessage,
   ) {
     final localizations = AppLocalizations.of(context);
 
@@ -511,6 +520,13 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            if (warningMessage != null) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: _buildNonBlockingWarningBanner(warningMessage),
+              ),
+              const SizedBox(height: 16),
+            ],
             const Icon(
               Icons.calendar_today_outlined,
               color: AppColors.primaryColor,
@@ -546,27 +562,68 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
           MediaQuery.paddingOf(context).bottom + 96,
         ),
         children: [
-          const SizedBox(height: 8),
-          Center(
-            child: Text(
-              localizations.translate('exam_sessions_title'),
-              style: const TextStyle(
-                color: AppColors.primaryColor,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+          if (warningMessage != null) ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: _buildNonBlockingWarningBanner(warningMessage),
             ),
-          ),
-          const SizedBox(height: 4),
-          Center(
-            child: Text(
-              localizations.translate('exam_sessions_expand_hint'),
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-              ),
-              textAlign: TextAlign.center,
+            const SizedBox(height: 8),
+          ],
+          const SizedBox(height: 6),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.all(18),
+            decoration: BoxDecoration(
+              gradient: AppColors.blueGradient,
+              borderRadius: BorderRadius.circular(22),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.primaryDarkColor.withValues(alpha: 0.16),
+                  blurRadius: 18,
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 44,
+                  height: 44,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.18),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(
+                    Icons.event_note_rounded,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        localizations.translate('exam_sessions_title'),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        localizations.translate('exam_sessions_expand_hint'),
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.9),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 12),
@@ -577,7 +634,168 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
     );
   }
 
+  Widget _buildNonBlockingWarningBanner(String message) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFF6E5),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+          color: const Color(0xFFFFD18A),
+        ),
+      ),
+      child: Row(
+        children: [
+          const Icon(
+            Icons.warning_amber_rounded,
+            color: Color(0xFFB26A00),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              message,
+              style: const TextStyle(
+                color: Color(0xFF7A4A00),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildExamSection(String examName, List<CheckAppello> appelliEsame) {
+    if (!_useModernExamSessionsUi) {
+      return _buildLegacyExamSection(examName, appelliEsame);
+    }
+
+    final isExpanded = _expandedExams.contains(examName);
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: isExpanded
+              ? AppColors.primaryColor.withValues(alpha: 0.22)
+              : AppColors.primaryColor.withValues(alpha: 0.12),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primaryDarkColor.withValues(
+              alpha: isExpanded ? 0.12 : 0.05,
+            ),
+            blurRadius: isExpanded ? 16 : 10,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+          key: PageStorageKey<String>('appelli-$examName-modern'),
+          initiallyExpanded: isExpanded,
+          tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          childrenPadding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+          iconColor: AppColors.primaryColor,
+          collapsedIconColor: AppColors.primaryColor,
+          onExpansionChanged: (expanded) {
+            setState(() {
+              if (expanded) {
+                _expandedExams.add(examName);
+              } else {
+                _expandedExams.remove(examName);
+              }
+            });
+          },
+          title: Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  gradient: isExpanded ? AppColors.blueGradient : null,
+                  color: isExpanded
+                      ? null
+                      : AppColors.primaryColor.withValues(alpha: 0.10),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  isExpanded
+                      ? Icons.keyboard_arrow_down_rounded
+                      : Icons.menu_book_rounded,
+                  color: isExpanded ? Colors.white : AppColors.primaryColor,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      examName,
+                      style: const TextStyle(
+                        color: AppColors.primaryDarkColor,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.person_outline_rounded,
+                          size: 13,
+                          color: AppColors.textColor.withValues(alpha: 0.62),
+                        ),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            _buildExamSectionSubtitle(appelliEsame),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: AppColors.textColor.withValues(alpha: 0.62),
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: AppColors.primaryColor.withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(999),
+                  border: Border.all(
+                    color: AppColors.primaryColor.withValues(alpha: 0.14),
+                  ),
+                ),
+                child: Text(
+                  '${appelliEsame.length}',
+                  style: const TextStyle(
+                    color: AppColors.primaryColor,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          children: appelliEsame.map(_buildAppelloCard).toList(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLegacyExamSection(String examName, List<CheckAppello> appelliEsame) {
     final isExpanded = _expandedExams.contains(examName);
 
     return AnimatedContainer(
@@ -704,6 +922,116 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
 
   /// Costruisce la card di un singolo appello
   Widget _buildAppelloCard(CheckAppello appello) {
+    if (!_useModernExamSessionsUi) {
+      return _buildLegacyAppelloCard(appello);
+    }
+
+    final localizations = AppLocalizations.of(context);
+    final statusText = (appello.statoDes ?? '').trim();
+    final teacherText = (appello.docenteCompleto ?? '').trim();
+    final noteText = (appello.note ?? '').trim();
+
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 2),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8FBFF),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.primaryColor.withValues(alpha: 0.10)),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(14),
+        onTap: () => _showAppelloDetails(appello),
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                appello.dataEsame ?? localizations.translate('not_available'),
+                style: const TextStyle(
+                  color: AppColors.primaryDarkColor,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 15,
+                ),
+              ),
+              if (teacherText.isNotEmpty) ...[
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.person_outline_rounded,
+                      size: 14,
+                      color: AppColors.lightGray,
+                    ),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: Text(
+                        teacherText,
+                        style: const TextStyle(
+                          color: AppColors.lightGray,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+              if (teacherText.isNotEmpty) ...[
+                const SizedBox(height: 2),
+              ],
+              if (teacherText.isNotEmpty && statusText.isNotEmpty) ...[
+                const SizedBox(height: 6),
+              ],
+              if (teacherText.isEmpty && statusText.isNotEmpty) ...[
+                const SizedBox(height: 10),
+              ],
+              if (statusText.isNotEmpty) ...[
+                Text(
+                  statusText,
+                  style: const TextStyle(
+                    color: AppColors.primaryColor,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+              if (noteText.isNotEmpty) ...[
+                const SizedBox(height: 8),
+                Text(
+                  noteText,
+                  style: const TextStyle(
+                    color: AppColors.textColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () => _handlePrenotazione(appello),
+                  icon: const Icon(Icons.how_to_reg_rounded),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryColor,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    elevation: 0,
+                  ),
+                  label: Text(localizations.translate('book_exam')),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLegacyAppelloCard(CheckAppello appello) {
     final localizations = AppLocalizations.of(context);
     final statusText = (appello.statoDes ?? '').trim();
     final teacherText = (appello.docenteCompleto ?? '').trim();
@@ -845,6 +1173,41 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
         ),
       ),
     );
+  }
+
+  String _buildExamSectionSubtitle(List<CheckAppello> appelliEsame) {
+    if (appelliEsame.isEmpty) {
+      return AppLocalizations.of(context).translate('exam_sessions_expand_hint');
+    }
+
+    final first = appelliEsame.first;
+    final teacherNames = appelliEsame
+        .map((a) => (a.docenteCompleto ?? a.docente ?? '').trim())
+        .where((name) => name.isNotEmpty)
+        .toSet()
+        .toList();
+    final teacher = teacherNames.take(2).join(' • ');
+    final academicYear = _extractAcademicYear(
+      '${first.descrizione ?? ''} ${first.note ?? ''}',
+    );
+
+    if (teacher.isNotEmpty && academicYear != null) {
+      return '$teacher • $academicYear';
+    }
+    if (teacher.isNotEmpty) {
+      return teacher;
+    }
+    if (academicYear != null) {
+      return academicYear;
+    }
+
+    return AppLocalizations.of(context).translate('exam_sessions_expand_hint');
+  }
+
+  String? _extractAcademicYear(String text) {
+    final match = RegExp(r'(20\d{2}\s*/\s*20\d{2})').firstMatch(text);
+    if (match == null) return null;
+    return match.group(1)?.replaceAll(RegExp(r'\s+'), '');
   }
 
   void _showAppelloDetails(CheckAppello appello) {

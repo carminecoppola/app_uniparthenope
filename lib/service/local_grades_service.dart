@@ -107,4 +107,20 @@ class LocalGradesService {
       return;
     }
   }
+
+  Future<void> clearAllScopedGrades() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final keysToRemove = prefs.getKeys().where((key) {
+        return key.startsWith('${_gradesKey}_') ||
+            key.startsWith('${_lastUpdateKey}_');
+      });
+
+      for (final key in keysToRemove) {
+        await prefs.remove(key);
+      }
+    } catch (_) {
+      return;
+    }
+  }
 }

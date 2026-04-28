@@ -22,6 +22,7 @@ class ReservationPage extends StatefulWidget {
 
 class _ReservationPageState extends State<ReservationPage>
     with SingleTickerProviderStateMixin {
+  static const bool _useModernReservationUi = true;
   String searchQuery = '';
   TextEditingController searchController = TextEditingController();
   late TabController _tabController;
@@ -81,7 +82,33 @@ class _ReservationPageState extends State<ReservationPage>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 14),
+                  if (_useModernReservationUi)
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(16, 14, 16, 8),
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        gradient: AppColors.blueGradient,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.event_note_rounded, color: Colors.white),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              AppLocalizations.of(context).translate('reservation'),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  else
+                    const SizedBox(height: 14),
                   SearchBarReservationWidget(
                     controller: searchController,
                     onChanged: (query) {

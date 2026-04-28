@@ -97,8 +97,6 @@ class AuthUtilsFunction {
         final qrCode =
             await authController.getUserQRCode(authenticatedUser.user, context);
         if (!context.mounted) return;
-
-        // Aggiorna il codice QR nel provider.
         final authProvider = Provider.of<AuthProvider>(context, listen: false);
         authProvider.setQRCode(qrCode);
       } else {}

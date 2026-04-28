@@ -1,10 +1,21 @@
 import 'package:appuniparthenope/model/user_data_anagrafic.dart';
+import 'package:appuniparthenope/core/service_locator.dart';
 import 'package:appuniparthenope/service/api_login_service.dart';
+import 'package:appuniparthenope/service/local_grades_service.dart';
+import 'package:appuniparthenope/service/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'bottom_nav_bar_provider.dart';
+import 'check_exam_provider.dart';
 import 'exam_provider.dart';
+import 'professor_provider.dart';
+import 'rooms_provider.dart';
+import 'taxes_provider.dart';
+import 'update_provider.dart';
+import 'weather_provider.dart';
 
 /*
 Questo provider deve gestire i cambiamenti di stato, ovvero:
@@ -75,7 +86,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   // Metodo per effettuare il logout
-  void logout(BuildContext context) {
+  Future<void> logout(BuildContext context) async {
     _authenticatedUser = null;
     _password = null;
     _authToken = null;
@@ -85,8 +96,26 @@ class AuthProvider with ChangeNotifier {
     _qrCode = null;
     _selectedCareer = null;
 
-    // Ripulisci i dati della carriera
+    // Ripulisci provider stato/sessione
     Provider.of<ExamDataProvider>(context, listen: false).clearCareerData();
+    Provider.of<CheckDateExamProvider>(context, listen: false).clearAppelli();
+    Provider.of<ProfessorDataProvider>(context, listen: false)
+        .clearProfessorData();
+    Provider.of<WeatherDataProvider>(context, listen: false).clearWeather();
+    Provider.of<TaxesDataProvider>(context, listen: false).clearTaxes();
+    Provider.of<RoomsProvider>(context, listen: false).clearRooms();
+    Provider.of<UpdateProvider>(context, listen: false).reset();
+    Provider.of<BottomNavBarProvider>(context, listen: false).reset();
+
+    // Ripulisci cache locale voti + notifiche
+    await getIt<LocalGradesService>().clearAllScopedGrades();
+    await getIt<NotificationService>().cancelAll();
+
+    // Ripulisci credenziali salvate/remember-me
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('username');
+    await prefs.remove('password');
+    await prefs.setBool('rememberMe', false);
 
     notifyListeners();
   }

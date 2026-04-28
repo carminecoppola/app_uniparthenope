@@ -53,6 +53,10 @@ class CheckExamUtils {
     }
 
     if (courseList == null || courseList.isEmpty) {
+      if (examProvider.courseLoadError != null) {
+        AppLogger.warning(
+            'Caricamento lista corsi fallito: ${examProvider.courseLoadError}');
+      }
       AppLogger.warning('Lista corsi non disponibile per la sessione esami');
       return null;
     }

@@ -171,41 +171,29 @@ class ApiStudentService {
 
   Future<List<CourseInfo>> getAllCourse(
       User student, BuildContext context) async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final selectedCareer = authProvider.selectedCareer;
+    final exams = await getStudentExams(student, context);
 
-    if (selectedCareer == null) {
-      throw Exception('Nessuna carriera selezionata trovata');
-    }
+    // Usiamo la stessa fonte dati di Esse3 corrente (/v2/students/myExams),
+    // evitando disallineamenti di adId/adsceId della vecchia /v1/students/exams.
+    final courses = exams
+        .where((e) => (e.adId ?? 0) > 0 && (e.adsceID ?? 0) > 0)
+        .map((e) => CourseInfo(
+              nome: (e.nome ?? '').trim(),
+              codice: (e.codice ?? '').trim(),
+              adId: e.adId ?? 0,
+              cfu: e.cfu ?? 0,
+              annoId: e.annoId ?? 1,
+              adsceId: e.adsceID ?? 0,
+              numAppelliPrenotabili: e.numAppelliPrenotabili ?? 0,
+            ))
+        .toList();
 
-    String stuId = selectedCareer['stuId'].toString();
-    final String password = authProvider.password!;
-
-    final pianoIdMap = await getPianoId(student, context);
-    final pianoId =
-        pianoIdMap['pianoId']?.toString(); // Controlla se il pianoId è null
-
-    if (pianoId == null) {
-      throw Exception('Il pianoId non è disponibilie');
-    }
-
-    final url = Uri.parse(
-        '$baseUrl/UniparthenopeApp/v1/students/exams/$stuId/$pianoId');
-
-    final response = await http.get(url, headers: {
-      'Authorization':
-          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
-    });
-
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body) as List<dynamic>;
-      return jsonData.map((data) => CourseInfo.fromJson(data)).toList();
-    } else if (response.statusCode == 500) {
+    if (courses.isEmpty) {
       throw Exception(
-          'Errore del SERVER durante il caricamento dei corsi dello studente');
-    } else {
-      throw Exception('Errore durante caricamento dei corsi dello studente');
+          'Nessun corso valido trovato da /v2/students/myExams per la carriera selezionata');
     }
+
+    return courses;
   }
 
   Future<StatusCourse> getStatusExam(

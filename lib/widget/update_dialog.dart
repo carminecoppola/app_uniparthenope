@@ -47,7 +47,7 @@ class UpdateDialog extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Una nuova versione è disponibile!',
+            'Hai un aggiornamento da fare. Aggiorna l\'app.',
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(height: 12),

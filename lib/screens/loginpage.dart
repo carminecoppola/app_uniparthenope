@@ -4,6 +4,7 @@ import 'package:appuniparthenope/utilityFunctions/auth_utils_function.dart';
 import 'package:appuniparthenope/widget/custom_loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -50,6 +51,7 @@ class _LoginFormState extends State<LoginForm> {
   bool _loading = false;
   bool _rememberMe = false; // Variabile per il salvataggio delle credenziali
   bool _obscurePassword = true; // Variabile per la visibilità della password
+  bool _authInProgress = false;
 
   @override
   void initState() {
@@ -75,16 +77,27 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   Future<void> _checkBiometricAvailability() async {
-    bool canCheckBiometrics = await _localAuthentication.canCheckBiometrics;
-    if (canCheckBiometrics) {
-      List<BiometricType> availableBiometrics =
-          await _localAuthentication.getAvailableBiometrics();
-      if (availableBiometrics.isNotEmpty) {
-        setState(() {
-          _biometricAvailable = true;
-          _biometricType = availableBiometrics.first;
-        });
+    try {
+      final canCheckBiometrics = await _localAuthentication.canCheckBiometrics;
+      final isDeviceSupported = await _localAuthentication.isDeviceSupported();
+      if (!mounted) return;
+      if (canCheckBiometrics || isDeviceSupported) {
+        final availableBiometrics =
+            await _localAuthentication.getAvailableBiometrics();
+        if (!mounted) return;
+        if (availableBiometrics.isNotEmpty) {
+          setState(() {
+            _biometricAvailable = true;
+            _biometricType = availableBiometrics.first;
+          });
+        }
       }
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _biometricAvailable = false;
+        _biometricType = null;
+      });
     }
   }
 
@@ -95,6 +108,7 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   Future<void> _authenticateBiometric() async {
+    if (_authInProgress) return;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? savedUsername = prefs.getString('username');
     final String? savedPassword = prefs.getString('password');
@@ -114,16 +128,30 @@ class _LoginFormState extends State<LoginForm> {
 
     setState(() {
       _loading = true; // Mostra il dialogo di caricamento
+      _authInProgress = true;
     });
 
-    bool authenticated = await _localAuthentication.authenticate(
-      localizedReason: 'Please authenticate to login',
-    );
+    bool authenticated = false;
+    try {
+      authenticated = await _localAuthentication.authenticate(
+        localizedReason: 'Please authenticate to login',
+        options: const AuthenticationOptions(
+          biometricOnly: true,
+          stickyAuth: true,
+          useErrorDialogs: true,
+        ),
+      );
+    } on PlatformException catch (_) {
+      authenticated = false;
+    } catch (_) {
+      authenticated = false;
+    }
 
     if (!mounted) return;
 
     setState(() {
       _loading = false; // Nascondi il dialogo di caricamento
+      _authInProgress = false;
     });
 
     if (authenticated) {
@@ -446,9 +474,9 @@ class _LoginFormState extends State<LoginForm> {
             ),
           ),
           if (_loading)
-            Container(
-              color: Colors.black.withValues(alpha: 0.5),
-              height: double.infinity,
+            Positioned.fill(
+              child: Container(
+                color: Colors.transparent,
               child: Center(
                 child: Container(
                   width: 300,
@@ -466,6 +494,7 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                 ),
               ),
+            ),
             ),
         ],
       ),

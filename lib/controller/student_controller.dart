@@ -1,4 +1,5 @@
 import 'package:appuniparthenope/model/studentService/calendar_data.dart';
+import 'package:appuniparthenope/core/logger.dart';
 import 'package:appuniparthenope/model/studentService/reservation_data.dart';
 import 'package:appuniparthenope/model/studentService/student_course_data.dart';
 import 'package:appuniparthenope/model/studentService/exam_data.dart';
@@ -88,20 +89,28 @@ class StudentController {
   /// Ritorna una mappa di [StatusCourse] con il codice del corso come chiave.
   Future<Map<String, StatusCourse>> fetchAllCourseStatus(
       User student, List<CourseInfo> courses, BuildContext context) async {
-    try {
-      Map<String, StatusCourse> statusCoursesMap = {};
+    final Map<String, StatusCourse> statusCoursesMap = {};
 
-      for (CourseInfo course in courses) {
-        final StatusCourse statusCourse =
-            await apiService.getStatusExam(student, course, context);
-        statusCoursesMap[course.codice] = statusCourse;
+    for (final course in courses) {
+      try {
+        final statusCourse = await apiService.getStatusExam(student, course, context);
+        statusCoursesMap[_courseStatusKey(course)] = statusCourse;
+      } catch (e, stackTrace) {
+        AppLogger.warning(
+          'Status corso non disponibile: ${course.nome} (codice=${course.codice}, adId=${course.adId})',
+          e,
+          stackTrace,
+        );
       }
-
-      return statusCoursesMap;
-    } catch (e) {
-      throw Exception(
-          'Errore durante il caricamento dello stato dei corsi: $e');
     }
+
+    return statusCoursesMap;
+  }
+
+  String _courseStatusKey(CourseInfo course) {
+    final codice = course.codice.trim();
+    if (codice.isNotEmpty) return codice;
+    return 'ad:${course.adId}';
   }
 
   /// Ottiene le tasse di uno studente.

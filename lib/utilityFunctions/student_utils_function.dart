@@ -1,6 +1,7 @@
 import 'package:appuniparthenope/controller/auth_controller.dart';
 import 'package:appuniparthenope/controller/student_controller.dart';
 import 'package:appuniparthenope/controller/uni_service_controller.dart';
+import 'package:appuniparthenope/core/logger.dart';
 import 'package:appuniparthenope/model/studentService/student_course_data.dart';
 import 'package:appuniparthenope/model/teacherService/room_data.dart';
 import 'package:appuniparthenope/model/user_data_login.dart';
@@ -130,21 +131,26 @@ class StudentUtils {
   static Future<void> allCourseStudent(
       BuildContext context, User? authenticatedUser) async {
     final StudentController totalExamController = StudentController();
+    final examDataProvider =
+        Provider.of<ExamDataProvider>(context, listen: false);
+
     try {
-      // Salva il riferimento al provider PRIMA dell'operazione asincrona
-      final examDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
+      if (authenticatedUser == null) {
+        throw Exception('Utente non autenticato');
+      }
 
       // Ottiene tutti i corsi dello studente.
       final allCourseStudent = await totalExamController.fetchAllCourseStudent(
-          authenticatedUser!, context);
+          authenticatedUser, context);
 
       // Aggiorna il provider con tutti i corsi dello studente.
       examDataProvider.setAllCoursesStudent(allCourseStudent);
 
       // NON chiamiamo allStatusCourse qui perché il context potrebbe essere deactivated
       // Lo stato verrà caricato dalla pagina stessa quando necessario
-    } catch (_) {
+    } catch (e, stackTrace) {
+      examDataProvider.setCourseLoadError(e.toString());
+      AppLogger.error('Errore durante caricamento corsi studente', e, stackTrace);
       return;
     }
   }

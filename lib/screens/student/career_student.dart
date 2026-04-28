@@ -380,13 +380,17 @@ class _ModernCareerExamCard extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 decoration: BoxDecoration(
-                  color: AppColors.primaryColor.withValues(alpha: 0.08),
+                  color: (isPassed
+                          ? AppColors.successColor
+                          : AppColors.primaryColor)
+                      .withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Text(
                   '${AppLocalizations.of(context).translate('completed')}: $completedDate',
-                  style: const TextStyle(
-                    color: AppColors.primaryDarkColor,
+                  style: TextStyle(
+                    color:
+                        isPassed ? AppColors.successColor : AppColors.primaryDarkColor,
                     fontWeight: FontWeight.w700,
                   ),
                 ),

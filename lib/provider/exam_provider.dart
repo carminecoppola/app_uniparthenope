@@ -16,6 +16,7 @@ class ExamDataProvider extends ChangeNotifier {
   AverageInfo? _weightedAverageStatsStudent;
   List<ExamData>? _allExamStudent;
   List<CourseInfo>? _allCourseStudent; //this is the list of courses
+  String? _courseLoadError;
   List<StatusCourse>? _allStatusCourses;
   Map<String, StatusCourse>? _statusCoursesMap;
   List<EventsInfo>? _allEvents;
@@ -33,6 +34,7 @@ class ExamDataProvider extends ChangeNotifier {
   List<ExamData>? get allExamStudent => _allExamStudent;
 
   List<CourseInfo>? get allCourseStudent => _allCourseStudent;
+  String? get courseLoadError => _courseLoadError;
 
   List<StatusCourse>? get allStatusCourses => _allStatusCourses;
 
@@ -91,6 +93,12 @@ class ExamDataProvider extends ChangeNotifier {
   // Metodo per impostare i corsi dell'utente
   void setAllCoursesStudent(List<CourseInfo> allCourseStudent) {
     _allCourseStudent = allCourseStudent;
+    _courseLoadError = null;
+    notifyListeners();
+  }
+
+  void setCourseLoadError(String? error) {
+    _courseLoadError = error;
     notifyListeners();
   }
 
@@ -131,6 +139,7 @@ class ExamDataProvider extends ChangeNotifier {
     _weightedAverageStatsStudent = null;
     _allExamStudent = null;
     _allCourseStudent = null;
+    _courseLoadError = null;
     _allStatusCourses = null;
     _statusCoursesMap = null;
     _allEvents = null;

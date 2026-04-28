@@ -19,16 +19,8 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
   @override
   Widget build(BuildContext context) {
     final qrCode = Provider.of<AuthProvider>(context).qrCode;
-
-    ImageProvider<Object>? qrCodeImage;
-
-    if (kIsWeb && qrCode != null) {
-      qrCodeImage = NetworkImage(qrCode);
-    } else if (qrCode != null) {
-      qrCodeImage = FileImage(File(qrCode));
-    } else {
-      qrCodeImage = const AssetImage('assets/user_profile_default.jpg');
-    }
+    final hasQrValue = qrCode != null && qrCode.isNotEmpty;
+    final hasLocalQr = !kIsWeb && hasQrValue && File(qrCode).existsSync();
 
     return GestureDetector(
       onTap: () {
@@ -38,8 +30,17 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
             child: SizedBox(
               width: 300,
               height: 300,
-              child: qrCode != null
-                  ? Image(image: qrCodeImage!, fit: BoxFit.cover)
+              child: (kIsWeb && hasQrValue) || hasLocalQr
+                  ? Image(
+                      image: kIsWeb
+                          ? NetworkImage(qrCode)
+                          : FileImage(File(qrCode)) as ImageProvider,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => const CustomLoadingIndicator(
+                        text: 'QR-Code non disponibile',
+                        myColor: AppColors.detailsColor,
+                      ),
+                    )
                   : const CustomLoadingIndicator(
                       text: 'Caricamento QR-Code',
                       myColor: AppColors.detailsColor,
@@ -59,10 +60,30 @@ class _QRCodeWidgetState extends State<QRCodeWidget> {
             width: 5,
           ),
         ),
-        child: qrCode != null
+        child: hasQrValue
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image(image: qrCodeImage, fit: BoxFit.cover),
+                child: ((kIsWeb && hasQrValue) || hasLocalQr)
+                    ? Image(
+                        image: kIsWeb
+                            ? NetworkImage(qrCode)
+                            : FileImage(File(qrCode)) as ImageProvider,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => const Center(
+                          child: Icon(
+                            Icons.qr_code_2_rounded,
+                            color: AppColors.detailsColor,
+                            size: 56,
+                          ),
+                        ),
+                      )
+                    : const Center(
+                        child: Icon(
+                          Icons.qr_code_2_rounded,
+                          color: AppColors.detailsColor,
+                          size: 56,
+                        ),
+                      ),
               )
             : const CircularProgressIndicator(
                 color: AppColors.detailsColor,

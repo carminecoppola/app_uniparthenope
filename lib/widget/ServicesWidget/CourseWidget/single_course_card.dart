@@ -120,8 +120,8 @@ class SingleCourseCard extends StatelessWidget {
                                   '${AppLocalizations.of(context).translate('code')}: $codiceCorso',
                             ),
                             _CourseMetaChip(
-                              icon: Icons.calendar_today_rounded,
-                              text: 'A.A. $annoAccademico',
+                              icon: Icons.workspace_premium_outlined,
+                              text: '$cfuExam CFU',
                             ),
                           ],
                         ),

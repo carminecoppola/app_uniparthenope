@@ -62,80 +62,7 @@ class ApiService {
     }
   }
 
-  // Ottieni l'immagine del profilo dell'utente dal server
-  /*Future<String> userProfileImage(User user, BuildContext context) async {
-    try {
-      final String role = user.grpDes.toString();
-      final String persId = user.persId.toString();
-      final String idAb = user.idAb.toString();
-      final String password =
-          Provider.of<AuthProvider>(context, listen: false).password!;
-
-      String url;
-      if (role == 'Studenti') {
-        url = '$baseUrl/UniparthenopeApp/v1/general/image/$persId';
-      } else if (role == 'Docenti') {
-        url = '$baseUrl/UniparthenopeApp/v1/general/image_prof/$idAb';
-      } else {
-        throw Exception('Ruolo non valido');
-      }
-
-      final response = await http.get(
-        Uri.parse(url),
-        headers: {
-          'Authorization':
-              'Basic ${base64Encode(utf8.encode("${user.userId}:$password"))}',
-          'Content-Type': 'image/jpg',
-        },
-      );
-
-
-      if (response.statusCode == 200) {
-        Uint8List imageData = response.bodyBytes;
-
-        Directory appDocDir = await getApplicationDocumentsDirectory();
-        File imageFile = File('${appDocDir.path}/my_img.jpg');
-        await imageFile.writeAsBytes(imageData);
-
-        return imageFile.path;
-      } else {
-        throw Exception(
-            'Errore durante il recupero dell\'immagine: ${response.statusCode}');
-      }
-    } catch (e) {
-      throw Exception('Errore durante il recupero dell\'immagine di profilo');
-    }
-  }
-*/
-
-  // RIMOSSO: Non servono permessi storage/foto per scaricare l'immagine profilo via HTTP
-  // L'immagine viene caricata direttamente in memoria come Uint8List
-  /*
-  Future<void> requestPermissions() async {
-    if (Platform.isAndroid) {
-      // Controlla la versione di Android
-      if (await Permission.storage.request().isGranted ||
-          await Permission.photos.request().isGranted ||
-          await Permission.videos.request().isGranted ||
-          await Permission.audio.request().isGranted) {
-      } else {
-        // Gestione degli errori o richieste ripetute qui
-      }
-    } else if (Platform.isIOS) {
-      PermissionStatus status = await Permission.photos.request();
-      if (status.isGranted) {
-      } else {
-      }
-    }
-  }
-  */
-
   Future<String> userProfileImage(User user, BuildContext context) async {
-    // RIMOSSO: Non servono permessi per scaricare l'immagine via HTTP
-    // if (Platform.isAndroid || Platform.isIOS) {
-    //   await requestPermissions();
-    // }
-
     try {
       final String role = user.grpDes.toString();
       final String persId = user.persId.toString();
@@ -208,11 +135,20 @@ class ApiService {
 
       if (response.statusCode == 200) {
         Uint8List imageData = response.bodyBytes;
+        final contentType = response.headers['content-type'] ?? '';
+
+        final looksLikeImage = contentType.startsWith('image/') ||
+            _hasKnownImageSignature(imageData);
+        if (!looksLikeImage || imageData.isEmpty) {
+          throw Exception('QR-Code non valido ricevuto dal server');
+        }
+
+        final extension = contentType.contains('png') ? 'png' : 'jpg';
 
         // Ottieni la directory di salvataggio dell'applicazione
         Directory appDocDir = await getApplicationDocumentsDirectory();
         // Crea un nuovo file nell'applicazione directory
-        File imageFile = File('${appDocDir.path}/my_qrCode.jpg');
+        File imageFile = File('${appDocDir.path}/my_qrCode.$extension');
         // Scrivi i byte dell'immagine nel file
         await imageFile.writeAsBytes(imageData);
 
@@ -226,6 +162,14 @@ class ApiService {
     }
   }
 
+  bool _hasKnownImageSignature(Uint8List bytes) {
+    if (bytes.length < 4) return false;
+    final isPng =
+        bytes[0] == 0x89 && bytes[1] == 0x50 && bytes[2] == 0x4E && bytes[3] == 0x47;
+    final isJpeg = bytes[0] == 0xFF && bytes[1] == 0xD8;
+    return isPng || isJpeg;
+  }
+
   Future<void> deleteProfileImage() async {
     try {
       Directory appDocDir = await getApplicationDocumentsDirectory();
@@ -234,6 +178,16 @@ class ApiService {
 
       if (await imageFile.exists()) {
         await imageFile.delete();
+      }
+
+      final qrJpg = File('${appDocDir.path}/my_qrCode.jpg');
+      if (await qrJpg.exists()) {
+        await qrJpg.delete();
+      }
+
+      final qrPng = File('${appDocDir.path}/my_qrCode.png');
+      if (await qrPng.exists()) {
+        await qrPng.delete();
       }
     } catch (_) {
       return;

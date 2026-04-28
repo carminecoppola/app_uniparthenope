@@ -11,4 +11,9 @@ class RoomsProvider extends ChangeNotifier {
     _rooms = rooms;
     notifyListeners();
   }
+
+  void clearRooms() {
+    _rooms = null;
+    notifyListeners();
+  }
 }

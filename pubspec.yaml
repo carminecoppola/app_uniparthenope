@@ -1,7 +1,7 @@
 name: appuniparthenope
 description: "The official app of the University of Naples 'Parthenope,' developed by students, offers a tailored experience for the academic community. Whether you are a student, teacher, or part of the administrative staff, you will have quick and easy access to all essential university information. Explore the new minimalist interface inspired by our university's colors, designed to make navigation intuitive and enjoyable. Keep track of your academic activities, available rooms, and university events all in one place."
 
-version: 4.1.0+36
+version: 4.1.4+40
 
 environment:
   sdk: '>=3.3.1 <4.0.0'
@@ -33,7 +33,6 @@ dependencies:
   shared_preferences: ^2.5.5
   dots_indicator: ^3.1.0
   location: ^6.0.2
-  permission_handler: ^11.4.0
   package_info_plus: ^8.3.1
   device_info_plus: ^10.1.2
   yaml: ^3.1.3

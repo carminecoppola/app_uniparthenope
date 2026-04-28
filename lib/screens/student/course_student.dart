@@ -24,6 +24,7 @@ class _CourseStudentState extends State<CourseStudentPage> {
   static const bool _useModernCourseExperience = true;
   int _selectedIndex = 0;
   bool _isLoadingStatus = false;
+  bool _statusLoadCompleted = false;
 
   @override
   void initState() {
@@ -39,6 +40,7 @@ class _CourseStudentState extends State<CourseStudentPage> {
 
     setState(() {
       _isLoadingStatus = true;
+      _statusLoadCompleted = false;
     });
 
     try {
@@ -63,6 +65,7 @@ class _CourseStudentState extends State<CourseStudentPage> {
       if (mounted) {
         setState(() {
           _isLoadingStatus = false;
+          _statusLoadCompleted = true;
         });
       }
     }
@@ -71,6 +74,22 @@ class _CourseStudentState extends State<CourseStudentPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    final examProvider = Provider.of<ExamDataProvider>(context);
+    final allCourseInfo = examProvider.allCourseStudent;
+    final allStatusCoursesMap = examProvider.statusCoursesMap;
+
+    if (!_isLoadingStatus &&
+        allCourseInfo != null &&
+        allCourseInfo.isNotEmpty &&
+        allStatusCoursesMap == null &&
+        !_statusLoadCompleted) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _loadCourseStatus();
+        }
+      });
+    }
+
     // Nessun selettore attivo - pagina esterna alle 3 principali
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
@@ -356,7 +375,10 @@ class _CourseStudentState extends State<CourseStudentPage> {
       final tabTitles = getTabTitles(context);
 
       Widget courseContent;
-      if (allCourseInfo != null && allStatusCoursesMap != null) {
+      if (allCourseInfo != null &&
+          !_isLoadingStatus &&
+          _statusLoadCompleted &&
+          allStatusCoursesMap != null) {
         courseContent = selectedCourses.isNotEmpty
             ? ListView.builder(
                 padding: EdgeInsets.fromLTRB(
@@ -371,7 +393,7 @@ class _CourseStudentState extends State<CourseStudentPage> {
                   final cfuExam = course.cfu.toInt().toString();
 
                   final status =
-                      allStatusCoursesMap[course.codice]?.stato.toString() ??
+                      allStatusCoursesMap[_courseStatusKey(course)]?.stato.toString() ??
                           AppLocalizations.of(context)
                               .translate('state_not_available');
 
@@ -427,6 +449,12 @@ class _CourseStudentState extends State<CourseStudentPage> {
           Text(AppLocalizations.of(context).translate('not_selected_career')),
     );
   }
+}
+
+String _courseStatusKey(CourseInfo course) {
+  final codice = course.codice.trim();
+  if (codice.isNotEmpty) return codice;
+  return 'ad:${course.adId}';
 }
 
 class _CourseHighlightCard extends StatelessWidget {

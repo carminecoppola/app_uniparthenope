@@ -19,4 +19,10 @@ class WeatherDataProvider extends ChangeNotifier {
     _timeSeriesList = timeSeriesList;
     notifyListeners();
   }
+
+  void clearWeather() {
+    _palceName = 'Napoli';
+    _timeSeriesList = [];
+    notifyListeners();
+  }
 }

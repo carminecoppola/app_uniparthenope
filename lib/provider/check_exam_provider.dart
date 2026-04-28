@@ -9,6 +9,7 @@ import '../model/studentService/student_course_data.dart';
 
 class CheckDateExamProvider extends ChangeNotifier {
   final ApiCheckExamService _apiService = getIt<ApiCheckExamService>();
+  Map<int, int> _prenotabiliByAdId = const {};
 
   List<CheckAppello> _allAppelliStudent = [];
   List<CheckAppello> get allAppelliStudent => _allAppelliStudent;
@@ -18,6 +19,10 @@ class CheckDateExamProvider extends ChangeNotifier {
 
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
+  String? _warningMessage;
+  String? get warningMessage => _warningMessage;
+  AppelliFetchSummary? _lastFetchSummary;
+  AppelliFetchSummary? get lastFetchSummary => _lastFetchSummary;
 
   Map<String, List<CheckAppello>> get groupedAppelliByExam {
     final Map<String, List<CheckAppello>> grouped = {};
@@ -44,6 +49,11 @@ class CheckDateExamProvider extends ChangeNotifier {
   }) async {
     _isLoading = true;
     _errorMessage = null;
+    _warningMessage = null;
+    _lastFetchSummary = null;
+    _prenotabiliByAdId = {
+      for (final c in courseList) c.adId: c.numAppelliPrenotabili,
+    };
     notifyListeners();
 
     try {
@@ -55,10 +65,16 @@ class CheckDateExamProvider extends ChangeNotifier {
       );
 
       if (result.isSuccess) {
-        setAllAppelliStudent(result.data!);
+        final response = result.data!;
+        _lastFetchSummary = response.summary;
+        if (response.summary.error500Courses > 0) {
+          _warningMessage =
+              'Alcuni insegnamenti non sono verificabili ora, riprova più tardi.';
+        }
+        setAllAppelliStudent(response.appelli);
         _isLoading = false;
         notifyListeners();
-        return Result.success(result.data!);
+        return Result.success(response.appelli);
       } else {
         _errorMessage = result.errorMessage;
         _isLoading = false;
@@ -181,6 +197,8 @@ class CheckDateExamProvider extends ChangeNotifier {
     _allAppelliStudent = appelli;
     _sortAppelliByDate();
     _filterFutureBookableAppelli();
+    _filterOnlyPrenotabiliByState();
+    _updateSummaryWithStateFiltering();
     notifyListeners();
   }
 
@@ -221,6 +239,10 @@ class CheckDateExamProvider extends ChangeNotifier {
 
   void clearAppelli() {
     _allAppelliStudent = [];
+    _errorMessage = null;
+    _warningMessage = null;
+    _lastFetchSummary = null;
+    _isLoading = false;
     notifyListeners();
   }
 
@@ -260,5 +282,111 @@ class CheckDateExamProvider extends ChangeNotifier {
         }
         return dateA.compareTo(dateB); // dal più vicino al più lontano
       });
+  }
+
+  void _filterOnlyPrenotabiliByState() {
+    final before = _allAppelliStudent.length;
+    final strictPrenotabili = _allAppelliStudent.where((appello) {
+      return _isPrenotabile(appello);
+    }).toList();
+
+    if (strictPrenotabili.isNotEmpty) {
+      _allAppelliStudent = strictPrenotabili;
+      final removed = before - _allAppelliStudent.length;
+      if (removed > 0) {
+        AppLogger.info(
+            'Filtro prenotabilità applicato (strict): scartatiPerStato=$removed, rimasti=${_allAppelliStudent.length}');
+      }
+      return;
+    }
+
+    // Fallback adattivo:
+    // alcuni account Esse3 restituiscono solo stati non "P" anche per appelli
+    // operativi. In questo caso evitiamo lista vuota usando solo appelli futuri
+    // con stato "attivo" lato sessione (es. I/P).
+    final fallback = _allAppelliStudent.where(_isLikelyBookableFallback).toList();
+    if (fallback.isNotEmpty) {
+      _allAppelliStudent = fallback;
+      _warningMessage ??=
+          'Dati appelli parzialmente incoerenti con Esse3: mostrata modalità compatibilità.';
+      AppLogger.info(
+          'Filtro prenotabilità fallback applicato: strict=0, fallback=${_allAppelliStudent.length}, original=$before');
+      return;
+    }
+
+    // Niente bypass finale: meglio lista vuota che risultati potenzialmente falsi.
+    _allAppelliStudent = const [];
+    AppLogger.info(
+        'Filtro prenotabilità applicato: strict=0 fallback=0 original=$before, rimasti=0');
+  }
+
+  bool _isPrenotabile(CheckAppello appello) {
+    final stato = (appello.stato ?? '').trim().toUpperCase();
+    if (stato == 'P') return true;
+
+    final statoDes = (appello.statoDes ?? '').trim().toLowerCase();
+    // Il backend non sempre valorizza `stato` con "P":
+    // usiamo `statoDes` come fallback per allinearci a Esse3.
+    if (statoDes.contains('prenot')) return true;
+    if (statoDes.contains('iscrizion') && statoDes.contains('apert')) {
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isLikelyBookableFallback(CheckAppello appello) {
+    final adId = appello.adId;
+    if (adId == null) return false;
+    final prenotabili = _prenotabiliByAdId[adId] ?? 0;
+    if (prenotabili <= 0) return false;
+
+    final stato = (appello.stato ?? '').trim().toUpperCase();
+    if (stato.isEmpty) return false;
+    if (stato == 'C') return false;
+
+    // In contesti Esse3 reali, "I" è spesso usato per appelli futuri gestibili.
+    const activeStates = {'I', 'P'};
+    if (!activeStates.contains(stato)) return false;
+
+    return _isFutureOrTodayAppello(appello);
+  }
+
+  bool _isFutureOrTodayAppello(CheckAppello appello) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final dataStr = (appello.dataFine ?? appello.dataEsame ?? '').trim();
+    if (dataStr.isEmpty) return false;
+
+    DateTime? parsed;
+    try {
+      parsed = DateTime.tryParse(dataStr);
+      parsed ??= DateFormat('dd/MM/yyyy').parseStrict(dataStr);
+    } catch (_) {
+      parsed = null;
+    }
+    if (parsed == null) return false;
+    final normalized = DateTime(parsed.year, parsed.month, parsed.day);
+    return !normalized.isBefore(today);
+  }
+
+  void _updateSummaryWithStateFiltering() {
+    final summary = _lastFetchSummary;
+    if (summary == null) return;
+    final discardedForState =
+        summary.totalReceivedWithStatoNonP + summary.discardedForNonPrenotabileState;
+    _lastFetchSummary = AppelliFetchSummary(
+      totalCourses: summary.totalCourses,
+      successCourses: summary.successCourses,
+      noAppelliCourses: summary.noAppelliCourses,
+      error500Courses: summary.error500Courses,
+      errorOtherCourses: summary.errorOtherCourses,
+      totalAppelliShown: _allAppelliStudent.length,
+      totalReceivedWithStatoP: summary.totalReceivedWithStatoP,
+      totalReceivedWithStatoNonP: summary.totalReceivedWithStatoNonP,
+      discardedForNonPrenotabileState: discardedForState,
+      failed500CourseNames: summary.failed500CourseNames,
+      diagnostics: summary.diagnostics,
+    );
   }
 }

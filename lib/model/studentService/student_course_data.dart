@@ -7,6 +7,7 @@ class CourseInfo {
   final double cfu;
   final int annoId;
   final int adsceId;
+  final int numAppelliPrenotabili;
 
   CourseInfo({
     required this.nome,
@@ -15,6 +16,7 @@ class CourseInfo {
     required this.cfu,
     required this.annoId,
     required this.adsceId,
+    required this.numAppelliPrenotabili,
   });
 
   factory CourseInfo.fromRawJson(String str) =>
@@ -23,12 +25,13 @@ class CourseInfo {
   String toRawJson() => json.encode(toJson());
 
   factory CourseInfo.fromJson(Map<String, dynamic> json) => CourseInfo(
-        nome: json["nome"],
-        codice: json["codice"],
-        adId: json["adId"],
-        cfu: json["CFU"],
-        annoId: json["annoId"],
-        adsceId: json["adsceId"],
+        nome: (json["nome"] ?? '').toString(),
+        codice: (json["codice"] ?? '').toString(),
+        adId: _parseInt(json["adId"]) ?? 0,
+        cfu: _parseDouble(json["CFU"]) ?? 0,
+        annoId: _parseInt(json["annoId"]) ?? 1,
+        adsceId: _parseInt(json["adsceId"]) ?? 0,
+        numAppelliPrenotabili: _parseInt(json["numAppelliPrenotabili"]) ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -38,7 +41,21 @@ class CourseInfo {
         "CFU": cfu,
         "annoId": annoId,
         "adsceId": adsceId,
+        "numAppelliPrenotabili": numAppelliPrenotabili,
       };
+}
+
+int? _parseInt(dynamic value) {
+  if (value == null) return null;
+  if (value is int) return value;
+  return int.tryParse(value.toString());
+}
+
+double? _parseDouble(dynamic value) {
+  if (value == null) return null;
+  if (value is double) return value;
+  if (value is int) return value.toDouble();
+  return double.tryParse(value.toString());
 }
 
 //Status Class Model
@@ -66,12 +83,12 @@ class StatusCourse {
   String toRawJson() => json.encode(toJson());
 
   factory StatusCourse.fromJson(Map<String, dynamic> json) => StatusCourse(
-        stato: json["stato"],
-        tipo: json["tipo"],
-        data: json["data"],
-        lode: json["lode"],
-        voto: json["voto"],
-        anno: json["anno"],
+        stato: (json["stato"] ?? '').toString(),
+        tipo: (json["tipo"] ?? '').toString(),
+        data: (json["data"] ?? '').toString(),
+        lode: _parseInt(json["lode"]) ?? 0,
+        voto: _parseDouble(json["voto"]),
+        anno: _parseInt(json["anno"]) ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
