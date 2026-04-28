@@ -1,4 +1,5 @@
 import 'package:appuniparthenope/model/user_data_anagrafic.dart';
+import 'package:appuniparthenope/core/logger.dart';
 import 'package:appuniparthenope/core/service_locator.dart';
 import 'package:appuniparthenope/service/api_login_service.dart';
 import 'package:appuniparthenope/service/local_grades_service.dart';
@@ -77,6 +78,9 @@ class AuthProvider with ChangeNotifier {
 
   void setProfileImage(String image) {
     _profileImage = image;
+    AppLogger.info(
+      'IMG PROVIDER setProfileImage len=${image.length} prefix=${image.length > 32 ? image.substring(0, 32) : image}',
+    );
     notifyListeners();
   }
 
@@ -91,7 +95,7 @@ class AuthProvider with ChangeNotifier {
     _password = null;
     _authToken = null;
     _anagrafeUser = null;
-    ApiService().deleteProfileImage();
+    await ApiService().deleteProfileImage();
     _profileImage = null;
     _qrCode = null;
     _selectedCareer = null;

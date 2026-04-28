@@ -1,4 +1,5 @@
 import 'package:appuniparthenope/main.dart';
+import 'package:appuniparthenope/core/logger.dart';
 import 'package:appuniparthenope/widget/custom_loading_indicator.dart';
 import 'package:appuniparthenope/widget/ServicesWidget/CalendarWidget/calendar_card.dart';
 import 'package:appuniparthenope/widget/alert_dialog.dart';
@@ -102,21 +103,40 @@ class _HomePageState extends State<HomePage> {
     final authenticatedUser =
         Provider.of<AuthProvider>(context, listen: false).authenticatedUser;
 
+    AppLogger.info(
+      'HOME LOAD start hasUser=${authenticatedUser != null}',
+    );
+
     if (authenticatedUser != null) {
       if (!mounted) return;
 
       if (authenticatedUser.user.grpDes == 'Studenti') {
+        AppLogger.info(
+          'HOME LOAD role=Studenti userId=${authenticatedUser.user.userId}',
+        );
         await StudentUtils.anagrafeUser(context, authenticatedUser.user);
+        if (!mounted) return;
+        await AuthUtilsFunction.userImg(context);
         if (!mounted) return;
         await StudentUtils.allReservationStudent(
             context, authenticatedUser.user);
+        AppLogger.info('HOME LOAD studenti data completed');
 
         // 🔔 AUTOMATICO: Il check dei nuovi voti avviene dentro
         // StudentUtils.allExamStudent() → ExamDataProvider.setAllExamStudent()
         // che trigga automaticamente _checkAndNotifyNewGrades()
       } else if (authenticatedUser.user.grpDes == 'Docenti') {
+        AppLogger.info(
+          'HOME LOAD role=Docenti userId=${authenticatedUser.user.userId}',
+        );
         await StudentUtils.anagrafeUser(context, authenticatedUser.user);
+        if (!mounted) return;
+        await AuthUtilsFunction.userImg(context);
+        AppLogger.info('HOME LOAD docenti data completed');
       } else {
+        AppLogger.warning(
+          'HOME LOAD unsupported role=${authenticatedUser.user.grpDes}',
+        );
         if (!mounted) return;
         CustomAlertDialog(
           title: AppLocalizations.of(context).translate('error_anagrafic'),
@@ -126,6 +146,8 @@ class _HomePageState extends State<HomePage> {
           color: AppColors.errorColor,
         );
       }
+    } else {
+      AppLogger.warning('HOME LOAD aborted: authenticatedUser is null');
     }
   }
 

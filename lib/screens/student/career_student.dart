@@ -21,6 +21,7 @@ class StudentCarrerPage extends StatefulWidget {
 
 class _StudentCarrerPageState extends State<StudentCarrerPage> {
   static const bool _useModernCareerExperience = true;
+  static const double _careerListBottomSpacing = 20;
 
   @override
   void initState() {
@@ -145,6 +146,15 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
                     const SizedBox(height: 10),
                     Expanded(
                       child: ListView.builder(
+                        physics: const ClampingScrollPhysics(),
+                        padding: EdgeInsets.fromLTRB(
+                          16,
+                          0,
+                          16,
+                          kBottomNavigationBarHeight +
+                              MediaQuery.viewPaddingOf(context).bottom +
+                              _careerListBottomSpacing,
+                        ),
                         itemCount: allExamInfo!.length,
                         itemBuilder: (context, index) {
                           final singleExam = allExamInfo[index];
@@ -202,11 +212,14 @@ class _StudentCarrerPageState extends State<StudentCarrerPage> {
         ),
         Expanded(
           child: ListView.builder(
+            physics: const ClampingScrollPhysics(),
             padding: EdgeInsets.fromLTRB(
               16,
               0,
               16,
-              MediaQuery.paddingOf(context).bottom + 112,
+              kBottomNavigationBarHeight +
+                  MediaQuery.viewPaddingOf(context).bottom +
+                  _careerListBottomSpacing,
             ),
             itemCount: allExamInfo.length,
             itemBuilder: (context, index) {

@@ -62,7 +62,6 @@ class AppRoutes {
     qrCodePage: (context) => const PersonalCardPage(),
 
     //Role
-    home: (context) => const HomePage(),
     homePTA: (context) => const PTAHomePage(),
     homeResturant: (context) => const HomeRestaurateursPage(),
     homePhD: (context) => const HomePhDPage(),
@@ -90,4 +89,38 @@ class AppRoutes {
     registrationLibrary: (context) => const RegistrationForm(),
     viewAllAccessLibrary: (context) => const AccessLogsTable(),
   };
+
+  static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
+    if (settings.name == home) {
+      return PageRouteBuilder(
+        settings: settings,
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const HomePage(),
+        transitionDuration: const Duration(milliseconds: 320),
+        reverseTransitionDuration: const Duration(milliseconds: 240),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          final curved = CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeOutCubic,
+            reverseCurve: Curves.easeInCubic,
+          );
+
+          final slide = Tween<Offset>(
+            begin: const Offset(0, 0.05),
+            end: Offset.zero,
+          ).animate(curved);
+
+          return FadeTransition(
+            opacity: curved,
+            child: SlideTransition(
+              position: slide,
+              child: child,
+            ),
+          );
+        },
+      );
+    }
+
+    return null;
+  }
 }

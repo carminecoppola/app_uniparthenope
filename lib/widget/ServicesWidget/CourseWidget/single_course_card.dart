@@ -22,7 +22,8 @@ class SingleCourseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusColor = getStatusColor(status);
+    final normalizedStatus = _normalizeStatusLabel(status);
+    final statusColor = getStatusColor(normalizedStatus);
     final cleanTitle = titleExam.split(' CFU').first;
 
     return Container(
@@ -110,18 +111,22 @@ class SingleCourseCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
+                        Row(
                           children: [
-                            _CourseMetaChip(
-                              icon: Icons.tag_rounded,
-                              text:
-                                  '${AppLocalizations.of(context).translate('code')}: $codiceCorso',
+                            Expanded(
+                              child: _CourseMetaChip(
+                                icon: Icons.tag_rounded,
+                                text:
+                                    '${AppLocalizations.of(context).translate('code')}: $codiceCorso',
+                                compact: true,
+                              ),
                             ),
+                            const SizedBox(width: 8),
                             _CourseMetaChip(
-                              icon: Icons.workspace_premium_outlined,
-                              text: '$cfuExam CFU',
+                              icon: Icons.verified_outlined,
+                              text: normalizedStatus,
+                              textColor: statusColor,
+                              compact: true,
                             ),
                           ],
                         ),
@@ -129,54 +134,6 @@ class SingleCourseCard extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-              const SizedBox(height: 16),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                decoration: BoxDecoration(
-                  color: statusColor.withValues(alpha: 0.10),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: statusColor.withValues(alpha: 0.14),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 12,
-                      height: 12,
-                      decoration: BoxDecoration(
-                        color: statusColor,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: statusColor.withValues(alpha: 0.28),
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      '${AppLocalizations.of(context).translate('state')}: ',
-                      style: const TextStyle(
-                        color: AppColors.primaryDarkColor,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        status,
-                        style: TextStyle(
-                          color: statusColor,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
               ),
             ],
           ),
@@ -193,49 +150,68 @@ class SingleCourseCard extends StatelessWidget {
       return AppColors.successColor;
     }
 
-    if (normalizedStatus.contains('pian')) {
-      return AppColors.detailsColor;
+    if (normalizedStatus.contains('pianific')) {
+      return const Color(0xFF5E7486);
     }
 
-    if (normalizedStatus.contains('frequen') ||
-        normalizedStatus.contains('attivit')) {
-      return AppColors.accentColor;
+    if (normalizedStatus.contains('frequent')) {
+      return const Color(0xFFB06A1D);
     }
 
     return AppColors.lightGray;
+  }
+
+  String _normalizeStatusLabel(String rawStatus) {
+    final normalized = rawStatus.trim().toLowerCase();
+
+    if (normalized.contains('super')) return 'Superata';
+    if (normalized.contains('riconos')) return 'Riconosciuta';
+    if (normalized.contains('pianific')) return 'Pianificata';
+    if (normalized.contains('frequent') || normalized.contains('attivit')) {
+      return 'Frequentata';
+    }
+    if (normalized.isEmpty) return 'Non disponibile';
+    return rawStatus;
   }
 }
 
 class _CourseMetaChip extends StatelessWidget {
   final IconData icon;
   final String text;
+  final Color? textColor;
+  final bool compact;
 
   const _CourseMetaChip({
     required this.icon,
     required this.text,
+    this.textColor,
+    this.compact = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      padding: EdgeInsets.symmetric(
+        horizontal: compact ? 6 : 10,
+        vertical: compact ? 6 : 8,
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             icon,
-            size: 16,
+            size: compact ? 14 : 16,
             color: AppColors.primaryColor,
           ),
-          const SizedBox(width: 6),
+          SizedBox(width: compact ? 4 : 6),
           Flexible(
             child: Text(
               text,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: AppColors.primaryDarkColor,
-                fontSize: 13,
+              style: TextStyle(
+                color: textColor ?? AppColors.primaryDarkColor,
+                fontSize: compact ? 12 : 13,
                 fontWeight: FontWeight.w600,
               ),
             ),

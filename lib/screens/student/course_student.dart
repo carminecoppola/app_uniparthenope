@@ -22,6 +22,7 @@ class CourseStudentPage extends StatefulWidget {
 
 class _CourseStudentState extends State<CourseStudentPage> {
   static const bool _useModernCourseExperience = true;
+  static const double _courseListBottomSpacing = 20;
   int _selectedIndex = 0;
   bool _isLoadingStatus = false;
   bool _statusLoadCompleted = false;
@@ -278,6 +279,8 @@ class _CourseStudentState extends State<CourseStudentPage> {
   Widget build(BuildContext context) {
     final allCourseInfo =
         Provider.of<ExamDataProvider>(context).allCourseStudent;
+    final courseLoadError =
+        Provider.of<ExamDataProvider>(context).courseLoadError;
     final allStatusCoursesMap =
         Provider.of<ExamDataProvider>(context).statusCoursesMap;
     final pianoId = Provider.of<ExamDataProvider>(context).pianoId;
@@ -375,27 +378,32 @@ class _CourseStudentState extends State<CourseStudentPage> {
       final tabTitles = getTabTitles(context);
 
       Widget courseContent;
-      if (allCourseInfo != null &&
-          !_isLoadingStatus &&
-          _statusLoadCompleted &&
-          allStatusCoursesMap != null) {
+      final hasInconsistentPayloadError =
+          (courseLoadError ?? '').toLowerCase().contains('payload corsi inconsistente');
+      final listBottomPadding = kBottomNavigationBarHeight +
+          MediaQuery.viewPaddingOf(context).bottom +
+          _courseListBottomSpacing;
+
+      if (allCourseInfo != null && !_isLoadingStatus && _statusLoadCompleted) {
         courseContent = selectedCourses.isNotEmpty
             ? ListView.builder(
+                physics: const ClampingScrollPhysics(),
                 padding: EdgeInsets.fromLTRB(
                   20,
                   0,
                   20,
-                  MediaQuery.paddingOf(context).bottom + 96,
+                  listBottomPadding,
                 ),
                 itemCount: selectedCourses.length,
                 itemBuilder: (context, index) {
                   final course = selectedCourses[index];
                   final cfuExam = course.cfu.toInt().toString();
 
-                  final status =
-                      allStatusCoursesMap[_courseStatusKey(course)]?.stato.toString() ??
-                          AppLocalizations.of(context)
-                              .translate('state_not_available');
+                  final status = allStatusCoursesMap?[_courseStatusKey(course)]
+                          ?.stato
+                          .toString() ??
+                      AppLocalizations.of(context)
+                          .translate('state_not_available');
 
                   return SingleCourseCard(
                     index: index,
@@ -408,6 +416,21 @@ class _CourseStudentState extends State<CourseStudentPage> {
                 },
               )
             : _buildEmptyYearState(context);
+      } else if (hasInconsistentPayloadError) {
+        courseContent = const Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            child: Text(
+              'Lista corsi non valida ricevuta dal server. Riprova più tardi.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: AppColors.detailsColor,
+              ),
+            ),
+          ),
+        );
       } else {
         courseContent = Center(
           child: CustomLoadingIndicator(

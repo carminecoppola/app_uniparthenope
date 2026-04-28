@@ -27,9 +27,12 @@ class ListaAppelliPage extends StatefulWidget {
 
 class _ListaAppelliPageState extends State<ListaAppelliPage> {
   static const bool _useModernExamSessionsUi = true;
+  static const double _examSessionsBottomSpacing = 20;
+  static const Duration _errorDisplayGrace = Duration(seconds: 6);
   late CheckDateExamProvider checkExamProvider;
   bool _isInitialized = false;
   final Set<String> _expandedExams = {};
+  DateTime? _lastLoadStartedAt;
 
   @override
   void initState() {
@@ -45,6 +48,7 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
   /// Recupera dati da AuthProvider e ExamProvider, quindi chiama il provider
   Future<void> _loadAppelli() async {
     if (_isInitialized) return;
+    _lastLoadStartedAt = DateTime.now();
 
     checkExamProvider =
         Provider.of<CheckDateExamProvider>(context, listen: false);
@@ -85,9 +89,15 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
       if (mounted) {
         setState(() {
           _isInitialized = true;
+          _lastLoadStartedAt = null;
         });
       }
     } catch (e) {
+      if (mounted) {
+        setState(() {
+          // Manteniamo il timestamp per applicare la grace window
+        });
+      }
       if (!mounted) return;
       _showErrorSnapBar(
           '${AppLocalizations.of(context).translate('error_loading_exam_sessions')}: $e');
@@ -465,12 +475,57 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
     String? warningMessage,
   ) {
     final localizations = AppLocalizations.of(context);
+    final isInGraceWindow = !_isInitialized &&
+        _lastLoadStartedAt != null &&
+        DateTime.now().difference(_lastLoadStartedAt!) < _errorDisplayGrace;
 
     if (isLoading) {
       return Center(
         child: CustomLoadingIndicator(
           text: localizations.translate('loading_exams'),
           myColor: AppColors.primaryColor,
+        ),
+      );
+    }
+
+    if (errorMessage != null && isInGraceWindow) {
+      return Center(
+        child: CustomLoadingIndicator(
+          text: localizations.translate('loading_exams'),
+          myColor: AppColors.primaryColor,
+        ),
+      );
+    }
+
+    if (errorMessage != null && appelli.isNotEmpty) {
+      return RefreshIndicator(
+        onRefresh: () {
+          setState(() {
+            _isInitialized = false;
+          });
+          return _loadAppelli();
+        },
+        child: ListView(
+          physics: const ClampingScrollPhysics(),
+          padding: EdgeInsets.fromLTRB(
+            0,
+            8,
+            0,
+            kBottomNavigationBarHeight +
+                MediaQuery.viewPaddingOf(context).bottom +
+                _examSessionsBottomSpacing,
+          ),
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: _buildNonBlockingWarningBanner(
+                'Dati parziali caricati. Alcuni appelli potrebbero non essere aggiornati.',
+              ),
+            ),
+            const SizedBox(height: 8),
+            ...groupedAppelli.entries
+                .map((entry) => _buildExamSection(entry.key, entry.value)),
+          ],
         ),
       );
     }
@@ -555,11 +610,14 @@ class _ListaAppelliPageState extends State<ListaAppelliPage> {
         return _loadAppelli();
       },
       child: ListView(
+        physics: const ClampingScrollPhysics(),
         padding: EdgeInsets.fromLTRB(
           0,
           8,
           0,
-          MediaQuery.paddingOf(context).bottom + 96,
+          kBottomNavigationBarHeight +
+              MediaQuery.viewPaddingOf(context).bottom +
+              _examSessionsBottomSpacing,
         ),
         children: [
           if (warningMessage != null) ...[

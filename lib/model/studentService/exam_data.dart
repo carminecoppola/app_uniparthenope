@@ -40,12 +40,25 @@ class ExamData {
 
   factory ExamData.fromJson(Map<String, dynamic> json) {
     try {
+      int? parseInt(dynamic value) {
+        if (value == null) return null;
+        if (value is int) return value;
+        return int.tryParse(value.toString());
+      }
+
+      double? parseDouble(dynamic value) {
+        if (value == null) return null;
+        if (value is double) return value;
+        if (value is int) return value.toDouble();
+        return double.tryParse(value.toString());
+      }
+
       return ExamData(
         nome: json['nome'] as String?,
         codice: json['codice'] as String?,
         tipo: json['tipo'] as String?,
-        adId: json['adId'] as int?,
-        adsceID: json['adsceID'] as int?,
+        adId: parseInt(json['adId']),
+        adsceID: parseInt(json['adsceID'] ?? json['adsceId']),
         docente: json['docente'] as String?,
         docenteID: json['docenteID'] as String?,
         semestre: json['semestre'] as String?,
@@ -55,9 +68,9 @@ class ExamData {
         status: json['status'] != null
             ? Status.fromJson(json['status'])
             : Status(esito: null, voto: null, lode: null, data: null),
-        cfu: json['CFU'] as double?,
-        annoId: json['annoId'] as int,
-        numAppelliPrenotabili: json['numAppelliPrenotabili'] as int?,
+        cfu: parseDouble(json['CFU'] ?? json['cfu']),
+        annoId: parseInt(json['annoId']) ?? 1,
+        numAppelliPrenotabili: parseInt(json['numAppelliPrenotabili']),
         tipoInsDes: json['tipoInsDes'] as String?,
         tipoInsCod: json['tipoInsCod'] as String?,
         tipoEsaDes: json['tipoEsaDes'] as String?,

@@ -1,4 +1,5 @@
 import 'package:appuniparthenope/controller/auth_controller.dart';
+import 'package:appuniparthenope/core/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/auth_provider.dart';
@@ -71,15 +72,22 @@ class AuthUtilsFunction {
 
       // Se l'utente è valido, carica l'immagine del profilo.
       if (authenticatedUser != null) {
+        AppLogger.info(
+            'IMG FLOW userImg start userId=${authenticatedUser.user.userId} role=${authenticatedUser.user.grpDes}');
         final profileImage = await authController.getUserProfileImage(
             authenticatedUser.user, context);
         if (!context.mounted) return;
+        AppLogger.info(
+          'IMG FLOW userImg received profileImage len=${profileImage.length} prefix=${profileImage.length > 32 ? profileImage.substring(0, 32) : profileImage}',
+        );
 
         // Aggiorna l'immagine di profilo nel provider.
         final authProvider = Provider.of<AuthProvider>(context, listen: false);
         authProvider.setProfileImage(profileImage);
+        AppLogger.info('IMG FLOW userImg setProfileImage done');
       } else {}
     } catch (_) {
+      AppLogger.error('IMG FLOW userImg exception');
       return;
     }
   }
@@ -97,6 +105,8 @@ class AuthUtilsFunction {
         final qrCode =
             await authController.getUserQRCode(authenticatedUser.user, context);
         if (!context.mounted) return;
+
+        // Aggiorna il codice QR nel provider.
         final authProvider = Provider.of<AuthProvider>(context, listen: false);
         authProvider.setQRCode(qrCode);
       } else {}

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:appuniparthenope/core/logger.dart';
 import 'package:appuniparthenope/model/studentService/calendar_data.dart';
 import 'package:appuniparthenope/model/studentService/student_course_data.dart';
 import 'package:appuniparthenope/model/studentService/exam_data.dart';
@@ -171,46 +172,128 @@ class ApiStudentService {
 
   Future<List<CourseInfo>> getAllCourse(
       User student, BuildContext context) async {
-    final exams = await getStudentExams(student, context);
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final selectedCareer = authProvider.selectedCareer;
 
-    // Usiamo la stessa fonte dati di Esse3 corrente (/v2/students/myExams),
-    // evitando disallineamenti di adId/adsceId della vecchia /v1/students/exams.
-    final courses = exams
-        .where((e) => (e.adId ?? 0) > 0 && (e.adsceID ?? 0) > 0)
-        .map((e) => CourseInfo(
-              nome: (e.nome ?? '').trim(),
-              codice: (e.codice ?? '').trim(),
-              adId: e.adId ?? 0,
-              cfu: e.cfu ?? 0,
-              annoId: e.annoId ?? 1,
-              adsceId: e.adsceID ?? 0,
-              numAppelliPrenotabili: e.numAppelliPrenotabili ?? 0,
-            ))
-        .toList();
-
-    if (courses.isEmpty) {
-      throw Exception(
-          'Nessun corso valido trovato da /v2/students/myExams per la carriera selezionata');
+    if (selectedCareer == null) {
+      throw Exception('Nessuna carriera selezionata trovata');
     }
 
-    return courses;
+    String stuId = selectedCareer['stuId'].toString();
+    final String password = authProvider.password!;
+
+    final pianoIdMap = await getPianoId(student, context);
+    final pianoId =
+        pianoIdMap['pianoId']?.toString(); // Controlla se il pianoId è null
+
+    if (pianoId == null) {
+      throw Exception('Il pianoId non è disponibilie');
+    }
+
+    final url = Uri.parse(
+        '$baseUrl/UniparthenopeApp/v1/students/exams/$stuId/$pianoId');
+
+    final response = await http.get(url, headers: {
+      'Authorization':
+          'Basic ${base64Encode(utf8.encode("${student.userId}:$password"))}',
+    });
+
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body) as List<dynamic>;
+      final rawCourses = jsonData
+          .whereType<Map<String, dynamic>>()
+          .map((data) => CourseInfo.fromJson(data))
+          .toList();
+
+      final filteredCourses = <CourseInfo>[];
+      int invalidCount = 0;
+
+      for (final course in rawCourses) {
+        final nome = course.nome.trim();
+        final codice = course.codice.trim();
+        final hasValidYear = course.annoId > 0;
+        final isValid = course.adId > 0 &&
+            course.adsceId > 0 &&
+            nome.isNotEmpty &&
+            course.cfu > 0 &&
+            codice.isNotEmpty &&
+            hasValidYear;
+
+        if (!isValid) {
+          invalidCount++;
+          AppLogger.warning(
+            'COURSE FILTER dropped adId=${course.adId} adsceId=${course.adsceId} codice="${course.codice}" nomeLen=${nome.length} cfu=${course.cfu} annoId=${course.annoId}',
+          );
+          continue;
+        }
+        filteredCourses.add(course);
+      }
+
+      final dedupByKey = <String, CourseInfo>{};
+      int duplicatesRemoved = 0;
+
+      for (final course in filteredCourses) {
+        final key = course.adId > 0 ? 'ad:${course.adId}' : 'cod:${course.codice.trim()}';
+        final existing = dedupByKey[key];
+        if (existing == null) {
+          dedupByKey[key] = course;
+          continue;
+        }
+
+        final existingScore = _courseCompletenessScore(existing);
+        final incomingScore = _courseCompletenessScore(course);
+
+        if (incomingScore > existingScore) {
+          dedupByKey[key] = course;
+        }
+        duplicatesRemoved++;
+        AppLogger.warning(
+          'COURSE DEDUP key=$key keepScore=${_courseCompletenessScore(dedupByKey[key]!)} removedAdId=${course.adId}',
+        );
+      }
+
+      final finalCourses = dedupByKey.values.toList()
+        ..sort((a, b) {
+          if (a.annoId != b.annoId) return a.annoId.compareTo(b.annoId);
+          return a.nome.toLowerCase().compareTo(b.nome.toLowerCase());
+        });
+
+      AppLogger.info(
+        'COURSE COUNTS raw=${rawCourses.length} filtered=${filteredCourses.length} invalidDropped=$invalidCount duplicatesRemoved=$duplicatesRemoved final=${finalCourses.length}',
+      );
+
+      if (finalCourses.isEmpty) {
+        throw Exception(
+            'Payload corsi inconsistente: tutti i corsi ricevuti sono stati scartati (record incompleti o duplicati non validi).');
+      }
+
+      return finalCourses;
+    } else if (response.statusCode == 500) {
+      throw Exception(
+          'Errore del SERVER durante il caricamento dei corsi dello studente');
+    } else {
+      throw Exception('Errore durante caricamento dei corsi dello studente');
+    }
+  }
+
+  int _courseCompletenessScore(CourseInfo course) {
+    int score = 0;
+    if (course.nome.trim().isNotEmpty) score += 3;
+    if (course.codice.trim().isNotEmpty) score += 2;
+    if (course.cfu > 0) score += 2;
+    if (course.annoId > 0) score += 1;
+    if (course.adsceId > 0) score += 1;
+    return score;
   }
 
   Future<StatusCourse> getStatusExam(
-      User student, CourseInfo course, BuildContext context) async {
+      User student,
+      CourseInfo course, {
+      required String matId,
+      required String password,
+    }) async {
     try {
-      // Salva i riferimenti al provider SUBITO, prima di qualsiasi operazione
-      final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      final selectedCareer = authProvider.selectedCareer;
-
-      if (selectedCareer == null) {
-        throw Exception('Nessuna carriera selezionata trovata');
-      }
-
-      // Salva i valori in variabili locali
-      final String matId = selectedCareer['matId'].toString();
       final String adsceId = course.adsceId.toString();
-      final String password = authProvider.password!;
       final String userId = student.userId.toString();
 
       final url = Uri.parse(

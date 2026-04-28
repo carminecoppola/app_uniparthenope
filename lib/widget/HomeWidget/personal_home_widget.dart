@@ -25,11 +25,13 @@ class PersonalCardUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hasProfileImage =
+        profileImage != null && profileImage!.trim().isNotEmpty;
     ImageProvider<Object>? backgroundImage;
 
-    if (kIsWeb && profileImage != null) {
+    if (kIsWeb && hasProfileImage) {
       backgroundImage = NetworkImage(profileImage!);
-    } else if (profileImage != null) {
+    } else if (hasProfileImage) {
       backgroundImage = FileImage(File(profileImage!));
     } else {
       backgroundImage = const AssetImage('assets/user_profile_default.jpg');

@@ -1,4 +1,5 @@
 import 'package:appuniparthenope/app_localizations.dart';
+import 'package:appuniparthenope/core/logger.dart';
 import 'package:appuniparthenope/core/service_locator.dart';
 import 'package:appuniparthenope/provider/auth_provider.dart';
 import 'package:appuniparthenope/provider/bottom_nav_bar_provider.dart';
@@ -24,13 +25,16 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main() async {
   // Inizializza i binding di Flutter PRIMA di tutto
   WidgetsFlutterBinding.ensureInitialized();
+  AppLogger.info('APP START bootstrap begin');
 
   // Inizializza Dependency Injection
   setupServiceLocator();
+  AppLogger.info('APP START service locator initialized');
 
   // Inizializza il servizio di notifiche
   final notificationService = getIt<NotificationService>();
   await notificationService.initialize();
+  AppLogger.info('APP START notifications initialized');
 
   runApp(
     MultiProvider(
@@ -48,6 +52,7 @@ void main() async {
       child: const MyApp(),
     ),
   );
+  AppLogger.info('APP START runApp completed');
 }
 
 class MyApp extends StatelessWidget {
@@ -82,6 +87,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         routes: AppRoutes.routes,
+        onGenerateRoute: AppRoutes.onGenerateRoute,
         initialRoute: '/',
         debugShowCheckedModeBanner: false);
   }

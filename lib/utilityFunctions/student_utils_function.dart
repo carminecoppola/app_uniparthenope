@@ -138,6 +138,8 @@ class StudentUtils {
       if (authenticatedUser == null) {
         throw Exception('Utente non autenticato');
       }
+      AppLogger.info(
+          'COURSE LOAD start userId=${authenticatedUser.userId} role=${authenticatedUser.grpDes}');
 
       // Ottiene tutti i corsi dello studente.
       final allCourseStudent = await totalExamController.fetchAllCourseStudent(
@@ -145,6 +147,10 @@ class StudentUtils {
 
       // Aggiorna il provider con tutti i corsi dello studente.
       examDataProvider.setAllCoursesStudent(allCourseStudent);
+      final totalCfu =
+          allCourseStudent.fold<double>(0, (sum, c) => sum + c.cfu);
+      AppLogger.info(
+          'COURSE LOAD done count=${allCourseStudent.length} totalCfu=$totalCfu');
 
       // NON chiamiamo allStatusCourse qui perché il context potrebbe essere deactivated
       // Lo stato verrà caricato dalla pagina stessa quando necessario
@@ -159,19 +165,46 @@ class StudentUtils {
   static Future<void> allStatusCourse(BuildContext context,
       User authenticatedUser, List<CourseInfo> allCourses) async {
     final StudentController totalExamController = StudentController();
-    try {
-      // Salva il riferimento al provider PRIMA dell'operazione asincrona
-      final examDataProvider =
-          Provider.of<ExamDataProvider>(context, listen: false);
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
+    final selectedCareer = authProvider.selectedCareer;
+    final password = authProvider.password;
+    final examDataProvider =
+        Provider.of<ExamDataProvider>(context, listen: false);
+
+    if (selectedCareer == null || password == null) {
+      AppLogger.warning(
+          'Impossibile caricare stato corsi: carriera o password non disponibili');
+      examDataProvider.setStatusCoursesMap({});
+      examDataProvider.setAllStatusCourses([]);
+      return;
+    }
+
+    final matId = selectedCareer['matId']?.toString();
+    if (matId == null || matId.isEmpty) {
+      AppLogger.warning('Impossibile caricare stato corsi: matId non disponibile');
+      examDataProvider.setStatusCoursesMap({});
+      examDataProvider.setAllStatusCourses([]);
+      return;
+    }
+
+    try {
       // Ottiene lo stato di tutti i corsi dello studente.
       Map<String, StatusCourse> statusCoursesMap = await totalExamController
-          .fetchAllCourseStatus(authenticatedUser, allCourses, context);
+          .fetchAllCourseStatus(
+        authenticatedUser,
+        allCourses,
+        matId: matId,
+        password: password,
+      );
 
       // Converte la mappa in una lista e aggiorna il provider con lo stato dei corsi.
       examDataProvider.setAllStatusCourses(statusCoursesMap.values.toList());
       examDataProvider.setStatusCoursesMap(statusCoursesMap);
-    } catch (_) {
+    } catch (e, stackTrace) {
+      AppLogger.error('Errore durante caricamento stato corsi', e, stackTrace);
+      examDataProvider.setStatusCoursesMap({});
+      examDataProvider.setAllStatusCourses([]);
       return;
     }
   }
@@ -244,6 +277,8 @@ class StudentUtils {
       if (authenticatedUser == null) {
         throw Exception('Utente non autenticato');
       }
+      AppLogger.info(
+          'RESERVATION LOAD start userId=${authenticatedUser.userId}');
 
       // Salva TUTTI i riferimenti ai provider PRIMA delle operazioni asincrone
       final examDataProvider =
@@ -256,8 +291,11 @@ class StudentUtils {
 
       // Ora è sicuro aggiornare il provider anche se il context è deactivated
       examDataProvider.setAllReservationStudent(allReservationStudent);
+      AppLogger.info(
+          'RESERVATION LOAD done count=${allReservationStudent.length}');
     } catch (e) {
       // Non rilanciare l'errore per evitare crash dell'app
+      AppLogger.error('RESERVATION LOAD error', e);
     }
   }
 }
