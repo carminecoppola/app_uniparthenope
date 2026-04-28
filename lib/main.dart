@@ -10,6 +10,7 @@ import 'package:appuniparthenope/provider/weather_provider.dart';
 import 'package:appuniparthenope/provider/update_provider.dart';
 import 'package:appuniparthenope/screens/loginpage.dart';
 import 'package:appuniparthenope/service/notification_service.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:appuniparthenope/app_routes.dart';
 import 'package:provider/provider.dart';
@@ -23,18 +24,22 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 // import 'package:appuniparthenope/service/test_grades_helper.dart';
 
 void main() async {
+  final startupTimer = Stopwatch()..start();
+
   // Inizializza i binding di Flutter PRIMA di tutto
   WidgetsFlutterBinding.ensureInitialized();
   AppLogger.info('APP START bootstrap begin');
 
   // Inizializza Dependency Injection
   setupServiceLocator();
-  AppLogger.info('APP START service locator initialized');
+  AppLogger.info(
+      'APP START service locator initialized at ${startupTimer.elapsedMilliseconds}ms');
 
-  // Inizializza il servizio di notifiche
-  final notificationService = getIt<NotificationService>();
-  await notificationService.initialize();
-  AppLogger.info('APP START notifications initialized');
+  // Log del primo frame per misurare il tempo di startup percepito.
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    AppLogger.info(
+        'APP START first frame rendered at ${startupTimer.elapsedMilliseconds}ms');
+  });
 
   runApp(
     MultiProvider(
@@ -52,7 +57,20 @@ void main() async {
       child: const MyApp(),
     ),
   );
-  AppLogger.info('APP START runApp completed');
+  AppLogger.info(
+      'APP START runApp completed at ${startupTimer.elapsedMilliseconds}ms');
+
+  // Inizializzazione notifiche spostata fuori dal critical path del first frame.
+  scheduleMicrotask(() async {
+    try {
+      final notificationService = getIt<NotificationService>();
+      await notificationService.initialize();
+      AppLogger.info(
+          'APP START notifications initialized at ${startupTimer.elapsedMilliseconds}ms');
+    } catch (e, stackTrace) {
+      AppLogger.error('APP START notifications init failed', e, stackTrace);
+    }
+  });
 }
 
 class MyApp extends StatelessWidget {

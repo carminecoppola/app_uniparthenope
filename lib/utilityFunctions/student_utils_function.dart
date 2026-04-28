@@ -156,7 +156,8 @@ class StudentUtils {
       // Lo stato verrà caricato dalla pagina stessa quando necessario
     } catch (e, stackTrace) {
       examDataProvider.setCourseLoadError(e.toString());
-      AppLogger.error('Errore durante caricamento corsi studente', e, stackTrace);
+      AppLogger.error(
+          'Errore durante caricamento corsi studente', e, stackTrace);
       return;
     }
   }
@@ -182,7 +183,8 @@ class StudentUtils {
 
     final matId = selectedCareer['matId']?.toString();
     if (matId == null || matId.isEmpty) {
-      AppLogger.warning('Impossibile caricare stato corsi: matId non disponibile');
+      AppLogger.warning(
+          'Impossibile caricare stato corsi: matId non disponibile');
       examDataProvider.setStatusCoursesMap({});
       examDataProvider.setAllStatusCourses([]);
       return;
@@ -190,8 +192,8 @@ class StudentUtils {
 
     try {
       // Ottiene lo stato di tutti i corsi dello studente.
-      Map<String, StatusCourse> statusCoursesMap = await totalExamController
-          .fetchAllCourseStatus(
+      Map<String, StatusCourse> statusCoursesMap =
+          await totalExamController.fetchAllCourseStatus(
         authenticatedUser,
         allCourses,
         matId: matId,

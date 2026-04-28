@@ -45,7 +45,7 @@ class _LoginFormState extends State<LoginForm> {
   ];
 
   late String currentImage;
-  late Timer _timer;
+  Timer? _timer;
   bool _biometricAvailable = false;
   BiometricType? _biometricType;
   bool _loading = false;
@@ -57,14 +57,25 @@ class _LoginFormState extends State<LoginForm> {
   void initState() {
     super.initState();
     currentImage = universityImages[Random().nextInt(universityImages.length)];
+    // Lasciamo respirare il primo frame prima di attività non critiche.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _startBackgroundLoginUiTasks();
+    });
+  }
+
+  void _startBackgroundLoginUiTasks() {
+    if (!mounted) return;
+
     _timer = Timer.periodic(const Duration(seconds: 3), (Timer timer) {
+      if (!mounted) return;
       setState(() {
         currentImage =
             universityImages[Random().nextInt(universityImages.length)];
       });
     });
+
+    _loadSavedCredentials();
     _checkBiometricAvailability();
-    _loadSavedCredentials(); // Carica le credenziali salvate al lancio dell'app
   }
 
   Future<void> _loadSavedCredentials() async {
@@ -103,7 +114,7 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 

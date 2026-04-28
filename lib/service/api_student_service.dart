@@ -132,7 +132,8 @@ class ApiStudentService {
   Future<Map<String, dynamic>> getPianoId(
       User student, BuildContext context) async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final studentProvider = Provider.of<ExamDataProvider>(context, listen: false);
+    final studentProvider =
+        Provider.of<ExamDataProvider>(context, listen: false);
     final selectedCareer = authProvider.selectedCareer;
 
     if (selectedCareer == null) {
@@ -233,7 +234,9 @@ class ApiStudentService {
       int duplicatesRemoved = 0;
 
       for (final course in filteredCourses) {
-        final key = course.adId > 0 ? 'ad:${course.adId}' : 'cod:${course.codice.trim()}';
+        final key = course.adId > 0
+            ? 'ad:${course.adId}'
+            : 'cod:${course.codice.trim()}';
         final existing = dedupByKey[key];
         if (existing == null) {
           dedupByKey[key] = course;
@@ -287,11 +290,11 @@ class ApiStudentService {
   }
 
   Future<StatusCourse> getStatusExam(
-      User student,
-      CourseInfo course, {
-      required String matId,
-      required String password,
-    }) async {
+    User student,
+    CourseInfo course, {
+    required String matId,
+    required String password,
+  }) async {
     try {
       final String adsceId = course.adsceId.toString();
       final String userId = student.userId.toString();

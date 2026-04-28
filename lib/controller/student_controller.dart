@@ -88,11 +88,11 @@ class StudentController {
   /// Ottiene lo stato di tutti i corsi di uno studente.
   /// Ritorna una mappa di [StatusCourse] con il codice del corso come chiave.
   Future<Map<String, StatusCourse>> fetchAllCourseStatus(
-      User student,
-      List<CourseInfo> courses, {
-      required String matId,
-      required String password,
-    }) async {
+    User student,
+    List<CourseInfo> courses, {
+    required String matId,
+    required String password,
+  }) async {
     final Map<String, StatusCourse> statusCoursesMap = {};
 
     for (final course in courses) {

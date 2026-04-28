@@ -7,6 +7,7 @@ import 'package:appuniparthenope/widget/update_dialog.dart';
 import 'package:appuniparthenope/provider/update_provider.dart';
 import 'package:appuniparthenope/service/notification_service.dart';
 import 'package:appuniparthenope/core/service_locator.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:io' show Platform;
@@ -114,12 +115,23 @@ class _HomePageState extends State<HomePage> {
         AppLogger.info(
           'HOME LOAD role=Studenti userId=${authenticatedUser.user.userId}',
         );
+        // Priorità alta: anagrafe necessaria per un render stabile.
         await StudentUtils.anagrafeUser(context, authenticatedUser.user);
         if (!mounted) return;
-        await AuthUtilsFunction.userImg(context);
-        if (!mounted) return;
-        await StudentUtils.allReservationStudent(
-            context, authenticatedUser.user);
+
+        // Priorità media/bassa in background: non bloccare percezione startup.
+        unawaited(
+          AuthUtilsFunction.userImg(context).catchError((e, stackTrace) {
+            AppLogger.warning('HOME LOAD user image background failure', e, stackTrace);
+          }),
+        );
+        unawaited(
+          StudentUtils.allReservationStudent(context, authenticatedUser.user)
+              .catchError((e, stackTrace) {
+            AppLogger.warning(
+                'HOME LOAD reservations background failure', e, stackTrace);
+          }),
+        );
         AppLogger.info('HOME LOAD studenti data completed');
 
         // 🔔 AUTOMATICO: Il check dei nuovi voti avviene dentro
@@ -131,7 +143,11 @@ class _HomePageState extends State<HomePage> {
         );
         await StudentUtils.anagrafeUser(context, authenticatedUser.user);
         if (!mounted) return;
-        await AuthUtilsFunction.userImg(context);
+        unawaited(
+          AuthUtilsFunction.userImg(context).catchError((e, stackTrace) {
+            AppLogger.warning('HOME LOAD teacher image background failure', e, stackTrace);
+          }),
+        );
         AppLogger.info('HOME LOAD docenti data completed');
       } else {
         AppLogger.warning(
